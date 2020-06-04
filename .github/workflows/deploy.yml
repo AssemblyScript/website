@@ -1,0 +1,33 @@
+name: Deploy
+on:
+  push:
+    branches:
+    - master
+  schedule:
+  - cron: '0 0 * * *'
+jobs:
+  deploy:
+    name: "Deploy website"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1.0.0
+    - uses: dcodeIO/setup-node-nvm@master
+      with:
+        node-version: current
+    - name: Build
+      run: |
+        npm ci --no-audit
+        node scripts/update-data
+        npm run build
+    - name: Deploy
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        cd dist
+        echo assemblyscript.org > CNAME
+        git init
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git add -A
+        git commit -m 'deploy'
+        git push -f https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git master:gh-pages

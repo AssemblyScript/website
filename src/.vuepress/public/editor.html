@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>AssemblyScript Editor</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Try out AssemblyScript right in your browser." />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+      font-size: 16px;
+      color: #aaa;
+    }
+
+    /* Header (not visible if sandboxed) */
+    #header {
+      display: none;
+      background: #007acc;
+      font-size: 12px;
+      color: #fff;
+      padding: 4px 10px;
+      height: 25px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    #header h1, #header p {
+      margin: 0;
+      padding: 0;
+      font-size: 1em;
+      display: inline-block;
+      padding: 0 5px;
+    }
+    #header a {
+      color: #fff;
+    }
+
+    /* Loading indicator */
+    #loading {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(30, 30, 30, 0.8) url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSIjMDA3YWNjIiBkPSJNNzMgNTBjMC0xMi43LTEwLjMtMjMtMjMtMjNTMjcgMzcuMyAyNyA1MG0zLjkgMGMwLTEwLjUgOC41LTE5LjEgMTkuMS0xOS4xUzY5LjEgMzkuNSA2OS4xIDUwIj48YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGF0dHJpYnV0ZVR5cGU9IlhNTCIgZHVyPSIxcyIgZnJvbT0iMCA1MCA1MCIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIHRvPSIzNjAgNTAgNTAiIHR5cGU9InJvdGF0ZSIvPjwvcGF0aD48L3N2Zz4=') center center no-repeat;
+      background-size: 100px 100px;
+      z-index: 9000;
+      user-select: none;
+    }
+
+    /* Editor tabs */
+    #tabs {
+      background: #2d2d2d;
+      padding: 0 10px 0 10px;
+      user-select: none;
+      height: 36px;
+      box-sizing: border-box;
+    }
+    #tabs .tab {
+      display: inline-block;
+      font-size: 0.9rem;
+      font-weight: 300;
+      padding: 8px 16px 8px 34px;
+      background: #2d2d2d;
+      background-size: 20px 20px;
+      background-repeat: no-repeat;
+      background-position: 8px center;
+      display: inline-block;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    #tabs .tab.active {
+      color: #fff;
+      background-color: #1e1e1e;
+    }
+    #tabs .tab.disabled {
+      display: none;
+    }
+    #tabs .tab.source {
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHRpdGxlPmZpbGVfdHlwZV90eXBlc2NyaXB0X29mZmljaWFsPC90aXRsZT48cG9seWdvbiBwb2ludHM9IjIgMTYgMiAzMCAxNiAzMCAzMCAzMCAzMCAxNiAzMCAyIDE2IDIgMiAyIDIgMTYiIHN0eWxlPSJmaWxsOiMwMDdhY2MiLz48cGF0aCBkPSJNMjQuNTY0LDE0Ljg4NGEzLjQ4NSwzLjQ4NSwwLDAsMSwxLjc1MSwxLjAwOSw0LjYxMSw0LjYxMSwwLDAsMSwuNjcxLjljLjAwOS4wMzYtMS4yMDkuODUzLTEuOTQ3LDEuMzExLS4wMjcuMDE4LS4xMzMtLjEtLjI1My0uMjc2YTEuNTg3LDEuNTg3LDAsMCwwLTEuMzE2LS43OTFjLS44NDktLjA1OC0xLjQuMzg3LTEuMzkxLDEuMTI5YTEuMDI3LDEuMDI3LDAsMCwwLC4xMi41MjRjLjE4Ny4zODcuNTMzLjYxOCwxLjYyMiwxLjA4OSwyLC44NjIsMi44NjIsMS40MzEsMy40LDIuMjRhNC4wNjMsNC4wNjMsMCwwLDEsLjMyNCwzLjQxMywzLjc1MywzLjc1MywwLDAsMS0zLjEsMi4yMTgsOC41ODQsOC41ODQsMCwwLDEtMi4xMzMtLjAyMiw1LjE0NSw1LjE0NSwwLDAsMS0yLjg0OS0xLjQ4NCw0Ljk0Nyw0Ljk0NywwLDAsMS0uNzI5LTEuMDgsMi4wOTIsMi4wOTIsMCwwLDEsLjI1OC0uMTY0Yy4xMjQtLjA3MS42LS4zNDIsMS4wNC0uNmwuOC0uNDY3TDIxLDI0LjA4QTMuNzU5LDMuNzU5LDAsMCwwLDIyLjA2NywyNS4xYTIuNiwyLjYsMCwwLDAsMi43MjQtLjEzOCwxLjIxNywxLjIxNywwLDAsMCwuMTU2LTEuNTUxYy0uMjE4LS4zMTEtLjY2Mi0uNTczLTEuOTI0LTEuMTJhNi45Myw2LjkzLDAsMCwxLTIuNjM2LTEuNjIyLDMuNjkyLDMuNjkyLDAsMCwxLS43NjktMS40LDUuNjA2LDUuNjA2LDAsMCwxLS4wNDktMS43ODcsMy40MTMsMy40MTMsMCwwLDEsMi44NzEtMi42NThBNy4wOTIsNy4wOTIsMCwwLDEsMjQuNTY0LDE0Ljg4NFptLTYuNTczLDEuMTY5TDE4LDE3LjJIMTQuMzU2VjI3LjU1NkgxMS43NzhWMTcuMkg4LjEzM1YxNi4wNzZhMTEuMDE4LDExLjAxOCwwLDAsMSwuMDMxLTEuMTU2Yy4wMTMtLjAxOCwyLjIzMS0uMDI3LDQuOTItLjAyMmw0Ljg5My4wMTNaIiBzdHlsZT0iZmlsbDojZmZmIi8+PC9zdmc+');
+    }
+    #tabs .tab.binary {
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHRpdGxlPmZpbGVfdHlwZV93YXNtPC90aXRsZT48cGF0aCBkPSJNMTkuMTUzLDIuMzVWMi41YTMuMiwzLjIsMCwxLDEtNi40LDBoMFYyLjM1SDJWMzAuMjY5SDI5LjkxOVYyLjM1WiIgc3R5bGU9ImZpbGw6IzY1NGZmMCIvPjxwYXRoIGQ9Ik04LjQ4NSwxNy40aDEuODVMMTEuNiwyNC4xMjNoLjAyM0wxMy4xNCwxNy40aDEuNzMxbDEuMzcxLDYuODFoLjAyN2wxLjQ0LTYuODFoMS44MTVsLTIuMzU4LDkuODg1SDE1LjMyOWwtMS4zNi02LjcyOGgtLjAzNmwtMS40NTYsNi43MjhoLTEuODdabTEzLjEyNCwwaDIuOTE3bDIuOSw5Ljg4NUgyNS41MTVsLS42My0yLjJIMjEuNTYybC0uNDg2LDIuMkgxOS4yMTdabTEuMTEsMi40MzctLjgwNywzLjYyN2gyLjUxMkwyMy41LDE5LjgzMloiIHN0eWxlPSJmaWxsOiNmZmYiLz48L3N2Zz4=');
+    }
+    #tabs .tab.html {
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHRpdGxlPmZpbGVfdHlwZV9odG1sPC90aXRsZT48cG9seWdvbiBwb2ludHM9IjUuOTAyIDI3LjIwMSAzLjY1NSAyIDI4LjM0NSAyIDI2LjA5NSAyNy4xOTcgMTUuOTg1IDMwIDUuOTAyIDI3LjIwMSIgc3R5bGU9ImZpbGw6I2U0NGYyNiIvPjxwb2x5Z29uIHBvaW50cz0iMTYgMjcuODU4IDI0LjE3IDI1LjU5MyAyNi4wOTIgNC4wNjEgMTYgNC4wNjEgMTYgMjcuODU4IiBzdHlsZT0iZmlsbDojZjE2NjJhIi8+PHBvbHlnb24gcG9pbnRzPSIxNiAxMy40MDcgMTEuOTEgMTMuNDA3IDExLjYyOCAxMC4yNDIgMTYgMTAuMjQyIDE2IDcuMTUxIDE1Ljk4OSA3LjE1MSA4LjI1IDcuMTUxIDguMzI0IDcuOTgxIDkuMDgzIDE2LjQ5OCAxNiAxNi40OTggMTYgMTMuNDA3IiBzdHlsZT0iZmlsbDojZWJlYmViIi8+PHBvbHlnb24gcG9pbnRzPSIxNiAyMS40MzQgMTUuOTg2IDIxLjQzOCAxMi41NDQgMjAuNTA5IDEyLjMyNCAxOC4wNDQgMTAuNjUxIDE4LjA0NCA5LjIyMSAxOC4wNDQgOS42NTQgMjIuODk2IDE1Ljk4NiAyNC42NTQgMTYgMjQuNjUgMTYgMjEuNDM0IiBzdHlsZT0iZmlsbDojZWJlYmViIi8+PHBvbHlnb24gcG9pbnRzPSIxNS45ODkgMTMuNDA3IDE1Ljk4OSAxNi40OTggMTkuNzk1IDE2LjQ5OCAxOS40MzcgMjAuNTA3IDE1Ljk4OSAyMS40MzcgMTUuOTg5IDI0LjY1MyAyMi4zMjYgMjIuODk2IDIyLjM3MiAyMi4zNzQgMjMuMDk4IDE0LjIzNyAyMy4xNzQgMTMuNDA3IDIyLjM0MSAxMy40MDcgMTUuOTg5IDEzLjQwNyIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwb2x5Z29uIHBvaW50cz0iMTUuOTg5IDcuMTUxIDE1Ljk4OSA5LjA3MSAxNS45ODkgMTAuMjM1IDE1Ljk4OSAxMC4yNDIgMjMuNDQ1IDEwLjI0MiAyMy40NDUgMTAuMjQyIDIzLjQ1NSAxMC4yNDIgMjMuNTE3IDkuNTQ4IDIzLjY1OCA3Ljk4MSAyMy43MzIgNy4xNTEgMTUuOTg5IDcuMTUxIiBzdHlsZT0iZmlsbDojZmZmIi8+PC9zdmc+');
+    }
+    #tabs .tab.play {
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZmlsbD0iI2RkZCIgZD0iTTE2IDEwdjI4bDIyLTE0eiIvPjwvc3ZnPg==')
+    }
+
+    /* Editor buttons */
+    #buttons {
+      user-select: none;
+      float: right;
+      padding: 7px 38px 0 0;
+    }
+    #buttons a {
+      color: #fff;
+      padding: 1px 0.2rem;
+      text-align: center;
+      text-decoration: none !important;
+      cursor: pointer;
+      opacity: 0.5;
+    }
+    #buttons a:hover {
+      opacity: 1.0;
+    }
+
+    /* Popups */
+    .popup {
+      position: absolute;
+      background: #3c3c3c;
+      padding: 0.5rem;
+      z-index: 2501;
+      animation: fadeIn 83ms linear;
+      box-shadow: 0 3px 3px 1px rgba(0,0,0,0.3);
+      display: none;
+      font-size: 0.8rem;
+      user-select: none;
+    }
+    .popup:before {
+      content: "";
+      position: absolute;
+      top: -24px;
+      right: 0;
+      border: solid 12px transparent;
+      border-bottom-color: #3c3c3c;
+      z-index: 2502;
+      pointer-events: none;
+    }
+
+    /* Options */
+    #options h5 {
+      padding: 5px 0;
+      margin: 0;
+      color: #aaa;
+      font-size: 0.85em;
+    }
+    #options p {
+      margin: 0;
+      padding: 0.2em 0;
+      color: #eee;
+      font-size: 0.95em;
+    }
+    #options p:first-child {
+      padding-top: 0;
+    }
+    #options label {
+      position: relative;
+      top: -2px;
+      cursor: pointer;
+    }
+    #options input[type="number"] {
+      width: 95px;
+      margin-left: 3px;
+    }
+
+    /* Editor panes */
+    .pane {
+      position: absolute;
+      width: 100%;
+      height: calc(100% - 36px);
+      z-index: 0;
+      background: #1e1e1e;
+    }
+    .pane.active {
+      z-index: 1;
+    }
+    .pane.play iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #fff;
+    }
+
+    #clipboardHelper {
+      position: absolute;
+      z-index: 0;
+      width: 100%;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <h1>AssemblyScript Editor</h1>
+    <p><a href="introduction.html" target="_blank" rel="noopener">Language documentation</a></p>
+  </div>
+  <div id="loading"></div>
+  <div id="buttons">
+    <a class="button share" title="Copy shareable link">🔗</a>
+    <a class="button options" title="Configure compiler options">⚙️</a>
+  </div>
+  <div id="options" class="popup">
+    <h5>Optimize</h5>
+    <div class="option">
+      <p>
+        <input type="radio" name="option-optimize" id="option-optimize-speed" checked /><label for="option-optimize-speed"> For speed</label>
+        <input type="radio" name="option-optimize" id="option-optimize-size" /><label for="option-optimize-size"> For size</label>
+        <input type="radio" name="option-optimize" id="option-optimize-none" /><label for="option-optimize-none"> None</label>
+      </p>
+      <p><input id="option-noAssert" type="checkbox" /><label for="option-noAssert"> Disable assertions</label></p>
+      <p><input id="option-debug" type="checkbox" /><label for="option-debug"> Include debug information</label></p>
+    </div>
+    <h5>Runtime</h5>
+    <div class="option">
+      <p>
+        <input type="radio" name="option-runtime" id="option-runtime-full" /><label for="option-runtime-full"> Full</label>
+        <input type="radio" name="option-runtime" id="option-runtime-half" checked /><label for="option-runtime-half"> Half</label>
+        <input type="radio" name="option-runtime" id="option-runtime-stub" /><label for="option-runtime-stub"> Stub</label>
+        <input type="radio" name="option-runtime" id="option-runtime-none" /><label for="option-runtime-none"> None</label>
+      </p>
+    </div>
+    <h5>Features</h5>
+    <div class="option">
+      <p><input id="option-noExportMemory" type="checkbox" /><label for="option-noExportMemory"> Don't export memory to host</label></p>
+      <p><input id="option-importMemory" type="checkbox" /><label for="option-importMemory"> Import memory from host</label></p>
+      <p><input id="option-exportTable" type="checkbox" /><label for="option-exportTable"> Export table to host</label></p>
+      <p><input id="option-importTable" type="checkbox" /><label for="option-importTable"> Import table from host</label></p>
+      <p><input id="option-explicitStart" type="checkbox" /><label for="option-explicitStart"> Explicit start function</label></p>
+      <!-- <p><input id="option-pedantic" type="checkbox" /><label for="option-pedantic"> Pedantic diagnostics</label></p> -->
+    </div>
+    <h5>Advanced features</h5>
+    <div class="option">
+      <p><input id="option-memoryBase" type="number" step="1" min="0" placeholder="Memory base" /> <input id="option-tableBase" type="number" step="1" min="0" placeholder="Table base" /></p>
+    </div>
+    <h5>Proposals</h5>
+    <div class="option">
+      <p><input id="option-feature-signextension" type="checkbox" /><label for="option-feature-signextension"> Enable Sign Extension</label></p>
+      <p><input id="option-feature-bulkmemory" type="checkbox" /><label for="option-feature-bulkmemory"> Enable Bulk Memory</label></p>
+      <p><input id="option-feature-simd" type="checkbox" /><label for="option-feature-simd"> Enable SIMD</label></p>
+      <p><input id="option-feature-threads" type="checkbox" /><label for="option-feature-threads"> Enable Threads</label></p>
+      <p><input id="option-feature-referencetypes" type="checkbox" /><label for="option-feature-referencetypes"> Enable Reference Types</label></p>
+    </div>
+  </div>
+  <div id="clipboard" class="popup">
+    Shareable link copied to clipboard.
+  </div>
+  <div id="tabs">
+    <a id="sourceTab" class="tab source active">module.ts</a>
+    <a id="binaryTab" class="tab binary">module.wat <span title="Click to compile">⭯</span></a>
+    <a id="htmlTab" class="tab html">index.html</a>
+    <a id="playTab" class="tab play">Run</a>
+  </div>
+  <div id="panes">
+    <div id="source" class="pane source active" aria-labelledby="sourceTab"></div>
+    <div id="binary" class="pane binary" aria-labelledby="binaryTab"></div>
+    <div id="html" class="pane html" aria-labelledby="htmlTab"></div>
+    <div id="play" class="pane play" aria-labelledby="htmlTab">
+      <iframe id="play-frame" title="Play frame" src="data:text/html;base64," sandbox="allow-scripts allow-pointer-lock"></iframe>
+    </div>
+  </div>
+  <input type="text" id="clipboardHelper" aria-hidden="true" />
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/loader.js"></script>
+  <script>
+    require.config({
+      paths: {
+        'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs'
+      }
+    })
+    window.MonacoEnvironment = {
+      getWorkerUrl: function(workerId, label) {
+        // Dummy out the worker. We are not using it (yet) and it's large.
+        return `data:text/javascript;base64,`
+        // return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+        //   self.MonacoEnvironment = {
+        //     baseUrl: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/'
+        //   };
+        //   importScripts('https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/base/worker/workerMain.js');`
+        // )}`
+      }
+    }
+
+    const isIframe = window.parent !== window
+    if (!isIframe) {
+      document.getElementById('header').style.display = 'block'
+      document.getElementById('buttons').style.paddingRight = '15px'
+      document.querySelectorAll('.pane').forEach(element => {
+        element.style.height = 'calc(100% - 36px - 25px)'
+      })
+    }
+
+    const sourcePane = document.getElementById('source')
+    const binaryPane = document.getElementById('binary')
+    const htmlPane = document.getElementById('html')
+    const playFrame = document.getElementById('play-frame')
+    const optionsPopup = document.getElementById('options')
+    const clipboardPopup = document.getElementById('clipboard')
+
+    const optionOptimizeSpeed = document.getElementById('option-optimize-speed')
+    const optionOptimizeSize = document.getElementById('option-optimize-size')
+    const optionOptimizeNone = document.getElementById('option-optimize-none')
+    const optionNoAssert = document.getElementById('option-noAssert')
+    const optionDebug = document.getElementById('option-debug')
+    const optionRuntimeFull = document.getElementById('option-runtime-full')
+    const optionRuntimeHalf = document.getElementById('option-runtime-half')
+    const optionRuntimeStub = document.getElementById('option-runtime-stub')
+    const optionRuntimeNone = document.getElementById('option-runtime-none')
+    const optionNoExportMemory = document.getElementById('option-noExportMemory')
+    const optionImportMemory = document.getElementById('option-importMemory')
+    const optionExportTable = document.getElementById('option-exportTable')
+    const optionImportTable = document.getElementById('option-importTable')
+    const optionExplicitStart = document.getElementById('option-explicitStart')
+    const optionMemoryBase = document.getElementById('option-memoryBase')
+    const optionTableBase = document.getElementById('option-tableBase')
+    const optionFeatureSignextension = document.getElementById('option-feature-signextension')
+    const optionFeatureBulkmemory = document.getElementById('option-feature-bulkmemory')
+    const optionFeatureSimd = document.getElementById('option-feature-simd')
+    const optionFeatureThreads = document.getElementById('option-feature-threads')
+    const optionFeatureReferencetypes = document.getElementById('option-feature-referencetypes')
+
+    const optionCheckboxes = {
+      'noAssert': optionNoAssert,
+      'debug': optionDebug,
+      'noExportMemory': optionNoExportMemory,
+      'importMemory': optionImportMemory,
+      'exportTable': optionExportTable,
+      'importTable': optionImportTable,
+      'explicitStart': optionExplicitStart
+    }
+
+    const optionNumerical = {
+      'memoryBase': optionMemoryBase,
+      'tableBase': optionTableBase
+    }
+
+    const optionFeatures = {
+      'sign-extension': optionFeatureSignextension,
+      'bulk-memory': optionFeatureBulkmemory,
+      'simd': optionFeatureSimd,
+      'threads': optionFeatureThreads,
+      'reference-types': optionFeatureReferencetypes
+    }
+
+    var module_wat = '(module)\n'
+    var module_wasm = new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0])
+    var didCompile = false
+
+    require([
+      'vs/editor/editor.main',
+      'https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/sdk.js',
+      'scripts/webassembly-language.js'
+    ], (
+      { languages, editor }, 
+      { asc },
+      { config: wasmLanguageConfig, tokens: wasmLanguageTokens }
+    ) => {
+      console.log("AssemblyScript compiler version v" + asc.version)
+
+      // Add WebAssembly Text Format language
+      languages.register({ id: 'webassembly' })
+      languages.setLanguageConfiguration('webassembly', wasmLanguageConfig)
+      languages.setMonarchTokensProvider('webassembly', wasmLanguageTokens)
+
+      // Extend the default theme with WebAssembly rules
+      editor.defineTheme('vs-wasm', {
+        base: 'vs-dark',
+        inherit: true,
+        rules: [
+          // WebAssembly
+          { token: 'instruction', foreground: 'dcdcaa' },
+          { token: 'controlInstruction', foreground: 'c586c0' },
+          { token: 'identifier', foreground: '9cdcf0' },
+          // TypeScript (reset)
+          { token: 'identifier.ts', foreground: 'd4d4d4' },
+          // Diagnostics
+          { token: 'error', foreground: 'd16969' },
+          { token: 'warning', foreground: 'dcdcaa' },
+          { token: 'info', foreground: '11a8cd' },
+          { token: 'pedantic', foreground: 'c586c0' },
+          { token: 'underline', foreground: 'd16969' }
+        ]
+      })
+
+      // Add AssemblyScript Standard Library definition
+      languages.typescript.typescriptDefaults.addExtraLib(asc.definitionFiles.assembly, "assemblyscript/std/assembly/index.d.ts")
+
+      // Obtain the source provided via the location's hash
+      let source = document.location.hash
+      let html = ''
+      if (source.length > 1) {
+        source = source.substr(1)
+        try {
+          source = atob(source)
+        } catch (e) {
+          source = `/* ${e.message} */`
+        }
+        if (source.startsWith('#!') && !source.startsWith('#!html')) {
+          let end = source.indexOf('\n')
+          if (!end) end = source.length
+          deserializeCompilerOptions(source.substring(2, end))
+          source = source.substring(end + 1)
+        }
+        const htmlMatch = /^#!html$/m.exec(source)
+        if (htmlMatch) {
+          html = source.substring(htmlMatch.index + htmlMatch[0].length).trim() + '\n'
+          source = source.substring(0, htmlMatch.index).trimRight() + '\n'
+        }
+      } else {
+        source = ''
+      }
+
+      // Common editor options
+      const commonEditorOptions = {
+        value: '',
+        theme: 'vs-wasm',
+        automaticLayout: true,
+        scrollBeyondLastLine: false,
+        minimap: {
+          enabled: false
+        },
+        // contextmenu: false,
+        renderLineHighlight: 'none'
+      }
+
+      // Create editor panes
+      const sourceModel = editor.createModel(source, 'typescript')
+      sourceModel.updateOptions({ tabSize: 2 })
+      const sourceEditor = editor.create(sourcePane, Object.assign({}, commonEditorOptions, {
+        model: sourceModel,
+      }))
+      const binaryModel = editor.createModel('(module\n 🚀\n)\n', 'webassembly')
+      binaryModel.updateOptions({ tabSize: 1 })
+      const binaryEditor = editor.create(binaryPane, Object.assign({}, commonEditorOptions, {
+        model: binaryModel,
+        readOnly: true
+      }))
+      const htmlModel = editor.createModel(html, 'html')
+      htmlModel.updateOptions({ tabSize: 2 })
+      const htmlEditor = editor.create(htmlPane, Object.assign({}, commonEditorOptions, {
+        model: htmlModel
+      }))
+
+      // Make tabs switchable
+      document.querySelectorAll('.tab').forEach(element => {
+        element.addEventListener('click', () => {
+          if (optionsVisible) toggleOptions(null)
+          document.querySelectorAll('.tab').forEach(element => element.classList.remove('active'))
+          element.classList.add('active')
+          document.querySelectorAll('.pane').forEach(element => element.classList.remove('active'))
+          const pane = document.getElementById(element.id.substring(0, element.id.length - 3))
+          pane.classList.add('active')
+          if (element.id == 'binaryTab') {
+            binaryEditor.setValue('(module\n 🚀\n)\n')
+            setTimeout(() => {
+              compile()
+            }, 10)
+          } else if (element.id == 'playTab') {
+            function serialize() {
+              return 'data:text/html;base64,' + btoa([
+                '<script>var exports={}<', '/script>',
+                '<script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/index.js"><', '/script>',
+                '<script>var loader=exports,module_wasm=new Uint8Array([', module_wasm.join(','), ']);exports=undefined<', '/script>\n\n',
+                htmlEditor.getValue().trimRight()
+              ].join(''))
+            }
+            if (didCompile) {
+              playFrame.src = serialize()
+            } else {
+              playFrame.src = 'data:text/html;base64,Q29tcGlsaW5nLi4u' // Compiling...
+              compile(() => {
+                playFrame.src = serialize()
+              })
+            }
+          }
+        })
+      })
+
+      // Make options clickable
+      let optionsVisible = false
+      function toggleOptions(evt) {
+        if (optionsVisible = !optionsVisible) {
+          optionsPopup.style.display = 'block'
+          const bounds = evt.target.getBoundingClientRect()
+          optionsPopup.style.top = (bounds.y + bounds.height + 12) + 'px'
+          optionsPopup.style.right = (window.innerWidth - (bounds.x + bounds.width / 2) - 12) + 'px'
+        } else {
+          optionsPopup.style.display = 'none'
+        }
+      }
+      document.querySelector('.button.options').addEventListener('click', toggleOptions)
+
+      // Make contents shareable
+      let clipboardTimer = null
+      document.querySelector('.button.share').addEventListener('click', evt => {
+        const helper = document.getElementById('clipboardHelper')
+        const serial = btoa([
+          '#!', serializeCompilerOptions(), '\n',
+          sourceEditor.getValue().trim(),
+          '\n#!html\n',
+          htmlEditor.getValue().trim()
+        ].join(''))
+        document.location.hash = serial
+        helper.value = document.location
+        helper.select()
+        document.execCommand('copy')
+        helper.value = ''
+        helper.focus()
+        clipboardPopup.style.display = 'block'
+        const button = evt.target
+        button.setAttribute('href', document.location)
+        const bounds = button.getBoundingClientRect()
+        clipboardPopup.style.top = (bounds.y + bounds.height + 12) + 'px'
+        clipboardPopup.style.right = (window.innerWidth - (bounds.x + bounds.width / 2) - 12) + 'px'
+        if (clipboardTimer) clearTimeout(clipboardTimer)
+        clipboardTimer = setTimeout(() => {
+          clipboardPopup.style.display = 'none'
+          clipboardTimer = null
+        }, 3000)
+      })
+
+      function deserializeCompilerOptions(query) {
+        const parts = query.split('&')
+        const options = {}
+        for (let part of parts) {
+          let opt = part.split('=', 2)
+          options[decodeURIComponent(opt[0])] =
+            opt.length > 1
+              ? decodeURIComponent(opt[1])
+              : ''
+        }
+        switch (options.optimize) {
+          case 'speed': optionOptimizeSpeed.checked = true; break
+          case 'size': optionOptimizeSize.checked = true; break
+          case 'none': optionOptimizeNone.checked = true; break
+        }
+        switch (options.runtime) {
+          case 'full': optionRuntimeFull.checked = true; break
+          case 'half': optionRuntimeHalf.checked = true; break
+          case 'stub': optionRuntimeStub.checked = true; break
+          case 'none': optionRuntimeNone.checked = true; break
+        }
+        for (let [key, element] of Object.entries(optionCheckboxes)) {
+          if (options[key] != null) element.checked = true
+        }
+        for (let [key, element] of Object.entries(optionNumerical)) {
+          const value = parseInt(options[key])
+          if (value > 0) element.value = value
+        }
+        if (options.enable && options.enable.length) {
+          const features = options.enable.split(',')
+          for (let feature of features) {
+            if (optionFeatures.hasOwnProperty(feature)) {
+              optionFeatures[feature].checked = true
+            }
+          }
+        }
+      }
+
+      function serializeCompilerOptions() {
+        let query = []
+        if (optionOptimizeSpeed.checked) {
+          query.push('optimize=speed')
+        } else if (optionOptimizeSize.checked) {
+          query.push('optimize=size')
+        } else if (optionOptimizeNone.checked) {
+          query.push('optimize=none')
+        }
+        if (optionRuntimeFull.checked) {
+          query.push('runtime=full')
+        } else if (optionRuntimeHalf.checked) {
+          query.push('runtime=half')
+        } else if (optionRuntimeStub.checked) {
+          query.push('runtime=stub')
+        } else if (optionRuntimeNone.checked) {
+          query.push('runtime=none')
+        }
+        for (let [key, element] of Object.entries(optionCheckboxes)) {
+          if (element.checked) query.push(key)
+        }
+        for (let [key, element] of Object.entries(optionNumerical)) {
+          let value = parseInt(element.value)
+          if (value > 0) query.push(key + '=' + value)
+        }
+        const features = []
+        for (let [key, element] of Object.entries(optionFeatures)) {
+          if (element.checked) features.push(key)
+        }
+        if (features.length) {
+          query.push('enable=' + features.join(','))
+        }
+        return query.join('&')
+      }
+
+      // Gets user specified compiler options
+      function getCompilerOptions() {
+        const options = []
+        if (optionOptimizeSpeed.checked) {
+          options.push('-O3')
+        } else if (optionOptimizeSize.checked) {
+          options.push('-O3z', '--converge')
+        }
+        if (optionDebug.checked) {
+          options.push('--debug')
+        }
+        if (optionNoAssert.checked) {
+          options.push('--noAssert')
+        }
+        if (optionRuntimeFull.checked) {
+          options.push('--runtime', 'full')
+        } else if (optionRuntimeHalf.checked) {
+          options.push('--runtime', 'half')
+        } else if (optionRuntimeStub.checked) {
+          options.push('--runtime', 'stub')
+        } else if (optionRuntimeNone.checked) {
+          options.push('--runtime', 'none')
+        }
+        if (optionNoExportMemory.checked) {
+          options.push('--noExportMemory')
+        }
+        if (optionImportMemory.checked) {
+          options.push('--importMemory')
+        }
+        if (optionExportTable.checked) {
+          options.push('--exportTable')
+        }
+        if (optionImportTable.checked) {
+          options.push('--importTable')
+        }
+        if (optionExplicitStart.checked) {
+          options.push('--explicitStart')
+        }
+        const memoryBase = parseInt(optionMemoryBase.value)
+        if (memoryBase > 0) {
+          options.push('--memoryBase', memoryBase.toString())
+        }
+        const tableBase = parseInt(optionTableBase.value)
+        if (tableBase > 0) {
+          options.push('--tableBase', tableBase.toString())
+        }
+        // if (document.getElementById('option-pedantic').checked) {
+        //   options.push('--pedantic')
+        // }
+        const enable = []
+        for (let [key, element] of Object.entries(optionFeatures)) {
+          if (element.checked) enable.push(key)
+        }
+        if (enable.length) {
+          options.push('--enable', enable.join(','))
+        }
+        return options
+      }
+
+      // Compiles the source to WebAssembly
+      function compile(cb) {
+        const stdout = asc.createMemoryStream()
+        const sources = {
+          'module.ts': sourceEditor.getValue()
+        }
+        const outputs = {}
+        const options = [
+          'module.ts',
+          '--textFile', 'module.wat',
+          '--binaryFile', 'module.wasm'
+        ].concat(getCompilerOptions())
+        setTimeout(() => {
+          asc.main(options, {
+            stdout,
+            stderr: stdout,
+            readFile: name => Object.prototype.hasOwnProperty.call(sources, name) ? sources[name] : null,
+            writeFile: (name, contents) => outputs[name] = contents,
+            listFiles: () => []
+          }, err => {
+            let output = stdout.toString().trim()
+            if (output.length) {
+              output = ';; ' + output.replace(/\n/g, '\n;; ') + '\n'
+            }
+            output = ';; INFO asc ' + options.join(' ') + '\n' + output
+            if (err) {
+              binaryEditor.setValue(output + `(module\n ;; FAILURE ${err.message}\n)\n`)
+            } else {
+              module_wat = outputs['module.wat']
+              module_wasm = outputs['module.wasm']
+              binaryEditor.setValue(output + module_wat)
+            }
+            didCompile = true
+            if (cb) cb(err)
+          })
+        }, 100)
+      }
+
+      // Finally, hide the loading animation
+      document.getElementById('loading').style.display = 'none'
+    })
+  </script>
+</body>
+</html>

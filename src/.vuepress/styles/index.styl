@@ -1,0 +1,134 @@
+// Custom sidebar background
+.sidebar {
+  background: #fafbfc;
+}
+
+// Nav drop-down categories
+.nav-dropdown .dropdown-item h4 {
+  margin: 0.45rem 0 0.2rem 0 !important;
+}
+
+// Custom global footer
+.page .footer {
+  text-align: center;
+  color: #4e6e8e;
+}
+
+// Prism customization
+
+@import "~prism-themes/themes/prism-vs.css"
+
+.token.builtin {
+  color: #36acaa;
+}
+
+.token.comment {
+  font-style: normal;
+}
+
+.theme-default-content pre code,
+.theme-default-content pre[class*="language-"] code {
+  color: #222;
+  color: #476582;
+  font-size: 1em;
+}
+
+div[class*="language-"]:before {
+  color: #fff;
+  background: #bbb;
+  padding: 1px 4px 3px 5px;
+}
+
+div[class~="language-ts"]:before,
+div[class~="language-typescript"]:before {
+  color: #fff;
+  background: #007acc;
+}
+
+div[class~="language-js"]:before,
+div[class~="language-javascript"]:before {
+  color: #323330;
+  background: #f0db4f;
+}
+
+div[class~="language-sh"]:before,
+div[class~="language-bash"]:before {
+  color: #fff;
+  background: #000;
+}
+
+div[class~="language-wat"]:before,
+div[class~="language-webassembly"]:before {
+  color: #fff;
+  background: #654ff0;
+}
+
+div[class~="language-html"]:before {
+  color: #fff;
+  background: #e44d26;
+}
+
+div[class~="language-c"]:before {
+  color: #fff;
+  background: #3949AB;
+  padding-right: 6px;
+  padding-left: 7px;
+}
+
+// API docs: <li> starting with code block
+
+.theme-default-content li div[class*="language-"]:first-child pre[class*="language-"] {
+  background: #fff;
+  border: 0;
+  padding: 0;
+  font-size: 1.1em;
+}
+.theme-default-content li div[class*="language-"]:first-child:before {
+  display: none;
+}
+
+// Editor component
+
+div[class*="language-editor"],
+pre[class*="language-editor"] {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+.editor-wrap {
+  position: relative;
+  line-height: 0;
+}
+.editor-wrap a.maximize {
+  position: absolute;
+  top: 16px;
+  right: 12px;
+  user-select: none;
+  color: #c7c4c7;
+  cursor: pointer;
+  font-size: 1.2em;
+  z-index: 1000;
+}
+.editor-wrap a.maximize:hover {
+  color: #fff;
+  text-decoration: none !important;
+}
+.editor-wrap iframe {
+  width: 100%;
+  height: 538px;
+  min-height: 538px;
+  border: 0;
+  resize: vertical;
+}
+.editor-wrap.maximized {
+  position: fixed;
+  margin: 0;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+.editor-wrap.maximized iframe {
+  height: 100% !important;
+  resize: none;
+}

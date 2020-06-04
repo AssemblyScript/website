@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Surma",
+    "text": "You are now able to write WebAssembly without learning a new language, and harness all these benefits WebAssembly might offer you. I think that is kind of powerful. AssemblyScript is absolutely usable, and very enjoyable!",
+    "title": "WebAssembly for Web Developers (Google I/O ’19)",
+    "link": "https://youtu.be/njt-Qzw0mVY",
+    "date": "May 8th, 2019"
+  },
+  {
+    "name": "Alon Zakai",
+    "text": "AssemblyScript is designed with WebAssembly and code size in mind. It's not an existing language that we are using for a new purpose but it's a language designed for WebAssembly. It has great wasm-opt integration, in fact it's built with it, and it's very easy to get good code size.",
+    "title": "Shipping Tiny WebAssembly Builds (WebAssembly Summit)",
+    "link": "https://www.youtube.com/watch?v=_lLqZR4ufSI",
+    "date": "Feb 10, 2020"
+  },
+  {
+    "name": "Peter Salomonsen",
+    "text": "I chose AssemblyScript because it has high-level readability and low-level control. It's like a high-level language but you get that low-level feeling and you can even directly write WebAssembly intrinsics if you want to.",
+    "title": "WebAssembly Music (WebAssembly Summit)",
+    "link": "https://www.youtube.com/watch?v=C8j_ieOm4vE",
+    "date": "Feb 10, 2020"
+  }
+]
