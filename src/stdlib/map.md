@@ -62,7 +62,7 @@ var str: string | null = map.has(1) ? map.get(1) : null // OK
   Gets the keys contained in this map as an array, in insertion order. This is preliminary while iterators are not supported.
 
 * ```ts
-  function set(key: K, value: V): void
+  function set(key: K, value: V): this
   ```
   Sets the value for the specified key. Creates a new key-value pair if the key did not exist.
 

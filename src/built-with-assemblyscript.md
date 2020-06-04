@@ -35,6 +35,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   AssemblyScript implementation of SHA256 for [Lodestar](https://github.com/ChainSafe/lodestar).
 * [ParityTech / srml-contracts-waterfall](https://github.com/paritytech/srml-contracts-waterfall)<br />
   Collection of simple Substrate smart contract examples written in Rust and AssemblyScript and tests for Substrates SRML Contracts module.
+* [CasperLabs / contract-as](https://github.com/CasperLabs/CasperLabs/tree/master/execution-engine/contract-as)<br />
+  AssemblyScript smart contracting library for the CasperLabs protocol.
 
 ## Build Tools
 

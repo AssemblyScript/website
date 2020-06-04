@@ -4,6 +4,7 @@ description: Definitely not a TypeScript to WebAssembly compiler 🚀
 navbar: false
 sidebar: false
 editLink: false
+pageClass: frontpage
 ---
 
 <div id="hero">
@@ -198,7 +199,7 @@ loader.instantiate(module_wasm, { /* imports */ })
 </style>
 
 <style>
-footer {
+.frontpage .page-edit {
   display: none;
 }
 </style>

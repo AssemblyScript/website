@@ -135,6 +135,12 @@
     }
 
     /* Options */
+    #options .columns {
+      display: flex;
+    }
+    #options .column {
+      width: 50%;
+    }
     #options h5 {
       padding: 5px 0;
       margin: 0;
@@ -150,13 +156,23 @@
     #options p:first-child {
       padding-top: 0;
     }
+    #options a {
+      color: #fff;
+    }
     #options label {
       position: relative;
       top: -2px;
       cursor: pointer;
     }
+    #options input {
+      box-sizing: border-box;
+    }
     #options input[type="number"] {
-      width: 95px;
+      width: calc(50% - 6px);
+      margin-left: 3px;
+    }
+    #options input[type="text"] {
+      width: calc(100% - 6px);
       margin-left: 3px;
     }
 
@@ -197,45 +213,56 @@
     <a class="button options" title="Configure compiler options">⚙️</a>
   </div>
   <div id="options" class="popup">
-    <h5>Optimize</h5>
-    <div class="option">
-      <p>
-        <input type="radio" name="option-optimize" id="option-optimize-speed" checked /><label for="option-optimize-speed"> For speed</label>
-        <input type="radio" name="option-optimize" id="option-optimize-size" /><label for="option-optimize-size"> For size</label>
-        <input type="radio" name="option-optimize" id="option-optimize-none" /><label for="option-optimize-none"> None</label>
-      </p>
-      <p><input id="option-noAssert" type="checkbox" /><label for="option-noAssert"> Disable assertions</label></p>
-      <p><input id="option-debug" type="checkbox" /><label for="option-debug"> Include debug information</label></p>
-    </div>
-    <h5>Runtime</h5>
-    <div class="option">
-      <p>
-        <input type="radio" name="option-runtime" id="option-runtime-full" /><label for="option-runtime-full"> Full</label>
-        <input type="radio" name="option-runtime" id="option-runtime-half" checked /><label for="option-runtime-half"> Half</label>
-        <input type="radio" name="option-runtime" id="option-runtime-stub" /><label for="option-runtime-stub"> Stub</label>
-        <input type="radio" name="option-runtime" id="option-runtime-none" /><label for="option-runtime-none"> None</label>
-      </p>
-    </div>
-    <h5>Features</h5>
-    <div class="option">
-      <p><input id="option-noExportMemory" type="checkbox" /><label for="option-noExportMemory"> Don't export memory to host</label></p>
-      <p><input id="option-importMemory" type="checkbox" /><label for="option-importMemory"> Import memory from host</label></p>
-      <p><input id="option-exportTable" type="checkbox" /><label for="option-exportTable"> Export table to host</label></p>
-      <p><input id="option-importTable" type="checkbox" /><label for="option-importTable"> Import table from host</label></p>
-      <p><input id="option-explicitStart" type="checkbox" /><label for="option-explicitStart"> Explicit start function</label></p>
-      <!-- <p><input id="option-pedantic" type="checkbox" /><label for="option-pedantic"> Pedantic diagnostics</label></p> -->
-    </div>
-    <h5>Advanced features</h5>
-    <div class="option">
-      <p><input id="option-memoryBase" type="number" step="1" min="0" placeholder="Memory base" /> <input id="option-tableBase" type="number" step="1" min="0" placeholder="Table base" /></p>
-    </div>
-    <h5>Proposals</h5>
-    <div class="option">
-      <p><input id="option-feature-signextension" type="checkbox" /><label for="option-feature-signextension"> Enable Sign Extension</label></p>
-      <p><input id="option-feature-bulkmemory" type="checkbox" /><label for="option-feature-bulkmemory"> Enable Bulk Memory</label></p>
-      <p><input id="option-feature-simd" type="checkbox" /><label for="option-feature-simd"> Enable SIMD</label></p>
-      <p><input id="option-feature-threads" type="checkbox" /><label for="option-feature-threads"> Enable Threads</label></p>
-      <p><input id="option-feature-referencetypes" type="checkbox" /><label for="option-feature-referencetypes"> Enable Reference Types</label></p>
+    <div class="columns">
+      <div class="column">
+        <h5>Optimize</h5>
+        <div class="option">
+          <p>
+            <input type="radio" name="option-optimize" id="option-optimize-speed" checked /><label for="option-optimize-speed"> For speed</label>
+            <input type="radio" name="option-optimize" id="option-optimize-size" /><label for="option-optimize-size"> For size</label>
+            <input type="radio" name="option-optimize" id="option-optimize-none" /><label for="option-optimize-none"> None</label>
+          </p>
+          <p><input id="option-noAssert" type="checkbox" /><label for="option-noAssert"> Disable assertions</label></p>
+          <p><input id="option-debug" type="checkbox" /><label for="option-debug"> Include debug information</label></p>
+        </div>
+        <h5>Runtime</h5>
+        <div class="option">
+          <p>
+            <input type="radio" name="option-runtime" id="option-runtime-full" /><label for="option-runtime-full"> Full</label>
+            <input type="radio" name="option-runtime" id="option-runtime-half" checked /><label for="option-runtime-half"> Half</label>
+            <input type="radio" name="option-runtime" id="option-runtime-stub" /><label for="option-runtime-stub"> Stub</label>
+            <input type="radio" name="option-runtime" id="option-runtime-none" /><label for="option-runtime-none"> None</label>
+          </p>
+        </div>
+        <h5>Features</h5>
+        <div class="option">
+          <p><input id="option-noExportMemory" type="checkbox" /><label for="option-noExportMemory"> Don't export memory to host</label></p>
+          <p><input id="option-importMemory" type="checkbox" /><label for="option-importMemory"> Import memory from host</label></p>
+          <p><input id="option-exportTable" type="checkbox" /><label for="option-exportTable"> Export function table to host</label></p>
+          <p><input id="option-importTable" type="checkbox" /><label for="option-importTable"> Import function table from host</label></p>
+          <p><input id="option-explicitStart" type="checkbox" /><label for="option-explicitStart"> Explicit start function</label></p>
+        </div>
+      </div>
+      <div class="column">
+        <h5>Advanced features</h5>
+        <div class="option">
+          <p style="white-space: nowrap"><input id="option-memoryBase" type="number" step="1" min="0" max="4294967295" placeholder="Memory base" /> <input id="option-tableBase" type="number" step="1" min="0" max="10000000" placeholder="Table base" /></p>
+          <p><input id="option-use" type="text" placeholder="Use directives, comma-separated" /></p>
+        </div>
+        <h5>Future features</h5>
+        <div class="option">
+          <p><input id="option-feature-signextension" type="checkbox" /><label for="option-feature-signextension"> Enable Sign Extension</label></p>
+          <p><input id="option-feature-bulkmemory" type="checkbox" /><label for="option-feature-bulkmemory"> Enable Bulk Memory</label></p>
+          <p><input id="option-feature-simd" type="checkbox" /><label for="option-feature-simd"> Enable SIMD</label></p>
+          <p><input id="option-feature-threads" type="checkbox" /><label for="option-feature-threads"> Enable Threads</label></p>
+          <p><input id="option-feature-referencetypes" type="checkbox" /><label for="option-feature-referencetypes"> Enable Reference Types</label></p>
+        </div>
+        <h5>Documentation</h5>
+        <div class="option">
+          <p><a href="compiler.html#command-line-options" target="_blank" rel="noopener">Command line options</a></p>
+          <p><a href="runtime.html#variants" target="_blank" rel="noopener">Runtime variants</a></p>
+        </div>
+      </div>
     </div>
   </div>
   <div id="clipboard" class="popup">
@@ -308,6 +335,7 @@
     const optionExplicitStart = document.getElementById('option-explicitStart')
     const optionMemoryBase = document.getElementById('option-memoryBase')
     const optionTableBase = document.getElementById('option-tableBase')
+    const optionUse = document.getElementById('option-use')
     const optionFeatureSignextension = document.getElementById('option-feature-signextension')
     const optionFeatureBulkmemory = document.getElementById('option-feature-bulkmemory')
     const optionFeatureSimd = document.getElementById('option-feature-simd')
@@ -336,6 +364,8 @@
       'threads': optionFeatureThreads,
       'reference-types': optionFeatureReferencetypes
     }
+
+    const optionUseRe = /^(\w+)=(\w+(\/\w+|\.\w+)*)$/
 
     var module_wat = '(module)\n'
     var module_wasm = new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0])
@@ -517,12 +547,13 @@
       function deserializeCompilerOptions(query) {
         const parts = query.split('&')
         const options = {}
-        for (let part of parts) {
-          let opt = part.split('=', 2)
-          options[decodeURIComponent(opt[0])] =
-            opt.length > 1
-              ? decodeURIComponent(opt[1])
-              : ''
+        for (const part of parts) {
+          const pos = part.indexOf('=')
+          if (~pos) {
+            options[decodeURIComponent(part.substring(0, pos))] = part.substring(pos + 1)
+          } else {
+            options[decodeURIComponent(part)] = ''
+          }
         }
         switch (options.optimize) {
           case 'speed': optionOptimizeSpeed.checked = true; break
@@ -539,8 +570,20 @@
           if (options[key] != null) element.checked = true
         }
         for (let [key, element] of Object.entries(optionNumerical)) {
-          const value = parseInt(options[key])
+          const value = parseInt(options[key], 10)
           if (value > 0) element.value = value
+        }
+        let useValue = options['use']
+        if (typeof useValue === 'string') {
+          useValue = useValue.trim()
+          if (useValue.length) {
+            const use = []
+            for (const value of useValue.split(',')) {
+              let match = optionUseRe.exec(value.trim())
+              if (match) use.push(match[1] + '=' + match[2])
+            }
+            if (use.length) optionUse.value = use.join(',')
+          }
         }
         if (options.enable && options.enable.length) {
           const features = options.enable.split(',')
@@ -574,8 +617,17 @@
           if (element.checked) query.push(key)
         }
         for (let [key, element] of Object.entries(optionNumerical)) {
-          let value = parseInt(element.value)
+          let value = parseInt(element.value, 10)
           if (value > 0) query.push(key + '=' + value)
+        }
+        const useValue = optionUse.value.trim()
+        if (useValue.length) {
+          const use = []
+          for (const value of useValue.split(',')) {
+            const match = optionUseRe.exec(value.trim())
+            if (match) use.push(match[1] + '=' + match[2])
+          }
+          if (use.length) query.push('use=' + use.join(','))
         }
         const features = []
         for (let [key, element] of Object.entries(optionFeatures)) {
@@ -625,17 +677,23 @@
         if (optionExplicitStart.checked) {
           options.push('--explicitStart')
         }
-        const memoryBase = parseInt(optionMemoryBase.value)
-        if (memoryBase > 0) {
+        const memoryBase = parseInt(optionMemoryBase.value, 10)
+        if (memoryBase > 0 && memoryBase <= 4294967295) {
           options.push('--memoryBase', memoryBase.toString())
         }
-        const tableBase = parseInt(optionTableBase.value)
-        if (tableBase > 0) {
+        const tableBase = parseInt(optionTableBase.value, 10)
+        if (tableBase > 0 && tableBase <= 10000000) {
           options.push('--tableBase', tableBase.toString())
         }
-        // if (document.getElementById('option-pedantic').checked) {
-        //   options.push('--pedantic')
-        // }
+        const useValue = optionUse.value.trim()
+        if (useValue.length) {
+          const use = []
+          for (const value of useValue.split(',')) {
+            const match = optionUseRe.exec(value.trim())
+            if (match) use.push(match[1] + '=' + match[2])
+          }
+          if (use.length) options.push('--use', use.join(','))
+        }
         const enable = []
         for (let [key, element] of Object.entries(optionFeatures)) {
           if (element.checked) enable.push(key)

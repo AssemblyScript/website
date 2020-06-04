@@ -25,12 +25,13 @@ module.exports = {
   themeConfig: {
     logo: '/images/icon.svg',
     nav: require('./nav'),
-    docsRepo: 'AssemblyScript/website',
-    docsDir: 'src',
-    editLinks: true,
-    editLinkText: 'Help us to improve this page!',
     sidebar: require('./sidebar'),
     sidebarDepth: 1,
+    docsRepo: 'AssemblyScript/website',
+    docsDir: 'src',
+    docsBranch: 'master',
+    editLinks: true,
+    editLinkText: 'Edit this page on GitHub',
     algolia: {
       apiKey: 'ffb8769cdb0f8cfa20d6a307385cb7ba',
       indexName: 'assemblyscript'
