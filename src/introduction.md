@@ -10,53 +10,21 @@ AssemblyScript compiles a **strict variant** of [TypeScript](https://www.typescr
 ```ts
 export function fib(n: i32): i32 {
   var a = 0, b = 1
-  for (let i = 2; i < n; i++) {
-    let t = a + b; a = b; b = t
+  if (n > 0) {
+    while (--n) {
+      let t = a + b
+      a = b
+      b = t
+    }
+    return b
   }
-  return b
+  return a
 }
+
 ```
 
 ```sh
 asc fib.ts -b fib.wasm -O3
-```
-
-```wasm
-(module
- (type $i32_=>_i32 (func (param i32) (result i32)))
- (memory $0 0)
- (export "memory" (memory $0))
- (export "fib" (func $fib/fib))
- (func $fib/fib (param $0 i32) (result i32)
-  (local $1 i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  i32.const 1
-  local.set $1
-  i32.const 2
-  local.set $4
-  loop $for-loop|0
-   local.get $4
-   local.get $0
-   i32.lt_s
-   if
-    local.get $1
-    local.get $2
-    i32.add
-    local.get $1
-    local.set $2
-    local.set $1
-    local.get $4
-    i32.const 1
-    i32.add
-    local.set $4
-    br $for-loop|0
-   end
-  end
-  local.get $1
- )
-)
 ```
 
 Its architecture differs from a JavaScript VM in that it compiles a program **ahead of time**, quite similar to other static compilers. One can think of it as a mix of TypeScript's syntax and C's capabilities.

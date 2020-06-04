@@ -34,7 +34,7 @@ When allocating a managed object, it is necessary to also provide its unique cla
   ```
   Dynamically allocates a chunk of memory for an object represented by the specified id of at least the given size in bytes and returns its address. Alignment is guaranteed to be 16 bytes to fit up to v128 values naturally. Does not zero memory.
 
-The [loader](../basics/loader.md) provides some additional functionality for convenience, like `__allocString`.
+The [loader](./loader.md) provides some additional functionality for convenience, like `__allocString`.
 
 ### Managing lifetimes
 

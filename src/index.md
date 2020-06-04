@@ -37,7 +37,7 @@ pageClass: frontpage
   </div>
   <div class="feature">
     <h2>Right at your fingertips</h2>
-    <p>Integrates with the existing Web ecosystem - no heavy toolchains to set up. Simply `npm install` it!</p>
+    <p>Integrates with the existing Web ecosystem - no heavy toolchains to set up. Simply <code>npm install</code> it!</p>
   </div>
 </div>
 

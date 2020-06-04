@@ -41,7 +41,7 @@ function abort(
 
 ## Manual tracing
 
-The standard library provides a relatively basic `trace` utility function that is imported from the host and understood by the [loader](../basics/loader.md). For example
+The standard library provides a relatively basic `trace` utility function that is imported from the host and understood by the [loader](./loader.md). For example
 
 ```ts
 trace("HERE", 2, value, otherValue)

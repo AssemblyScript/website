@@ -4,7 +4,7 @@ description: JavaScript-like elements in the global scope.
 
 # Globals
 
-In addition to the [general environment with its WebAssembly-focused built-ins](../basics/environment.md), the following global constants and functions are present alongside the standard library's classes.
+In addition to the [general environment with its WebAssembly-focused built-ins](../environment.md), the following global constants and functions are present alongside the standard library's classes.
 
 ## Constants
 

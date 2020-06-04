@@ -149,7 +149,7 @@ WebAssembly modules produced by the AssemblyScript compiler typically have the f
   function __release?(ptr: usize): void
   function __collect?(): void
   ```
-  [Runtime helpers](../details/runtime.md). Only present on `--runtime stub/full`. Not present on `--runtime none/half`.
+  [Runtime helpers](./runtime.md). Only present on `--runtime stub/full`. Not present on `--runtime none/half`.
 
 ### Imports
 
