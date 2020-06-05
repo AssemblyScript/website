@@ -18,6 +18,7 @@ jobs:
       run: |
         npm ci --no-audit
         node scripts/update-data
+        node scripts/update-svgs
         npm run build
     - name: Deploy
       env:
