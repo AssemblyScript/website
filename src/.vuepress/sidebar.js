@@ -77,7 +77,7 @@ function getStdlibSidebar() {
 function getSnippetsSidebar() {
   return [
     {
-      title: 'Examples',
+      title: 'Snippets',
       collapsable: false,
       children: [
         '/snippets/classes',

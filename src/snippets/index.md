@@ -4,7 +4,7 @@ Snippets are small, copy-pastable AssemblyScript examples meant to show off comm
 
 Please take a look at the sidebar for finding a snippet for what you would like to see and use for your AssemblyScript program.
 
-## Additional Example Resources
+## Additional Examples Resources
 
 If you "learn by example", here are some more in-depth example resources you could take a look at:
 
