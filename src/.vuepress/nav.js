@@ -66,6 +66,10 @@ module.exports = [
     ]
   },
   {
+    text: 'Snippets',
+    link: '/snippets/index.md',
+  },
+  {
     text: 'Examples',
     link: 'https://github.com/AssemblyScript/examples',
   },
