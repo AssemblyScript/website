@@ -8,12 +8,6 @@
   margin: 0.45rem 0 0.2rem 0 !important;
 }
 
-// Custom global footer
-.page .footer {
-  text-align: center;
-  color: #4e6e8e;
-}
-
 // Prism customization
 
 @import "~prism-themes/themes/prism-vs.css"
@@ -85,50 +79,4 @@ div[class~="language-c"]:before {
 }
 .theme-default-content li div[class*="language-"]:first-child:before {
   display: none;
-}
-
-// Editor component
-
-div[class*="language-editor"],
-pre[class*="language-editor"] {
-  padding: 0 !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-}
-.editor-wrap {
-  position: relative;
-  line-height: 0;
-}
-.editor-wrap a.maximize {
-  position: absolute;
-  top: 16px;
-  right: 12px;
-  user-select: none;
-  color: #c7c4c7;
-  cursor: pointer;
-  font-size: 1.2em;
-  z-index: 1000;
-}
-.editor-wrap a.maximize:hover {
-  color: #fff;
-  text-decoration: none !important;
-}
-.editor-wrap iframe {
-  width: 100%;
-  height: 540px;
-  min-height: 540px;
-  border: 0;
-  resize: vertical;
-}
-.editor-wrap.maximized {
-  position: fixed;
-  margin: 0;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-}
-.editor-wrap.maximized iframe {
-  height: 100% !important;
-  resize: none;
 }

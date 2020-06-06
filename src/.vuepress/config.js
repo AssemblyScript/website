@@ -52,12 +52,12 @@ module.exports = {
       exclude: ['/404.html']
     }]
   ],
-  chainWebpack(config, isServer) {
-    if (isServer) return
-    config
-      .entry('custom')
-      .add('./src/.vuepress/custom.js')
-  },
+  // chainWebpack(config, isServer) {
+  //   if (isServer) return
+  //   config
+  //     .entry('custom')
+  //     .add('./src/.vuepress/custom.js')
+  // },
   markdown: {
     extendMarkdown
   }
@@ -88,37 +88,4 @@ function extendMarkdown(md) {
     'v16x8', 'v32x2', 'Int64Array', 'Uint64Array',
 
   ].join('|') + ')\\b')
-
-  injectEditor(prism)
-}
-
-function injectEditor(prism) {
-  const he = require('he')
-
-  prism.languages.editor = {}
-  prism.hooks.add('before-tokenize', env => {
-    if (env.language == 'editor') {
-      env.originalCode = env.code || ''
-      env.code = ''
-    }
-  })
-  prism.hooks.add('after-tokenize', env => {
-    if (env.language == 'editor') {
-      env.tokens = [
-        new prism.Token('', env.originalCode, undefined, env.originalCode, undefined)
-      ]
-    }
-  })
-  let nextEditorId = 1
-  prism.hooks.add('wrap', env => {
-    if (env.language == 'editor') {
-      // FIXME: this breaks on reload for some reason
-      const data = Buffer.from(he.decode(env.content), 'utf8').toString('base64')
-      env.tag = 'div'
-      env.classes.push('editor-wrap')
-      env.attributes.id = 'editor' + nextEditorId
-      env.content = '<a class="maximize" onclick="maximize(\'editor' + nextEditorId + '\')">🗖</a><iframe title="Editor" src="/editor.html#' + data + '"></iframe>'
-      ++nextEditorId
-    }
-  })
 }
