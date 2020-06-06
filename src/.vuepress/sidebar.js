@@ -80,7 +80,11 @@ function getSnippetsSidebar() {
       title: 'Snippets',
       collapsable: false,
       children: [
-        '/snippets/classes',
+        '/snippets/ternary',
+        '/snippets/switch',
+        '/snippets/class',
+        '/snippets/extending-classes',
+        '/snippets/handling-null',
       ]
     }
   ]

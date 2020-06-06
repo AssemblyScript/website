@@ -1,8 +1,10 @@
 ---
-description: Classes Snippet
+description: Class / Classes Snippet
 ---
 
-# Classes
+# Class
+
+A snippet on using Classes in AssemblyScript, and assigning instance vs. static properties.
 
 ```editor
 #!optimize=size&runtime=full
@@ -47,7 +49,6 @@ console.log = domConsoleLog;
 
 loader.instantiate(module_wasm, { /* imports */ })
   .then(({ exports }) => {
-    
     console.log(exports.staticOne());
     console.log(exports.staticAdd(1, 2));
     console.log(exports.instanceTwo());
