@@ -1,6 +1,6 @@
 # Mandelbrot example
 
-Renders the Mandelbrot set to a canvas using 2048 discrete color values computed on the JS side.
+Renders the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) to a canvas using 2048 discrete color values computed on the JS side.
 
 ## Contents
 
@@ -15,8 +15,6 @@ Renders the Mandelbrot set to a canvas using 2048 discrete color values computed
 
 ```editor
 #!optimize=speed&runtime=none&importMemory&use=Math=JSMath
-// see: https://en.wikipedia.org/wiki/Mandelbrot_set
-
 /** Number of discrete color values on the JS side. */
 const NUM_COLORS = 2048;
 
@@ -152,7 +150,7 @@ The example makes a couple assumptions. For instance, using the entire memory of
 * not using a more sophisticated runtime (typically adds bookkeeping) and
 * the rest of the example being relatively simple (i.e. no strings or similar).
 
-As soon as these conditions are no longer met, one would instead either reserve some space by specifying a suitable `--memoryBase` or export a dynamically instantiated `Uint8Array` and utilize it as the image buffer both in WebAssembly and in JavaScript.
+As soon as these conditions are no longer met, one would instead either reserve some space by specifying a suitable `--memoryBase` or export a dynamically instantiated chunk of memory, like an `Uint16Array`, and utilize it as the image buffer both in WebAssembly and in JavaScript.
 :::
 
 ## Running locally
