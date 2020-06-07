@@ -1,3 +1,7 @@
 User-agent: *
+Disallow: /404
+Disallow: /404.html
+Disallow: /editor
 Disallow: /editor.html
+Disallow: /editor-test
 Disallow: /editor-test.html

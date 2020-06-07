@@ -48,7 +48,7 @@ module.exports = {
     '@vuepress/plugin-html-redirect',
     'vuepress-plugin-serve',
     ['vuepress-plugin-sitemap', {
-      hostname: 'https://assemblyscript.org',
+      hostname: 'https://www.assemblyscript.org',
       exclude: ['/404.html']
     }]
   ],
