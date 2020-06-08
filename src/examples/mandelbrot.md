@@ -108,7 +108,6 @@ loader.instantiate(module_wasm, {
     memory
   }
 }).then(({ exports }) => {
-  var computeLine = exports.computeLine
 
   // Update state
   exports.update(width, height, 40);

@@ -29,7 +29,6 @@ function installEditors() {
   for (const element of document.querySelectorAll('div.language-editor')) {
     const code = element.querySelector('code')
     if (!code) continue
-    const serial = btoa(code.innerText)
 
     const editor = document.createElement('div')
     editor.classList.add('editor-wrap')
@@ -42,7 +41,16 @@ function installEditors() {
 
     const iframe = document.createElement('iframe')
     iframe.setAttribute('title', 'Editor')
-    iframe.setAttribute('src', '/editor.html#' + serial)
+    if (document.readyState == 'complete') {
+      iframe.setAttribute('src', '/editor.html#' + btoa(code.innerText))
+    } else {
+      iframe.setAttribute('src', 'data:text/html;base64,')
+      document.addEventListener('readystatechange', evt => {
+        if (document.readyState == 'complete') {
+          iframe.setAttribute('src', '/editor.html#' + btoa(code.innerText))
+        }
+      })
+    }
     editor.appendChild(iframe)
 
     element.parentNode.replaceChild(editor, element)
@@ -94,6 +102,7 @@ export default Page
   text-decoration: none;
 }
 .editor-wrap iframe {
+  background: #1e1e1e;
   width: 100%;
   height: 540px;
   min-height: 540px;
