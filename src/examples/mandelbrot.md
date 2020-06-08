@@ -1,3 +1,7 @@
+---
+description: Rendering the Mandelbrot set in AssemblyScript.
+---
+
 # Mandelbrot example
 
 Renders the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) to a canvas using 2048 discrete color values computed on the JS side.
@@ -7,7 +11,6 @@ Renders the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) to a 
 * Exporting functions from a WebAssembly module.
 * Calling functions exported from WebAssembly.
 * Instantiating the module's memory in JavaScript and import it using `--importMemory`.
-* Speeding up a program by forcing a helper function in a hot path to always `@inline`.
 * Utilizing JavaScript's `Math` instead of native libm to reduce module size via `--use Math=JSMath`.
 * And finally: Reading and translating data from WebAssembly memory to colors rendered to a canvas.
 
@@ -18,54 +21,56 @@ Renders the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) to a 
 /** Number of discrete color values on the JS side. */
 const NUM_COLORS = 2048;
 
-/** Computes a single line in the rectangle `width` x `height`. */
-export function computeLine(y: u32, width: u32, height: u32, limit: u32): void {
+/** Updates the rectangle `width` x `height`. */
+export function update(width: u32, height: u32, limit: u32): void {
   var translateX = width  * (1.0 / 1.6);
   var translateY = height * (1.0 / 2.0);
   var scale      = 10.0 / min(3 * width, 4 * height);
-  var imaginary  = (y - translateY) * scale;
   var realOffset = translateX * scale;
-  var stride     = (y * width) << 1;
   var invLimit   = 1.0 / limit;
 
   var minIterations = min(8, limit);
 
-  for (let x: u32 = 0; x < width; ++x) {
-    let real = x * scale - realOffset;
+  for (let y: u32 = 0; y < height; ++y) {
+    let imaginary = (y - translateY) * scale;
+    let yOffset   = (y * width) << 1;
 
-    // Iterate until either the escape radius or iteration limit is exceeded
-    let ix = 0.0, iy = 0.0, ixSq: f64, iySq: f64;
-    let iteration: u32 = 0;
-    while ((ixSq = ix * ix) + (iySq = iy * iy) <= 4.0) {
-      iy = 2.0 * ix * iy + imaginary;
-      ix = ixSq - iySq + real;
-      if (iteration >= limit) break;
-      ++iteration;
-    }
+    for (let x: u32 = 0; x < width; ++x) {
+      let real = x * scale - realOffset;
 
-    // Do a few extra iterations for quick escapes to reduce error margin
-    while (iteration < minIterations) {
-      let ixNew = ix * ix - iy * iy + real;
-      iy = 2.0 * ix * iy + imaginary;
-      ix = ixNew;
-      ++iteration;
-    }
+      // Iterate until either the escape radius or iteration limit is exceeded
+      let ix = 0.0, iy = 0.0, ixSq: f64, iySq: f64;
+      let iteration: u32 = 0;
+      while ((ixSq = ix * ix) + (iySq = iy * iy) <= 4.0) {
+        iy = 2.0 * ix * iy + imaginary;
+        ix = ixSq - iySq + real;
+        if (iteration >= limit) break;
+        ++iteration;
+      }
 
-    // Iteration count is a discrete value in the range [0, limit] here, but we'd like it to be
-    // normalized in the range [0, 2047] so it maps to the gradient computed in JS.
-    // see also: http://linas.org/art-gallery/escape/escape.html
-    let col = NUM_COLORS - 1;
-    let sqd = ix * ix + iy * iy;
-    if (sqd > 1.0) {
-      let frac = Math.log2(0.5 * Math.log(sqd));
-      col = <u32>((NUM_COLORS - 1) * clamp<f64>((iteration + 1 - frac) * invLimit, 0.0, 1.0));
+      // Do a few extra iterations for quick escapes to reduce error margin
+      while (iteration < minIterations) {
+        let ixNew = ix * ix - iy * iy + real;
+        iy = 2.0 * ix * iy + imaginary;
+        ix = ixNew;
+        ++iteration;
+      }
+
+      // Iteration count is a discrete value in the range [0, limit] here, but we'd like it to be
+      // normalized in the range [0, 2047] so it maps to the gradient computed in JS.
+      // see also: http://linas.org/art-gallery/escape/escape.html
+      let colorIndex = NUM_COLORS - 1;
+      let distanceSq = ix * ix + iy * iy;
+      if (distanceSq > 1.0) {
+        let fraction = Math.log2(0.5 * Math.log(distanceSq));
+        colorIndex = <u32>((NUM_COLORS - 1) * clamp<f64>((iteration + 1 - fraction) * invLimit, 0.0, 1.0));
+      }
+      store<u16>(yOffset + (x << 1), colorIndex);
     }
-    store<u16>(stride + (x << 1), col);
   }
 }
 
 /** Clamps a value between the given minimum and maximum. */
-@inline
 function clamp<T>(value: T, minValue: T, maxValue: T): T {
   return min(max(value, minValue), maxValue);
 }
@@ -105,17 +110,15 @@ loader.instantiate(module_wasm, {
 }).then(({ exports }) => {
   var computeLine = exports.computeLine
 
-  function updateLine(y) {
+  // Update state
+  exports.update(width, height, 40);
+
+  // Translate 16-bit color indices to colors
+  for (let y = 0; y < height; ++y) {
     const yx = y * width;
     for (let x = 0; x < width; ++x) {
       argb[yx + x] = colors[buffer[yx + x]];
     }
-  }
-
-  const limit = 40
-  for (let y = 0; y < height; ++y) {
-    computeLine(y, width, height, limit);
-    updateLine(y);
   }
 
   // Render the image buffer.

@@ -1,3 +1,7 @@
+---
+description: Rendering an interference effect in AssemblyScript.
+---
+
 # Interference example
 
 Colin Eberhardt's and Ben Smith's [WebAssembly interference effect](https://github.com/ColinEberhardt/wasm-interference), if it was written in AssemblyScript.
@@ -87,7 +91,6 @@ loader.instantiate(module_wasm).then(({ exports }) => {
 
   // Inform the module about the viewport's size, incl. on resize
   function onresize() {
-    console.log('Resizing...')
     width = (canvas.offsetWidth / upscaleFactor) | 0;
     height = (canvas.offsetHeight / upscaleFactor) | 0;
     canvas.width = width;

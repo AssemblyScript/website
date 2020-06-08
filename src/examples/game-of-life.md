@@ -1,3 +1,7 @@
+---
+description: Rendering Conway's Game of Life in AssemblyScript.
+---
+
 # Game of Life example
 
 Continuously updates a slightly modified variant of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) and visualizes its state on a canvas.
