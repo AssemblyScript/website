@@ -1,14 +1,15 @@
 # Interference example
 
-Colin Eberhardt's and Ben Smith's [WebAssembly interference effect](https://github.com/ColinEberhardt/wasm-interference), if it was written in AssemblyScript and utilizing 32-bit floating point math.
+Colin Eberhardt's and Ben Smith's [WebAssembly interference effect](https://github.com/ColinEberhardt/wasm-interference), if it was written in AssemblyScript.
 
 ## Contents
 
 * Exporting functions and variables from a WebAssembly module.
 * Calling functions and reading variables exported from WebAssembly.
-* Utilizing 32-bit floating point math to speed up calculations.
+* Utilizing 32-bit floating point math to speed up calculations by utilizing `Mathf`.
 * Keeping an image buffer within the module's memory and copying it to a canvas.
-* And finally: Continously updating and rendering the image buffer.
+* Manually growing memory depending on the size of the viewport on the browser side.
+* And finally: Continuously updating and rendering the image buffer.
 
 ## Example
 
@@ -19,7 +20,7 @@ If you experience any of the following symptoms while viewing - dizziness, alter
 :::
 
 ```editor
-#!runtime=none
+#!optimize=speed&runtime=none
 var width  = 320;
 var height = 200;
 

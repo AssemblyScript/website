@@ -7,7 +7,7 @@ Renders the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) to a 
 * Exporting functions from a WebAssembly module.
 * Calling functions exported from WebAssembly.
 * Instantiating the module's memory in JavaScript and import it using `--importMemory`.
-* Speeding up a program by declarring a function that is always `@inline`d.
+* Speeding up a program by forcing a helper function in a hot path to always `@inline`.
 * Utilizing JavaScript's `Math` instead of native libm to reduce module size via `--use Math=JSMath`.
 * And finally: Reading and translating data from WebAssembly memory to colors rendered to a canvas.
 
@@ -150,7 +150,7 @@ The example makes a couple assumptions. For instance, using the entire memory of
 * not using a more sophisticated runtime (typically adds bookkeeping) and
 * the rest of the example being relatively simple (i.e. no strings or similar).
 
-As soon as these conditions are no longer met, one would instead either reserve some space by specifying a suitable `--memoryBase` or export a dynamically instantiated chunk of memory, like an `Uint16Array`, and utilize it as the image buffer both in WebAssembly and in JavaScript.
+As soon as these conditions are no longer met, one would instead either reserve some space by specifying a suitable `--memoryBase` or export a dynamically instantiated chunk of memory, like an `Uint16Array`, and utilize it as the color index buffer both in WebAssembly and in JavaScript.
 :::
 
 ## Running locally

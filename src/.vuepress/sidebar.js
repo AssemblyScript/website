@@ -1,5 +1,6 @@
 module.exports = {
   '/stdlib/': getStdlibSidebar(),
+  '/examples': getExamplesSidebar(),
   '/': getDefaultSidebar()
 }
 
@@ -68,6 +69,38 @@ function getStdlibSidebar() {
       collapsable: false,
       children: [
         '/stdlib/staticarray'
+      ]
+    }
+  ]
+}
+
+function getExamplesSidebar() {
+  return [
+    {
+      title: 'Starter examples',
+      collapsable: false,
+      children: [
+        ['/examples', 'Overview'],
+        '/examples/mandelbrot',
+        '/examples/interference',
+        '/examples/game-of-life'
+      ]
+    },
+    {
+      title: 'Advanced examples',
+      collapsable: false,
+      children: [
+        ['https://github.com/AssemblyScript/examples/tree/master/i64', 'I64 as a (node) library'],
+        ['https://github.com/AssemblyScript/examples/tree/master/loader', 'Using the loader'],
+        ['https://github.com/AssemblyScript/examples/tree/master/sdk', 'Using the browser SDK'],
+        ['https://github.com/AssemblyScript/examples/tree/master/transform', 'Using compiler transforms']
+      ]
+    },
+    {
+      title: 'Additional resources',
+      collapsable: false,
+      children: [
+        ['https://wasmbyexample.dev/', 'Wasm By Example']
       ]
     }
   ]

@@ -67,7 +67,7 @@ module.exports = [
   },
   {
     text: 'Examples',
-    link: 'https://github.com/AssemblyScript/examples',
+    link: '/examples',
   },
   {
     text: 'Community',
