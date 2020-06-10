@@ -2,13 +2,17 @@ const fs = require('fs')
 const fetch = require('node-fetch')
 const sharp = require('sharp')
 const pngquant = require('pngquant')
+const he = require('he')
 
 const contributors = require('../data/contributors.json')
 const sponsors = require('../data/sponsors.json')
 const tiers = require('../data/tiers.json')
 
 // Width of the resulting images
-const WIDTH = 680
+const WIDTH = 720
+
+// Whether to make the SVG interactive
+const INTERACTIVE = false
 
 // Sort sponsors by tier
 const sponsorsByTier = {}
@@ -87,17 +91,33 @@ function layoutItems(items, data, y) {
   let n = items.length
 
   function margin(height) {
-    return 2 + height - 32
+    return 6 + ((height - 32) / 2) | 0
   }
 
   function row(items) {
     for (let item of items) {
       const image = item.image
+      const isSmall = image.width == 32 && image.height == 32
       let clipPath = ''
-      if (image.width == 32 && image.height == 32) {
+      if (isSmall) {
         clipPath = ` clip-path="url('#circle')"`
       }
-      data.push(`<a transform="translate(${x},${y})" xlink:href="${item.link}"${clipPath}><title>${item.name}</title><image width="${image.width}" height="${image.height}" xlink:href="data:image/png;base64,${image.data.toString('base64')}" /></a>\n`)
+      if (INTERACTIVE) {
+        data.push(`<a transform="translate(${x},${y})" href="${item.link}" target="_blank" rel="noopener"><title>${he.encode(item.name)}</title><g>`)
+      } else {
+        data.push(`<g transform="translate(${x},${y})">`)
+      }
+      if (isSmall) {
+        data.push(`<circle cx="16" cy="16" r="17.5" stroke="#007acc" fill="#fff" stroke-width="1"></circle>`)
+      }
+      data.push(`<image width="${image.width}" height="${image.height}" href="data:image/png;base64,${image.data.toString('base64')}"${clipPath} />`)
+      if (INTERACTIVE) {
+        data.push(`<animateTransform attributeName="transform" type="translate" values="0 0;0 -3" begin="mouseover" dur="75ms" repeatCount="1" fill="freeze" />`)
+        data.push(`<animateTransform attributeName="transform" type="translate" values="0 -3;0 0" begin="mouseout" dur="150ms" repeatCount="1" fill="freeze" />`)
+        data.push(`</g></a>\n`)
+      } else {
+        data.push(`</g>\n`)
+      }
       x += image.width + margin(image.height)
       if (image.height > maxHeight) maxHeight = image.height
     }
@@ -128,24 +148,24 @@ function layoutItems(items, data, y) {
 
 function buildSponsorsSVG(sponsorsByTier) {
   const data = []
-  data.push('<style>a { cursor: pointer; } text { fill: #2c3e50; font-weight: 600; font-size: 21px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; }</style>\n')
-  data.push(`<defs><clipPath id="circle"><circle cx="16" cy="16" r="16" /></clipPath></defs>\n`)
+  data.push('<style>a { cursor: pointer; } a circle { pointer-events: none; } text { fill: #2c3e50; font-weight: 600; font-size: 21px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; }</style>\n')
+  data.push(`<defs><clipPath id="circle"><circle cx="16" cy="16" r="15.5" /></clipPath></defs>\n`)
   let y = 0
   Object.entries(tiers).forEach(([tierId, tier], i) => {
     const items = sponsorsByTier[tierId]
     if (items && items.length) {
-      data.push(`<text text-anchor="middle" x="${(WIDTH / 2) | 0}" y="${y + 32}">${tier.name}</text>`)
-      y += 60
+      data.push(`<text text-anchor="middle" x="${(WIDTH / 2) | 0}" y="${y + 42}">${he.encode(tier.name)}</text>`)
+      y += 72
       y = layoutItems(items, data, y)
     }
   })
-  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${WIDTH}" height="${y}">\n${data.join('')}</svg>`
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${WIDTH} ${y + 20}">\n${data.join('')}</svg>`
 }
 
 function buildContributorsSVG(contributors) {
   const data = []
-  data.push('<style>a { cursor: pointer; }</style>\n')
-  data.push(`<defs><clipPath id="circle"><circle cx="16" cy="16" r="16" /></clipPath></defs>\n`)
-  let y = layoutItems(contributors, data, 0)
-  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${WIDTH}" height="${y}">\n${data.join('')}</svg>`
+  data.push('<style>a { cursor: pointer; } a circle { pointer-events: none; }</style>\n')
+  data.push(`<defs><clipPath id="circle"><circle cx="16" cy="16" r="15.5" /></clipPath></defs>\n`)
+  let y = layoutItems(contributors, data, 6)
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${WIDTH} ${y}">\n${data.join('')}</svg>`
 }

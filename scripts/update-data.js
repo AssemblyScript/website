@@ -35,6 +35,7 @@ function updateSponsors() {
           const slug = item.profile.substring(item.profile.lastIndexOf('/') + 1)
           const logo = logos[slug] || 'https://images.opencollective.com/' + slug + '/' + item.MemberId + '/logo.png'
           return {
+            // id: item.MemberId,
             name: item.name,
             logo: logo,
             link: item.website || item.profile,
@@ -62,6 +63,7 @@ function updateContributors() {
               contributor.count += item.contributions
             } else {
               contributors[item.id] = {
+                // id: item.id,
                 name: item.login,
                 logo: item.avatar_url,
                 link: item.html_url,
