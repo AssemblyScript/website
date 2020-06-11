@@ -12,33 +12,33 @@ function getDefaultSidebar() {
       children: [
         '/introduction',
         '/quick-start',
-        '/basics'
+        '/basics',
+        '/frequently-asked-questsions'
       ]
     },
     {
       title: 'Documentation',
       collapsable: false,
       children: [
-        'compiler',
-        'types',
-        'environment',
-        'exports-and-imports',
-        'loader',
-        'built-with-assemblyscript'
+        '/compiler',
+        '/types',
+        '/environment',
+        '/exports-and-imports',
+        '/loader'
       ]
     },
     {
       title: 'Advanced',
       collapsable: false,
       children: [
-        'memory',
-        'runtime',
-        'peculiarities',
-        'portability',
-        'debugging',
-        'interoperability',
-        'development',
-        'transforms'
+        '/memory',
+        '/runtime',
+        '/peculiarities',
+        '/portability',
+        '/debugging',
+        '/interoperability',
+        '/development',
+        '/transforms'
       ]
     }
   ]
@@ -101,6 +101,7 @@ function getExamplesSidebar() {
       title: 'Additional resources',
       collapsable: false,
       children: [
+        '/built-with-assemblyscript',
         ['https://wasmbyexample.dev/', 'Wasm By Example']
       ]
     }
