@@ -37,15 +37,19 @@ export function positiveAddWithMyValue(a: i32): i32 {
 
 #!html
 <script>
-const jsLog = console.log;
-function domConsoleLog() {
-  let args = [...arguments];
-  jsLog.apply(this, args);
+const log = console.log;
+console.log = (...args) => {
+  log(...args);
+  let str = '';
   args.forEach(arg => {
-    document.body.innerHTML += `<div>Log: ${args}</div>`;
-  }); 
+    if (typeof arg == 'object') {
+      str += `${JSON.stringify(arg, null, 2)}<br/>`;
+    } else {
+      str += `${arg}<br/>`;
+    }
+  }
+  document.body.innerHTML += `<div>Log: ${str}</div>`;
 }
-console.log = domConsoleLog;
 
 loader.instantiate(module_wasm, { /* imports */ })
 .then(({ exports }) => {
