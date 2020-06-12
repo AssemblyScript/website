@@ -45,14 +45,7 @@
 
 <script>
 import sponsors from '../../../data/sponsors.json'
-
-const tiers = {
-  platinum : { minAmount: 50000 },
-  gold     : { minAmount: 10000 },
-  silver   : { minAmount: 2000 },
-  bronze   : { minAmount: 200 },
-  backer   : { minAmount: 1 }
-}
+import tiers from '../../../data/tiers.json'
 
 export default {
   name: 'Sponsors',

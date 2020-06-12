@@ -13,9 +13,10 @@
   "devDependencies": {
     "@vuepress/plugin-html-redirect": "^0.1.2",
     "he": "^1.2.0",
-    "image-webpack-loader": "^6.0.0",
     "node-fetch": "^2.6.0",
+    "pngquant": "^3.0.0",
     "prism-themes": "^1.4.0",
+    "sharp": "^0.25.3",
     "vuepress": "^1.5.0",
     "vuepress-plugin-serve": "^2.0.3",
     "vuepress-plugin-sitemap": "^2.3.1"

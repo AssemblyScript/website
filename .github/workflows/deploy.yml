@@ -18,13 +18,14 @@ jobs:
       run: |
         npm ci --no-audit
         node scripts/update-data
+        node scripts/update-svgs
         npm run build
     - name: Deploy
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         cd dist
-        echo assemblyscript.org > CNAME
+        echo www.assemblyscript.org > CNAME
         git init
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"

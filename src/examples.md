@@ -1,0 +1,52 @@
+---
+description: A collection of AssemblyScript examples that one can play around with right in the browser.
+sidebarDepth: 0
+---
+
+# Examples
+
+A collection of AssemblyScript examples.
+
+## Starter examples
+
+Small entertaining programs showcasing low-level WebAssembly capabilities. These compile to less than one or just a few kilobytes so their text format is easy to grasp.
+
+### [Mandelbrot](./examples/mandelbrot.html)
+
+Renders the Mandelbrot set to a canvas using 2048 discrete color values computed on the JS side.
+
+<Badge text="easy" type="tip"/>
+
+[![Preview image](images/mandelbrot-preview.jpg)](./examples/mandelbrot.html)
+
+### [Interference](./examples/interference.html)
+
+Animates and renders an interference pattern to a canvas while keeping the image buffer in WebAssembly.
+
+<Badge text="easy" type="tip"/>
+
+[![Preview image](images/interference-preview.jpg)](./examples/interference.html)
+
+### [Game of Life](./examples/game-of-life.html)
+
+Continuously updates a cellular automaton and visualizes its state on a canvas according to user input.
+
+<Badge text="intermediate" type="warning"/>
+
+[![Preview image](images/game-of-life-preview.jpg)](./examples/game-of-life.html)
+
+## Advanced examples
+
+### [Arrays](./examples/arrays.html)
+
+Shows how to exchange and work with arrays using the loader.
+
+<Badge text="intermediate" type="warning"/>
+
+### Examples repository
+
+Various more advanced examples are available as part of the [examples repository](https://github.com/AssemblyScript/examples), including a sophisticated example of [using the loader](https://github.com/AssemblyScript/examples/tree/master/loader), [creating (node) libraries](https://github.com/AssemblyScript/examples/tree/master/i64), [utilizing the browser SDK](https://github.com/AssemblyScript/examples/tree/master/sdk) and [hooking into the compiler using transforms](https://github.com/AssemblyScript/examples/tree/master/transform).
+
+## Additional resources
+
+If you are interested in learning more about specific concepts, also make sure to give [Wasm By Example](https://wasmbyexample.dev/) a read.

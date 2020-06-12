@@ -20,7 +20,6 @@ export function fib(n: i32): i32 {
   }
   return a
 }
-
 ```
 
 ```sh
