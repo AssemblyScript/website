@@ -66,10 +66,6 @@ module.exports = [
     ]
   },
   {
-    text: 'Snippets',
-    link: '/snippets/index.md',
-  },
-  {
     text: 'Examples',
     link: '/examples',
   },

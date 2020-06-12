@@ -1,6 +1,5 @@
 module.exports = {
   '/stdlib/': getStdlibSidebar(),
-  '/snippets/': getSnippetsSidebar(),
   '/examples': getExamplesSidebar(),
   '/': getDefaultSidebar()
 }
@@ -13,7 +12,8 @@ function getDefaultSidebar() {
       children: [
         '/introduction',
         '/quick-start',
-        '/basics'
+        '/basics',
+        '/snippets'
       ]
     },
     {
@@ -70,22 +70,6 @@ function getStdlibSidebar() {
       collapsable: false,
       children: [
         '/stdlib/staticarray'
-      ]
-    }
-  ]
-}
-
-function getSnippetsSidebar() {
-  return [
-    {
-      title: 'Snippets',
-      collapsable: false,
-      children: [
-        '/snippets/ternary',
-        '/snippets/switch',
-        '/snippets/class',
-        '/snippets/extending-classes',
-        '/snippets/handling-null',
       ]
     }
   ]
