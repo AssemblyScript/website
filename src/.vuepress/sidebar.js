@@ -1,6 +1,7 @@
 module.exports = {
   '/stdlib/': getStdlibSidebar(),
   '/examples': getExamplesSidebar(),
+  '/built-with-assemblyscript': getExamplesSidebar(),
   '/': getDefaultSidebar()
 }
 
@@ -101,8 +102,8 @@ function getExamplesSidebar() {
       title: 'Additional resources',
       collapsable: false,
       children: [
-        '/built-with-assemblyscript',
-        ['https://wasmbyexample.dev/', 'Wasm By Example']
+        ['https://wasmbyexample.dev/', 'Wasm By Example'],
+        '/built-with-assemblyscript'
       ]
     }
   ]
