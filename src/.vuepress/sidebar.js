@@ -13,7 +13,7 @@ function getDefaultSidebar() {
         '/introduction',
         '/quick-start',
         '/basics',
-        '/frequently-asked-questsions'
+        '/frequently-asked-questions'
       ]
     },
     {
