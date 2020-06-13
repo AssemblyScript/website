@@ -1,5 +1,6 @@
 const fs = require('fs')
 const fetch = require('node-fetch')
+const tiers = require('../data/tiers.json')
 
 /** Repositories where commits are being considered as contributions. */
 const repos = [
@@ -9,6 +10,21 @@ const repos = [
   "AssemblyScript/examples",
   "AssemblyScript/website"
 ]
+
+const defaultLogoSize = 32
+
+/** Computes the size of a sponsor logo times two in case of higher pixel densities. */
+function getLogoSize(sponsor) {
+  const totalAmountDonated = sponsor.totalAmountDonated
+  if (typeof totalAmountDonated === 'number') {
+    for (const tier of Object.values(tiers)) {
+      if (totalAmountDonated >= tier.minAmount) {
+        return 2 * tier.size
+      }
+    }
+  }
+  return 2 * defaultLogoSize
+}
 
 /** Updates sponsors data, also substituting custom-made logos. */
 function updateSponsors() {
@@ -32,8 +48,9 @@ function updateSponsors() {
         })
         .sort((a, b) => b.totalAmountDonated - a.totalAmountDonated)
         .map(item => {
-          const slug = item.profile.substring(item.profile.lastIndexOf('/') + 1)
-          const logo = logos[slug] || 'https://images.opencollective.com/' + slug + '/' + item.MemberId + '/logo.png'
+          const username = item.profile.substring(item.profile.lastIndexOf('/') + 1)
+          const logoSize = getLogoSize(item)
+          const logo = logos[username] || 'https://images.opencollective.com/' + username + '/avatar/' + logoSize + '.jpg'
           return {
             // id: item.MemberId,
             name: item.name,
@@ -65,7 +82,7 @@ function updateContributors() {
               contributors[item.id] = {
                 // id: item.id,
                 name: item.login,
-                logo: item.avatar_url,
+                logo: item.avatar_url + '&s=' + defaultLogoSize,
                 link: item.html_url,
                 count: item.contributions
               }
