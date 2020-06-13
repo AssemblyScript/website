@@ -11,6 +11,12 @@ const repos = [
   "AssemblyScript/website"
 ]
 
+/** Excluded GitHub user names of bots. */
+const githubExcludes = [
+  "dependabot[bot]",
+  "jsdelivrbot"
+]
+
 const defaultLogoSize = 32
 
 /** Computes the size of a sponsor logo times two in case of higher pixel densities. */
@@ -74,6 +80,7 @@ function updateContributors() {
     .then(jsons => {
       jsons.forEach(json => {
         json
+          .filter(item => !githubExcludes.includes(item.login))
           .forEach(item => {
             const contributor = contributors[item.id]
             if (contributor) {
