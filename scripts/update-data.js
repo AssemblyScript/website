@@ -20,8 +20,8 @@ const githubExcludes = [
 const defaultLogoSize = 32
 
 /** Computes the size of a sponsor logo times two in case of higher pixel densities. */
-function getLogoSize(sponsor) {
-  const totalAmountDonated = sponsor.totalAmountDonated
+function getLogoSize(item) {
+  const totalAmountDonated = item.totalAmountDonated
   if (typeof totalAmountDonated === 'number') {
     for (const tier of Object.values(tiers)) {
       if (totalAmountDonated >= tier.minAmount) {
@@ -89,7 +89,7 @@ function updateContributors() {
               contributors[item.id] = {
                 // id: item.id,
                 name: item.login,
-                logo: item.avatar_url + '&s=' + defaultLogoSize,
+                logo: item.avatar_url + '&s=' + getLogoSize(item),
                 link: item.html_url,
                 count: item.contributions
               }
