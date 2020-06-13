@@ -25,4 +25,4 @@
 /standard-library/string /stdlib/string
 /standard-library/typedarray /stdlib/typedarray
 /extended-library/staticarray /stdlib/staticarray
-/faq /basics#frequently-asked-questions
+/faq /frequently-asked-questions
