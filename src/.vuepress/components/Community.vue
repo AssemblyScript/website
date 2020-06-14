@@ -66,10 +66,12 @@ export default {
   background: #49b684;
 }
 .community .list a.idle:before {
-  background: #f8a735;
+  background: #fff url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMCAxMCI+PHBhdGggZD0iTTUgMGE1IDUgMCAwMC0xLjA1OS4xMkEzLjA5IDMuMDkgMCAwMTYuMTggMy4wODdhMy4wOSAzLjA5IDAgMDEtMy4wOSAzLjA5QTMuMDkgMy4wOSAwIDAxLjEyIDMuOTMgNSA1IDAgMDAwIDVhNSA1IDAgMDA1IDUgNSA1IDAgMDA1LTUgNSA1IDAgMDAtNS01eiIgZmlsbD0iI2Y4YTczNSIvPjwvc3ZnPg==');
+  background-size: 10px 10px;
 }
 .community .list a.dnd:before {
-  background: #ed474a;
+  background: #fff url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMCAxMCI+PHBhdGggZD0iTTUgMGE1IDUgMCAwMC01IDUgNSA1IDAgMDA1IDUgNSA1IDAgMDA1LTUgNSA1IDAgMDAtNS01ek0yIDRoNnYySDJWNHoiIGZpbGw9IiNlZDQ3NGEiLz48L3N2Zz4=');
+  background-size: 10px 10px;
 }
 .community .list img {
   width: 32px;
