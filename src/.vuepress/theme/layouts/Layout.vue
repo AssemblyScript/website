@@ -1,7 +1,11 @@
 <template>
   <Layout>
     <div slot="page-bottom" class="footer">
-      <p>Apache-2.0 licensed · Copyright © {{ new Date().getFullYear() }} The AssemblyScript Project</p>
+      <p>
+        <span class="item">Apache-2.0 licensed</span>,
+        <span class="item">Copyright © {{ new Date().getFullYear() }}</span> 
+        <span class="item">The AssemblyScript Project</span>
+      </p>
     </div>
   </Layout>
 </template>
@@ -20,5 +24,9 @@ export default {
 .footer {
   text-align: center;
   color: #4e6e8e;
+  padding: 0 2rem;
+}
+.footer .item {
+  white-space: nowrap;
 }
 </style>

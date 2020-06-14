@@ -76,6 +76,7 @@ export function fib(n: i32): i32 {
 }
 
 #!html
+<textarea id="output" style="height: 100%; width: 100%" readonly></textarea>
 <script>
 loader.instantiate(module_wasm, { /* imports */ })
   .then(({ exports }) => {
@@ -85,8 +86,6 @@ loader.instantiate(module_wasm, { /* imports */ })
     }
   })
 </script>
-
-<textarea id="output" style="height: 100%; width: 100%" readonly></textarea>
 ```
 
 <p class="action">
