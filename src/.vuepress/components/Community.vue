@@ -28,7 +28,7 @@ export default {
           typeof member.username === 'string' &&
           typeof member.avatar_url === 'string' &&
           member.avatar_url.startsWith('https://cdn.discordapp.com/') &&
-          ['online', 'idle'].includes(member.status))
+          ['online', 'idle', 'dnd'].includes(member.status))
       })
       .catch(err => {
         // don't show the widget
@@ -67,6 +67,9 @@ export default {
 }
 .community .list a.idle:before {
   background: #f8a735;
+}
+.community .list a.dnd:before {
+  background: #ed474a;
 }
 .community .list img {
   width: 32px;
