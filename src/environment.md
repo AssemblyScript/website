@@ -553,6 +553,26 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
   Computes the square root of each floating point lane.
 
 * ```ts
+  function v128.ceil<T>(a: v128): v128
+  ```
+  Performs the ceiling operation on each lane.
+
+* ```ts
+  function v128.floor<T>(a: v128): v128
+  ```
+  Performs the floor operation on each lane.
+
+* ```ts
+  function v128.trunc<T>(a: v128): v128
+  ```
+  Rounds to the nearest integer towards zero of each lane.
+
+* ```ts
+  function v128.nearest<T>(a: v128): v128
+  ```
+  Rounds to the nearest integer tied to even of each lane.
+
+* ```ts
   function v128.eq<T>(a: v128, b: v128): v128
   ```
   Computes which lanes are equal.
