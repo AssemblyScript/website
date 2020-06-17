@@ -1,7 +1,7 @@
 <template>
   <div v-if="members.length > 0" class="community">
     <div class="list">
-      <a v-for="member in members" href="https://discord.gg/U63XU2J" :title="member.username" :class="member.status" target="_blank" rel="noopener">
+      <a v-for="member in members" href="https://discord.gg/assemblyscript" :title="member.username" :class="member.status" target="_blank" rel="noopener">
         <img :src="member.avatar_url + '?size=64'" :alt="member.username" loading="lazy" />
       </a>
     </div>
