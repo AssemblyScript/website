@@ -377,10 +377,10 @@
       'scripts/webassembly-language.js'
     ], (
       { languages, editor }, 
-      { asc },
+      { asc, ASSEMBLYSCRIPT_VERSION, BINARYEN_VERSION, LONG_VERSION },
       { config: wasmLanguageConfig, tokens: wasmLanguageTokens }
     ) => {
-      console.log("AssemblyScript compiler version v" + asc.version)
+      console.log(`AssemblyScript v${ASSEMBLYSCRIPT_VERSION} (Binaryen v${BINARYEN_VERSION}, Long v${LONG_VERSION})`)
 
       // Add WebAssembly Text Format language
       languages.register({ id: 'webassembly' })
