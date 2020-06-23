@@ -73,18 +73,6 @@ module.exports = [
     text: 'Community',
     items: [
       {
-        text: 'Working Group',
-        link: 'https://github.com/AssemblyScript/working-group'
-      },
-      {
-        text: 'Community Group',
-        link: 'https://github.com/AssemblyScript/community-group'
-      },
-      {
-        text: 'Slack (with invite)',
-        link: 'https://assemblyscript.slack.com/'
-      },
-      {
         text: 'Contributing guidelines',
         link: 'https://github.com/AssemblyScript/assemblyscript/blob/master/CONTRIBUTING.md'
       },
@@ -93,24 +81,37 @@ module.exports = [
         link: 'https://github.com/AssemblyScript/assemblyscript/blob/master/CODE_OF_CONDUCT.md'
       },
       {
+        text: 'Groups',
+        items: [
+          {
+            text: 'Community Group',
+            link: 'https://github.com/AssemblyScript/community-group'
+          },
+          {
+            text: 'Working Group',
+            link: 'https://github.com/AssemblyScript/working-group'
+          }
+        ]
+      },
+      {
         text: 'Social',
         items: [
           {
             text: 'Twitter',
             link: 'https://twitter.com/AssemblyScript'
+          },
+          {
+            text: 'Discord',
+            link: 'https://discord.gg/U63XU2J'
           }
         ]
       },
       {
-        text: 'General',
+        text: 'Q&A',
         items: [
           {
             text: 'Stack Overflow',
             link: 'https://stackoverflow.com/questions/tagged/assemblyscript'
-          },
-          {
-            text: 'WebAssembly Discord',
-            link: 'https://discordapp.com/invite/nEFErF8'
           }
         ]
       }

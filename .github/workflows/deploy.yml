@@ -4,7 +4,7 @@ on:
     branches:
     - master
   schedule:
-  - cron: '0 0 * * *'
+  - cron: '30 0 * * *'
 jobs:
   deploy:
     name: "Deploy website"
@@ -20,6 +20,7 @@ jobs:
         node scripts/update-data
         node scripts/update-svgs
         npm run build
+        node scripts/update-sdk
     - name: Deploy
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

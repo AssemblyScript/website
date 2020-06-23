@@ -27,12 +27,7 @@ npm install --save-dev assemblyscript
 ```
 
 ::: tip
-If you need a [specific version](https://github.com/AssemblyScript/assemblyscript/releases) of the loader and/or the compiler, append the respective version number as usual. The latest nightly version \(note the `--save-exact`\) can be obtained via
-
-```sh
-npm install --save --save-exact @assemblyscript/loader@nightly  
-npm install --save-dev --save-exact assemblyscript@nightly
-```
+If you need a [specific version](https://github.com/AssemblyScript/assemblyscript/releases) of the loader and/or the compiler, append the respective version number as usual.
 :::
 
 Once installed, the compiler provides a handy scaffolding utility to quickly set up a new AssemblyScript project, for example in the directory of the just initialized node module:

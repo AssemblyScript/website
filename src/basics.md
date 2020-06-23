@@ -4,7 +4,7 @@ description: There is something appealing to it, isn't it?
 
 # Basics
 
-WebAssembly is fundamentally different from JavaScript, ultimately enabling entirely new use cases not only on the web. Consequently, AssemblyScript is much more similar to a static compiler than it is to a JavaScript VM. One can think of it as if TypeScript and C had a somewhat special child.
+WebAssembly is fundamentally different from JavaScript, ultimately enabling entirely new use cases not only on the web. Consequently, AssemblyScript is much more similar to a static compiler than it is to a JavaScript VM. One can think of it as if TypeScript and C had a somewhat special child. This page is dedicated to get you up to speed in no time.
 
 ## Strictness
 
@@ -76,48 +76,63 @@ For now, there is [the loader](./loader.md) that provides the utility necessary 
 
 In the near to distant future, the [reference types](https://github.com/WebAssembly/reference-types) 🦄, [interface types](https://github.com/WebAssembly/interface-types) 🦄 and ultimately [GC](https://github.com/WebAssembly/gc) 🦄 proposals will make much of this a lot easier.
 
-## Current limitations
+## Quirks
 
-Not all language features are equally straight-forward to implement on top of just the WebAssembly MVP, so there are certain features we are still working on while waiting for their respective proposals to become available.
+Some patterns behave a little different in AssemblyScript compared to TypeScript, and a few features aren't yet feasible to implement on top of just the WebAssembly MVP. This section covers the more or less obvious ones and shows how to deal with them, so you can keep them in mind and build something great today. In fact, even the AssemblyScript compiler itself is subject to these.
 
-### Closures
+### Triple equals
 
-Closures are not yet supported \(waiting for [Function References](https://github.com/WebAssembly/function-references) 🦄 / [GC](https://github.com/WebAssembly/gc) 🦄\), so accessing a local variable captured by an inner function will report an error.
+The special semantics of the `===` operator (`true` when both the value and type match) don't make a lot of sense in AssemblyScript because comparing two values of incompatible types is illegal anyway. Hence the `===` operator has been repurposed to perform an identity comparison, evaluating to `true` if both operands are **the exact same object**:
 
 ```ts
-function computeSum(arr: i32[]): i32 {
-  var sum = 0
-  arr.forEach(value => {
-    sum += value // error
-  })
-  return sum
+var a = "hello"
+var b = a
+var c = "h" + a.substring(1)
+
+if (a === b) { /* true */ }
+if (a === c) { /* false */ }
+if (a == c) { /* true */ }
+```
+
+This semantical change turned out to be quite useful during implementation of some parts of the standard library where knowing if something is actually exactly the same makes a lot of sense, but it can be confusing for those coming from a TypeScript background where using `===` for everything unless required otherwise is common good practice. However, the alternative here is to make `===` a redundanat alias of `==` by sacrificing an otherwise useful feature, and it's still unclear if that'd be objectively better, so has been postponed multiple times.
+
+### Nullability checks
+
+Like TypeScript, the AssemblyScript compiler can propagate whether a value is nullable or not after a check:
+
+```ts
+function doSomething(something: string | null): void {
+  if (something) {
+    something.length // works
+  }
 }
 ```
 
-In the meantime we recommend to either use a global \(top-level variable\)
+This doesn't work on fields, however, because their value can change in between the check and the use of the value:
 
 ```ts
-var sum = 0 // now becomes a Global
-function computeSum(arr: i32[]): i32 {
-  arr.forEach(value => {
-    sum += value // works
-  })
-  return sum
+function doSomething(foo: Foo): void {
+  if (foo.something) {
+    // ... some code ...
+    foo.something.length // fails
+  }
 }
 ```
 
-or to adapt code where possible:
+For example, `foo.something` might be a property that sets the underlying field to `null` when accessed, or code in between may set the field to `null`. In fact, TypeScript [fails](https://www.typescriptlang.org/play/index.html#code/MYGwhgzhAEBiD29oG8BQ0PQvAtgUwBcALASwDsBzALiwICdyLoAfaMgVxBGgF43OQAblQBfVKgBm7MsAIl4ZaABN4AZVyFSlABQTENBPACUKdJhITouxADps+YoxNpMr5Wo2PKAURAQ81sbCbph68HaeWhQ2IHiUxILQAPRJWETwnErQeHR08HQANNAARuwE7ngQZADkBGYYYmKS0rLyiirqDlG+-oEGiM710GERXYy8-FzCIkA) in [both](https://www.typescriptlang.org/play/index.html#code/MYGwhgzhAEBiD29oG8BQ0PQPoXgWwFMAXACwEsA7AcwC5oIiAnSq6AH2goFcQRoBeaACISBXvCEBudJirF6+YuWoAKAJR0Gzau048+aTEegh5jeYNJkIAOhyKr1accxXb9wo9aDuvZy+hzIi5GCkDifwwAX1QY1AAzLgpgIjJ4MIATeABlB2UqFXjEOgR4NRQZDDJ46ELEG1xPfPLDAKL4BryWG1NqUkloAHpB+hJ4HgzoAkZGeEYAGmgAIy4iaCyCCAoAciJK6BiYoA) scenarios, leading to a runtime error. However, there can't be runtime errors like this in AssemblyScript, so one must instead use a local to be safe:
 
 ```ts
-let sum = 0
-for (let i = 0; i < arr.length; ++i) {
-  sum += arr[i] // works
+function doSomething(foo: Foo): void {
+  let something = foo.something
+  if (something) {
+    something.length // works
+  }
 }
 ```
 
 ### Exceptions
 
-Exceptions are not yet supported \(waiting for [Exception Handling](https://github.com/WebAssembly/exception-handling) 🦄\), so the following cannot be caught and will instead `abort` \(i.e. crash\) the program:
+Exceptions are not yet supported and we are waiting for the [Exception Handling](https://github.com/WebAssembly/exception-handling) 🦄 proposal to land. As a consequence, the following will currently crash the program with a call to `abort`:
 
 ```ts
 function doThrow(): void {
@@ -125,50 +140,45 @@ function doThrow(): void {
 }
 ```
 
-In the meantime we recommend to avoid the use of `try`, `catch`, `finally` and `throw` and do as they did in the olden days, i.e. return an error code or `null` to indicate.
+In the meantime we recommend to do as they did in the olden days and return an error code or `null` to indicate an exception.
 
-### Triple equals \(===\)
+### Closures
 
-The triple equals binary operation performs an identity equality check \(i.e. the exact same object\) currently. This has its origins in the early requirements of the Standard Library, but is going to change to JavaScript-like semantics in the near future. In the meantime, use `==` and `!=` with strings in case of doubt.
+Closures are not yet supported and we are waiting for the [Function References](https://github.com/WebAssembly/function-references) 🦄 proposal (`func.bind`?) to land. However, since this is a crucial language feature, work on a preliminary implementation not depending on future WebAssembly features [has started](https://github.com/AssemblyScript/assemblyscript/pull/1308), but the prototype is still in flux and currently limited to read only captures. You can try it out with `npm install assemblyscript-closures-beta`.
 
-## Frequently asked questions
+In the meantime we recommend to restructure code so closures are not necessary, i.e. instead of writing
 
-We've also collected a few questions that may arise before, at or after this point. so if you're wondering about one thing or another, here it is:
+```ts
+function computeSum(arr: i32[]): i32 {
+  var sum = 0
+  arr.forEach(value => {
+    sum += value // fails
+  })
+  return sum
+}
+```
 
-### Is WebAssembly going to supersede JavaScript?
+restructure to
 
-No, and it is not meant to do so. There are use cases one can handle "better" than the other, with "better" depending on the use case. This can be making an algorithm performing with less overhead on the one hand or getting an UI job done quicker on the other. As always, picking the right tool for the job is key, and AssemblyScript just so happens to blur the line a bit.
+```ts
+var sum: i32 // becomes a WebAssembly Global
+function computeSum(arr: i32[]): i32 {
+  sum = 0
+  arr.forEach(value => {
+    sum += value // works
+  })
+  return sum
+}
+```
 
-### Is WebAssembly _always_ faster?
+or to
 
-No, not always. But it can be. The execution characteristics of ahead-of-time compiled WebAssembly differ from just-in-time compiled JavaScript in that it is _more predictable_ in a way that enables a WebAssembly program to remain on a reasonably fast path over the entire course of execution, while a JavaScript VM tries hard to do all sorts of smart optimizations before and _while_ the code is executing. This implies that a JavaScript VM can make both very smart decisions, especially for well-written code with a clear intent, but might also have to reconsider its strategy to do something more general if its assumptions did not hold. If you are primarily interested in performance, our rule of thumb \(that is: from an AssemblyScript perspective\) is:
-
-| Scenario                      | Recommendation
-| :---------------------------- | :-------------
-| Compute-heavy algorithm       | Use WebAssembly
-| Mostly interacts with the DOM | Mostly use JavaScript
-| Games                         | Use WebAssembly for CPU-intensive parts
-| WebGL                         | Depends how much of it is calling APIs. Probably both.
-| Websites, Blogs, ...          | JavaScript is your friend
-
-Or: WebAssembly is great for computational tasks, stuff with numbers, but still needs some time to become more convenient and efficient _at the same time_ where sharing numbers between the module and the host isn't enough.
-
-Bonus: If you are considering another language than AssemblyScript, pick one that doesn't \(currently\) compile an interpreter to WebAssembly to run your code, because that's neither small nor fast.
-
-Bonus: At this point in time, when a tool does WebAssembly⇄JavaScript bindings for you, appreciate its convenience, but also take care of what it actually does. For example, what looks like just passing a function argument might involve allocating/copying memory with implicit conversions like re-encoding a string.
-
-### Is AssemblyScript _always_ faster?
-
-No, not always. But there are use cases especially well-suited for it, like creating a Game Boy emulator by making use of its low-level capabilities, essentially emitting raw WebAssembly using a nicer syntax. But ordinary code doesn't magically become faster just by compiling to WebAssembly, especially when making extensive use of managed objects that require memory management and garbage collection \(this has its cost in every language\) or talking to the host in structures that WebAssembly isn't currently good at, like strings or more complex objects. Low-level code \(just functions, numbers, math and hard work\) is always the best choice when all you care about is raw performance.
-
-### How does AssemblyScript compare/relate to C++/Rust?
-
-First and foremost: Both Emscripten \(C++\) and Rust have very mature tooling to compile to WebAssembly and are made by the smartest people on this field. Also, both can make use of compiler infrastructure that has been created by many individuals and corporations over years. In contrast, AssemblyScript is a relatively young project with limited resources that strives to create a viable alternative from another perspective.
-
-More precisely: AssemblyScript is putting anything web - from APIs to syntax to WebAssembly - first and _then_ glues it all together, while others lift an existing ecosystem to the web. Fortunately, there is Binaryen, a compiler infrastructure and toolchain library for WebAssembly primarily created by the main author of Emscripten, that we can utilize to considerably close the gap, and we are very thankful for that. It's not as optimal for AssemblyScript-generated code as it is for LLVM-generated code in a few cases, but it's already pretty good and continuously becoming better. It's also noteworthy that AssemblyScript is still behind in specific language features, but we are working on that.
-
-In short: AssemblyScript differs in that it is new and tries another approach. It's not as mature as Emscripten and Rust, but there is something about the idea that is definitely appealing. If you find it appealing as well, AssemblyScript is for you.
-
----
-
-That being said, the following sections cover what AssemblyScript can or cannot do already, one piece at a time. Enjoy!
+```ts
+function computeSum(arr: i32[]): i32 {
+  var sum = 0
+  for (let i = 0, k = arr.length; i < k; ++i) {
+    sum += arr[i] // works
+  }
+  return sum
+}
+```

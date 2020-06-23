@@ -194,7 +194,7 @@ In addition to module-level tree-shaking, the compiler ignores branches that it 
 * ```ts
   const ASC_TARGET: i32
   ```
-  Indicates the compilation target. Possible values are 0 = WASM32, 1 = WASM64, 2 = JS \(portable\).
+  Indicates the compilation target. Possible values are 0 = JS (portable), 1 = WASM32, 2 = WASM64.
 
 * ```ts
   const ASC_NO_ASSERT: bool

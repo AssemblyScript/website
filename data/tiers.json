@@ -1,22 +1,27 @@
 {
   "platinum": {
     "name": "Platinum Sponsors",
-    "minAmount": 50000
+    "minAmount": 50000,
+    "size": 80
   },
   "gold": {
     "name": "Gold Sponsors",
-    "minAmount": 10000
+    "minAmount": 10000,
+    "size": 64
   },
   "silver": {
     "name": "Silver Sponsors",
-    "minAmount": 2000
+    "minAmount": 2000,
+    "size": 48
   },
   "bronze": {
     "name": "Bronze Sponsors",
-    "minAmount": 200
+    "minAmount": 200,
+    "size": 36
   },
   "backer": {
     "name": "Individual Backers",
-    "minAmount": 1
+    "minAmount": 1,
+    "size": 32
   }
 }

@@ -3,7 +3,7 @@
     <h3>Contributors</h3>
     <div class="list">
       <a v-for="item in contributors" :href="item.link" :title="(item.count == 1 ? '1 contribution' : item.count + ' contributions') + ' by ' + item.name" target="_blank" rel="noopener">
-        <img :src="item.logo + '&s=64'" :alt="item.name" loading="lazy" />
+        <img :src="item.logo" :alt="item.name" loading="lazy" />
       </a>
     </div>
   </div>
@@ -42,8 +42,8 @@ export default {
   top: -4px;
 }
 .contributors .list img {
-  width: 31px;
-  height: 31px;
+  width: 32px;
+  height: 32px;
   overflow: hidden;
   border-radius: 50%;
   border: 1px solid #fff;

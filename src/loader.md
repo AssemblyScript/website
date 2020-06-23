@@ -36,7 +36,7 @@ npm install --save @assemblyscript/loader
 ```
 
 ::: tip
-If you need a [specific version](https://github.com/AssemblyScript/assemblyscript/releases) of the loader, append the respective version number as usual. For each nightly version of the compiler there is a respective nightly of the loader as well.
+If you need a [specific version](https://github.com/AssemblyScript/assemblyscript/releases) of the loader, append the respective version number as usual.
 :::
 
 ## Usage

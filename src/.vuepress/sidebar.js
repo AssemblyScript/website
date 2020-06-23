@@ -1,6 +1,7 @@
 module.exports = {
   '/stdlib/': getStdlibSidebar(),
   '/examples': getExamplesSidebar(),
+  '/built-with-assemblyscript': getExamplesSidebar(),
   '/': getDefaultSidebar()
 }
 
@@ -13,33 +14,33 @@ function getDefaultSidebar() {
         '/introduction',
         '/quick-start',
         '/basics',
-        '/snippets'
+        '/snippets',
+        '/frequently-asked-questions'
       ]
     },
     {
       title: 'Documentation',
       collapsable: false,
       children: [
-        'compiler',
-        'types',
-        'environment',
-        'exports-and-imports',
-        'loader',
-        'built-with-assemblyscript'
+        '/compiler',
+        '/types',
+        '/environment',
+        '/exports-and-imports',
+        '/loader'
       ]
     },
     {
       title: 'Advanced',
       collapsable: false,
       children: [
-        'memory',
-        'runtime',
-        'peculiarities',
-        'portability',
-        'debugging',
-        'interoperability',
-        'development',
-        'transforms'
+        '/memory',
+        '/runtime',
+        '/peculiarities',
+        '/portability',
+        '/debugging',
+        '/interoperability',
+        '/development',
+        '/transforms'
       ]
     }
   ]
@@ -102,7 +103,8 @@ function getExamplesSidebar() {
       title: 'Additional resources',
       collapsable: false,
       children: [
-        ['https://wasmbyexample.dev/', 'Wasm By Example']
+        ['https://wasmbyexample.dev/', 'Wasm By Example'],
+        '/built-with-assemblyscript'
       ]
     }
   ]
