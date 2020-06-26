@@ -202,7 +202,7 @@ The following mostly exist to have a safe way to copy between Strings and ArrayB
   Encodes the specified string to UTF-16 bytes.
 
 * ```ts
-  function String.UTF16.encodeUnsafe(str: usize, len: i32, buf: usize): usize;
+  function String.UTF16.encodeUnsafe(str: usize, len: i32, buf: usize): usize
   ```
   Encodes the specified raw string to UTF-16 bytes. Returns the number of bytes written.
 
