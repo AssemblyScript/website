@@ -165,6 +165,11 @@ When integrating with an environment that uses UTF-8, the following helpers can 
   Encodes the specified string to UTF-8 bytes, optionally null terminated.
 
 * ```ts
+  function String.UTF8.encodeUnsafe(str: usize, len: i32, buf: usize, nullTerminated?: bool): usize
+  ```
+  Encodes the specified raw string to UTF-8 bytes, opionally null terminated. Returns the number of bytes written.
+
+* ```ts
   function String.UTF8.decode(buf: ArrayBuffer, nullTerminated?: bool): string
   ```
   Decodes the specified buffer from UTF-8 bytes to a string, optionally null terminated.
@@ -195,6 +200,11 @@ The following mostly exist to have a safe way to copy between Strings and ArrayB
   function String.UTF16.encode(str: string): ArrayBuffer
   ```
   Encodes the specified string to UTF-16 bytes.
+
+* ```ts
+  function String.UTF16.encodeUnsafe(str: usize, len: i32, buf: usize): usize
+  ```
+  Encodes the specified raw string to UTF-16 bytes. Returns the number of bytes written.
 
 * ```ts
   function String.UTF16.decode(buf: ArrayBuffer): string
