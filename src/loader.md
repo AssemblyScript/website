@@ -348,7 +348,7 @@ The compiler is able to emit definitions using the `-d` command line option that
 // TypeScript
 import MyModule from "myModule"; // pointing at the generated d.ts
 
-loader.instatiate<typeof MyModule>(
+loader.instantiate<typeof MyModule>(
   fetch("myModule.wasm"),
   { ... }
 ).then({ exports } => {
