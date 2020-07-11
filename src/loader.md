@@ -100,7 +100,7 @@ export const Int32Array_ID = idof<Int32Array>()
 ```js
 // JavaScript
 const { sum, Int32Array_ID } = myModule.exports
-const { __allocArray, _retain, __release } = myModule.exports
+const { __allocArray, __retain, __release } = myModule.exports
 
 function doSum(values) {
   const arrPtr = __retain(__allocArray(Int32Array_ID, values))
