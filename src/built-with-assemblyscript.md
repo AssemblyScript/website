@@ -18,7 +18,7 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Bench of sorting random colors by hue component on 2d canvas.
 * [wasm-n-body](https://github.com/w8r/wasm-n-body)<br />
   WebAssembly N-body simulation benchmark _\(use 1000 bodies compare to original\)._
-* [as-benchmarks](https://github.com/nischayv/as-benchmarks) \([demo](https://nischayv.github.io/as-benchmarks/computation/dist/index.html)\)<br />
+* [as-benchmarks](https://github.com/nischayv/as-benchmarks) \([demo](https://nischayv.github.io/as-benchmarks/index.html)\)<br />
   A set of computational benchmarks \(JS, AssemblyScript\).
 
 ## Blockchain
