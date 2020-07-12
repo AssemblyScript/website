@@ -212,7 +212,7 @@ The type `T` below substitutes either `f32` or `f64` depending on the implementa
   Returns a pseudo-random number in the range from 0.0 inclusive up to but not including 1.0.
   
   ::: tip
-  Seeding happens automatically in common scenarios. See the [notes on using NatieMath above](#using-nativemath) if it doesn't.
+  Seeding happens automatically in common scenarios. See the [notes on using NativeMath above](#using-nativemath) if it doesn't.
   :::
 
 * ```ts
