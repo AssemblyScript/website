@@ -14,7 +14,6 @@ function getDefaultSidebar() {
         '/introduction',
         '/quick-start',
         '/basics',
-        '/snippets',
         '/frequently-asked-questions'
       ]
     },
@@ -79,10 +78,17 @@ function getStdlibSidebar() {
 function getExamplesSidebar() {
   return [
     {
-      title: 'Starter examples',
+      title: 'Examples',
       collapsable: false,
       children: [
         ['/examples', 'Overview'],
+        '/examples/snippets',
+      ]
+    },
+    {
+      title: 'Starter examples',
+      collapsable: false,
+      children: [
         '/examples/mandelbrot',
         '/examples/interference',
         '/examples/game-of-life'

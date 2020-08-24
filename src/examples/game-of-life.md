@@ -224,4 +224,4 @@ As soon as these conditions are no longer met, one would instead either reserve 
 
 ## Running locally
 
-Instructions are identical to [those of the Mandelbrot example](./mandelbrot.html#running-locally).
+Instructions are identical to [those of the Mandelbrot example](./mandelbrot.md#running-locally).

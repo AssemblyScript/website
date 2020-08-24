@@ -1,6 +1,6 @@
 # Snippets
 
-Snippets are small, copy-pastable AssemblyScript examples meant to show off common syntax and patterns when writing AssemblyScript.
+Small, copy-pastable AssemblyScript examples using common syntax and patterns.
 
 ## Class
 
@@ -199,7 +199,9 @@ loader.instantiate(module_wasm, { /* imports */ })
 
 Using `switch case` statements in AssemblyScript.
 
-**NOTE:** Currently, the switch conditions (case values) are implicitly converted to u32, i.e. switching over strings or similar is not yet supported.
+::: tip NOTE
+Currently, the switch conditions (case values) are implicitly converted to u32, i.e. switching over strings or similar is not yet supported.
+:::
 
 ```editor
 #!runtime=half

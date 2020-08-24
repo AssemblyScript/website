@@ -157,7 +157,7 @@ As soon as these conditions are no longer met, one would instead either reserve 
 
 ## Running locally
 
-Set up a new AssemblyScript project as described in [Quick start](http://localhost:8080/quick-start.html) and copy `module.ts` to `assembly/index.ts` and `index.html` to the project's top-level directory. Edit the build commands in `package.json` to include
+Set up a new AssemblyScript project as described in [Quick start](../quick-start.md) and copy `module.ts` to `assembly/index.ts` and `index.html` to the project's top-level directory. Edit the build commands in `package.json` to include
 
 ```
 --runtime none --use Math=JSMath --importMemory
@@ -190,7 +190,7 @@ WebAssembly.instantiateStreaming(fetch('./build/optimized.wasm'), {
 }).then(({ exports }) => {
 ```
 
-because using the [loader](../loader.html) is not ultimately necessary here (no managed objects are exchanged). If the loader is used instead, it will automatically provide `JSMath`.
+because using the [loader](../loader.md) is not ultimately necessary here (no managed objects are exchanged). If the loader is used instead, it will automatically provide `JSMath`.
 
 Some browsers may restrict `fetch`ing local resources when just opening `index.html` now, but one can set up a local server as a workaround:
 

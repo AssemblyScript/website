@@ -5,39 +5,39 @@ sidebarDepth: 0
 
 # Examples
 
-A collection of AssemblyScript examples.
+A collection of AssemblyScript examples and [snippets](./examples/snippets.md).
 
 ## Starter examples
 
 Small entertaining programs showcasing low-level WebAssembly capabilities. These compile to less than one or just a few kilobytes so their text format is easy to grasp.
 
-### [Mandelbrot](./examples/mandelbrot.html)
+### [Mandelbrot](./examples/mandelbrot.md)
 
 Renders the Mandelbrot set to a canvas using 2048 discrete color values computed on the JS side.
 
 <Badge text="easy" type="tip"/>
 
-[![Preview image](images/mandelbrot-preview.jpg)](./examples/mandelbrot.html)
+[![Preview image](images/mandelbrot-preview.jpg)](./examples/mandelbrot.md)
 
-### [Interference](./examples/interference.html)
+### [Interference](./examples/interference.md)
 
 Animates and renders an interference pattern to a canvas while keeping the image buffer in WebAssembly.
 
 <Badge text="easy" type="tip"/>
 
-[![Preview image](images/interference-preview.jpg)](./examples/interference.html)
+[![Preview image](images/interference-preview.jpg)](./examples/interference.md)
 
-### [Game of Life](./examples/game-of-life.html)
+### [Game of Life](./examples/game-of-life.md)
 
 Continuously updates a cellular automaton and visualizes its state on a canvas according to user input.
 
 <Badge text="intermediate" type="warning"/>
 
-[![Preview image](images/game-of-life-preview.jpg)](./examples/game-of-life.html)
+[![Preview image](images/game-of-life-preview.jpg)](./examples/game-of-life.md)
 
 ## Advanced examples
 
-### [Arrays](./examples/arrays.html)
+### [Arrays](./examples/arrays.md)
 
 Shows how to exchange and work with arrays using the loader.
 

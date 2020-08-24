@@ -131,4 +131,4 @@ This example utilizes the loader to work with managed objects, so requires using
 
 ## Resources
 
-Further information on using the loader and the runtime helpers is available as part of the [loader's](../loader.html#counting-references) and the [runtime documentation](../runtime.html#interface). The particularly important aspect here is where `__retain` and `__release` are necessary, and where they are not.
+Further information on using the loader and the runtime helpers is available as part of the [loader's](../loader.md#counting-references) and the [runtime documentation](../runtime.md#interface). The particularly important aspect here is where `__retain` and `__release` are necessary, and where they are not.
