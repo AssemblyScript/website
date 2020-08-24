@@ -212,8 +212,7 @@ export function switchSurprise(a: i32): i32 {
     case 1:
       response = 100;
       break;
-    // Cases can also use braces
-    case 2: {
+    case 2: {   // Cases can also use braces
       response = 200;
       break;
     }
