@@ -199,7 +199,7 @@ loader.instantiate(module_wasm, { /* imports */ })
 
 Using `switch case` statements in AssemblyScript.
 
-**NOTE:** Switch conditions currently implicitly convert to u32, i.e. switching over strings or similar is not yet supported. If using i32s, a more technical detail would be that using values greater than or equal to zero has better codegen, because br_tables are unsigned, so a -1 for example would not tablify well with otherwise positive values (it does work, though, but code is not optimal).
+**NOTE:** Currently, the switch conditions (case values) are implicitly converted to u32, i.e. switching over strings or similar is not yet supported.
 
 ```editor
 #!runtime=half
