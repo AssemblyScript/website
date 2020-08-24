@@ -257,9 +257,9 @@ loader.instantiate(module_wasm, { /* imports */ })
 </script>
 ```
 
-## Ternary
+## Ternary if-else
 
-Using Ternary in AssemblyScript
+Using Ternary if-else in AssemblyScript
 
 ```editor
 #!runtime=half
