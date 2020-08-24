@@ -207,7 +207,7 @@ export function switchSurprise(a: i32): i32 {
   let response = -1;
 
   // Using a mix of braces and not using braces
-  // To show both syntaxes are supported here.
+  // to show that both syntaxes are supported here.
   switch (a) {
     case 1:
       response = 100;
@@ -291,4 +291,3 @@ loader.instantiate(module_wasm, { /* imports */ })
 });
 </script>
 ```
-
