@@ -112,7 +112,7 @@ console.log = (...args) => {
   log(...args);
   let str = '';
   args.forEach(arg => {
-    if (typeof arg == 'object') {
+    if (typeof arg === 'object') {
       str += `${JSON.stringify(arg, null, 2)}<br/>`;
     } else {
       str += `${arg}<br/>`;
