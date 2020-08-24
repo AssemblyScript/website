@@ -131,7 +131,7 @@ loader.instantiate(module_wasm, { /* imports */ })
 
 ## Handling Null
 
-Handling Null as a union type for optional return values, and simulating try/catch for errors in AssemblyScript
+Handling Null as a union type for optional return values and simulating `try/catch` for errors in AssemblyScript
 
 ```editor
 #!runtime=full
