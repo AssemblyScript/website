@@ -36,13 +36,43 @@ Once installed, the compiler provides a handy scaffolding utility to quickly set
 npx asinit .
 ```
 
-It automatically creates the recommended directory structure and configuration files, including:
+It automatically creates the recommended directory structure and configuration files:
 
-* The `assembly/` directory containing the sources being compiled to WebAssembly, with a `tsconfig.json` telling your editor about AssemblyScript's standard library and an `index.ts` to get you started.
-* The `build/` directory where compiled WebAssembly binaries, source maps, definition files etc. become placed.
-* A `package.json` with the necessary dependencies and build tasks to compile both an untouched \(as emitted by the AssemblyScript compiler\) and an optimized \(using Binaryen\) version of your program in both binary and text format.
+```
+This command will make sure that the following files exist in the project
+directory '/path/to/mymodule':
 
-Once initialized, edit the sources in `assembly/`, maybe tweak the build steps in `package.json` to fit your needs, and run the build command to compile your module to WebAssembly:
+  ./assembly
+  Directory holding the AssemblyScript sources being compiled to WebAssembly.
+
+  ./assembly/tsconfig.json
+  TypeScript configuration inheriting recommended AssemblyScript settings.
+
+  ./assembly/index.ts
+  Example entry file being compiled to WebAssembly to get you started.
+
+  ./build
+  Build artifact directory where compiled WebAssembly files are stored.
+
+  ./build/.gitignore
+  Git configuration that excludes compiled binaries from source control.
+
+  ./index.js
+  Main file loading the WebAssembly module and exporting its exports.
+
+  ./tests/index.js
+  Example test to check that your module is indeed working.
+
+  ./asconfig.json
+  Configuration file defining both a 'debug' and a 'release' target.
+
+  ./package.json
+  Package info containing the necessary commands to compile to WebAssembly.
+
+Do you want to proceed? [Y/n]
+```
+
+Once initialized, edit the sources in `assembly/`, tweak [compiler options](./compiler.md) in `asconfig.json` to fit your needs, and run the build command to compile your module to WebAssembly:
 
 ```sh
 npm run asbuild
@@ -50,4 +80,33 @@ npm run asbuild
 
 ## Next steps
 
-Using `index.js` in the root directory of your package to instantiate and export the WebAssembly module you'll then be able to `require`it just like any other node module, with the notable difference that the only values your module's exports understand being integers and floats. Read on to learn more!
+Once compiled, you may run the tests in `tests/index.js`:
+
+```sh
+npm test
+```
+
+add [imports](./exports-and-imports.md#imports) to the generated `index.js` (instantiates the module and re-exports it):
+
+```js
+...
+const imports = {
+  "assembly/index": {
+    declarredImportedFunction: function(...) { ... }
+  }
+};
+...
+```
+
+and ultimately use your WebAssembly module like a normal node module:
+
+```js
+const myModule = require("path/to/mymodule");
+myModule.add(1, 2);
+```
+
+::: tip NOTE
+Your module's exports only understand integers and floats for now, with strings and objects being passed as pointers, but we'll get into that later when covering the [loader](/loader.md).
+:::
+
+Read on to [learn more](/basics.md)!
