@@ -63,7 +63,7 @@ loader.instantiate(module_wasm, { /* imports */ })
 
 ## Extending Classes
 
-Extending classes, and general Object Orientated Programming (OOP) in AssemblyScript
+Extending classes and general Object Orientated Programming (OOP) in AssemblyScript
 
 ```editor
 #!runtime=full
