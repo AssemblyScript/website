@@ -4,7 +4,7 @@ Snippets are small, copy-pastable AssemblyScript examples meant to show off comm
 
 ## Class
 
-A snippet on using Classes in AssemblyScript, and assigning instance vs. static properties.
+An AssemblyScript snippet on using Classes, their instantiation, and their static properties.
 
 ```editor
 #!runtime=full
