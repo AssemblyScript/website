@@ -193,7 +193,7 @@ const { __getString, __release } = myModule
 const fooPtr = getFoo()
 const foo = Foo.wrap(fooPtr)
 const strPtr = foo.getString()
-console.log(__getString(str))
+console.log(__getString(strPtr))
 __release(strPtr)
 __release(fooPtr)
 ```
