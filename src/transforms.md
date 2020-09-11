@@ -80,4 +80,4 @@ The frontend will call several hooks, if present on the transform, during the co
   ```
   Called with the resulting module before it is being emitted. Useful to modify the IR before writing any output, for example to replace imports with actual functionality or to add custom sections.
 
-Transforms are a very powerful feature, but may require profound knowledge of the compiler to utilize them to their full extend, so reading through the compiler sources is a plus.
+Transforms are a very powerful feature, but may require profound knowledge of the compiler to utilize them to their full extent, so reading through the compiler sources is a plus.
