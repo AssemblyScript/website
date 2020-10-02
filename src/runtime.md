@@ -117,7 +117,7 @@ By default, the full and half runtime will automatically try to collect cyclic g
 
 ## Future options
 
-The reason for implementing our own runtime is that [WebAssembly GC](https://github.com/WebAssembly/gc) is still in the works without any ETA on it, unfortunately. So we decided to roll our own for the time being, but as soon as WebAssembly GC lands, it is likely that we are going to reconsider alternatives.
+The reason for implementing our own runtime is that the necessary WebAssembly features to replace it are still in the works and none of them so far address interoperability with the Open Web Platform in a meaningful way. So we decided to roll our own for the time being.
 
 ## Implementation
 

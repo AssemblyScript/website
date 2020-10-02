@@ -47,6 +47,6 @@ view[2] = view[0] + view[1]
 
 In turn it also comes with a bunch of features JavaScript doesn't have, mostly out of necessity, like the ability to declare [operator overloads](./peculiarities.md#operator-overloads) that arrays for example use as an implementation helper. It's not quite a subset, not quite a superset, but rather a variant.
 
-As of today, the compiler still has its [limitations](./basics.md#current-limitations) and we are waiting for WebAssembly features that are currently undergoing specification \(marked as 🦄 throughout the documentation, especially [Reference Types](https://github.com/WebAssembly/reference-types) 🦄, [Interface Types](https://github.com/WebAssembly/interface-types) 🦄 and [Wasm GC](https://github.com/WebAssembly/gc) 🦄\) to unleash its full potential. But it is open source, built upon an [open specification](https://webassembly.github.io/spec/) and everyone can contribute, so we are getting there.
+As of today, the compiler still has its [limitations](./basics.md#current-limitations) and we are patiently waiting for WebAssembly features that are currently undergoing specification (marked as 🦄 throughout the documentation) to see where these can help AssemblyScript as well.
 
 Sounds appealing to you? Read on!
