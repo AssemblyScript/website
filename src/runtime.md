@@ -115,10 +115,6 @@ One common point of confusion here is that the rules above **operate on types, n
 
 By default, the full and half runtime will automatically try to collect cyclic garbage when memory must be grown. This behavior can be disabled by setting `gc.auto = false` in performance critical code. Likewise, if there is a good opportunity to collect cyclic garbage at a given point in time, like if the application is idle, `gc.collect()` can be called to force a full garbage collection cycle. Protip: If no cyclic structures are used, no garbage must be collected.
 
-## Future options
-
-The reason for implementing our own runtime is that the necessary WebAssembly features to replace it are still in the works and none of them so far address interoperability with the Open Web Platform in a meaningful way. So we decided to roll our own for the time being.
-
 ## Implementation
 
 The memory manager used by AssemblyScript is a variant of TLSF \([Two-Level Segregate Fit memory allocator](http://www.gii.upv.es/tlsf/)\) and it is accompanied by PureRC \(a variant of [A Pure Reference Counting Garbage Collector](https://researcher.watson.ibm.com/researcher/files/us-bacon/Bacon03Pure.pdf)\) with [slight modifications of assumptions](https://github.com/dcodeIO/purerc) to avoid unnecessary work. Essentially, TLSF is responsible for partitioning [dynamic memory](./memory.md#dynamic-memory) into chunks that can be used by the various objects, while PureRC keeps track of their lifetimes.
