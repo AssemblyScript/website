@@ -23,12 +23,12 @@ The String API works very much like JavaScript's \([MDN](https://developer.mozil
 * ```ts
   function fromCodePoint(code: i32): string
   ```
-  Creates a one character long string from the specified UTF-8 code point.
+  Creates a one character long string from the specified Unicode code point.
 
 * ```ts
   function fromCodePoints(codes: i32[]): string
   ```
-  Creates a string from a sequence of UTF-8 code points.
+  Creates a string from a sequence of Unicode code points.
 
 ## Instance members
 
@@ -54,7 +54,7 @@ The String API works very much like JavaScript's \([MDN](https://developer.mozil
 * ```ts
   function codePointAt(pos: i32): i32
   ```
-  Gets the UTF-8 code point at the specified \(UTF-16 code unit\) position as a number, possibly combining multiple successive UTF-16 code units. Returns `-1` if out of bounds.
+  Gets the Unicode code point at the specified \(UTF-16 code unit\) position as a number, possibly combining multiple successive UTF-16 code units. Returns `-1` if out of bounds.
 
 * ```ts
   function concat(other: string): string
