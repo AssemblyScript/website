@@ -91,7 +91,7 @@ Note that only the `log2(sizeof<T>())` least signficant bits of the shift affect
 | i8 / u8   | 3                | `x & y` ≡ `x & (y & 7)`
 | i16 / u16 | 4                | `x & y` ≡ `x & (y & 15)`
 | i32 / u32 | 5                | `x & y` ≡ `x & (y & 31)`
-| i64 / u64 | 6                | `x & y` ≡  `x & (y & 63)`
+| i64 / u64 | 6                | `x & y` ≡ `x & (y & 63)`
 
 If the left type is a float, an error is emitted.
 
