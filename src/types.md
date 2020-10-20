@@ -84,6 +84,15 @@ The result of a bit shift \(`<<`, `>>`\) is the left type, with the right type i
 
 The result of an unsigned right shift \(`>>>`\) is the left type \(signedness is retained\), with the right type implicitly converted to the left type, but always performing a logical shift.
 
+Note that only the `log2(sizeof<T>())` least signficant bits of the shift affect the result:
+
+| Type      | Significant bits | Example
+| :-------- | :--------------: | :------------------------
+| i8 / u8   | 3                | `x & y` ≡ `x & (y & 7)`
+| i16 / u16 | 4                | `x & y` ≡ `x & (y & 15)`
+| i32 / u32 | 5                | `x & y` ≡ `x & (y & 31)`
+| i64 / u64 | 6                | `x & y` ≡ `x & (y & 63)`
+
 If the left type is a float, an error is emitted.
 
 ## Macro types
