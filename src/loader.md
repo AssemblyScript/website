@@ -8,7 +8,7 @@ sidebarDepth: 2
 AssemblyScript provides a tiny [module loader](https://github.com/AssemblyScript/assemblyscript/tree/master/lib/loader) that makes working with AssemblyScript modules as convenient as it gets without sacrificing efficiency. It about mirrors the relevant parts of the WebAssembly API while also providing utility to allocate and read strings, arrays and classes.
 
 ```ts
-const loader = require("@assemblyscript/loader")
+import loader from "@assemblyscript/loader"; // or require
 loader.instantiate(
   // Binary to instantiate
   fetch("optimized.wasm"), // or fs.readFileSync
@@ -35,6 +35,15 @@ For each version of the AssemblyScript compiler, there is a standalone version o
 npm install --save @assemblyscript/loader
 ```
 
+On the web:
+
+```html
+<!-- ESM -->
+<script type="module" src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/index.js"></script>
+<!-- UMD -->
+<script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/umd/index.js"></script>
+```
+
 ::: tip
 If you need a [specific version](https://github.com/AssemblyScript/assemblyscript/releases) of the loader, append the respective version number as usual.
 :::
@@ -55,11 +64,11 @@ and then wants to call `concat` externally, the string arguments cannot just be 
 ```js
 // JavaScript
 const { concat } = myModule.exports
-const { __allocString, __getString, __retain, __release } = myModule.exports
+const { __newString, __getString, __retain, __release } = myModule.exports
 
 function doConcat(aStr, bStr) {
-  let aPtr = __retain(__allocString(aStr))
-  let bPtr = __retain(__allocString(bStr))
+  let aPtr = __retain(__newString(aStr))
+  let bPtr = __retain(__newString(bStr))
   let cPtr = concat(aPtr, bPtr) // call with pointers
   let cStr = __getString(cPtr)
   __release(aPtr) // we are done with aPtr
@@ -77,7 +86,7 @@ While the above code snippet might look intimidating at first, it isn't that har
 
 Note that we don't need to retain a reference to the value returned by `concat` in the above snippet, because return values become automatically retained for the caller. A few general rules:
 
-* Retain a reference when `__allocXY`ing a string, array or object and release it again when done with it.
+* Retain a reference when `__newXY`ing a string, array or object and release it again when done with it.
 * Don't forget to release a reference to a managed object returned by the module, even if the return value is not used.
 * Does not apply to basic values like `i32`s or `f64`s since these aren't objects (don't retain or release these).
 
@@ -100,10 +109,10 @@ export const Int32Array_ID = idof<Int32Array>()
 ```js
 // JavaScript
 const { sum, Int32Array_ID } = myModule.exports
-const { __allocArray, __retain, __release } = myModule.exports
+const { __newcArray, __retain, __release } = myModule.exports
 
 function doSum(values) {
-  const arrPtr = __retain(__allocArray(Int32Array_ID, values))
+  const arrPtr = __retain(__newArray(Int32Array_ID, values))
   const value = sum(arrPtr)
   __release(arrPtr)
   return value
@@ -251,12 +260,12 @@ Note that `T` above can either be omitted if the shape of the module is unknown,
 The following utility functions are mixed into the module's exports.
 
 * ```ts
-  function __allocString(str: string): number
+  function __newString(str: string): number
   ```
   Allocates a new string in the module's memory and returns a pointer to it.
 
 * ```ts
-  function __allocArray(id: number, values: number[]): number
+  function __newArray(id: number, values: number[]): number
   ```
   Allocates a new array in the module's memory and returns a pointer to it. Automatically retains interior pointers. The `id` is the unique runtime id of the respective array class. If you are using `Int32Array` for example, the best way to know the id is an `export const Int32Array_ID = idof<Int32Array>()`. When done with the array, make sure to `__release` it.
 
@@ -302,6 +311,11 @@ The following utility functions are mixed into the module's exports.
 The runtime interface is directly exported by the module, so also present as part of the module's exports. Also see the [managed runtime](./runtime.md) documentation for all the details.
 
 * ```ts
+  function __new(size: number, id: number): number
+  ```
+  Allocates an instance of the class represented by the specified id. If you are using `MyClass` for example, the best way to know the id and the necessary size is an `export const MYCLASS_ID = idof<MyClass>()` and an `export const MYCLASS_SIZE = offsetof<MyClass>()`. Afterwards, use the respective views to assign values to the class's memory while making sure to retain interior references to other managed objects once. When done with the class, make sure to `__release` it, which will automatically release any interior references once the class becomes collected.
+
+* ```ts
   function __retain(ptr: number): number
   ```
   Retains a reference to a managed object represented by a pointer to it, making sure that it doesn't become collected prematurely. Returns the pointer.
@@ -310,11 +324,6 @@ The runtime interface is directly exported by the module, so also present as par
   function __release(ptr: number): void
   ```
   Releases a previously retained reference to a managed object, allowing the runtime to collect it once its reference count reaches zero.
-
-* ```ts
-  function __alloc(size: number, id: number): number
-  ```
-  Allocates an instance of the class represented by the specified id. If you are using `MyClass` for example, the best way to know the id and the necessary size is an `export const MYCLASS_ID = idof<MyClass>()` and an `export const MYCLASS_SIZE = offsetof<MyClass>()`. Afterwards, use the respective views to assign values to the class's memory while making sure to retain interior references to other managed objects once. When done with the class, make sure to `__release` it, which will automatically release any interior references once the class becomes collected.
 
 * ```ts
   function __instanceof(ptr: number, baseId: number): boolean
