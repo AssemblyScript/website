@@ -144,7 +144,7 @@ WebAssembly modules produced by the AssemblyScript compiler typically have the f
   Varargs helper to set what's known as `arguments.length` in JavaScript. Only present if there is at least one export of a function taking a variable number of arguments. Automatically utilized by the [loader](./loader.md).
 
 * ```ts
-  function __alloc?(size: usize, id: u32): usize
+  function __new?(size: usize, id: u32): usize
   function __retain?(ptr: usize): usize
   function __release?(ptr: usize): void
   function __collect?(): void

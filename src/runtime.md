@@ -30,11 +30,11 @@ The following paragraphs are relevant in low-level code respectively when workin
 When allocating a managed object, it is necessary to also provide its unique class id so the runtime can properly recognize it. The unique id of any managed type can be obtained via `idof<TheType>()`. Each concrete class \(like `String`, `Array<i32>`, `Array<f32>`\) has its own id. The ids of ArrayBuffer \(id=0\), String \(id=1\) and ArrayBufferView \(id=2\) are always the same, while all other ids are generated sequentially on first use of a class and differ between modules. Hence, it is usually necessary to `export Uint8Array_ID = idof<Uint8Array>()` for example when allocating one externally. The relevant interface is:
 
 * ```ts
-  function __alloc(size: usize, id: u32): usize
+  function __new(size: usize, id: u32): usize
   ```
-  Dynamically allocates a chunk of memory for an object represented by the specified id of at least the given size in bytes and returns its address. Alignment is guaranteed to be 16 bytes to fit up to v128 values naturally. Does not zero memory.
+  Dynamically allocates an object represented by the specified id of at least the given size in bytes and returns its address. Alignment is guaranteed to be 16 bytes to fit up to v128 values naturally. Does not zero memory.
 
-The [loader](./loader.md) provides some additional functionality for convenience, like `__allocString`.
+The [loader](./loader.md) provides some additional functionality for convenience, like `__newString`.
 
 ### Managing lifetimes
 
@@ -65,14 +65,14 @@ Technically, both `__retain` and `__release` are nops when using the `stub`runti
    * If a reference to the object **will not be immediately retained**, the compiler will insert a temporary local into the current scope that autoreleases the reference to the object at the end of the scope.
 
 ::: tip
-Objects created by calling `__alloc` start with a reference count of 0. This is not the case for constructors, these behave like calls. Built-ins like `store<T>` emit instructions directly and don't behave like calls.
+Objects created by calling `__new` start with a reference count of 0. This is not the case for constructors, these behave like calls. Built-ins like `store<T>` emit instructions directly and don't behave like calls.
 :::
 
 ### Working with references externally
 
 Working with objects through imports and exports, like when using [the loader](./loader.md), is _relatively_ straight-forward. However, if not handled properly, the program will either leak memory, free objects prematurely or even break. So here's some advice:
 
-* Always `__retain` a reference to manually `__alloc`'ed objects and `__release` the reference again when done with the object.
+* Always `__retain` a reference to manually `__new`'ed objects and `__release` the reference again when done with the object.
 * Always `__release` the reference to an object that was a return value of a call \(see above\) when done with it. It is not necessary to `__retain` a reference to returned objects.
 * Always `__retain` a reference to an object read from memory, and `__release` the reference again when done with the object.
 
@@ -104,7 +104,7 @@ One common point of confusion here is that the rules above **operate on types, n
 
 ```ts
 {
-  let ref = changetype<ArrayBuffer>(__alloc(10, idof<ArrayBuffer>())
+  let ref = changetype<ArrayBuffer>(__new(10, idof<ArrayBuffer>())
   // retains on ref, because after changetype an object is assigned
   ...
   // compiler will automatically __release(ref)

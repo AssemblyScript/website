@@ -91,11 +91,11 @@ loader.instantiate(module_wasm).then(({ exports }) => {
     log('=== Example2 ===')
 
     // Obtain the necessary runtime helpers
-    const { __retain, __release, __allocArray, __getArray, __getArrayView } = exports
+    const { __retain, __release, __newArray, __getArray, __getArrayView } = exports
 
     // Create a new array, but this time in JavaScript. Note that we have to
     // retain a reference to our allocation while we use it.
-    let arrayPtr = __retain(__allocArray(exports.Int32Array_ID, [
+    let arrayPtr = __retain(__newArray(exports.Int32Array_ID, [
       3, 4, 5, 6, 7, 8, 9
     ]))
     log('Array pointer: ' + arrayPtr)

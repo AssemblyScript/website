@@ -85,7 +85,7 @@ function extendMarkdown(md) {
 
     // AssemblyScript names
     'memory', 'table', 'atomic', 'i8x16', 'i16x8', 'i32x4', 'i64x2', 'f32x4', 'f64x2', 'v8x16',
-    'v16x8', 'v32x2', 'Int64Array', 'Uint64Array',
+    'v16x8', 'v32x2', 'Int64Array', 'Uint64Array', 'heap'
 
   ].join('|') + ')\\b')
 }

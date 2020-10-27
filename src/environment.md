@@ -279,7 +279,31 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
 
 The `immOffset` argument is a bit special here, because it becomes an actual immediate of the respective WebAssembly instruction instead of a normal operand. Thus it must be provided as a compile time constant value. This can be a literal or the value of a `const` variable that the compiler can precompute.
 
-### **Memory Utility**
+#### **Memory Manager**
+
+An unsafe interface to just the dynamic memory manager, resembling `malloc`, `realloc` and `free` in C.
+
+* ```ts
+  function heap.alloc(size: usize): usize
+  ```
+  Allocates a chunk of memory of at least the specified size.
+
+* ```ts
+  function heap.realloc(ptr: usize, size: usize): usize
+  ```
+  Reallocates a chunk of memory to have at least the specified size.
+
+* ```ts
+  function heap.free(ptr: usize): void
+  ```
+  Frees a chunk of memory. Does hardly anything (most recent block only) with the stub/none runtime.
+
+* ```ts
+  function heap.reset(): void
+  ```
+  Dangerously resets the entire heap. Specific to the stub/none runtime.
+
+#### **Memory Utility**
 
 Sign-agnostic endian conversions \(reverse bytes\).
 
