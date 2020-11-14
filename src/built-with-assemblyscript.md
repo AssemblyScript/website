@@ -95,6 +95,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   JSON encoder / decoder.
 * [as-bignum](https://github.com/MaxGraey/as-bignum) \(formerly bignum.wasm\)<br />
   Fixed length big numbers like `u128`, `i256`, `fp128` and etc for AssemblyScript.
+* [ASTL](https://github.com/samchon/astl)<br />
+  Migration project from C++ STL (Standard Template Library) to AssemblyScript. Containers, iterators, algorithms and fuctors are supported.
 * [Levenshtein Wasm](https://github.com/kyranet/levenshtein-wasm)<br />
   An experimental lightning-fast Wasm-compiled levenshtein library.
 * [superfasthash](https://github.com/mjethani/superfasthash)<br />
