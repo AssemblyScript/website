@@ -128,6 +128,8 @@ function doSomething(foo: Foo): void {
 }
 ```
 
+Note! Nullability checks in ternary expressions are not yet supported.
+
 ### Exceptions
 
 Exceptions are not yet supported and we are waiting for the [Exception Handling](https://github.com/WebAssembly/exception-handling) 🦄 proposal to land. As a consequence, the following will currently crash the program with a call to `abort`:
