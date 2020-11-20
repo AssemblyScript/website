@@ -128,6 +128,26 @@ function doSomething(foo: Foo): void {
 }
 ```
 
+Nullability checks are currently not supported in OR statements. Instead of writing
+
+```ts
+function foo(someVar: Thing | null) {
+  someVar = someVar || new Thing
+  
+  // AS still sees someVar as 'Thing | null' here
+}
+```
+
+you should write
+
+```js
+function foo(someVar: Thing | null) {
+  if (!someVar) someVar = new Thing
+  
+  // AS still sees someVar as 'Thing' here
+}
+```
+
 ### Exceptions
 
 Exceptions are not yet supported and we are waiting for the [Exception Handling](https://github.com/WebAssembly/exception-handling) 🦄 proposal to land. As a consequence, the following will currently crash the program with a call to `abort`:
