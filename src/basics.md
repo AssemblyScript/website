@@ -144,7 +144,7 @@ you should write
 function foo(someVar: Thing | null) {
   if (!someVar) someVar = new Thing
   
-  // AS still sees someVar as 'Thing' here
+  // AS sees someVar as 'Thing' here
 }
 ```
 
