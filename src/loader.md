@@ -109,7 +109,7 @@ export const Int32Array_ID = idof<Int32Array>()
 ```js
 // JavaScript
 const { sum, Int32Array_ID } = myModule.exports
-const { __newcArray, __retain, __release } = myModule.exports
+const { __newArray, __retain, __release } = myModule.exports
 
 function doSum(values) {
   const arrPtr = __retain(__newArray(Int32Array_ID, values))
@@ -197,7 +197,7 @@ one can wrap the received pointer in a `myModule.exports.Foo` instance:
 ```js
 // JavaScript
 const { Foo, getFoo } = myModule.exports
-const { __getString, __release } = myModule
+const { __getString, __release } = myModule.exports
 
 const fooPtr = getFoo()
 const foo = Foo.wrap(fooPtr)
