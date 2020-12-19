@@ -16,7 +16,7 @@ loader.instantiate(
                            // or just a buffer
   // Additional imports
   { ... }
-).then({ exports } => {
+).then(({ exports }) => {
   ...
 })
 ```
@@ -360,7 +360,7 @@ import MyModule from "myModule"; // pointing at the generated d.ts
 loader.instantiate<typeof MyModule>(
   fetch("myModule.wasm"),
   { ... }
-).then({ exports } => {
+).then(({ exports }) => {
   ...
 })
 ```
