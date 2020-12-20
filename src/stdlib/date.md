@@ -26,7 +26,7 @@ The Date API is still preliminary and requires importing the `Date` object from 
   function UTC(
     year: i32,
     month?: i32,
-    day?: 32,
+    day?: i32,
     hour?: i32,
     minute?: i32,
     second?: i32,
