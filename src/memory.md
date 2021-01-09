@@ -8,9 +8,9 @@ Similar to other languages that use linear memory, and until the [GC](https://gi
 
 ## Importing memory
 
-The [WebAssembly.Memory](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Memory) instance used by your program can be imported from the host by using the `--importMemory` command line options. The module will then expect an import named `memory` within the `env` module to be provided upon instantiation.
+The [WebAssembly.Memory](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Memory) instance used by your program can be imported from the host by using the `--importMemory` command line option. The module will then expect an import named `memory` within the `env` module to be provided upon instantiation.
 
-An imported memory becomes the singleton memory of the module and can be accessed in the same way as a non-imported memory. Note that if the module defines `data` segments, it will place the data into the imported memory upon instantiation of the module, which must be taken into account when pre-populating the memory externally \(i.e., utilize`--memoryBase` to reserve some space as described in [Memory Regions](./memory.md#memory-regions) below\).
+An imported memory becomes the singleton memory of the module and can be accessed in the same way as a non-imported memory. Note that if the module defines `data` segments, it will place the data into the imported memory upon instantiation of the module, which must be taken into account when pre-populating the memory externally \(e.g. when utilizing `--memoryBase` to reserve some space as described in [Memory Regions](./memory.md#memory-regions) below\).
 
 ## Exporting memory
 
@@ -18,7 +18,7 @@ A module exports its memory as `memory` by default, unless disabled with `--noEx
 
 ## Accessing memory during instantiation
 
-AssemblyScript runs any top-level statements as part of the emitted WebAssembly module's implicit `start` function by default. Since the implicit start functions executes immediately upon instantiation, this leads to a special case because control flow has not yet yielded back to the host, so the module's exported memory only becomes available externally *after* the implicit start function completes. The implicit start function may however already trigger external code that requires to read from memory, like when printing a string to console.
+AssemblyScript runs any top-level statements as part of the emitted WebAssembly module's implicit `start` function by default. Since the implicit start function executes immediately upon instantiation, this leads to a special case because control flow has not yet yielded back to the host, so the module's exported memory only becomes available externally *after* the implicit start function completes. The implicit start function may however already trigger external code that requires to read from memory, like when printing a string to console.
 
 There are two solutions to this:
 
@@ -50,7 +50,7 @@ A custom region of memory can be reserved using the `--memoryBase` option. For e
 
 Dynamic memory, commonly known as the heap, is managed by the [garbage collector](./garbage-collection.md), at runtime. When space for a new object is requested by the program, the runtime's memory manager reserves a suitable region and returns a pointer to it to the program. Once an object is not needed anymore and becomes unreachable, the garbage collector returns the object's memory to the memory manager for reuse.
 
-The memory manager guarantees an alignment of 16 bytes, so an `ArrayBuffer`, which can be the backing buffer of multiple views, always fits up to `v128` values with native alignment.
+The memory manager guarantees an alignment of 16 bytes, so an `ArrayBuffer`, which can be the backing buffer of multiple views, always fits up to `v128` values with natural  alignment.
 
 ## Internals
 
@@ -71,7 +71,7 @@ Objects in AssemblyScript have a common hidden header used by the runtime to kee
 | #rtSize  |     -4 | u32   | Size of the data following the header
 |          |      0 |       | Payload starts here
 
-The header is aligned to 16 bytes right after `mmInfo` and `rtSize`, with 16 bytes of managed information in between. The object's payload starts at 16 bytes alignment again.
+In Wasm32, the header is aligned to 16 bytes right after `mmInfo` and `rtSize`, with 16 bytes of managed information in between. The object's payload starts at 16 bytes alignment again.
 
 The most basic objects using the common header are `ArrayBuffer` and `String`. These do not have any fields but are just data:
 
@@ -97,7 +97,7 @@ The most basic objects using the common header are `ArrayBuffer` and `String`. T
 
 ### Collections
 
-Collections like `Array`, `Map` and `Set` use one or multiple `ArrayBuffer`s to store their data, but their backing buffers are only exposed for typed arrays, as it is the case in JavaScript. This is because collections can grow automatically, which would otherwise lead to no longer valid references to buffers pre-resize sticking around.
+Collections like `Array`, `Map` and `Set` use one or multiple `ArrayBuffer`s to store their data, but their backing buffers are only exposed for typed arrays, as it is the case in JavaScript. This is because collections can grow automatically, which would otherwise lead to no longer valid references to buffers sticking around.
 
 #### ArrayBufferView layout
 
