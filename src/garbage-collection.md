@@ -34,9 +34,9 @@ To interface with the runtime externally, you'll probably want to use the [loade
 
 ## "Default" runtime
 
-The default runtime provides a complete dynamic memory manager backing `new`, `heap.alloc`, `heap.realloc` and `heap.free` and is suitable for most non-interactive use cases, like the compiler itself.
+The default runtime provides a complete dynamic memory manager backing `new`, `heap.alloc`, `heap.realloc` and `heap.free` and is suitable for most non-interactive use cases where GC pause times are not a concern, but throughput is. One example for such a use case is the compiler itself, where there is a bounded amount of garbage produced during a bounded amount of work (here: parsing and compiling a program), and where it is fine to buffer garbage until performing a full GC at the end (here: after compiling a program) with maximum efficiency.
 
-It aims at not bloating generated modules, i.e. as would be the case by going overboard with filler implementations for WebAssembly futures that are not yet available (e.g. maintaining a separate shadow stack since WebAssembly's execution stack is not inspectable). As a compromise, it has to be invoked manually (it is not automated), ideally externally, by calling `exports.__collect()` when the WebAssembly execution stack is known to be fully unwound.
+As such it aims at not bloating generated modules, i.e. as would be the case by going overboard with costly filler implementations for WebAssembly futures that are not yet available (for example utilizing a shadow stack). As a compromise, it has to be invoked manually (it is not automated), ideally externally, by calling `exports.__collect()` when the WebAssembly execution stack is known to be fully unwound.
 
 It always performs a full garbage collection cycle, marking all reachable and sweeping all unreachable objects, and stops the program while doing so. Invoking garbage collection more often reduces the amount of garbage lingering around at any point in time, while invoking it less frequently increases throughput.
 
@@ -51,9 +51,24 @@ It always performs a full garbage collection cycle, marking all reachable and sw
   * it is guaranteed that `exports.__collect()` will not be called while it is alive.
 * In case of doubt, pin.
 
+**Example usage:**
+
+```js
+function compute(arg) {
+  exports.doSomeHeavyWorkProducingGarbage(arg)
+  ...
+  exports.__collect() // clean up all garbage
+}
+compute(1)
+compute(2)
+compute(3)
+```
+
 ## "Incremental" runtime
 
-The "incremental" runtime is very similar to the "default" runtime, but extended with an automatic incremental mode. It does not require calling `exports.__collect()` manually (typically) but is instead automated at the Wasm->host boundary to automatically perform a reasonable amount of incremental garbage collection steps. It is meant as an alternative for highly interactive use cases, like games, where stopping the program for a full garbage collection cycle would take too long to catch the next frame, but it should be considered experimental at this point because automating GC at the boundary (again to avoid a costly shadow stack) is unusual and may need additional tweaking.
+The "incremental" runtime is very similar to the "default" runtime, but extended with an automatic incremental mode. It does not require calling `exports.__collect()` manually (typically) but is instead automated at the Wasm->host boundary to automatically perform a reasonable amount of incremental garbage collection steps, instead of a full collection, to reduce pause times. It is meant as an alternative for highly interactive use cases, like games, where stopping the program for a full garbage collection cycle would take too long to catch the next frame, but it should be considered experimental at this point because automating GC at the boundary is unusual and may need additional tweaking on our end still. It may also be useful for programs running in non-JS hosts, for example where `exports.__collect()` may not be trivially callable, but other exports are.
+
+The goal is again to avoid potentially costly filler implementations for not yet available WebAssembly features while still being useful today. The "incremental" runtime is slightly slower overall and slightly more complex to interface with than the "default" runtime due to needing to do more statekeeping work and not being as trivially controlled by hand.
 
 **Usage instructions**:
 
@@ -66,6 +81,22 @@ The "incremental" runtime is very similar to the "default" runtime, but extended
 * In case of doubt, pin.
 * It is still possible to force a full collection (finishes current cycle, does another full cycle) using `exports.__collect()`, if so desired.
 
+**Example usage:**
+
+```js
+function run() {
+  let gameEnded = exports.updateGameProducingGarbage() // may do a few GC steps
+  if (gameEnded) {
+    exports.renderEndgameScreenProducingGarbage()
+    exports.__collect() // optionally clean up the remains
+  } else {
+    requestAnimationFrame(run)
+    exports.renderGameProducingGarbage() // may do a few GC steps
+  }
+}
+run()
+```
+
 ## "Stub" runtime
 
 A maximally minimal runtime stub not providing any means of collecting garbage again. Includes just a simple (but fast) bump allocator and no GC. This one is useful where dynamic allocations, or garbage for that matter, is not a concern, for example because the program doesn't produce any or only executes a single time with a bounded limit of garbage before the entire module, incl. any potential garbage, is terminated and collected by the host again.
@@ -73,6 +104,16 @@ A maximally minimal runtime stub not providing any means of collecting garbage a
 **Usage instructions**:
 
 * Since the stub runtime never frees memory, there is nothing special to take care of except that it leaks memory by design.
+
+**Example usage**:
+
+```js
+function compute() {
+  exports.doSomeHeavyWorkProducingGarbage()
+}
+compute()
+// throw away the entire module instance
+```
 
 # Runtime interface
 

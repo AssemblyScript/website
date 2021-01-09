@@ -146,7 +146,7 @@ In the meantime we recommend to do as they did in the olden days and return an e
 
 ### Closures
 
-Closures are not yet supported and we are waiting for the [Function References](https://github.com/WebAssembly/function-references) 🦄 proposal (`func.bind`?) to land. 
+Closures are not yet supported and we are waiting for the [Function References](https://github.com/WebAssembly/function-references) 🦄 proposal (`func.bind`?) to land. However, since this is a crucial language feature, we may end up with a filler implementation using just linear memory earlier.
 
 In the meantime we recommend to restructure code so closures are not necessary, i.e. instead of writing
 
