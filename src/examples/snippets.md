@@ -7,7 +7,7 @@ Small, copy-pastable AssemblyScript examples using common syntax and patterns.
 An AssemblyScript snippet on using Classes, their instantiation, and their static properties.
 
 ```editor
-#!runtime=full
+#!runtime=stub
 class Animal<T> {
   static ONE: i32 = 1;
   static add(a: i32, b: i32): i32 { return a + b + Animal.ONE; }
@@ -66,7 +66,7 @@ loader.instantiate(module_wasm, { /* imports */ })
 Extending classes and general Object Orientated Programming (OOP) in AssemblyScript
 
 ```editor
-#!runtime=full
+#!runtime=stub
 
 class BaseClass {
   static staticProp: i32 = 24;
@@ -134,7 +134,7 @@ loader.instantiate(module_wasm, { /* imports */ })
 Handling Null as a union type for optional return values and simulating `try/catch` for errors in AssemblyScript
 
 ```editor
-#!runtime=full
+#!runtime=stub
 class MyValue {
   value: i32;
 
@@ -204,7 +204,7 @@ Currently, the switch conditions (case values) are implicitly converted to u32, 
 :::
 
 ```editor
-#!runtime=half
+#!runtime=stub
 export function switchSurprise(a: i32): i32 {
   let response = -1;
 
@@ -263,7 +263,7 @@ loader.instantiate(module_wasm, { /* imports */ })
 Using Ternary if-else in AssemblyScript
 
 ```editor
-#!runtime=half
+#!runtime=stub
 export function isTrue(a: i32): i32 {
   let response = a > 0 ? 1 : 0;
   return response;

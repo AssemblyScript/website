@@ -296,12 +296,12 @@ An unsafe interface to just the dynamic memory manager, resembling `malloc`, `re
 * ```ts
   function heap.free(ptr: usize): void
   ```
-  Frees a chunk of memory. Does hardly anything (most recent block only) with the stub/none runtime.
+  Frees a chunk of memory. Does hardly anything (most recent block only) with the "stub" runtime.
 
 * ```ts
   function heap.reset(): void
   ```
-  Dangerously resets the entire heap. Specific to the stub/none runtime.
+  Dangerously resets the entire heap. Specific to the "stub" runtime.
 
 #### **Memory Utility**
 

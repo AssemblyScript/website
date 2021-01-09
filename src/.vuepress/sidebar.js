@@ -33,7 +33,7 @@ function getDefaultSidebar() {
       collapsable: false,
       children: [
         '/memory',
-        '/runtime',
+        '/garbage-collection',
         '/peculiarities',
         '/portability',
         '/debugging',
@@ -69,7 +69,10 @@ function getStdlibSidebar() {
       title: 'Extended Library',
       collapsable: false,
       children: [
-        '/stdlib/staticarray'
+        '/stdlib/staticarray',
+        '/stdlib/process',
+        '/stdlib/console',
+        '/stdlib/crypto'
       ]
     }
   ]

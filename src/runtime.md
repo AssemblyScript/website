@@ -4,6 +4,10 @@ description: Because nobody enjoys being bullied by malloc, free and friends.
 
 # Runtime
 
+::: danger WARNING
+This section is **OUTDATED** and covers version 0.17 of the AssemblyScript compiler. It has been superseded by the new runtime introduced in 0.18 that is now described under [Garbage collection](./garbage-collection.md).
+:::
+
 AssemblyScript's runtime takes care of all the ins and outs of memory management and garbage collection, yet the compiler lets a developer choose the ideal runtime variant for their use case.
 
 ## Variants

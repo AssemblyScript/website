@@ -6,9 +6,17 @@ description: How to talk to AssemblyScript from C or other languages.
 
 How to talk to AssemblyScript from C or other languages.
 
+## Strings
+
+Strings in AssemblyScript are stored in [WTF-16](https://simonsapin.github.io/wtf-8/#ill-formed-utf-16) encoding, closely matching JavaScript and its string APIs. When embedding AssemblyScript into a C or Rust environment, conversion between WTF-16 and UTF-8 is typically necessary \([API](./stdlib/string.md#encoding-api)\).
+
+Details to keep in mind: In UTF-16, certain Unicode **code points** are represented by two UTF-16 **code units** called surrogate pairs. However, just like in JavaScript, strings are not sanitized so lone surrogates can appear in a string, which are technically ill-formed UTF-16. This is done to mimic JavaScript as closely as possible, and avoids string re-encoding when calling JavaScript APIs from WebAssembly.
+
+We hope that future WebAssembly features will be designed with both C/Rust and JS/WebAPIs in mind without penalizing the respective other. ([1](https://github.com/WebAssembly/interface-types/issues/13), [2](https://github.com/WebAssembly/gc/issues/145))
+
 ## Class layout
 
-Layout of objects in memory resembles that of non-packed C structs, and `@unmanaged` classes \(not tracked by GC\) can be used to describe them:
+Layout of objects in memory resembles that of non-packed C structs, and `@unmanaged` classes \(not tracked by GC, essentially C structs\) can be used to describe them:
 
 ```c
 struct Foo {
@@ -69,6 +77,10 @@ export function getU8(): u8 {
 
 On the other hand, calling any AssemblyScript function does not require wrapping of arguments.
 
+## Variable arguments
+
+If a function exported from AssemblyScript accepts a variable number of arguments, the `exports.__setArgumentsLength(numArguments)` helper must be called with the number of actual arguments (while zeroing all the others) to inform the varargs stub. The [loader](./loader.md) does this automatically.
+
 ## Garbage collection
 
-All the rules described in the [managed runtime](./runtime.md) section apply here, except that unmanaged classes do not become tracked by GC and are merely views on a region of memory.
+Also see the dedicated page on [garbage collection](./garbage-collection.md).

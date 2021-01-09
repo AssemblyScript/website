@@ -4,7 +4,7 @@ description: 'How one source, multiple targets, fits into multiple sources, one 
 
 # Portability
 
-With AssemblyScript using a stricter variant of TypeScript's syntax with just a few semantic differences, there comes the opportunity to compile the same code to JavaScript with `tsc` and WebAssembly with `asc`.
+With AssemblyScript using a stricter variant of TypeScript's syntax with a few semantic differences, there comes the opportunity to compile the same code to JavaScript with `tsc` and WebAssembly with `asc`. The AssemblyScript compiler itself is written with portability in mind.
 
 ## Portable Stdlib
 

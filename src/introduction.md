@@ -30,7 +30,7 @@ Its architecture differs from a JavaScript VM in that it compiles a program **ah
 
 ## In a nutshell
 
-On top of [WebAssembly types](./types.md), it not only provides [low-level built-ins](./environment.md#low-level-webassembly-operations) to access WebAssembly features directly, making it suitable as a thin layer on top of Wasm, but also comes with its own JavaScript-like [standard library](./environment.md#standard-library), making it suitable for non-browser use cases, along a relatively small [managed runtime](./runtime.md) \(with memory management and garbage collection\) enabling the creation of programs that look and feel much like TypeScript.
+On top of [WebAssembly types](./types.md), it not only provides [low-level built-ins](./environment.md#low-level-webassembly-operations) to access WebAssembly features directly, making it suitable as a thin layer on top of Wasm, but also comes with its own JavaScript-like [standard library](./environment.md#standard-library), making it suitable for non-browser use cases, along a relatively small [garbage collection runtime](./garbage-collection.md) enabling the creation of programs that look and feel much like TypeScript.
 
 For example, on the lowest level, memory can be accessed using the `load<T>(offset)` and `store<T>(offset, value)` built-ins that compile to WebAssembly instructions directly
 

@@ -22,7 +22,7 @@ Continuously updates a slightly modified variant of [Conway's Game of Life](http
 ## Example
 
 ```editor
-#!optimize=speed&runtime=none&importMemory&use=Math=JSMath
+#!optimize=speed&runtime=stub&importMemory&use=Math=JSMath
 // Configuration imported from JS
 declare const BGR_ALIVE: u32;
 declare const BGR_DEAD: u32;

@@ -9,12 +9,12 @@ Shows how to exchange and work with arrays either created in WebAssembly or in J
 * Creating arrays in JavaScript and using them in WebAssembly.
 * Using both copies of and live views on arrays.
 * Performing `unchecked` accesses where the length of an array is known.
-* Keeping track of lifetimes with the runtime helpers and reference counting basics.
+* Pinning objects externally to prevent premature garbage collection.
 
 ## Example
 
 ```editor
-#!optimize=speed&runtime=full
+#!optimize=speed&runtime=default&exportRuntime
 /** Creates a new array and returns it to JavaScript. */
 export function createArray(length: i32): Int32Array {
   return new Int32Array(length)
@@ -51,20 +51,18 @@ loader.instantiate(module_wasm).then(({ exports }) => {
     output.value += `${message}\n`
   }
 
-  // A simple example using an array created in WebAssembly, involving just a
-  // single reference to track.
+  // A simple example using an array created in WebAssembly.
   function example1() {
     log('=== Example1 ===')
 
     // Obtain the necessary runtime helpers
-    const { __release, __getArray } = exports
+    const { __pin, __unpin, __getArray } = exports
 
-    // Create a new array in WebAssembly and get a reference to it
-    let arrayPtr = exports.createArray(5)
+    // Create a new array in WebAssembly and get a reference to it. Note that
+    // the array is not reachable from within WebAssembly, only externally, so
+    // we should pin it to prevent it from becoming garbage collected too early.
+    let arrayPtr = __pin(exports.createArray(5))
     log(`Array pointer: ${arrayPtr}`)
-
-    // We now own a reference to the array by convention, which is that values
-    // `return`ed from WebAssembly automatically become retained for the caller.
 
     // Log its elements to make sure these are zero
     log('Initial values: ' + __getArray(arrayPtr).join(', '))
@@ -77,8 +75,8 @@ loader.instantiate(module_wasm).then(({ exports }) => {
     let total = exports.sumArray(arrayPtr)
     log(`Sum (likely overflown): ${total}`)
 
-    // We are done with the array, so release the reference
-    __release(arrayPtr)
+    // We are done with the array, so __unpin it so it can become collected.
+    __unpin(arrayPtr)
 
     log()
   }
@@ -86,16 +84,16 @@ loader.instantiate(module_wasm).then(({ exports }) => {
 
   // A slightly more advanced example allocating the array in JavaScript instead
   // of WebAssembly, and utilizing a live view to modify it in WebAssembly memory.
-  // Still involves just a single reference to track.
   function example2() {
     log('=== Example2 ===')
 
     // Obtain the necessary runtime helpers
-    const { __retain, __release, __newArray, __getArray, __getArrayView } = exports
+    const { __pin, __unpin, __newArray, __getArray, __getArrayView } = exports
 
-    // Create a new array, but this time in JavaScript. Note that we have to
-    // retain a reference to our allocation while we use it.
-    let arrayPtr = __retain(__newArray(exports.Int32Array_ID, [
+    // Create a new array, but this time in JavaScript. Note that the array is
+    // again not reachable from within WebAssembly, only externally, so we
+    // should pin it to prevent it from becoming garbage collected too early.
+    let arrayPtr = __pin(__newArray(exports.Int32Array_ID, [
       3, 4, 5, 6, 7, 8, 9
     ]))
     log('Array pointer: ' + arrayPtr)
@@ -115,8 +113,8 @@ loader.instantiate(module_wasm).then(({ exports }) => {
     // Log the array's elements, now reversed
     log('Reversed values: ' + __getArray(arrayPtr).join(', '))
 
-    // We are done with the array, so release the reference
-    __release(arrayPtr)
+    // We are done with the array, so __unpin it so it can become collected.
+    __unpin(arrayPtr)
 
     log()
   }
@@ -126,9 +124,9 @@ loader.instantiate(module_wasm).then(({ exports }) => {
 ```
 
 ::: tip NOTE
-This example utilizes the loader to work with managed objects, so requires using the `full` or `stub` runtime which expose the runtime helpers to JavaScript. The `half` (otherwise the same as `full`) or `none` (otherwise the same as `stub`) runtimes do not expose these helpers.
+This example utilizes the loader to work with managed objects, hence requires `--exportRuntime` to be set to expose the runtime helpers to JavaScript.
 :::
 
 ## Resources
 
-Further information on using the loader and the runtime helpers is available as part of the [loader's](../loader.md#counting-references) and the [runtime documentation](../runtime.md#interface). The particularly important aspect here is where `__retain` and `__release` are necessary, and where they are not.
+Further information on using the loader and the runtime helpers is available as part of the [loader's](../loader.md#counting-references) and the [garbage collection documentation](../garbage-collection.md).

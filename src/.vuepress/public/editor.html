@@ -228,11 +228,11 @@
         <h5>Runtime</h5>
         <div class="option">
           <p>
-            <input type="radio" name="option-runtime" id="option-runtime-full" /><label for="option-runtime-full"> Full</label>
-            <input type="radio" name="option-runtime" id="option-runtime-half" checked /><label for="option-runtime-half"> Half</label>
-            <input type="radio" name="option-runtime" id="option-runtime-stub" /><label for="option-runtime-stub"> Stub</label>
-            <input type="radio" name="option-runtime" id="option-runtime-none" /><label for="option-runtime-none"> None</label>
+            <input type="radio" name="option-runtime" id="option-runtime-default" checked /><label for="option-runtime-default"> default</label>
+            <input type="radio" name="option-runtime" id="option-runtime-incremental" /><label for="option-runtime-incremental"> incremental</label>
+            <input type="radio" name="option-runtime" id="option-runtime-stub" /><label for="option-runtime-stub"> stub</label>
           </p>
+          <p><input id="option-exportRuntime" type="checkbox" /><label for="option-exportRuntime"> Export runtime helpers to host</label></p>
         </div>
         <h5>Features</h5>
         <div class="option">
@@ -260,7 +260,7 @@
         <h5>Documentation</h5>
         <div class="option">
           <p><a href="compiler.html#command-line-options" target="_blank" rel="noopener">Command line options</a></p>
-          <p><a href="runtime.html#variants" target="_blank" rel="noopener">Runtime variants</a></p>
+          <p><a href="garbage-collection.html#runtime-variants" target="_blank" rel="noopener">Runtime variants</a></p>
         </div>
       </div>
     </div>
@@ -324,10 +324,10 @@
     const optionOptimizeNone = document.getElementById('option-optimize-none')
     const optionNoAssert = document.getElementById('option-noAssert')
     const optionDebug = document.getElementById('option-debug')
-    const optionRuntimeFull = document.getElementById('option-runtime-full')
-    const optionRuntimeHalf = document.getElementById('option-runtime-half')
+    const optionRuntimeDefault = document.getElementById('option-runtime-default')
+    const optionRuntimeIncremental = document.getElementById('option-runtime-incremental')
     const optionRuntimeStub = document.getElementById('option-runtime-stub')
-    const optionRuntimeNone = document.getElementById('option-runtime-none')
+    const optionExportRuntime = document.getElementById('option-exportRuntime')
     const optionNoExportMemory = document.getElementById('option-noExportMemory')
     const optionImportMemory = document.getElementById('option-importMemory')
     const optionExportTable = document.getElementById('option-exportTable')
@@ -345,6 +345,7 @@
     const optionCheckboxes = {
       'noAssert': optionNoAssert,
       'debug': optionDebug,
+      'exportRuntime': optionExportRuntime,
       'noExportMemory': optionNoExportMemory,
       'importMemory': optionImportMemory,
       'exportTable': optionExportTable,
@@ -560,10 +561,9 @@
           case 'none': optionOptimizeNone.checked = true; break
         }
         switch (options.runtime) {
-          case 'full': optionRuntimeFull.checked = true; break
-          case 'half': optionRuntimeHalf.checked = true; break
+          case 'default': optionRuntimeDefault.checked = true; break
+          case 'incremental': optionRuntimeIncremental.checked = true; break
           case 'stub': optionRuntimeStub.checked = true; break
-          case 'none': optionRuntimeNone.checked = true; break
         }
         for (let [key, element] of Object.entries(optionCheckboxes)) {
           if (options[key] != null) element.checked = true
@@ -603,14 +603,12 @@
         } else if (optionOptimizeNone.checked) {
           query.push('optimize=none')
         }
-        if (optionRuntimeFull.checked) {
-          query.push('runtime=full')
-        } else if (optionRuntimeHalf.checked) {
-          query.push('runtime=half')
+        if (optionRuntimeDefault.checked) {
+          query.push('runtime=default')
+        } else if (optionRuntimeIncremental.checked) {
+          query.push('runtime=incremental')
         } else if (optionRuntimeStub.checked) {
           query.push('runtime=stub')
-        } else if (optionRuntimeNone.checked) {
-          query.push('runtime=none')
         }
         for (let [key, element] of Object.entries(optionCheckboxes)) {
           if (element.checked) query.push(key)
@@ -652,14 +650,15 @@
         if (optionNoAssert.checked) {
           options.push('--noAssert')
         }
-        if (optionRuntimeFull.checked) {
-          options.push('--runtime', 'full')
-        } else if (optionRuntimeHalf.checked) {
-          options.push('--runtime', 'half')
+        if (optionRuntimeDefault.checked) {
+          options.push('--runtime', 'default')
+        } else if (optionRuntimeIncremental.checked) {
+          options.push('--runtime', 'incremental')
         } else if (optionRuntimeStub.checked) {
           options.push('--runtime', 'stub')
-        } else if (optionRuntimeNone.checked) {
-          options.push('--runtime', 'none')
+        }
+        if (optionExportRuntime.checked) {
+          options.push('--exportRuntime')
         }
         if (optionNoExportMemory.checked) {
           options.push('--noExportMemory')

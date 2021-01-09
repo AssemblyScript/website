@@ -4,7 +4,7 @@ description: There is something appealing to it, isn't it?
 
 # Basics
 
-WebAssembly is fundamentally different from JavaScript, ultimately enabling entirely new use cases not only on the web. Consequently, AssemblyScript is much more similar to a static compiler than it is to a JavaScript VM. One can think of it as if TypeScript and C had a somewhat special child. This page is dedicated to get you up to speed in no time.
+WebAssembly is fundamentally different from JavaScript, ultimately enabling entirely new use cases not only on the web. Consequently, AssemblyScript is much more similar to a static compiler than it is to a JavaScript VM. One can think of it as a mix of TypeScript's high level syntax and C's low-level capabilities. This page is dedicated to get you up to speed in no time.
 
 ## Strictness
 
@@ -128,6 +128,10 @@ function doSomething(foo: Foo): void {
 }
 ```
 
+### Garbage collection
+
+We are still waiting for the [GC](https://github.com/WebAssembly/gc) 🦄 proposal to land but we have also implemented multiple [garbage collection](./garbage-collection.md) variants in linear memory to fill in the gaps for now. It works well but requires getting used to a bit.
+
 ### Exceptions
 
 Exceptions are not yet supported and we are waiting for the [Exception Handling](https://github.com/WebAssembly/exception-handling) 🦄 proposal to land. As a consequence, the following will currently crash the program with a call to `abort`:
@@ -142,7 +146,7 @@ In the meantime we recommend to do as they did in the olden days and return an e
 
 ### Closures
 
-Closures are not yet supported and we are waiting for the [Function References](https://github.com/WebAssembly/function-references) 🦄 proposal (`func.bind`?) to land. However, since this is a crucial language feature, work on a preliminary implementation not depending on future WebAssembly features [has started](https://github.com/AssemblyScript/assemblyscript/pull/1308), but the prototype is still in flux and currently limited to read only captures. You can try it out with `npm install assemblyscript-closures-beta`.
+Closures are not yet supported and we are waiting for the [Function References](https://github.com/WebAssembly/function-references) 🦄 proposal (`func.bind`?) to land. 
 
 In the meantime we recommend to restructure code so closures are not necessary, i.e. instead of writing
 
