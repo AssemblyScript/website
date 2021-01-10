@@ -99,7 +99,7 @@ run()
 
 ## "Stub" runtime
 
-A maximally minimal runtime stub not providing any means of collecting garbage again. Includes just a simple (but fast) bump allocator and no GC. This one is useful where dynamic allocations, or garbage for that matter, is not a concern, for example because the program doesn't produce any or only executes a single time with a bounded limit of garbage before the entire module, incl. any potential garbage, is terminated and collected by the host again.
+A maximally minimal runtime stub not providing any means of collecting garbage again. Includes just a simple (but fast) bump allocator and no GC. This one is useful where dynamic allocation, or garbage for that matter, is not a concern, for example because the program doesn't produce any or only executes a single time with a bounded limit of garbage before the entire module is terminated and collected by the host again.
 
 **Usage instructions**:
 
