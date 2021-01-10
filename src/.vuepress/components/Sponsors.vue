@@ -81,8 +81,8 @@ export default {
 
 <style scoped>
 .sponsors {
-  border: 1px solid #eee;
-  background: #fafbfc;
+  border: 1px solid #eaecef;
+  background: #fff;
   padding: 0 0.5rem 1.5rem;
 }
 .sponsors h3 {

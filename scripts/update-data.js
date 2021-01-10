@@ -57,11 +57,14 @@ function updateSponsors() {
           const username = item.profile.substring(item.profile.lastIndexOf('/') + 1)
           const logoSize = getLogoSize(item)
           const logo = logos[username] || 'https://images.opencollective.com/' + username + '/avatar/' + logoSize + '.jpg'
+          const link = item.totalAmountDonated >= tiers.bronze.minAmount
+            ? item.website || item.profile
+            : item.profile
           return {
             // id: item.MemberId,
             name: item.name,
             logo: logo,
-            link: item.website || item.profile,
+            link: link,
             amount: item.totalAmountDonated
           }
         })
