@@ -28,7 +28,7 @@ asc entryFile.ts
 
 #### asconfig.json
 
-Instead of providing the options outlined below on the command line, a configuration file typically named `asconfig.json` can be used. It may look like in the following example, exempt comments:
+Instead of providing the options outlined below on the command line, a configuration file typically named `asconfig.json` can be used. It may look like in the following example, excluding comments:
 
 ```json
 {
