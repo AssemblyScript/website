@@ -16,6 +16,49 @@ Non-option arguments are treated as the names of entry files. A single program c
 asc entryFile.ts
 ```
 
+### General
+
+```
+--version, -v         Prints just the compiler's version and exits.
+--help, -h            Prints this message and exits.
+--noColors            Disables terminal colors.
+--config              Configuration file to apply. CLI arguments take precedence.
+--target              Target configuration to use. Defaults to 'release'.
+```
+
+#### asconfig.json
+
+Instead of providing the options outlined below on the command line, a configuration file typically named `asconfig.json` can be used. It may look like in the following example, exempt comments:
+
+```json
+{
+  "extends": "./path/to/other/asconfig.json", // (optional) base config
+  "entries": [
+    // (optional) entry files, e.g.
+    "./assembly/index.ts"
+  ],
+  "options": {
+    // common options, e.g.
+    "importTable": true
+  },
+  "targets": {
+    // (optional) targets
+    "release": {
+      // additional options for the "release" target, e.g.
+      "optimize": true,
+      "binaryFile": "myModule.release.wasm"
+    },
+    "debug": {
+      // additional options for the "debug" target, e.g.
+      "debug": true,
+      "binaryFile": "myModule.debug.wasm"
+    }
+  }
+}
+```
+
+Provided command line options override options in the configuration file.
+
 ### Optimization
 
 The compiler can optimize for both speed and size. `--optimizeLevel` \(0-3\) indicates how much the compiler focuses on optimizing the code with `--shrinkLevel` \(0-2, 1=s, 2=z\) indicating how much it focuses on keeping the size low during code generation and while optimizing. A convenient shorthand is `-O[optimizeLevel][shrinkLevel]` , with shrink level indicated by appending the letter `s` \(1\) or `z` \(2\) to the optimize level.
@@ -82,10 +125,10 @@ There are several flags that enable or disable specific WebAssembly or compiler 
 --exportTable         Exports the function table as 'table'.
 --runtime             Specifies the runtime variant to include in the program.
 
-                        default      TLSF + lightweight GC invoked externally
-                        incremental  TLSF + incremental GC (experimental)
-                        stub         Minimal runtime stub (never frees)
-                        ...          Path to a custom runtime implementation
+                       incremental  TLSF + incremental GC (default)
+                       minimal      TLSF + lightweight GC invoked externally
+                       stub         Minimal runtime stub (never frees)
+                       ...          Path to a custom runtime implementation
 
 --exportRuntime       Exports the runtime helpers (__new, __collect etc.).
 --explicitStart       Exports an explicit '_start' function to call.
