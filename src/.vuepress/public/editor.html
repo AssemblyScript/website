@@ -228,8 +228,8 @@
         <h5>Runtime</h5>
         <div class="option">
           <p>
-            <input type="radio" name="option-runtime" id="option-runtime-default" checked /><label for="option-runtime-default"> default</label>
-            <input type="radio" name="option-runtime" id="option-runtime-incremental" /><label for="option-runtime-incremental"> incremental</label>
+            <input type="radio" name="option-runtime" id="option-runtime-incremental" checked /><label for="option-runtime-incremental"> incremental</label>
+            <input type="radio" name="option-runtime" id="option-runtime-minimal" /><label for="option-runtime-minimal"> minimal</label>
             <input type="radio" name="option-runtime" id="option-runtime-stub" /><label for="option-runtime-stub"> stub</label>
           </p>
           <p><input id="option-exportRuntime" type="checkbox" /><label for="option-exportRuntime"> Export runtime helpers to host</label></p>
@@ -324,8 +324,8 @@
     const optionOptimizeNone = document.getElementById('option-optimize-none')
     const optionNoAssert = document.getElementById('option-noAssert')
     const optionDebug = document.getElementById('option-debug')
-    const optionRuntimeDefault = document.getElementById('option-runtime-default')
     const optionRuntimeIncremental = document.getElementById('option-runtime-incremental')
+    const optionRuntimeMinimal = document.getElementById('option-runtime-minimal')
     const optionRuntimeStub = document.getElementById('option-runtime-stub')
     const optionExportRuntime = document.getElementById('option-exportRuntime')
     const optionNoExportMemory = document.getElementById('option-noExportMemory')
@@ -561,8 +561,8 @@
           case 'none': optionOptimizeNone.checked = true; break
         }
         switch (options.runtime) {
-          case 'default': optionRuntimeDefault.checked = true; break
           case 'incremental': optionRuntimeIncremental.checked = true; break
+          case 'minimal': optionRuntimeMinimal.checked = true; break
           case 'stub': optionRuntimeStub.checked = true; break
         }
         for (let [key, element] of Object.entries(optionCheckboxes)) {
@@ -603,10 +603,10 @@
         } else if (optionOptimizeNone.checked) {
           query.push('optimize=none')
         }
-        if (optionRuntimeDefault.checked) {
-          query.push('runtime=default')
-        } else if (optionRuntimeIncremental.checked) {
+        if (optionRuntimeIncremental.checked) {
           query.push('runtime=incremental')
+        } else if (optionRuntimeMinimal.checked) {
+          query.push('runtime=minimal')
         } else if (optionRuntimeStub.checked) {
           query.push('runtime=stub')
         }
@@ -650,10 +650,10 @@
         if (optionNoAssert.checked) {
           options.push('--noAssert')
         }
-        if (optionRuntimeDefault.checked) {
-          options.push('--runtime', 'default')
-        } else if (optionRuntimeIncremental.checked) {
+        if (optionRuntimeIncremental.checked) {
           options.push('--runtime', 'incremental')
+        } else if (optionRuntimeMinimal.checked) {
+          options.push('--runtime', 'minimal')
         } else if (optionRuntimeStub.checked) {
           options.push('--runtime', 'stub')
         }
