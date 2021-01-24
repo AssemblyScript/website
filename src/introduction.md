@@ -55,14 +55,14 @@ Not all TypeScript features are equally trivial or efficient to implement on top
 |---------------------|--------------------------|-------------------------|------------------------------------
 | ✔️ **Finished proposal**
 | Import/export mutable globals | <C/> <F/> <S/> <N/> <W/> | ✔️           | Global variable interop
-| BigInt integration  | <C/> <F/>      <N/> <W/> | ✔️                     | 64-bit integer interop
+| BigInt integration  | <C/> <F/>           <W/> | ✔️                     | 64-bit integer interop
 | Non-trapping F2I    | <C/> <F/>      <N/> <W/> | ⏳                      | Checked and unchecked casts
 | Sign-extension      | <C/> <F/>      <N/> <W/> | ⏳ `sign-extension`     | Efficient casts
-| Multi-value         | <C/> <F/> <S/> <N/> <W/> | ❌                     | Tuple returns?
+| Multi-value         | <C/> <F/> <S/>      <W/> | ❌                     | Tuple returns?
 |
 | 🏁 **Standardize the feature**
 | Reference Types     |      <F/>           <W/> | ⏳ `reference-types`    | Prerequisite for garbage collection
-| Bulk memory         | <C/> <F/>      <N/> <W/> | ⏳ `bulk-memory`        | Replace `memcpy`, `memset`
+| Bulk memory         | <C/> <F/>           <W/> | ⏳ `bulk-memory`        | Replace `memcpy`, `memset`
 |
 | 🔨 **Implementation phase**
 | Tail call           |                          | ❌                     |
