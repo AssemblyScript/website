@@ -14,6 +14,7 @@ function getDefaultSidebar() {
         '/introduction',
         '/quick-start',
         '/basics',
+        '/status',
         '/frequently-asked-questions'
       ]
     },

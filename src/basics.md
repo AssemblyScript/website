@@ -66,17 +66,11 @@ var a = new A("hello world")
 
 ## Sandbox
 
-WebAssembly modules execute in a sandbox, providing **strong security guarantees** for all sorts of use cases not necessarily limited to the browser. As such, a module has **no immediate access to the DOM** or other external APIs out of the box, making it necessary to translate and exchange data either through the module's [exports and imports](./exports-and-imports.md) or reading from respectively writing to the module's linear memory.
-
-## Low-level
-
-Currently, values WebAssembly can exchange out of the box are **limited to basic numeric values**, and one can think of objects as a clever composition of basic values stored in linear memory. As such, whole **objects cannot yet flow in and out of WebAssembly** natively, making it necessary to translate between their representations in WebAssembly memory and JavaScript objects. This is typically the first real bummer one is going to run into.
-
-For now, there is [the loader](./loader.md) that provides the utility necessary to exchange strings and arrays for example, but it is somewhat edgy on its own due to its garbage collection primitives. It's a great starting point however, and we are looking into improving the experience.
+WebAssembly modules execute in a sandbox, providing **strong security guarantees** for all sorts of use cases not necessarily limited to the browser. As such, a module has **no immediate access to the DOM** or other external APIs out of the box. Also, WebAssembly does not yet have a concept of objects, making it necessary to translate and exchange objects via pointers to linear memory either through the module's [exports and imports](./exports-and-imports.md) or by reading from respectively writing to the module's linear memory. The [loader](./loader.md) is able to help there.
 
 ## Quirks
 
-Some patterns behave a little different in AssemblyScript compared to TypeScript, and a few features aren't yet feasible to implement on top of just the WebAssembly MVP. This section covers the more or less obvious ones and shows how to deal with them, so you can keep them in mind and build something great today. In fact, even the AssemblyScript compiler itself is subject to these.
+Some patterns behave a little different in AssemblyScript compared to TypeScript. This section covers the more or less obvious ones and shows how to deal with them, so you can keep them in mind and build something great today.
 
 ### Triple equals
 
@@ -128,59 +122,4 @@ function doSomething(foo: Foo): void {
 }
 ```
 
-### Garbage collection
-
-We are still waiting for the [GC](https://github.com/WebAssembly/gc) 🦄 proposal to land but we have also implemented multiple [garbage collection](./garbage-collection.md) variants in linear memory to fill in the gaps for now. It works well but requires getting used to a bit.
-
-### Exceptions
-
-Exceptions are not yet supported and we are waiting for the [Exception Handling](https://github.com/WebAssembly/exception-handling) 🦄 proposal to land. As a consequence, the following will currently crash the program with a call to `abort`:
-
-```ts
-function doThrow(): void {
-  throw new Error("message")
-}
-```
-
-In the meantime we recommend to do as they did in the olden days and return an error code or `null` to indicate an exception.
-
-### Closures
-
-Closures are not yet supported and we are waiting for the [Function References](https://github.com/WebAssembly/function-references) 🦄 proposal (`func.bind`?) to land. However, since this is a crucial language feature, we may end up with a filler implementation using just linear memory earlier.
-
-In the meantime we recommend to restructure code so closures are not necessary, i.e. instead of writing
-
-```ts
-function computeSum(arr: i32[]): i32 {
-  var sum = 0
-  arr.forEach(value => {
-    sum += value // fails
-  })
-  return sum
-}
-```
-
-restructure to
-
-```ts
-var sum: i32 // becomes a WebAssembly Global
-function computeSum(arr: i32[]): i32 {
-  sum = 0
-  arr.forEach(value => {
-    sum += value // works
-  })
-  return sum
-}
-```
-
-or to
-
-```ts
-function computeSum(arr: i32[]): i32 {
-  var sum = 0
-  for (let i = 0, k = arr.length; i < k; ++i) {
-    sum += arr[i] // works
-  }
-  return sum
-}
-```
+So far, so good. Shall we continue with a [status of language features](./status.md)?
