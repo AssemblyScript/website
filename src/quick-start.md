@@ -92,7 +92,7 @@ add [imports](./exports-and-imports.md#imports) to the generated `index.js` (ins
 ...
 const imports = {
   "assembly/index": {
-    declarredImportedFunction: function(...) { ... }
+    declaredImportedFunction: function(...) { ... }
   }
 };
 ...
