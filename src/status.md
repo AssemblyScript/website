@@ -62,6 +62,7 @@ As such, certain higher-level language features still have their limitations or 
 |------------------------|-----------------
 | 🐤 **Functional**
 | Classes and interfaces | Largely implemented in linear memory. Some caveats. (GC 🦄)
+| Standard library       | Largely implemented in linear memory. Some caveats.
 | Garbage collection     | Implemented in linear memory for now. (GC 🦄)
 | Interop with JS        | Enabled by the [loader](./loader.md). (GC / Type imports / Interface Types 🦄)
 |
@@ -76,6 +77,14 @@ As such, certain higher-level language features still have their limitations or 
 ### Classes and interfaces
 
 These mostly work, with a a few caveats, especially when it comes to interfaces. The easiest workaround is typically to use a class.
+
+### Standard library
+
+Some [standard library APIs](./stdlib/globals.md) function a little different than in JavaScript to account for differences introduced by static typing or missing WebAssembly features. We are also maintaining a [separate status document](https://github.com/AssemblyScript/assemblyscript/wiki/Status-and-Roadmap) specific to the standard library.
+
+### Garbage collection
+
+[Garbage collection](./garbage-collection.md) is currently implemented in linear memory, independent from the host, and is best paired with [the loader](./loader.md) for interop.
 
 ### Interop with JS
 
