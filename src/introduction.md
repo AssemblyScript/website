@@ -45,51 +45,70 @@ var view = new Int32Array(12)
 view[2] = view[0] + view[1]
 ```
 
-It is worth to note, however, that AssemblyScript still has its [limitations](./basics.md#current-limitations) and a few implementation-specific [peculiarities](./peculiarities.md), and we are patiently waiting for [future WebAssembly features](#status) (marked as 🦄 throughout the documentation) to become available for us to use.
+It is worth to note, however, that AssemblyScript still has its [quirks](./basics.md#quirks) and a few implementation-specific [peculiarities](./peculiarities.md), and we are patiently waiting for [future WebAssembly features](#status) (marked as 🦄 throughout the documentation) to become available for us to use.
 
 ## Status
 
-Not all TypeScript features are equally trivial or efficient to implement on top of the current state of WebAssembly. AssemblyScript is fun and useful already, yet there's still a lot to do. The following table aims at giving an overview of future WebAssembly features and their status, that will hopefully help AS reach its full potential eventually:
+Not all TypeScript features are equally trivial or efficient to implement on top of the current state of WebAssembly. AssemblyScript is fun and useful already, yet there's still a lot to do. The following table aims at giving an overview of future WebAssembly features that will hopefully help AS reach its full potential eventually, and their status:
 
-| WebAssembly         | Engines                  | AssemblyScript (flag)   | What's the plan?
+| WebAssembly spec    | Engines                  | AssemblyScript (flag)   | What's the plan?
 |---------------------|--------------------------|-------------------------|------------------------------------
 | ✔️ **Finished proposal**
-| Import/export mutable globals | <C/> <F/> <S/> <N/> <W/> | ✔️           | Global variable interop
-| BigInt integration  | <C/> <F/>           <W/> | ✔️                     | 64-bit integer interop
+| Import/export mutable globals  | <C/> <F/> <S/> <N/> <W/> | ✔️           | Enabled by default
+| BigInt integration  | <C/> <F/>           <W/><sup>1</sup> | ✔️          | Enabled by default
 | Non-trapping F2I    | <C/> <F/>      <N/> <W/> | ⏳                      | Checked and unchecked casts
-| Sign-extension      | <C/> <F/>      <N/> <W/> | ⏳ `sign-extension`     | Efficient casts
-| Multi-value         | <C/> <F/> <S/>      <W/> | ❌                     | Tuple returns?
+| Sign-extension      | <C/> <F/>      <N/> <W/> | ⏳ `sign-extension`     | Efficient small integer casts
+| Multi-value         | <C/> <F/> <S/>      <W/> |                         | Tuple return values?
 |
 | 🏁 **Standardize the feature**
 | Reference Types     |      <F/>           <W/> | ⏳ `reference-types`    | Prerequisite for garbage collection
 | Bulk memory         | <C/> <F/>           <W/> | ⏳ `bulk-memory`        | Replace `memcpy`, `memset`
 |
 | 🔨 **Implementation phase**
-| Tail call           |                          | ❌                     |
-| Fixed-width SIMD    |                          | ⏳ `simd`               | Expose as builtins, auto-vectorize?
-| Multiple memories   |                          | ❌                     |
-| Custom annotations  |                          | ❌                     |
+| Tail call           |                          |                         |
+| Fixed-width SIMD    |                          | ⏳ `simd`               | Expose as built-ins; Auto-vectorize?
+| Multiple memories   |                          |                         |
+| Custom annotations  |                          |                         |
 |
 | 📖 **Spec text available** 
-| Threads             | <C/> <F/>                | ⏳ `threads`            | Expose as builtins, WebWorker?
-| ESM integration     |                          | ❌                      | Convenient web interop
+| Threads             | <C/> <F/>                | ⏳ `threads`            | Expose as built-ins; WebWorker?
+| ESM integration     |                          |                         | Convenient web interop
 | Exception handling  |                          | ⏳ `exception-handling` | Implement `throw`, `try`, ...
-| Typed function references |                    | ❌                     | Implement closures
-| Memory64            |                          | ⏳                      | Separate Wasm64 target
+| Function references |                          |                         | Implement closures
+| Memory64            |                          | ⏳                      | Wasm64 target
 |
 | 💡 **Feature proposal**
-| Type Imports        |                          | ❌                     | Efficient web interop?
-| Garbage collection  |                          | ❌                     | Reuse host GC, share objects?
-| Interface Types     |                          | ❌                     | Non-web interop?
-| Feature detection   |                          | ❌                     |
+| Type Imports        |                          |                         | Web interop?
+| Garbage collection  |                          |                         | Reuse host GC; Share objects?
+| Interface Types     |                          |                         | Non-web interop?
+| Feature detection   |                          |                         |
 | Extended name section |                        | ⏳                      | Debug names for locals etc.
-| Flexible vectors    |                          | ❌                     | Expose as builtins
-| Call Tags           |                          | ❌                     |
-| Module Linking      |                          | ❌                     | Linking pre-compiled modules
-| Branch hinting      |                          | ❌                     | `likely(x)`, `unlikely(x)`?
+| Flexible vectors    |                          |                         | Expose as built-ins
+| Call Tags           |                          |                         |
+| Module Linking      |                          |                         | Linking pre-compiled modules
+| Branch hinting      |                          |                         | `likely(x)`, `unlikely(x)`?
 
 <C/> Chrome &nbsp;
 <F/> Firefox &nbsp;
 <S/> Safari &nbsp;
 <N/> Node.js &nbsp;
-<W/> Wasmtime
+<W/> Wasmtime (<sup>1</sup> native i64 support)
+
+As such, certain significant higher-level language features depending on WebAssembly capabilities have their limitations or are not yet available:
+
+| Feature                | What to expect?
+|------------------------|-----------------
+| 🐤 **Functional**
+| Classes and interfaces | Largely implemented in linear memory. Some caveats. (GC 🦄)
+| Garbage collection     | Implemented in linear memory for now. (GC 🦄)
+| Interop with JS        | Enabled by the [loader](./loader.md). (GC / Type imports / Interface Types 🦄)
+|
+| 🐣 **Limited**
+| Union types            | Nullable classes only. Can use generics with [static checks](./environment.md#static-type-checks) instead. (No proposal so far)
+|
+| 🥚 **Not implemented**
+| Closures               | Perhaps implement in linear memory. (Function references 🦄)
+| Rest parameters        | Perhaps implement in linear memory. (No proposal so far)
+| Exceptions             | Throwing currently aborts the program. (Exception handling 🦄)
+
+Sounds appealing to you (nonetheless)? Read on!
