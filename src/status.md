@@ -75,6 +75,7 @@ As such, certain higher-level language features still have their limitations or 
 | [Rest parameters](#rest-parameters) | Perhaps implement in linear memory. (No proposal so far)
 | [Exceptions](#exceptions) | Throwing currently aborts the program. (needs Exception handling 🦄)
 | [Promises](#promises) | There is no concept of async/await yet due to the lack of an event loop. (No proposal so far)
+| [BigInt](#bigint) | There are no BigInts yet, but there are i64s.
 |
 | 🕳️ **Not supported**
 | [Dynamicness](#dynamicness) | AssemblyScript avoids overly dynamic JavaScript features by design.
@@ -213,6 +214,10 @@ In the meantime we recommend to do as they did in the olden days and return an e
 ### Promises
 
 The concept of async execution requires an underlying concept of an event loop, which browsers and Node.js have but WebAssembly does not. In the meantime, it is recommended to stick to synchronous code within WebAssembly or call back into WebAssembly when an external async operation completes.
+
+### BigInt
+
+We have favored the use of WebAssembly's native 64-bit integers over `BigInt`s so far, since `BigInt`s can represent values > 64-bits and as such would have to be implemented as less-efficient heap allocated objects. There are certain use cases relying on representing more than 64-bits, of course, but we still have to figure out how to support both types without introducing conflicts.
 
 ### Dynamicness
 
