@@ -240,5 +240,6 @@ AssemblyScript intentionally avoids very dynamic JavaScript features that cannot
 * Assign a class to a variable (e.g. `var clazz = MyClass`) since classes are static constructs without a runtime representation.
 * Patch class `.prototype`s since there are none.
 * Access `arguments` to dynamically obtain function arguments.
+* Dynamically obtain the name of a function at runtime or otherwise use reflection.
 
 Some of these restrictions, like implicit conversion to strings when concatenating with a string, may be lifted in the future, while others, like prototypes, may never be viable in ahead-of-time compilation. For instance, some features would work in an interpreter and may become efficient with a JIT compiler, yet going down that rabbit hole runs counter to WebAssembly's, and by definition AssemblyScript's, goals.
