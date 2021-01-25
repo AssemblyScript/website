@@ -1,10 +1,10 @@
 ---
-description: Special features that exist for the sole reason of why not.
+description: Special features that exist for internal implementation purposes or are otherwise nice to have.
 ---
 
 # Peculiarities
 
-Special features that exist for the sole reason of why not.
+Special features that exist for internal implementation purposes or are otherwise nice to have.
 
 ## Annotations
 

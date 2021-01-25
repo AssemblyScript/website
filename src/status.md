@@ -67,7 +67,7 @@ As such, certain higher-level language features still have their limitations or 
 | [Interop with JS](#interop-with-js) | Enabled by the loader package. (GC / Type imports / Interface Types 🦄)
 |
 | 🐣 **Limited**
-| [Union types](#union-types) | Nullable classes only. Can use generics with static type checks instead. (No proposal so far)
+| [Union types](#union-types) | Nullable class types only. Can use generics with static type checks instead. (No proposal so far)
 |
 | 🥚 **Not implemented**
 | [Closures](#closures) | Perhaps implement in linear memory. (Function references 🦄)

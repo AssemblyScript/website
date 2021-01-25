@@ -77,9 +77,9 @@ export function getU8(): u8 {
 
 On the other hand, calling any AssemblyScript function does not require wrapping of arguments.
 
-## Variable arguments
+## Optional arguments
 
-If a function exported from AssemblyScript accepts a variable number of arguments, the `exports.__setArgumentsLength(numArguments)` helper must be called with the number of actual arguments (while zeroing all the others) to inform the varargs stub. The [loader](./loader.md) does this automatically.
+If a function exported from AssemblyScript accepts optional arguments, the `exports.__setArgumentsLength(numArguments)` helper must be called with the number of actual arguments (while zeroing all the others) to inform the varargs stub to fill in the default values of omitted arguments. The [loader](./loader.md) does this automatically.
 
 ## Garbage collection
 
