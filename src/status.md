@@ -9,7 +9,7 @@ Not all language features are equally viable to implement on top of WebAssembly'
 
 ## WebAssembly features
 
-Some crucial language features rely on [not yet available WebAssembly functionality](https://github.com/WebAssembly/proposals) to be efficient. The following table aims to give an overview from a WebAssembly perspective:
+Some crucial language features rely on [future WebAssembly functionality](https://github.com/WebAssembly/proposals) to be efficient. The following table aims to give an overview from a WebAssembly perspective:
 
 | WebAssembly spec    | Engines                  | AssemblyScript (flag)   | What's the plan?
 |---------------------|--------------------------|-------------------------|------------------------------------
@@ -217,7 +217,7 @@ The concept of async execution requires an underlying concept of an event loop, 
 
 ### BigInt
 
-We have favored the use of WebAssembly's native 64-bit integers over `BigInt`s so far, since `BigInt`s can represent values > 64-bits and as such would have to be implemented as less-efficient heap allocated objects. There are certain use cases relying on representing more than 64-bits, of course, but we still have to figure out how to support both types without introducing conflicts.
+We have favored the use of WebAssembly's native 64-bit integers over `BigInt`s and their `INTn` notation so far, since `BigInt`s can represent values > 64-bits and as such would have to be implemented as less-efficient heap allocated objects. There are certain use cases relying on representing more than 64-bits, of course, but we still have to figure out how to support both types without introducing conflicts.
 
 ### Dynamicness
 
