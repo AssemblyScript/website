@@ -61,19 +61,23 @@ As such, certain higher-level language features still have their limitations or 
 | Feature                | What to expect?
 |------------------------|-----------------
 | 🐤 **Functional**
-| [Classes and interfaces](#classes-and-interfaces) | Largely implemented in linear memory. Some caveats. (GC 🦄)
+| [Classes and interfaces](#classes-and-interfaces) | Largely implemented in linear memory. Some caveats. (needs GC 🦄)
 | [Standard library](#standard-library) | Largely implemented in linear memory. Some caveats.
-| [Garbage collection](#garbage-collection) | Implemented in linear memory for now. (GC 🦄)
-| [Interop with JS](#interop-with-js) | Enabled by the loader package. (GC / Type imports / Interface Types 🦄)
+| [Garbage collection](#garbage-collection) | Implemented in linear memory for now. (needs GC 🦄)
+| [Interop with JS](#interop-with-js) | Enabled by the loader package. (needs Type imports / Interface Types 🦄)
 |
 | 🐣 **Limited**
 | [Union types](#union-types) | Nullable class types only. Can use generics with static type checks instead. (No proposal so far)
 |
 | 🥚 **Not implemented**
-| [Closures](#closures) | Perhaps implement in linear memory. (Function references 🦄)
+| [Closures](#closures) | Perhaps implement in linear memory. (needs Function references 🦄)
+| [Iterators](#iterators) | Iterators depend on closures.
 | [Rest parameters](#rest-parameters) | Perhaps implement in linear memory. (No proposal so far)
-| [Exceptions](#exceptions) | Throwing currently aborts the program. (Exception handling 🦄)
-| [Dynamic JS features](#dynamic-js-features) | Not supported by design.
+| [Exceptions](#exceptions) | Throwing currently aborts the program. (needs Exception handling 🦄)
+| [Promises](#promises) | There is no concept of async/await yet due to the lack of an event loop. (No proposal so far)
+|
+| 🕳️ **Not supported**
+| [Dynamicness](#dynamicness) | AssemblyScript avoids overly dynamic JavaScript features by design.
 
 ### Classes and interfaces
 
@@ -152,6 +156,26 @@ function computeSum(arr: i32[]): i32 {
 }
 ```
 
+### Iterators
+
+To make proper use of JavaScript iterators, it is necessary to first implement closures. Therefore `for ... of` loops are not currently supported. To work around this limitation, affected standard library APIs return an array for now:
+
+#### Map\<K,V>
+
+* ```ts
+  function keys(): Array<K>
+  ```
+
+* ```ts
+  function values(): Array<V>
+  ```
+
+#### Set\<T>
+
+* ```ts
+  function values(): Array<T>
+  ```
+
 ### Rest parameters
 
 It has not yet been attempted to implement variadic functions due to uncertainty how efficient it will be without random stack access. The risk is that doing dynamic allocations instead may introduce an unfortunate hidden cost to function calls.
@@ -182,10 +206,15 @@ function doThrow(): void {
 
 In the meantime we recommend to do as they did in the olden days and return an error code or `null` to indicate an exception.
 
-### Dynamic JS features
+### Promises
 
-In AssemblyScript it is not possible to use very dynamic JavaScript features, like for example:
+The concept of async execution requires an underlying concept of an event loop, which browsers and Node.js have but WebAssembly does not. In the meantime, it is recommended to stick to synchronous code within WebAssembly or call back into WebAssembly when an external async operation completes.
 
+### Dynamicness
+
+AssemblyScript intentionally avoids very dynamic JavaScript features that cannot be compiled efficiently, like for example:
+
+* Assigning any value to any variable.
 * Compare values of incompatible types.
 * Implicitly convert from a non-string to a string. Should use `x.toString()`.
 * Assign a new property, that has not been statically declared, to a class or object.
@@ -193,4 +222,4 @@ In AssemblyScript it is not possible to use very dynamic JavaScript features, li
 * Patch class `.prototype`s since there are none.
 * Access `arguments` to dynamically obtain function arguments.
 
-Some of these restrictions, like implicit conversion to strings when concatenating, may be lifted in the future, while others, like prototypes, may never be viable in ahead-of-time compilation.
+Some of these restrictions, like implicit conversion to strings when concatenating with a string, may be lifted in the future, while others, like prototypes, may never be viable in ahead-of-time compilation. For instance, some features would work in an interpreter and may become efficient with a JIT compiler, yet going down that rabbit hole runs counter to WebAssembly's, and by definition AssemblyScript's, goals.
