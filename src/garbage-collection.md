@@ -5,7 +5,7 @@ description: Everything about garbage collection in AssemblyScript.
 # Garbage Collection
 
 ::: tip NOTE
-This section covers the new runtime added in AssemblyScript 0.18. The previous runtime documentation [can be found here](./runtime.md).
+This section covers the new runtime added in AssemblyScript 0.18. The previous runtime documentation including migration guidelines [can be found here](./runtime.md).
 :::
 
 AssemblyScript implements garbage collection on top of linear memory while the WebAssembly [GC](https://github.com/WebAssembly/gc) 🦄 proposal is still in the works. More precisely it implements multiple runtime variants that are useful for different use cases, with the default being your typical memory manager and GC. The interface of the different variants is always the same, so these are interchangeable, yet differ in their level of sophistication. In case of doubt, starting out with the default is probably just fine.

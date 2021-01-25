@@ -6,7 +6,11 @@ description: Because nobody enjoys being bullied by malloc, free and friends.
 
 ::: danger WARNING
 This section is **OUTDATED** and covers version 0.17 of the AssemblyScript compiler. It has been superseded by the new runtime introduced in 0.18 that is now described under [Garbage collection](./garbage-collection.md).
+
+**Migration from AssemblyScript 0.17 to 0.18** requires re-evaluating uses of `__retain` and `__release`, since these have been replaced with `__pin` and `__unpin` with slightly different semantics. An object can now be exactly pinned or not pinned, but cannot be pinned multiple times, and WebAssembly exports do not have a special case of pre-retaining objects for the caller anymore. Also, runtime names have changed, and instead of distinguishing between `full` (runtime exported) and `half` (runtime not exported), there's now an option `--exportRuntime` to achieve the effect with any runtime variant.
 :::
+
+**Documentation for AssemblyScript 0.17:**
 
 AssemblyScript's runtime takes care of all the ins and outs of memory management and garbage collection, yet the compiler lets a developer choose the ideal runtime variant for their use case.
 
