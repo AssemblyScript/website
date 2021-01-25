@@ -9,7 +9,7 @@ Not all language features are equally viable to implement on top of WebAssembly'
 
 ## WebAssembly features
 
-Some crucial language features rely on not yet available WebAssembly functionality to be efficient. The following table aims to give an overview from a WebAssembly perspective:
+Some crucial language features rely on [not yet available WebAssembly functionality](https://github.com/WebAssembly/proposals) to be efficient. The following table aims to give an overview from a WebAssembly perspective:
 
 | WebAssembly spec    | Engines                  | AssemblyScript (flag)   | What's the plan?
 |---------------------|--------------------------|-------------------------|------------------------------------
@@ -61,18 +61,19 @@ As such, certain higher-level language features still have their limitations or 
 | Feature                | What to expect?
 |------------------------|-----------------
 | 🐤 **Functional**
-| Classes and interfaces | Largely implemented in linear memory. Some caveats. (GC 🦄)
-| Standard library       | Largely implemented in linear memory. Some caveats.
-| Garbage collection     | Implemented in linear memory for now. (GC 🦄)
-| Interop with JS        | Enabled by the [loader](./loader.md). (GC / Type imports / Interface Types 🦄)
+| [Classes and interfaces](#classes-and-interfaces) | Largely implemented in linear memory. Some caveats. (GC 🦄)
+| [Standard library](#standard-library) | Largely implemented in linear memory. Some caveats.
+| [Garbage collection](#garbage-collection) | Implemented in linear memory for now. (GC 🦄)
+| [Interop with JS](#interop-with-js) | Enabled by the loader package. (GC / Type imports / Interface Types 🦄)
 |
 | 🐣 **Limited**
-| Union types            | Nullable classes only. Can use generics with [static checks](./environment.md#static-type-checks) instead. (No proposal so far)
+| [Union types](#union-types) | Nullable classes only. Can use generics with static type checks instead. (No proposal so far)
 |
 | 🥚 **Not implemented**
-| Closures               | Perhaps implement in linear memory. (Function references 🦄)
-| Rest parameters        | Perhaps implement in linear memory. (No proposal so far)
-| Exceptions             | Throwing currently aborts the program. (Exception handling 🦄)
+| [Closures](#closures) | Perhaps implement in linear memory. (Function references 🦄)
+| [Rest parameters](#rest-parameters) | Perhaps implement in linear memory. (No proposal so far)
+| [Exceptions](#exceptions) | Throwing currently aborts the program. (Exception handling 🦄)
+| [Dynamic JS features](#dynamic-js-features) | Not supported by design.
 
 ### Classes and interfaces
 
@@ -92,7 +93,7 @@ WebAssembly only understands numeric values as of today and cannot easily exchan
 
 ### Union types
 
-WebAssembly cannot efficiently represent locals or globals of dynamic types, so union types are not supported in AssemblyScript. One can however take advantage of the fact that AssemblyScript is a static compiler, with monomorphized generics, to achieve a similar effect:
+WebAssembly cannot efficiently represent locals or globals of dynamic types, so union types are not supported in AssemblyScript. One can however take advantage of the fact that AssemblyScript is a static compiler, with monomorphized generics and [static type checks](./environment.md#static-type-checks), to achieve a similar effect:
 
 ```ts
 function addOrConcat<T>(a: T, b: T): T {
@@ -153,7 +154,21 @@ function computeSum(arr: i32[]): i32 {
 
 ### Rest parameters
 
-It has not yet been attempted to implement variadic functions since an eventual filler implementation would probably need to allocate arrays, which is an unfortunate hidden cost as far as function calls are concerned.
+It has not yet been attempted to implement variadic functions due to uncertainty how efficient it will be without random stack access. The risk is that doing dynamic allocations instead may introduce an unfortunate hidden cost to function calls.
+
+In the meantime, optional function arguments, which do not have such a hidden cost, may be able to help:
+
+```ts
+function handleGiven(a: i32, b: i32 = -1, c: i32 = -1): void {
+  handle(a);
+  if (~b) {
+    handle(b);
+    if (~c) {
+      handle(c);
+    }
+  }
+}
+```
 
 ### Exceptions
 
@@ -166,3 +181,16 @@ function doThrow(): void {
 ```
 
 In the meantime we recommend to do as they did in the olden days and return an error code or `null` to indicate an exception.
+
+### Dynamic JS features
+
+In AssemblyScript it is not possible to use very dynamic JavaScript features, like for example:
+
+* Compare values of incompatible types.
+* Implicitly convert from a non-string to a string. Should use `x.toString()`.
+* Assign a new property, that has not been statically declared, to a class or object.
+* Assign a class to a variable (e.g. `var clazz = MyClass`) since classes are static constructs without a runtime representation.
+* Patch class `.prototype`s since there are none.
+* Access `arguments` to dynamically obtain function arguments.
+
+Some of these restrictions, like implicit conversion to strings when concatenating, may be lifted in the future, while others, like prototypes, may never be viable in ahead-of-time compilation.
