@@ -60,11 +60,15 @@ As such, certain higher-level language features still have their limitations or 
 
 | Feature                | What to expect?
 |------------------------|-----------------
+| 🐥 **Complete**
+| Core | The compiler, as a library, successfully bootstraps.
+|
 | 🐤 **Functional**
 | [Classes and interfaces](#classes-and-interfaces) | Largely implemented in linear memory. Some caveats. (needs GC 🦄)
 | [Standard library](#standard-library) | Largely implemented in linear memory. Some caveats.
 | [Garbage collection](#garbage-collection) | Implemented in linear memory for now. (needs GC 🦄)
 | [Interop with JS](#interop-with-js) | Enabled by the loader package. (needs Type imports / Interface Types 🦄)
+| [Debugging](#debugging) | With debug info and source maps. (needs DWARF support)
 |
 | 🐣 **Limited**
 | [Union types](#union-types) | Nullable class types only. Can use generics with static type checks instead. (No proposal so far)
@@ -99,6 +103,12 @@ WebAssembly only understands numeric values as of today and cannot easily exchan
 For example, to pass a string to a WebAssembly export, one first has to allocate the string in the WebAssembly module's linear memory, and then pass the resulting pointer to the WebAssembly export. The same is true for arrays and other objects.
 
 For now, [the loader](./loader.md) provides the utility necessary to translate between objects in linear memory and JavaScript objects (e.g. with `__newString` and `__getString`), and our hopes are on Type Imports 🦄, Interface Types 🦄 and perhaps Garbage collection 🦄 to make interop more convenient eventually.
+
+See also: [Will interop between AssemblyScript and JavaScript become better?](./frequently-asked-questions.md#will-interop-between-assemblyscript-and-javascript-become-better)
+
+### Debugging
+
+Debugging of AssemblyScript modules is still limited, but [possible to some extent](./debugging.md) with debug information and accompanying source maps. For a better debugging experience, we may eventually want to integrate with the [DWARF](http://dwarfstd.org) format used by for example LLVM, ideally through Binaryen.
 
 ### Union types
 
