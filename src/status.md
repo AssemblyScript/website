@@ -5,7 +5,7 @@ sidebarDepth: 2
 
 # Status
 
-Not all language features are equally viable to implement on top of WebAssembly's current feature set. There is still a lot to do.
+Not all language features are equally viable to implement on top of WebAssembly's current capabilities, and while AssemblyScript is already useful today, there is also still a lot to do. Keep in mind that WebAssembly is an evolving technology, and so is AssemblyScript.
 
 ## WebAssembly features
 
@@ -81,7 +81,7 @@ As such, certain higher-level language features still have their limitations or 
 
 ### Classes and interfaces
 
-These mostly work, with a a few caveats, especially when it comes to interfaces. The easiest workaround is typically to use a class.
+These mostly work, with a a few caveats, in particular when it comes to interfaces. The easiest workaround is typically to use a class.
 
 ### Standard library
 
@@ -93,7 +93,11 @@ Some [standard library APIs](./stdlib/globals.md) function a little different th
 
 ### Interop with JS
 
-WebAssembly only understands numeric values as of today and cannot easily exchange objects with JavaScript. Hence, when an object is returned from WebAssembly to JavaScript or vice-versa, what the caller passes and the callee receives is a pointer to the object in linear memory. For now, [the loader](./loader.md) provides the utility necessary to translate between objects in linear memory and JavaScript objects, and our hopes are on Type Imports 🦄, Interface Types 🦄 and perhaps Garbage collection 🦄 to make interop more convenient eventually.
+WebAssembly only understands numeric values as of today and cannot easily exchange objects with JavaScript. Hence, when an object is returned from WebAssembly to JavaScript, what the caller passes and the callee receives is a pointer to the object in linear memory. Note that WebAssembly does not know what to do with JavaScript objects passed to it, as the VM will implicitly convert the object to a number when it crosses the boundary, which is typically not what you want.
+
+For example, to pass a string to a WebAssembly export, one first has to allocate the string in the WebAssembly module's linear memory, and then pass the resulting pointer to the WebAssembly export. The same is true for arrays and other objects.
+
+For now, [the loader](./loader.md) provides the utility necessary to translate between objects in linear memory and JavaScript objects (e.g. with `__newString` and `__getString`), and our hopes are on Type Imports 🦄, Interface Types 🦄 and perhaps Garbage collection 🦄 to make interop more convenient eventually.
 
 ### Union types
 
@@ -196,7 +200,7 @@ function handleGiven(a: i32, b: i32 = -1, c: i32 = -1): void {
 
 ### Exceptions
 
-Exceptions are not yet supported and we are waiting for the Exception handling 🦄 proposal to land. It is not yet feasible to implement exceptions without the help of the proposal, so the following will currently crash the program with a call to `abort("message", ...)`:
+Exceptions are not yet supported and we are waiting for the Exception handling 🦄 proposal to land. It is not yet feasible to implement exceptions without the help of the proposal as throwing and catching an exception requires stack unwinding, so the following will currently crash the program with a call to `abort("message", ...)`:
 
 ```ts
 function doThrow(): void {
@@ -216,7 +220,7 @@ AssemblyScript intentionally avoids very dynamic JavaScript features that cannot
 
 * Assigning any value to any variable.
 * Compare values of incompatible types.
-* Implicitly convert from a non-string to a string. Should use `x.toString()`.
+* Implicitly convert from a non-string to a string without using `x.toString()`.
 * Assign a new property, that has not been statically declared, to a class or object.
 * Assign a class to a variable (e.g. `var clazz = MyClass`) since classes are static constructs without a runtime representation.
 * Patch class `.prototype`s since there are none.

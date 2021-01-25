@@ -66,7 +66,7 @@ var a = new A("hello world")
 
 ## Sandbox
 
-WebAssembly modules execute in a sandbox, providing **strong security guarantees** for all sorts of use cases not necessarily limited to the browser. As such, a module has **no immediate access to the DOM** or other external APIs out of the box. Also, WebAssembly does not yet have a concept of objects, making it necessary to translate and exchange objects via pointers to linear memory either through the module's [exports and imports](./exports-and-imports.md) or by reading from respectively writing to the module's linear memory. The [loader](./loader.md) is able to help there.
+WebAssembly modules execute in a sandbox, providing **strong security guarantees** for all sorts of use cases not necessarily limited to the browser. As such, a module has **no immediate access to the DOM** or other external APIs out of the box. Also, WebAssembly does not yet have a concept of objects, making it necessary to **translate and exchange objects via pointers** to linear memory either through the module's [exports and imports](./exports-and-imports.md) or by reading from respectively writing to the module's linear memory. The [loader](./loader.md) is able to help there.
 
 ## Quirks
 
