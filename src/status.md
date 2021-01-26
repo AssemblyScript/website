@@ -60,10 +60,8 @@ As such, certain higher-level language features still have their limitations or 
 
 | Feature                | What to expect?
 |------------------------|-----------------
-| 🐥 **Complete**
-| Core | The compiler, as a library, successfully bootstraps.
-|
 | 🐤 **Functional**
+| [Bootstrap](#bootstrap) | The compiler can compile itself to WebAssembly as a library, passing the test suite.
 | [Classes and interfaces](#classes-and-interfaces) | Largely implemented in linear memory. Some caveats. (needs GC 🦄)
 | [Standard library](#standard-library) | Largely implemented in linear memory. Some caveats.
 | [Garbage collection](#garbage-collection) | Implemented in linear memory for now. (needs GC 🦄)
@@ -84,6 +82,12 @@ As such, certain higher-level language features still have their limitations or 
 |
 | 🕳️ **Not supported**
 | [Dynamicness](#dynamicness) | AssemblyScript avoids overly dynamic JavaScript features by design.
+
+### Bootstrap
+
+> The #AssemblyScript compiler compiled to #WebAssembly using the AssemblyScript compiler compiled to WebAssembly now produces the exact same binary as the AssemblyScript compiler compiled to WebAssembly using the AssemblyScript compiler compiled to #JavaScript. ☯️ - Dezember 8, 2020
+
+The first release based on the bootstrapping efforts is v0.18, released in January 2021. Note that the compiler is not technically "self hosted" in WebAssembly still, as it currently uses a JavaScript frontend for I/O and links to Binaryen (C++ compiled to WebAssembly with Emscripten), which again requires some JavaScript glue code. As such, to make the compiler work in a WebAssembly-only engine like Wasmtime, the next steps would be to work towards a WebAssembly-only build of Binaryen, and replace the I/O parts provided by `asc` with WASI.
 
 ### Classes and interfaces
 
