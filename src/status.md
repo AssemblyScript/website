@@ -72,10 +72,11 @@ As such, certain higher-level language features still have their limitations or 
 |
 | 🐣 **Limited**
 | [Union types](#union-types) | Nullable class types only. Can use generics with static type checks instead. (No proposal so far)
+| [Symbols](#symbols) | Implemented, but no deep compiler integration yet.
 |
 | 🥚 **Not implemented**
 | [Closures](#closures) | Perhaps implement in linear memory. (needs Function references 🦄)
-| [Iterators](#iterators) | Iterators depend on closures.
+| [Iterators](#iterators) | Not implemented yet. Depends on symbols.
 | [Rest parameters](#rest-parameters) | Perhaps implement in linear memory. (No proposal so far)
 | [Exceptions](#exceptions) | Throwing currently aborts the program. (needs Exception handling 🦄)
 | [Promises](#promises) | There is no concept of async/await yet due to the lack of an event loop. (No proposal so far)
@@ -130,6 +131,10 @@ function addOrSomethingElse<T>(a: T, b: T): T {
 
 Another effect of the above is that AssemblyScript does not have an `any` type or `undefined` value.
 
+### Symbols
+
+The standard library implements [`Symbol`](./stdlib/symbol.md), and it is possible to work with and create new symbols, but there is no deep compiler integration like registration of `Symbol.iterator` etc. yet.
+
 ### Closures
 
 Closures (functions with a captured environment) are not yet supported and we are waiting for the Function References 🦄 and Garbage collection 🦄 (captured environments are GC'ed) proposals to land. However, since this is a crucial language feature, we may end up with a filler implementation using linear memory. Not available yet, though.
@@ -173,7 +178,7 @@ function computeSum(arr: i32[]): i32 {
 
 ### Iterators
 
-To make proper use of JavaScript iterators, it is necessary to first implement closures. Therefore `for ... of` loops are not currently supported. To work around this limitation, affected standard library APIs return an array for now:
+It has not been attempted to implement iterators due to uncertainty how efficient iterators will be using frequent dynamic allocation. Also requires symbols for deep integration. Therefore `for ... of` loops are not currently supported. To work around the limitation of not having iterators, otherwise non-functional standard library APIs return an array for now:
 
 #### Map\<K,V>
 

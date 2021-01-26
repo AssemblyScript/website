@@ -63,6 +63,7 @@ function getStdlibSidebar() {
         '/stdlib/number',
         '/stdlib/set',
         '/stdlib/string',
+        '/stdlib/symbol',
         '/stdlib/typedarray'
       ]
     },

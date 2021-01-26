@@ -122,4 +122,4 @@ function doSomething(foo: Foo): void {
 }
 ```
 
-So far, so good. Shall we continue with a [status of language features](./status.md)?
+So far, so good. Shall we continue with a [status of WebAssembly and language features](./status.md)?

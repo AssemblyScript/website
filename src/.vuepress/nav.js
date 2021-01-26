@@ -51,6 +51,10 @@ module.exports = [
         link: '/stdlib/string'
       },
       {
+        text: 'Symbol',
+        link: '/stdlib/symbol'
+      },
+      {
         text: 'TypedArray',
         link: '/stdlib/typedarray'
       },
