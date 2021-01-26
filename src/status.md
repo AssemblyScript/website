@@ -7,6 +7,10 @@ sidebarDepth: 2
 
 Not all language features are equally viable to implement on top of WebAssembly's current capabilities, and while AssemblyScript is already useful today, there is also still a lot to do. Keep in mind that WebAssembly is an evolving technology, and so is AssemblyScript.
 
+## Philosophy
+
+The original idea making AssemblyScript attractive is that it wants to be a thin and efficient layer on top of WebAssembly with a familiar syntax, ultimately producing lean and mean Wasm binaries. This idea is composed of two components, however, that are sometimes antagonal: **Lean and mean** implies that we have to stay close to WebAssembly, not overdoing things while rather investing in future WebAssembly features, while a **familiar syntax** naturally makes us want to support more of the original language right now. One could say that AssemblyScript is moving on a slippery slope by design, encouraging its team to pursue their vision, with the ultimate goal being to get rid of as much of the slope as we can without sacrificing either efficiency or usability.
+
 ## WebAssembly features
 
 Some crucial language features rely on [future WebAssembly functionality](https://github.com/WebAssembly/proposals) to be efficient. The following table aims to give an overview from a WebAssembly perspective:
@@ -84,8 +88,6 @@ As such, certain higher-level language features still have their limitations or 
 | [Dynamicness](#dynamicness) | AssemblyScript avoids overly dynamic JavaScript features by design.
 
 ### Bootstrap
-
-> The #AssemblyScript compiler compiled to #WebAssembly using the AssemblyScript compiler compiled to WebAssembly now produces the exact same binary as the AssemblyScript compiler compiled to WebAssembly using the AssemblyScript compiler compiled to #JavaScript. ☯️ - Dezember 8, 2020
 
 The first release based on the bootstrapping efforts is v0.18, released in January 2021. Note that the compiler is not technically "self hosted" in WebAssembly still, as it currently uses a JavaScript frontend for I/O and links to Binaryen (C++ compiled to WebAssembly with Emscripten), which again requires some JavaScript glue code. As such, to make the compiler work in a WebAssembly-only engine like Wasmtime, the next steps would be to work towards a WebAssembly-only build of Binaryen, and replace the I/O parts provided by `asc` with WASI.
 
