@@ -35,7 +35,7 @@ The name `Number` below stands for one of the wrappers `I8`, `I16`, `I32`, `I64`
 * ```ts
   function toString(radix?: i32): string
   ```
-  Returns the respective basic value converted to a string. The `radix` parameter is not supported yet.
+  Returns the respective basic value converted to a string.
 
 ## Floats
 
@@ -118,4 +118,4 @@ The name `Number` below stands for one of the wrappers `F32` or `F64` representi
 * ```ts
   function toString(radix?: i32): string
   ```
-  Returns the respective basic value converted to a string.
+  Returns the respective basic value converted to a string. The `radix` parameter is currently ignored here.
