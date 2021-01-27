@@ -15,82 +15,79 @@ The original idea making AssemblyScript attractive is that it wants to be a thin
 
 Some crucial language features rely on [future WebAssembly functionality](https://github.com/WebAssembly/proposals) to be efficient. The following table aims to give an overview from a WebAssembly perspective:
 
-| WebAssembly spec    | Engines                  | AssemblyScript (flag)   | What's the plan?
-|---------------------|--------------------------|-------------------------|------------------------------------
+| WebAssembly spec               | Engines                       | AssemblyScript (flag)   | What's the plan?
+|--------------------------------|-------------------------------|-------------------------|------------------------------------
 | ✔️ **Finished proposal**
-| Import/export mutable globals  | <C/> <F/> <S/> <N/> <W/> | ✔️           | Global variable interop
-| BigInt integration  | <C/> <F/>           <W/><sup>1</sup> | ✔️          | 64-bit integer interop
-| Non-trapping F2I    | <C/> <F/>      <N/> <W/> | ⏳                      | Checked and unchecked casts
-| Sign-extension      | <C/> <F/>      <N/> <W/> | ⏳ `sign-extension`     | Efficient small integer casts
-| Multi-value         | <C/> <F/> <S/>      <W/> |                         | Tuple return values?
-|
+| Import/export mutable globals  | <Ch/> <Fi/> <Sa/> <No/> <Wa/> | ✔️                     | Global variable interop
+| BigInt integration             | <Ch/> <Fi/>             <Wa/><sup>1</sup> | ✔️         | 64-bit integer interop
+| Non-trapping F2I               | <Ch/> <Fi/>       <No/> <Wa/> | ⏳                      | Checked and unchecked casts
+| Sign-extension                 | <Ch/> <Fi/>       <No/> <Wa/> | ⏳ `sign-extension`     | Efficient small integer casts
+| Multi-value                    | <Ch/> <Fi/> <Sa/>       <Wa/> |                         | Tuple return values?
+||
 | 🏁 **Standardize the feature**
-| Reference Types     |      <F/>           <W/> | ⏳ `reference-types`    | Prerequisite for garbage collection
-| Bulk memory         | <C/> <F/>           <W/> | ⏳ `bulk-memory`        | Replace `memcpy`, `memset`
-|
+| Reference Types                |       <Fi/>             <Wa/> | ⏳ `reference-types`    | Prerequisite for garbage collection
+| Bulk memory                    | <Ch/> <Fi/>             <Wa/> | ⏳ `bulk-memory`        | Replace `memcpy`, `memset`
+||
 | 🔨 **Implementation phase**
-| Tail call           |                          |                         |
-| Fixed-width SIMD    |                          | ⏳ `simd`               | Expose as built-ins; Auto-vectorize?
-| Multiple memories   |                          |                         |
-| Custom annotations  |                          |                         |
-|
+| Tail call                      |                               |                         |
+| Fixed-width SIMD               |                               | ⏳ `simd`               | Expose as built-ins; Auto-vectorize?
+| Multiple memories              |                               |                         |
+| Custom annotations             |                               |                         |
+||
 | 📖 **Spec text available** 
-| Threads             | <C/> <F/>                | ⏳ `threads`            | Expose as built-ins; WebWorker?
-| ESM integration     |                          |                         | Natural web interop
-| Exception handling  |                          | ⏳ `exception-handling` | Implement exceptions
-| Function references |                          |                         | Implement closures
-| Memory64            |                          | ⏳                      | Provide a Wasm64 target
-|
+| Threads                        | <Ch/> <Fi/>                   | ⏳ `threads`            | Expose as built-ins; WebWorker?
+| ESM integration                |                               |                         | Natural web interop
+| Exception handling             |                               | ⏳ `exception-handling` | Implement exceptions
+| Function references            |                               |                         | Implement closures
+| Memory64                       |                               | ⏳                      | Provide a Wasm64 target
+||
 | 💡 **Feature proposal**
-| Type Imports        |                          |                         | Web interop?
-| Garbage collection  |                          |                         | Reuse host GC; Share objects?
-| Interface Types     |                          |                         | Non-web interop?
-| Feature detection   |                          |                         |
-| Extended name section |                        | ⏳                      | Debug names for locals etc.
-| Flexible vectors    |                          |                         | Expose as built-ins
-| Call Tags           |                          |                         |
-| Module Linking      |                          |                         | Linking pre-compiled modules
-| Branch hinting      |                          |                         | `likely(x)`, `unlikely(x)`?
+| Type Imports                   |                               |                         | Web interop?
+| Garbage collection             |                               |                         | Reuse host GC; Share objects?
+| Interface Types                |                               |                         | Non-web interop?
+| Feature detection              |                               |                         |
+| Extended name section          |                               | ⏳                      | Debug names for locals etc.
+| Flexible vectors               |                               |                         | Expose as built-ins
+| Call Tags                      |                               |                         |
+| Module Linking                 |                               |                         | Linking pre-compiled modules
+| Branch hinting                 |                               |                         | `likely(x)`, `unlikely(x)`?
 
-<C/> Chrome &nbsp;
-<F/> Firefox &nbsp;
-<S/> Safari &nbsp;
-<N/> Node.js &nbsp;
-<W/> Wasmtime (<sup>1</sup> native i64 support)
+<Ch/> Chrome &nbsp;
+<Fi/> Firefox &nbsp;
+<Sa/> Safari &nbsp;
+<No/> Node.js &nbsp;
+<Wa/> Wasmtime (<sup>1</sup> native i64 support)
 
 ## Language features
 
 As such, certain higher-level language features still have their limitations or are not yet available. From a language perspective:
 
-| Feature                | What to expect?
-|------------------------|-----------------
+| Feature                                           | What to expect?
+|---------------------------------------------------|-----------------
 | 🐤 **Functional**
-| [Bootstrap](#bootstrap) | The compiler can compile itself to WebAssembly, passing the test suite.
+| [Bootstrap](#bootstrap)                           | The compiler can compile itself to WebAssembly, passing the test suite.
 | [Classes and interfaces](#classes-and-interfaces) | Largely implemented in linear memory. Some caveats. (needs GC 🦄)
-| [Standard library](#standard-library) | Largely implemented in linear memory. Some caveats.
-| [Generics](#generics) | Monomorphized templates for now. (maybe post-MVP GC 🦄)
-| [Garbage collection](#garbage-collection) | Implemented in linear memory for now. (needs GC 🦄)
-| [Interop with JS](#interop-with-js) | Enabled by the loader package. (needs Type imports / Interface Types 🦄)
-| [Debugging](#debugging) | Support for debug information and source maps. (needs DWARF support)
-| [Testing](#testing) | With assertions. Third-party library available.
-|
+| [Standard library](#standard-library)             | Largely implemented in linear memory. Some caveats.
+| [Generics](#generics)                             | Monomorphized templates for now. (maybe post-MVP GC 🦄)
+| [Garbage collection](#garbage-collection)         | Implemented in linear memory for now. (needs GC 🦄)
+| [Interop with JS](#interop-with-js)               | Enabled by the loader package. (needs Type imports / Interface Types 🦄)
+||
 | 🐣 **Limited**
-| [Union types](#union-types) | Nullable class types only. Can use generics with static type checks instead. (No proposal so far)
-| [Symbols](#symbols) | Implemented, but no deep compiler integration yet.
-| [JSON](#json) | Third-party library available.
-| [RegExp](#regexp) | Third-party library available.
-| [Linting](#linting) | Piggy-backing on top of TypeScript tooling. Third-party tooling available.
-|
+| [Union types](#union-types)                       | Nullable class types only. Can use generics with static type checks instead. (No proposal so far)
+| [Symbols](#symbols)                               | Implemented, but no deep compiler integration yet.
+| [JSON](#json)                                     | Third-party library available.
+| [RegExp](#regexp)                                 | Third-party library available.
+||
 | 🥚 **Not implemented**
-| [Closures](#closures) | Perhaps implement in linear memory. (needs Function references 🦄)
-| [Iterators](#iterators) | Not implemented yet. Depends on symbols.
-| [Rest parameters](#rest-parameters) | Perhaps implement in linear memory. (No proposal so far)
-| [Exceptions](#exceptions) | Throwing currently aborts the program. (needs Exception handling 🦄)
-| [Promises](#promises) | There is no concept of async/await yet due to the lack of an event loop. (No proposal so far)
-| [BigInt](#bigint) | There are no BigInts yet, but there are i64s.
-|
+| [Closures](#closures)                             | Perhaps implement in linear memory. (needs Function references 🦄)
+| [Iterators](#iterators)                           | Not implemented yet. Depends on symbols.
+| [Rest parameters](#rest-parameters)               | Perhaps implement in linear memory. (No proposal so far)
+| [Exceptions](#exceptions)                         | Throwing currently aborts the program. (needs Exception handling 🦄)
+| [Promises](#promises)                             | There is no concept of async/await yet due to the lack of an event loop. (No proposal so far)
+| [BigInt](#bigint)                                 | There are no BigInts yet, but there are i64s.
+||
 | 🕳️ **Not supported**
-| [Dynamicness](#dynamicness) | AssemblyScript avoids overly dynamic JavaScript features by design.
+| [Dynamicness](#dynamicness)                       | AssemblyScript avoids overly dynamic JavaScript features by design.
 
 ### Bootstrap
 
@@ -130,16 +127,6 @@ For now, [the loader](./loader.md) provides the utility necessary to translate b
 
 See also: [Will interop between AssemblyScript and JavaScript become better?](./frequently-asked-questions.md#will-interop-between-assemblyscript-and-javascript-become-better)
 
-### Debugging
-
-Debugging of AssemblyScript modules is not as convenient as it should be, but [possible with debug information and accompanying source maps](./debugging.md). For a better debugging experience, we may eventually want to integrate with the [DWARF](http://dwarfstd.org) format used by for example LLVM, ideally through Binaryen.
-
-### Testing
-
-AssemblyScript itself provides the [`assert`](./environment.md#utility) built-in, which is often sufficient to write basic tests while not picking a flavor. More complete solutions are provided by the community. See also:
-
-* [as-pect](https://github.com/jtenner/as-pect)
-
 ### Union types
 
 WebAssembly cannot efficiently represent locals or globals of dynamic types, so union types are not supported in AssemblyScript. One can however take advantage of the fact that AssemblyScript is a static compiler, with monomorphized generics and [static type checks](./environment.md#static-type-checks), to achieve a similar effect:
@@ -166,21 +153,19 @@ The standard library implements [`Symbol`](./stdlib/symbol.md), and it is possib
 
 ### JSON
 
-JSON integration in the compiler itself is still an open question due to its untyped nature. May require a mix of reflection and schema-specific code generation for natural integration. See also:
+JSON integration in the compiler itself is still an open question due to its untyped nature. May require a mix of reflection and schema-specific code generation for natural integration.
 
-* [assemblyscript-json](https://github.com/nearprotocol/assemblyscript-json)
+Solutions being developed by the community:
+
+* [nearprotocol/assemblyscript-json](https://github.com/nearprotocol/assemblyscript-json)
 
 ### RegExp
 
-Regular expressions have been on our todo list for quite a while. It's mostly that a good implementation becomes complicated pretty quickly with special Unicode cases, exponential behavior and so on. Also, an ideal RegExp implementation would be compatible with the ECMAScript specification, reasonably fast and integrate deeply with the compiler, so RegExp literals can be pre-compiled (to WebAssembly code or an intermediate bytecode), making it unnecessary most of the time to ship the entire engine with a module. See also:
+Regular expressions have been on our todo list for quite a while. It's mostly that a good implementation becomes complicated pretty quickly with special Unicode cases, exponential behavior and so on. Also, an ideal RegExp implementation would be compatible with the ECMAScript specification, reasonably fast and integrate deeply with the compiler, so RegExp literals can be pre-compiled (to WebAssembly code or an intermediate bytecode), making it unnecessary most of the time to ship the entire engine with a module.
 
-* [assemblyscript-regex](https://github.com/ColinEberhardt/assemblyscript-regex)
+Solutions being developed by the community:
 
-### Linting
-
-AssemblyScript reuses TypeScript tooling to make onboarding trivial, but could need more sophisticated checking (as one types) for where code is valid TypeScript but not valid AssemblyScript or vice-versa. It is still an open question whether a custom language server is needed, or if an extension on top of existing TypeScript tooling would be an equal option. See also:
-
-* [asls](https://github.com/Shopify/asls)
+* [ColinEberhardt/assemblyscript-regex](https://github.com/ColinEberhardt/assemblyscript-regex)
 
 ### Closures
 
@@ -295,3 +280,34 @@ AssemblyScript intentionally avoids very dynamic JavaScript features that cannot
 * Dynamically obtain the name of a function at runtime or otherwise use reflection.
 
 Some of these restrictions, like implicit conversion to strings when concatenating with a string, may be lifted in the future, while others, like prototypes, may never be viable in ahead-of-time compilation. For instance, some features would work in an interpreter and may become efficient with a JIT compiler, yet going down that rabbit hole runs counter to WebAssembly's, and by definition AssemblyScript's, goals.
+
+## Tooling features
+
+| Feature                 | What to expect?
+|-------------------------|-----------------
+| 🐤 **Functional**
+| [Debugging](#debugging) | Support for debug information and source maps. (needs DWARF support)
+| [Testing](#testing)     | With assertions. Third-party library available.
+||
+| 🐣 **Limited**
+| [Linting](#linting)     | Re-used TypeScript tooling. Third-party tooling available.
+
+### Debugging
+
+Debugging of AssemblyScript modules is not as convenient as it should be, but [possible with debug information and accompanying source maps](./debugging.md). For a better debugging experience, we may eventually want to integrate with the [DWARF](http://dwarfstd.org) format used by for example LLVM, ideally through Binaryen.
+
+### Testing
+
+The standard library provides the [`assert`](./environment.md#utility) built-in, which does not decide on a particular flavor of testing, yet is often sufficient to write basic tests.
+
+Solutions being developed by the community:
+
+* [jtenner/as-pect](https://github.com/jtenner/as-pect)
+
+### Linting
+
+AssemblyScript piggy-backs on top of TypeScript's excellent infrastructure currently, making it trivial to get started, but could need more sophisticated checking (as one types) for where code is valid TypeScript but not valid AssemblyScript or vice-versa. It is still an open question whether a custom language server is needed (potentially with a separate file extension), or if an extension on top of existing TypeScript tooling would be an equally viable option. The latter would imply having to reinvent fewer wheels, while the former may feel more polished once all the wheels have been re-invented.
+
+Solutions being developed by the community:
+
+* [Shopify/asls](https://github.com/Shopify/asls)
