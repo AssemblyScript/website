@@ -306,7 +306,7 @@ Solutions being developed by the community:
 
 ### Linting
 
-AssemblyScript piggy-backs on top of TypeScript's excellent infrastructure currently, making it trivial to get started, but could need more sophisticated checking (as one types) for where code is valid TypeScript but not valid AssemblyScript or vice-versa. It is still an open question whether a custom language server is needed (potentially with a separate file extension), or if an extension on top of existing TypeScript tooling would be an equally viable option. The latter would imply having to reinvent fewer wheels, while the former may feel more polished once all the wheels have been re-invented.
+AssemblyScript piggy-backs on top of TypeScript's excellent infrastructure currently, making it trivial to get started, but could need more sophisticated checking (as one types) for where code is valid TypeScript but not valid AssemblyScript or vice-versa with `// @ts-ignore`. It is still an open question whether a custom language server is needed (potentially with a separate file extension), or if a plugin on top of existing TypeScript tooling would be an equally viable option. The latter would imply having to reinvent fewer wheels, like code navigation and refactoring etc., while the former may feel more polished once all the wheels have been reinvented.
 
 Solutions being developed by the community:
 
