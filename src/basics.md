@@ -122,4 +122,8 @@ function doSomething(foo: Foo): void {
 }
 ```
 
+### Non-linear compilation
+
+AssemblyScript does not compile a module linearly, but starts at the module's exports and only compiles what's reachable from them, often referred to as tree-shaking. As such, dead code is always validated syntactically, but not necessarily checked for semantic correctness. While this mechanism significantly helps to reduce compile times and feels almost natural to those familiar with *executing* JavaScript, it may initially feel a little strange not only to those with a background in traditional compilers, for example because emitted diagnostics are not linear, but also to those with a background in TypeScript, because even type annotations remain unchecked when unused. The exception to the rule is top-level code, including top-level variable declarations and their initializers, that must be evaluated in proper order.
+
 So far, so good. Shall we continue with a [status of WebAssembly and language features](./status.md)?

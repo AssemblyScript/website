@@ -68,6 +68,7 @@ As such, certain higher-level language features still have their limitations or 
 | [Bootstrap](#bootstrap) | The compiler can compile itself to WebAssembly, passing the test suite.
 | [Classes and interfaces](#classes-and-interfaces) | Largely implemented in linear memory. Some caveats. (needs GC 🦄)
 | [Standard library](#standard-library) | Largely implemented in linear memory. Some caveats.
+| [Generics](#generics) | Monomorphized templates for now. (maybe post-MVP GC 🦄)
 | [Garbage collection](#garbage-collection) | Implemented in linear memory for now. (needs GC 🦄)
 | [Interop with JS](#interop-with-js) | Enabled by the loader package. (needs Type imports / Interface Types 🦄)
 | [Debugging](#debugging) | Support for debug information and source maps. (needs DWARF support)
@@ -97,11 +98,23 @@ The first release able to bootstrap itself and pass the test suite is v0.18, rel
 
 ### Classes and interfaces
 
-These mostly work, with a a few caveats, in particular when it comes to interfaces. The easiest workaround is typically to use a class.
+These mostly work, with a a few caveats.
+
+* Access modifiers like `private` and `protected` are not currently enforced. Likely to be enforced in the future.
+* Interface fields must be implemented as getters and setters. Likely to be lifted in the future.
+* Note that WebAssembly doesn't magically neglect the runtime cost of making extensive use of managed classes, so there are often faster alternatives.
 
 ### Standard library
 
 Some [standard library APIs](./stdlib/globals.md) function a little different than in JavaScript to account for differences introduced by static typing or missing WebAssembly features. We are also maintaining a [separate status document](https://github.com/AssemblyScript/assemblyscript/wiki/Status-and-Roadmap) specific to the standard library.
+
+### Generics
+
+AssemblyScript compiles generics to one concrete method or function per set of unique contextual type arguments, known as monomorphization. Implications are that a module only includes and exports concrete functions for sets of type arguments actually used and that concrete functions can be shortcutted with [static type checks](./environment.md#static-type-checks) at compile time, which turned out to be quite useful.
+
+* The compiler does not currently enforce `extends Y` clauses on type parameters. Likely to be enforced in the future.
+* WebAssembly GC 🦄 may introduce more sophisticated mechanisms like reified generics, potentially post-MVP.
+* Concrete functions compiling to the exact same code are de-duplicated during optimization.
 
 ### Garbage collection
 
