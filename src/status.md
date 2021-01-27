@@ -9,7 +9,7 @@ Not all language features are equally viable to implement on top of WebAssembly'
 
 ## Philosophy
 
-The original idea making AssemblyScript attractive is that it wants to be a thin and efficient layer on top of WebAssembly with a familiar syntax, ultimately producing lean and mean Wasm binaries. This idea is composed of two components, however, that are sometimes antagonal: **Lean and mean** implies that we have to stay close to WebAssembly, not overdoing things while rather investing in future WebAssembly features, while a **familiar syntax** naturally makes us want to support more of the original language right now. One could say that AssemblyScript is moving on a slippery slope by design, encouraging its team to pursue their vision, with the ultimate goal being to get rid of as much of the slope as we can without sacrificing either efficiency or usability.
+The original idea making AssemblyScript attractive is that it wants to be a thin and efficient layer on top of WebAssembly with a familiar syntax, ultimately producing lean and mean Wasm binaries. This idea is composed of two components, however, that are sometimes antagonal: **Lean and mean** implies that we have to stay close to WebAssembly, favoring future WebAssembly features over filler implementations in linear memory, while a **familiar syntax** naturally makes us want to support more of the original language right now. One could say that AssemblyScript is moving on a slippery slope by design, with the ultimate goal being to get rid of as much of the slope as we can without sacrificing efficiency.
 
 ## WebAssembly features
 
@@ -36,7 +36,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 |
 | 📖 **Spec text available** 
 | Threads             | <C/> <F/>                | ⏳ `threads`            | Expose as built-ins; WebWorker?
-| ESM integration     |                          |                         | Convenient web interop
+| ESM integration     |                          |                         | Natural web interop
 | Exception handling  |                          | ⏳ `exception-handling` | Implement exceptions
 | Function references |                          |                         | Implement closures
 | Memory64            |                          | ⏳                      | Provide a Wasm64 target
@@ -65,16 +65,20 @@ As such, certain higher-level language features still have their limitations or 
 | Feature                | What to expect?
 |------------------------|-----------------
 | 🐤 **Functional**
-| [Bootstrap](#bootstrap) | The compiler can compile itself to WebAssembly as a library, passing the test suite.
+| [Bootstrap](#bootstrap) | The compiler can compile itself to WebAssembly, passing the test suite.
 | [Classes and interfaces](#classes-and-interfaces) | Largely implemented in linear memory. Some caveats. (needs GC 🦄)
 | [Standard library](#standard-library) | Largely implemented in linear memory. Some caveats.
 | [Garbage collection](#garbage-collection) | Implemented in linear memory for now. (needs GC 🦄)
 | [Interop with JS](#interop-with-js) | Enabled by the loader package. (needs Type imports / Interface Types 🦄)
-| [Debugging](#debugging) | With debug info and source maps. (needs DWARF support)
+| [Debugging](#debugging) | Support for debug information and source maps. (needs DWARF support)
+| [Testing](#testing) | With assertions. Third-party library available.
 |
 | 🐣 **Limited**
 | [Union types](#union-types) | Nullable class types only. Can use generics with static type checks instead. (No proposal so far)
 | [Symbols](#symbols) | Implemented, but no deep compiler integration yet.
+| [JSON](#json) | Third-party library available.
+| [RegExp](#regexp) | Third-party library available.
+| [Linting](#linting) | Piggy-backing on top of TypeScript tooling. Third-party tooling available.
 |
 | 🥚 **Not implemented**
 | [Closures](#closures) | Perhaps implement in linear memory. (needs Function references 🦄)
@@ -89,7 +93,7 @@ As such, certain higher-level language features still have their limitations or 
 
 ### Bootstrap
 
-The first release based on the bootstrapping efforts is v0.18, released in January 2021. Note that the compiler is not technically "self hosted" in WebAssembly still, as it currently uses a JavaScript frontend for I/O and links to Binaryen (C++ compiled to WebAssembly with Emscripten), which again requires some JavaScript glue code. As such, to make the compiler work in a WebAssembly-only engine like Wasmtime, the next steps would be to work towards a WebAssembly-only build of Binaryen, and replace the I/O parts provided by `asc` with WASI.
+The first release able to bootstrap itself and pass the test suite is v0.18, released in January 2021. Note that the compiler is not technically "self hosted" in WebAssembly still, as it currently uses a JavaScript frontend for I/O and links to Binaryen (C++ with Emscripten), which also requires some JavaScript glue code. As such, to make the compiler work in a WebAssembly-only engine like Wasmtime, the next steps would be to work towards a WebAssembly-only build of Binaryen, and replace the I/O parts provided by `asc` with WASI.
 
 ### Classes and interfaces
 
@@ -115,7 +119,13 @@ See also: [Will interop between AssemblyScript and JavaScript become better?](./
 
 ### Debugging
 
-Debugging of AssemblyScript modules is still limited, but [possible to some extent](./debugging.md) with debug information and accompanying source maps. For a better debugging experience, we may eventually want to integrate with the [DWARF](http://dwarfstd.org) format used by for example LLVM, ideally through Binaryen.
+Debugging of AssemblyScript modules is not as convenient as it should be, but [possible with debug information and accompanying source maps](./debugging.md). For a better debugging experience, we may eventually want to integrate with the [DWARF](http://dwarfstd.org) format used by for example LLVM, ideally through Binaryen.
+
+### Testing
+
+AssemblyScript itself provides the [`assert`](./environment.md#utility) built-in, which is often sufficient to write basic tests while not picking a flavor. More complete solutions are provided by the community. See also:
+
+* [as-pect](https://github.com/jtenner/as-pect)
 
 ### Union types
 
@@ -140,6 +150,24 @@ Another effect of the above is that AssemblyScript does not have an `any` type o
 ### Symbols
 
 The standard library implements [`Symbol`](./stdlib/symbol.md), and it is possible to work with and create new symbols, but there is no deep compiler integration like registration of `Symbol.iterator` etc. yet.
+
+### JSON
+
+JSON integration in the compiler itself is still an open question due to its untyped nature. May require a mix of reflection and schema-specific code generation for natural integration. See also:
+
+* [assemblyscript-json](https://github.com/nearprotocol/assemblyscript-json)
+
+### RegExp
+
+Regular expressions have been on our todo list for quite a while. It's mostly that a good implementation becomes complicated pretty quickly with special Unicode cases, exponential behavior and so on. Also, an ideal RegExp implementation would be compatible with the ECMAScript specification, reasonably fast and integrate deeply with the compiler, so RegExp literals can be pre-compiled (to WebAssembly code or an intermediate bytecode), making it unnecessary most of the time to ship the entire engine with a module. See also:
+
+* [assemblyscript-regex](https://github.com/ColinEberhardt/assemblyscript-regex)
+
+### Linting
+
+AssemblyScript reuses TypeScript tooling to make onboarding trivial, but could need more sophisticated checking (as one types) for where code is valid TypeScript but not valid AssemblyScript or vice-versa. It is still an open question whether a custom language server is needed, or if an extension on top of existing TypeScript tooling would be an equal option. See also:
+
+* [asls](https://github.com/Shopify/asls)
 
 ### Closures
 

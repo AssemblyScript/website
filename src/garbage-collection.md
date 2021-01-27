@@ -63,7 +63,7 @@ The incremental runtime is most suitable for non-trivial programs where short pa
 
 * When a managed object is exclusively referenced externally, `exports.__pin(objPtr)` it so it doesn't become collected when WebAssembly code executes.
 * When the external object is not needed anymore, `exports.__unpin(objPtr)` it so it can become collected again.
-* Note that a pinned object also keeps its directly reachable members and indirectly reachable objects alive.
+* Note that a pinned object also keeps its directly reachable members and any indirectly reachable objects alive.
 * It is safe to omit pinning an object externally if it is known to be referenced from within WebAssembly anyhow.
 * It is possible to force a full collection (finishes current cycle, does another full cycle) using `exports.__collect()`, if so desired.
 
@@ -85,18 +85,18 @@ run()
 
 ### Minimal runtime
 
-The minimal runtime is similar to the incremental runtime, except that it doesn't go to lengths to polyfill WebAssembly features that are not yet available. It features a simpler (non-incremental) Two-Color Mark & Sweep (TCMS) garbage collector on top of TLSF, making it a suitable compromise.
+The minimal runtime is similar to the incremental runtime, except that it doesn't go to lengths to polyfill WebAssembly features that are not yet available. It features a simpler (non-incremental) Two-Color Mark & Sweep (TCMS) garbage collector on top of TLSF, making it a reasonable compromise.
 
-The minimal runtime works best for use-cases where the GC can be invoked externally at appropriate places, that is when the WebAssembly execution stack is known to be fully unwound. The execution stack is typically unwound when `exports.__collect()` is invoked neither directly or indirectly from WebAssembly, for example when invoking it from JavaScript only. The AssemblyScript compiler itself is a good candidate for the minimal runtime for example, as it does bounded amounts of work in bounded amounts of time, so it is sufficient to call `exports.__collect()` occasionally when specific phases of compilation are complete.
+The minimal runtime works best for use-cases where the GC can be invoked externally at appropriate places, that is when the WebAssembly execution stack is known to be fully unwound. The execution stack is typically unwound when `exports.__collect()` is invoked neither directly nor indirectly from WebAssembly, for example when invoking it from JavaScript only. The AssemblyScript compiler itself is a good candidate for the minimal runtime for example, as it does bounded amounts of work in bounded amounts of time, so it is sufficient to call `exports.__collect()` occasionally when specific phases of compilation are complete.
 
-Unlike the incremental runtime, the minimal runtime does not run interleaved with the program but always does a full garbage collection cycle when invoked, stopping the program while doing so. It is important to not overdo invoking the GC to avoid marking a lot but sweeping little for that reason. However, when used wisely, it typically has better throughput than the incremental runtime.
+Unlike the incremental runtime, the minimal runtime does not run interleaved with the program but always does a full garbage collection cycle when invoked externally, stopping the program while doing so. It is important to not overdo invoking the GC to avoid marking a lot but sweeping little for that reason. However, when used wisely, it typically has better throughput than the incremental runtime.
 
 **Usage instructions:**
 
 * Whenever you see fit, invoke `exports.__collect()` externally to collect all garbage. Note that this will mark & sweep all objects, so don't overdo calling it to avoid unnecessary overhead from marking a lot but sweeping little. In case of doubt, benchmark to find a reasonable sweet spot.
 * When a managed object is exclusively referenced externally, `exports.__pin(objPtr)` it so it doesn't become collected when `exports.__collect()` is being invoked.
 * When the external object is not needed anymore, `exports.__unpin(objPtr)` it so it can become collected again.
-* Note that a pinned object also keeps its directly reachable members and indirectly reachable objects alive.
+* Note that a pinned object also keeps its directly reachable members and any indirectly reachable objects alive.
 * It is safe to omit pinning an object externally if
   * it is known to be referenced from within WebAssembly anyhow, directly or indirectly reachable from any root, like a global.
   * it is solely used as an argument to a WebAssembly function and not used externally anymore afterwards.
