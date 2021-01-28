@@ -4,7 +4,7 @@ description: There is something appealing to it, isn't it?
 
 # Basics
 
-WebAssembly is fundamentally different from JavaScript, ultimately enabling entirely new use cases not only on the web. Consequently, AssemblyScript is much more similar to a static compiler than it is to a JavaScript VM. One can think of it as a mix of TypeScript's high level syntax and C's low-level capabilities. This page is dedicated to get you up to speed in no time.
+WebAssembly is fundamentally different from JavaScript, ultimately enabling entirely new use cases not only on the web. Consequently, AssemblyScript is much more similar to a static compiler than it is to a JavaScript VM. One can think of it as a mix of TypeScript's high level syntax and C's low-level capabilities. This page is dedicated to getting you up to speed in no time.
 
 ## Strictness
 
@@ -124,6 +124,6 @@ function doSomething(foo: Foo): void {
 
 ### Non-linear compilation
 
-AssemblyScript does not compile a module linearly, but starts at the module's exports and only compiles what's reachable from them, often referred to as tree-shaking. As such, dead code is always validated syntactically, but not necessarily checked for semantic correctness. While this mechanism significantly helps to reduce compile times and feels almost natural to those familiar with *executing* JavaScript, it may initially feel a little strange not only to those with a background in traditional compilers, for example because emitted diagnostics do not happen linearly, but also to those with a background in TypeScript, because even type annotations remain unchecked as part of dead code. The exception to the rule is top-level code, including top-level variable declarations and their initializers, that must be evaluated as soon as the respective file would first execute.
+AssemblyScript does not compile a module linearly, but starts at the module's exports and only compiles what's reachable from them, often referred to as [tree-shaking](https://en.wikipedia.org/wiki/Tree_shaking). As such, dead code is always validated syntactically, but not necessarily checked for semantic correctness. While this mechanism significantly helps to reduce compile times and feels almost natural to those familiar with *executing* JavaScript, it may initially feel a little strange not only to those with a background in traditional compilers, for example because emitted diagnostics do not happen linearly, but also to those with a background in TypeScript, because even type annotations remain unchecked as part of dead code. The exception to the rule is top-level code, including top-level variable declarations and their initializers, that must be evaluated as soon as the respective file would first execute.
 
 So far, so good. Shall we continue with a [status of WebAssembly and language features](./status.md)?

@@ -9,7 +9,7 @@ Not all language features are equally viable to implement on top of WebAssembly'
 
 ## Philosophy
 
-The original idea making AssemblyScript attractive is that it wants to be a thin and efficient layer on top of WebAssembly with a familiar syntax, ultimately producing lean and mean binaries. This idea is composed of two components, however, that are sometimes antagonal: **Lean and mean** implies that we have to stay close to WebAssembly's capabilities, i.e. not going too far already where implementations of certain language features would be inefficient, while a **familiar syntax** naturally makes us want to support more of the original language right now.
+The original idea which made AssemblyScript attractive is that it aims to be a thin and efficient layer on top of WebAssembly with a familiar syntax, ultimately producing lean and mean binaries. This idea is composed of two components, however, that are sometimes orthogonal: **Lean and mean** implies that we have to stay close to WebAssembly's capabilities, i.e. not going too far already where implementations of certain language features would be inefficient or increase binary size disproportionately, while a **familiar syntax** naturally begs for supporting more of the original language right now.
 
 As such, while AssemblyScript wants to stay as close as possible to being a language that feels very familiar with JavaScript and TypeScript developers, and aims to preserve compatiblity with existing tooling, it ultimately is a language compiling to WebAssembly and will prioritize language features that allow developers to write fast and small WebAssembly modules on top of the features that WebAssembly already provides.
 
@@ -109,7 +109,7 @@ Some [standard library APIs](./stdlib/globals.md) function a little different th
 
 ### Generics
 
-AssemblyScript compiles generics to one concrete method or function per set of unique contextual type arguments, known as monomorphization. Implications are that a module only includes and exports concrete functions for sets of type arguments actually used and that concrete functions can be shortcutted with [static type checks](./environment.md#static-type-checks) at compile time, which turned out to be quite useful.
+AssemblyScript compiles generics to one concrete method or function per set of unique contextual type arguments, also known as [monomorphisation](https://en.wiktionary.org/wiki/monomorphisation). Implications are that a module only includes and exports concrete functions for sets of type arguments actually used and that concrete functions can be shortcutted with [static type checks](./environment.md#static-type-checks) at compile time, which turned out to be quite useful.
 
 * The compiler does not currently enforce `extends Y` clauses on type parameters. Likely to be enforced in the future.
 * WebAssembly GC 🦄 may introduce more sophisticated mechanisms like reified generics, potentially post-MVP.

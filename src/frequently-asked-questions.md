@@ -9,7 +9,7 @@ Questions that may arise before, at or after this point. so if you're wondering 
 
 ## Is WebAssembly going to supersede JavaScript?
 
-Probably not, and it is not meant to do so. There are use cases one can handle "better" than the other, with "better" depending on requirements. A requirement can be to make an algorithm performing with little overhead on the one hand, which is where WebAssembly is good at, or getting an UI job done quicker on the other, which JavaScript is great for. As always, picking the right tool for the job is key, and AssemblyScript just so happens to blur the line a bit.
+Probably not, and it is not meant to do so. There are use cases one can handle "better" than the other, with "better" depending on requirements. A requirement can be to make an algorithm more efficient on the one hand, which is where WebAssembly is good at, or to quickly add interactive elements to a web page, which JavaScript is great for. As always, picking the right tool for the job is key, and AssemblyScript just so happens to blur the line a bit.
 
 ## Is WebAssembly faster than JavaScript?
 
