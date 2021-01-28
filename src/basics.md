@@ -4,7 +4,7 @@ description: There is something appealing to it, isn't it?
 
 # Basics
 
-WebAssembly is fundamentally different from JavaScript, ultimately enabling entirely new use cases not only on the web. Consequently, AssemblyScript is much more similar to a static compiler than it is to a JavaScript VM. One can think of it as if TypeScript and C had a somewhat special child. This page is dedicated to get you up to speed in no time.
+WebAssembly is fundamentally different from JavaScript, ultimately enabling entirely new use cases not only on the web. Consequently, AssemblyScript is much more similar to a static compiler than it is to a JavaScript VM. One can think of it as a mix of TypeScript's high level syntax and C's low-level capabilities. This page is dedicated to getting you up to speed in no time.
 
 ## Strictness
 
@@ -66,17 +66,11 @@ var a = new A("hello world")
 
 ## Sandbox
 
-WebAssembly modules execute in a sandbox, providing **strong security guarantees** for all sorts of use cases not necessarily limited to the browser. As such, a module has **no immediate access to the DOM** or other external APIs out of the box, making it necessary to translate and exchange data either through the module's [exports and imports](./exports-and-imports.md) or reading from respectively writing to the module's linear memory.
-
-## Low-level
-
-Currently, values WebAssembly can exchange out of the box are **limited to basic numeric values**, and one can think of objects as a clever composition of basic values stored in linear memory. As such, whole **objects cannot yet flow in and out of WebAssembly** natively, making it necessary to translate between their representations in WebAssembly memory and JavaScript objects. This is typically the first real bummer one is going to run into.
-
-For now, there is [the loader](./loader.md) that provides the utility necessary to exchange strings and arrays for example, but it is somewhat edgy on its own due to its garbage collection primitives. It's a great starting point however, and we are looking into improving the experience.
+WebAssembly modules execute in a sandbox, providing **strong security guarantees** for all sorts of use cases not necessarily limited to the browser. As such, a module has **no immediate access to the DOM** or other external APIs out of the box. Also, WebAssembly does not yet have a concept of objects, making it necessary to **translate and exchange objects via pointers** to linear memory either through the module's [exports and imports](./exports-and-imports.md) or by reading from respectively writing to the module's linear memory. The [loader](./loader.md) is able to help there.
 
 ## Quirks
 
-Some patterns behave a little different in AssemblyScript compared to TypeScript, and a few features aren't yet feasible to implement on top of just the WebAssembly MVP. This section covers the more or less obvious ones and shows how to deal with them, so you can keep them in mind and build something great today. In fact, even the AssemblyScript compiler itself is subject to these.
+Some patterns behave a little different in AssemblyScript compared to TypeScript. This section covers the more or less obvious ones and shows how to deal with them, so you can keep them in mind and build something great today.
 
 ### Triple equals
 
@@ -128,55 +122,8 @@ function doSomething(foo: Foo): void {
 }
 ```
 
-### Exceptions
+### Non-linear compilation
 
-Exceptions are not yet supported and we are waiting for the [Exception Handling](https://github.com/WebAssembly/exception-handling) 🦄 proposal to land. As a consequence, the following will currently crash the program with a call to `abort`:
+AssemblyScript does not compile a module linearly, but starts at the module's exports and only compiles what's reachable from them, often referred to as [tree-shaking](https://en.wikipedia.org/wiki/Tree_shaking). As such, dead code is always validated syntactically, but not necessarily checked for semantic correctness. While this mechanism significantly helps to reduce compile times and feels almost natural to those familiar with *executing* JavaScript, it may initially feel a little strange not only to those with a background in traditional compilers, for example because emitted diagnostics do not happen linearly, but also to those with a background in TypeScript, because even type annotations remain unchecked as part of dead code. The exception to the rule is top-level code, including top-level variable declarations and their initializers, that must be evaluated as soon as the respective file would first execute.
 
-```ts
-function doThrow(): void {
-  throw new Error("message")
-}
-```
-
-In the meantime we recommend to do as they did in the olden days and return an error code or `null` to indicate an exception.
-
-### Closures
-
-Closures are not yet supported and we are waiting for the [Function References](https://github.com/WebAssembly/function-references) 🦄 proposal (`func.bind`?) to land. However, since this is a crucial language feature, work on a preliminary implementation not depending on future WebAssembly features [has started](https://github.com/AssemblyScript/assemblyscript/pull/1308), but the prototype is still in flux and currently limited to read only captures. You can try it out with `npm install assemblyscript-closures-beta`.
-
-In the meantime we recommend to restructure code so closures are not necessary, i.e. instead of writing
-
-```ts
-function computeSum(arr: i32[]): i32 {
-  var sum = 0
-  arr.forEach(value => {
-    sum += value // fails
-  })
-  return sum
-}
-```
-
-restructure to
-
-```ts
-var sum: i32 // becomes a WebAssembly Global
-function computeSum(arr: i32[]): i32 {
-  sum = 0
-  arr.forEach(value => {
-    sum += value // works
-  })
-  return sum
-}
-```
-
-or to
-
-```ts
-function computeSum(arr: i32[]): i32 {
-  var sum = 0
-  for (let i = 0, k = arr.length; i < k; ++i) {
-    sum += arr[i] // works
-  }
-  return sum
-}
-```
+So far, so good. Shall we continue with a [status of WebAssembly and language features](./status.md)?

@@ -145,11 +145,11 @@ WebAssembly modules produced by the AssemblyScript compiler typically have the f
 
 * ```ts
   function __new?(size: usize, id: u32): usize
-  function __retain?(ptr: usize): usize
-  function __release?(ptr: usize): void
+  function __pin?(ptr: usize): usize
+  function __unpin?(ptr: usize): void
   function __collect?(): void
   ```
-  [Runtime helpers](./runtime.md). Only present on `--runtime stub/full`. Not present on `--runtime none/half`.
+  [Garbage collection helpers](./garbage-collection.md). Only present when compiling with `--exportRuntime`.
 
 ### Imports
 

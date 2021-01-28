@@ -17,7 +17,7 @@ Renders the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) to a 
 ## Example
 
 ```editor
-#!optimize=speed&runtime=none&importMemory&use=Math=JSMath
+#!optimize=speed&runtime=stub&importMemory&use=Math=JSMath
 /** Number of discrete color values on the JS side. */
 const NUM_COLORS = 2048;
 

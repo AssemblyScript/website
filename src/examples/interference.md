@@ -24,7 +24,7 @@ If you experience any of the following symptoms while viewing - dizziness, alter
 :::
 
 ```editor
-#!optimize=speed&runtime=none
+#!optimize=speed&runtime=stub
 var width  = 320;
 var height = 200;
 

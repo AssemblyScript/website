@@ -72,7 +72,7 @@ directory '/path/to/mymodule':
 Do you want to proceed? [Y/n]
 ```
 
-Once initialized, edit the sources in `assembly/`, tweak [compiler options](./compiler.md) in `asconfig.json` to fit your needs, and run the build command to compile your module to WebAssembly:
+Once initialized, edit the sources in `assembly/`, tweak [compiler options](./compiler.md) in [`asconfig.json`](./compiler.md#asconfig-json) to fit your needs, and run the build command to compile your module to WebAssembly:
 
 ```sh
 npm run asbuild

@@ -14,6 +14,7 @@ function getDefaultSidebar() {
         '/introduction',
         '/quick-start',
         '/basics',
+        '/status',
         '/frequently-asked-questions'
       ]
     },
@@ -33,7 +34,7 @@ function getDefaultSidebar() {
       collapsable: false,
       children: [
         '/memory',
-        '/runtime',
+        '/garbage-collection',
         '/peculiarities',
         '/portability',
         '/debugging',
@@ -62,6 +63,7 @@ function getStdlibSidebar() {
         '/stdlib/number',
         '/stdlib/set',
         '/stdlib/string',
+        '/stdlib/symbol',
         '/stdlib/typedarray'
       ]
     },
@@ -69,7 +71,10 @@ function getStdlibSidebar() {
       title: 'Extended Library',
       collapsable: false,
       children: [
-        '/stdlib/staticarray'
+        '/stdlib/staticarray',
+        '/stdlib/process',
+        '/stdlib/console',
+        '/stdlib/crypto'
       ]
     }
   ]

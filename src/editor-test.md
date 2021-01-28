@@ -3,7 +3,7 @@
 Text before
 
 ```editor
-#!runtime=half
+#!runtime=stub
 // Editor A
 
 export function add(a: i32, b: i32): i32 {
@@ -30,7 +30,7 @@ loader.instantiate(module_wasm, { /* imports */ })
 Text between
 
 ```editor
-#!runtime=half
+#!runtime=stub
 // Editor B
 
 export function sub(a: i32, b: i32): i32 {

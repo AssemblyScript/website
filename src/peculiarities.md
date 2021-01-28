@@ -1,10 +1,10 @@
 ---
-description: Special features that exist for the sole reason of why not.
+description: Special features that exist for internal implementation purposes or are otherwise nice to have.
 ---
 
 # Peculiarities
 
-Special features that exist for the sole reason of why not.
+Special features that exist for internal implementation purposes or are otherwise nice to have.
 
 ## Annotations
 
@@ -199,7 +199,7 @@ In addition to module-level tree-shaking, the compiler ignores branches that it 
 * ```ts
   const ASC_NO_ASSERT: bool
   ```
-  Whether `--noAssert` has being set.
+  Whether `--noAssert` has been set.
 
 * ```ts
   const ASC_MEMORY_BASE: usize
@@ -217,6 +217,16 @@ In addition to module-level tree-shaking, the compiler ignores branches that it 
   The value of `--shrinkLevel`. Possible values are 0, 1 and 2.
 
 * ```ts
+  const ASC_LOW_MEMORY_LIMIT: i32
+  ```
+  The value of `--lowMemoryLimit`.
+
+* ```ts
+  const ASC_EXPORT_RUNTIME: i32
+  ```
+  Whether `--exportRuntime` has been set.
+
+* ```ts
   const ASC_FEATURE_SIGN_EXTENSION: bool
   const ASC_FEATURE_MUTABLE_GLOBALS: bool
   const ASC_FEATURE_NONTRAPPING_F2I: bool
@@ -226,15 +236,23 @@ In addition to module-level tree-shaking, the compiler ignores branches that it 
   const ASC_FEATURE_EXCEPTION_HANDLING: bool
   const ASC_FEATURE_TAIL_CALLS: bool
   const ASC_FEATURE_REFERENCE_TYPES: bool
+  const ASC_FEATURE_MULTI_VALUE: bool
+  const ASC_FEATURE_GC: bool
+  const ASC_FEATURE_MEMORY64: bool
   ```
   Whether the respective feature is enabled.
 
-For example, if a library supports SIMD but also provides a fallback:
+  For example, if a library supports SIMD but also wants to provide a fallback when being compiled without SIMD support:
 
-```ts
-if (ASC_FEATURE_SIMD) {
-  // compute with SIMD operations
-} else {
-  // fallback without SIMD operations
-}
-```
+  ```ts
+  if (ASC_FEATURE_SIMD) {
+    // compute with SIMD operations
+  } else {
+    // fallback without SIMD operations
+  }
+  ```
+
+* ```ts
+  const ASC_WASI: i32
+  ```
+  A constant only being defined when WASI bindings are used via `import "wasi"`. Can be checked with `isDefined(ASC_WASI)`.

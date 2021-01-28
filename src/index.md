@@ -46,7 +46,7 @@ pageClass: frontpage
 <div id="try">
 
 ```editor
-#!runtime=half
+#!runtime=stub
 /** Calculates the n-th Fibonacci number. */
 export function fib(n: i32): i32 {
   var a = 0, b = 1

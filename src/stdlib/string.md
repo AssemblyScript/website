@@ -218,4 +218,4 @@ The following mostly exist to have a safe way to copy between Strings and ArrayB
 
 ## Considerations
 
-AssemblyScript stores strings [the same way JavaScript does](https://mathiasbynens.be/notes/javascript-encoding), i.e. by encoding them using UTF-16. In UTF-16, certain Unicode **code points** are represented by two UTF-16 **code units** called surrogate pairs. However, just like in JavaScript, strings are not sanitized so lone surrogates can appear in a string, which are technically ill-formed UTF-16. This is done to mimic JavaScript as closely as possible, and avoids string re-encoding when calling JavaScript APIs from WebAssembly. Whether future WebAssembly specifications will help in this regard is still [subject to discussion](https://github.com/WebAssembly/webidl-bindings/issues/13).
+Also see the notes on [string interoperability](../interoperability.md#strings).

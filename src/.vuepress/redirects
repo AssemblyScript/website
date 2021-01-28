@@ -10,7 +10,7 @@
 /details/memory /memory
 /details/peculiarities /peculiarities
 /details/portability /portability
-/details/runtime /runtime
+/details/runtime /garbage-collection
 /details/transforms /transforms
 /standard-library/array /stdlib/array
 /standard-library/arraybuffer /stdlib/arraybuffer
