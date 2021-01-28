@@ -1,5 +1,6 @@
 ---
 description: Everything about garbage collection in AssemblyScript.
+sidebarDepth: 2
 ---
 
 # Garbage Collection
@@ -133,6 +134,14 @@ function compute() {
 compute()
 // throw away the entire module instance
 ```
+
+### Custom runtime
+
+Even though of limited usefulness, it is also possible to create a new runtime (essentially a memory manager and a garbage collector) from scratch and include it instead of one of the options provided by AssemblyScript itself. To do so, a custom runtime needs to provide the implementations of the externally visible interfaces like `__new`, plus the underlying interfaces like `__alloc` and `__free`, on top of compiler-generated functionality like `__visit_members`, as described in more detail in [the runtime's README](https://github.com/AssemblyScript/assemblyscript/tree/master/std/assembly/rt). Looking at the implementation of the relatively simple stub runtime before diving into the more sophisticated ones may be a good starting point.
+
+* Runtimes typically include a general purpose memory manager to also drive `heap.alloc` and `heap.free`
+* Garbage collection is precise, with compiler-generated visitors aware of what's a pointer and what's not
+* The interface is tailored for tracing GCs, so attempts to implement other forms of GC may not be viable
 
 ## The future: WebAssembly GC
 
