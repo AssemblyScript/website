@@ -9,9 +9,9 @@ Not all language features are equally viable to implement on top of WebAssembly'
 
 ## Philosophy
 
-The original idea making AssemblyScript attractive is that it wants to be a thin and efficient layer on top of WebAssembly with a familiar syntax, ultimately producing lean and mean Wasm binaries. This idea is composed of two components, however, that are sometimes antagonal: **Lean and mean** implies that we have to stay close to WebAssembly's capabilities, i.e. not going too far already where implementations of certain features would be inefficient, while a **familiar syntax** naturally makes us want to support more of the original language right now.
+The original idea making AssemblyScript attractive is that it wants to be a thin and efficient layer on top of WebAssembly with a familiar syntax, ultimately producing lean and mean binaries. This idea is composed of two components, however, that are sometimes antagonal: **Lean and mean** implies that we have to stay close to WebAssembly's capabilities, i.e. not going too far already where implementations of certain language features would be inefficient, while a **familiar syntax** naturally makes us want to support more of the original language right now.
 
-As such, while AssemblyScript wants to stay as close as possible to being a language that feels very familiar with JavaScript and TypeScript developers, and aims to preserve compatiblity with existing tooling, it will prioritize language features that allow developers to write fast and small WebAssembly modules on top of the features that WebAssembly already provides.
+As such, while AssemblyScript wants to stay as close as possible to being a language that feels very familiar with JavaScript and TypeScript developers, and aims to preserve compatiblity with existing tooling, it ultimately is a language compiling to WebAssembly and will prioritize language features that allow developers to write fast and small WebAssembly modules on top of the features that WebAssembly already provides.
 
 ## WebAssembly features
 
