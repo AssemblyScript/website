@@ -128,7 +128,7 @@ compute(2)
 compute(3)
 ```
 
-An important usage difference between the incremental and the minimal runtime is in when it is necessary to pin objects. With the minimal runtime one has manual control about when the GC runs, so pinning is only necessary if a call to `exports.__collect()` may happen, while the incremental runtime may free an object whenever an allocation happens in WebAssembly code. For example, the following snippet works fine with the minimal runtime, but can randomly fail with the incremental runtime:
+An important usage difference between the incremental and the minimal runtime is in when it is necessary to pin objects. With the minimal runtime one has manual control over when the GC runs, so pinning is only necessary if a call to `exports.__collect()` may happen, while the incremental runtime may free an object whenever an allocation happens in WebAssembly code. For example, the following snippet works fine with the minimal runtime, but can randomly fail with the incremental runtime:
 
 ```js
 var cPtr = exports.stringConcat(
