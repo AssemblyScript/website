@@ -377,7 +377,7 @@
       'https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/sdk.js',
       'scripts/webassembly-language.js'
     ], (
-      { languages, editor }, 
+      { languages, editor },
       { asc, ASSEMBLYSCRIPT_VERSION, BINARYEN_VERSION, LONG_VERSION },
       { config: wasmLanguageConfig, tokens: wasmLanguageTokens }
     ) => {
@@ -484,7 +484,7 @@
           } else if (element.id == 'playTab') {
             function serialize() {
               return 'data:text/html;base64,' + btoa([
-                '<script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/umd/index.js"><', '/script>',
+                '<script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader@latest/umd/index.js"><', '/script>',
                 '<script>var module_wasm=new Uint8Array([', module_wasm.join(','), ']);<', '/script>\n\n',
                 htmlEditor.getValue().trimRight()
               ].join(''))
