@@ -281,7 +281,7 @@ The `immOffset` argument is a bit special here, because it becomes an actual imm
 
 #### **Memory Manager**
 
-An unsafe interface to just the dynamic memory manager, resembling `malloc`, `realloc` and `free` in C.
+An unsafe interface to use the dynamic memory manager directly, resembling `malloc`, `realloc` and `free` in C. Manual memory management can be used in parallel to garbage collection, which can be quite handy, but manually managed blocks cannot be mixed with garbage collected objects (i.e. trying to `heap.free` a GC object or casting a block to a managed object respectively would break since one has a GC header and the other does not).
 
 * ```ts
   function heap.alloc(size: usize): usize
@@ -296,7 +296,7 @@ An unsafe interface to just the dynamic memory manager, resembling `malloc`, `re
 * ```ts
   function heap.free(ptr: usize): void
   ```
-  Frees a chunk of memory. Does hardly anything (most recent block only) with the "stub" runtime.
+  Frees a chunk of memory.
 
 * ```ts
   function heap.reset(): void
