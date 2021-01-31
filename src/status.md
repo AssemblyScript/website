@@ -17,49 +17,49 @@ As such, while AssemblyScript wants to stay as close as possible to being a lang
 
 Some crucial language features rely on [future WebAssembly functionality](https://github.com/WebAssembly/proposals) to be efficient. The following table aims to give an overview from a WebAssembly perspective:
 
-| WebAssembly spec               | Engines                       | AssemblyScript (flag)   | What's the plan?
-|--------------------------------|-------------------------------|-------------------------|------------------------------------
+| WebAssembly spec               | Engines                             | AssemblyScript (flag)   | What's the plan?
+|--------------------------------|-------------------------------------|-------------------------|------------------------------------
 | ✔️ **Finished proposal**
-| Import/export mutable globals  | <Ch/> <Fi/> <Sa/> <No/> <Wa/> <Wasmer/>  | ✔️                     | Global variable interop
-| BigInt integration             | <Ch/> <Fi/>             <Wa/><sup>1</sup> <Wasmer/><sup>1</sup> | ✔️         | 64-bit integer interop
-| Non-trapping F2I               | <Ch/> <Fi/>       <No/> <Wa/> <Wasmer/> | ⏳                      | Checked and unchecked casts
-| Sign-extension                 | <Ch/> <Fi/>       <No/> <Wa/> <Wasmer/> | ⏳ `sign-extension`     | Efficient small integer casts
-| Multi-value                    | <Ch/> <Fi/> <Sa/>       <Wa/> <Wasmer/> |                         | Tuple return values?
+| Import/export mutable globals  | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | Global variable interop
+| BigInt integration<sup>1</sup> | <Ch/> <Fi/>             <Wt/> <Ws/> | ✔️                      | 64-bit integer interop
+| Non-trapping F2I               | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | ⏳ `nontrapping-f2i`    | Checked and unchecked casts
+| Sign-extension                 | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | ⏳ `sign-extension`     | Efficient small integer casts
+| Multi-value                    | <Ch/> <Fi/> <Sa/>       <Wt/> <Ws/> |                         | Tuple return values?
 ||
 | 🏁 **Standardize the feature**
-| Reference Types                |       <Fi/>             <Wa/> <Wasmer/> | ⏳ `reference-types`    | Prerequisite for garbage collection
-| Bulk memory                    | <Ch/> <Fi/>             <Wa/> <Wasmer/> | ⏳ `bulk-memory`        | Replace `memcpy`, `memset`
+| Reference Types                |       <Fi/>             <Wt/> <Ws/> | ⏳ `reference-types`    | Prerequisite for garbage collection
+| Bulk memory                    | <Ch/> <Fi/>             <Wt/> <Ws/> | ⏳ `bulk-memory`        | Replace `memcpy`, `memset`
 ||
 | 🔨 **Implementation phase**
-| Tail call                      |                               |                         |
-| Fixed-width SIMD               |                               | ⏳ `simd`               | Expose as built-ins; Auto-vectorize?
-| Multiple memories              |                               |                         |
-| Custom annotations             |                               |                         |
+| Tail call                      |                                     |                         |
+| Fixed-width SIMD               |                                     | ⏳ `simd`               | Expose as built-ins; Auto-vectorize?
+| Multiple memories              |                                     |                         |
+| Custom annotations             |                                     |                         |
 ||
 | 📖 **Spec text available** 
-| Threads                        | <Ch/> <Fi/>                   | ⏳ `threads`            | Expose as built-ins; WebWorker?
-| ESM integration                |                               |                         | Natural web interop
-| Exception handling             |                               | ⏳ `exception-handling` | Implement exceptions
-| Function references            |                               |                         | Implement closures
-| Memory64                       |                               | ⏳                      | Provide a Wasm64 target
+| Threads                        | <Ch/> <Fi/>                         | ⏳ `threads`            | Expose as built-ins; WebWorker?
+| ESM integration                |                                     |                         | Natural web interop
+| Exception handling             |                                     | ⏳ `exception-handling` | Implement exceptions
+| Function references            |                                     |                         | Implement closures
+| Memory64                       |                                     | ⏳                      | Provide a Wasm64 target
 ||
 | 💡 **Feature proposal**
-| Type Imports                   |                               |                         | Web interop?
-| Garbage collection             |                               |                         | Reuse host GC; Share objects?
-| Interface Types                |                               |                         | Non-web interop?
-| Feature detection              |                               |                         |
-| Extended name section          |                               | ⏳                      | Debug names for locals etc.
-| Flexible vectors               |                               |                         | Expose as built-ins
-| Call Tags                      |                               |                         |
-| Module Linking                 |                               |                         | Linking pre-compiled modules
-| Branch hinting                 |                               |                         | `likely(x)`, `unlikely(x)`?
+| Type Imports                   |                                     |                         | Web interop?
+| Garbage collection             |                                     |                         | Reuse host GC; Share objects?
+| Interface Types                |                                     |                         | Non-web interop?
+| Feature detection              |                                     |                         |
+| Extended name section          |                                     | ⏳                      | Debug names for locals etc.
+| Flexible vectors               |                                     |                         | Expose as built-ins
+| Call Tags                      |                                     |                         |
+| Module Linking                 |                                     |                         | Linking pre-compiled modules
+| Branch hinting                 |                                     |                         | `likely(x)`, `unlikely(x)`?
 
-<Ch/> Chrome &nbsp;
-<Fi/> Firefox &nbsp;
-<Sa/> Safari &nbsp;
-<No/> Node.js &nbsp;
-<Wa/> Wasmtime &nbsp;
-<Wasmer/> Wasmer (<sup>1</sup> native i64 support)
+<Ch/> <a href="https://www.chromestatus.com/features#webassembly">Chrome</a> &nbsp;
+<Fi/> <a href="https://platform-status.mozilla.org">Firefox</a> &nbsp;
+<Sa/> <a href="https://webkit.org/status/">Safari</a> &nbsp;
+<No/> <a href="https://github.com/nodejs/node/blob/master/CHANGELOG.md">Node.js</a> &nbsp;
+<Wt/> <a href="https://docs.wasmtime.dev/stability-wasm-proposals-support.html">Wasmtime</a> &nbsp;
+<Ws/> <a href="https://docs.wasmer.io/ecosystem/wasmer/wasmer-features#support-of-features-by-compiler">Wasmer</a> &nbsp; (<sup>1</sup> native support in non-JS hosts)
 
 ## Language features
 
