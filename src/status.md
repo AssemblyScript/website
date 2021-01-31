@@ -20,15 +20,15 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | WebAssembly spec               | Engines                       | AssemblyScript (flag)   | What's the plan?
 |--------------------------------|-------------------------------|-------------------------|------------------------------------
 | ✔️ **Finished proposal**
-| Import/export mutable globals  | <Ch/> <Fi/> <Sa/> <No/> <Wa/> | ✔️                     | Global variable interop
-| BigInt integration             | <Ch/> <Fi/>             <Wa/><sup>1</sup> | ✔️         | 64-bit integer interop
-| Non-trapping F2I               | <Ch/> <Fi/>       <No/> <Wa/> | ⏳                      | Checked and unchecked casts
-| Sign-extension                 | <Ch/> <Fi/>       <No/> <Wa/> | ⏳ `sign-extension`     | Efficient small integer casts
-| Multi-value                    | <Ch/> <Fi/> <Sa/>       <Wa/> |                         | Tuple return values?
+| Import/export mutable globals  | <Ch/> <Fi/> <Sa/> <No/> <Wa/> <Wasmer/>  | ✔️                     | Global variable interop
+| BigInt integration             | <Ch/> <Fi/>             <Wa/><sup>1</sup> <Wasmer/><sup>1</sup> | ✔️         | 64-bit integer interop
+| Non-trapping F2I               | <Ch/> <Fi/>       <No/> <Wa/> <Wasmer/> | ⏳                      | Checked and unchecked casts
+| Sign-extension                 | <Ch/> <Fi/>       <No/> <Wa/> <Wasmer/> | ⏳ `sign-extension`     | Efficient small integer casts
+| Multi-value                    | <Ch/> <Fi/> <Sa/>       <Wa/> <Wasmer/> |                         | Tuple return values?
 ||
 | 🏁 **Standardize the feature**
-| Reference Types                |       <Fi/>             <Wa/> | ⏳ `reference-types`    | Prerequisite for garbage collection
-| Bulk memory                    | <Ch/> <Fi/>             <Wa/> | ⏳ `bulk-memory`        | Replace `memcpy`, `memset`
+| Reference Types                |       <Fi/>             <Wa/> <Wasmer/> | ⏳ `reference-types`    | Prerequisite for garbage collection
+| Bulk memory                    | <Ch/> <Fi/>             <Wa/> <Wasmer/> | ⏳ `bulk-memory`        | Replace `memcpy`, `memset`
 ||
 | 🔨 **Implementation phase**
 | Tail call                      |                               |                         |
@@ -58,7 +58,8 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 <Fi/> Firefox &nbsp;
 <Sa/> Safari &nbsp;
 <No/> Node.js &nbsp;
-<Wa/> Wasmtime (<sup>1</sup> native i64 support)
+<Wa/> Wasmtime &nbsp;
+<Wasmer/> Wasmer (<sup>1</sup> native i64 support)
 
 ## Language features
 
