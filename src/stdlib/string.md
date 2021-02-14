@@ -119,7 +119,7 @@ The String API works very much like JavaScript's \([MDN](https://developer.mozil
 * ```ts
   function startsWith(search: string, start?: i32): bool
   ```
-  Tests if the string starts with the specified string. If specified, `pos` indicates the position at which to begin searching, acting as the start of the string.
+  Tests if the string starts with the specified string. If specified, `start` indicates the position at which to begin searching, acting as the start of the string.
 
 * ```ts
   function substring(start: i32, end?: i32): string
