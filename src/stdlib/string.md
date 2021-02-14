@@ -79,7 +79,7 @@ The String API works very much like JavaScript's \([MDN](https://developer.mozil
 * ```ts
   function lastIndexOf(search: string, start?: i32): i32
   ```
-  Gets the last index of the specified search string within the string, or `-1` if not found. If specified, `pos` indicates the position at which to begin searching from right to left.
+  Gets the last index of the specified search string within the string, or `-1` if not found. If specified, `start` indicates the position at which to begin searching from right to left.
 
 * ```ts
   function padStart(length: i32, pad: string): string
