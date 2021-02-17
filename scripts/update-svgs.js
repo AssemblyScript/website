@@ -132,7 +132,7 @@ function layoutItems(items, data, y) {
         const item = items[i]
         const image = item.image
         const newW = w + image.width + (w > 0 ? margin(image.height) : 0)
-        if (newW > WIDTH) break
+        if (newW >= WIDTH - 20) break // leave a little space around
         rowItems.push(item)
         w = newW
         ++i
@@ -150,6 +150,7 @@ function buildSponsorsSVG(sponsorsByTier) {
   const data = []
   data.push('<style>a { cursor: pointer; } a circle { pointer-events: none; } text { fill: #2c3e50; font-weight: 600; font-size: 21px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; }</style>\n')
   data.push(`<defs><clipPath id="circle"><circle cx="16" cy="16" r="15.5" /></clipPath></defs>\n`)
+  data.push(`<rect width="100%" height="100%" fill="white"/>\n`)
   let y = 0
   Object.entries(tiers).forEach(([tierId, tier], i) => {
     const items = sponsorsByTier[tierId]
