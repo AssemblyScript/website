@@ -22,37 +22,38 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | ✔️ **Finished proposal**
 | Import/export mutable globals  | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | Global variable interop
 | BigInt integration<sup>1</sup> | <Ch/> <Fi/>             <Wt/> <Ws/> | ✔️                      | 64-bit integer interop
-| Non-trapping F2I               | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | ⏳ `nontrapping-f2i`    | Checked and unchecked casts
-| Sign-extension                 | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | ⏳ `sign-extension`     | Efficient small integer casts
-| Multi-value                    | <Ch/> <Fi/> <Sa/>       <Wt/> <Ws/> |                         | Tuple return values?
+| Non-trapping F2I               | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | 🏁 `nontrapping-f2i`    | Checked and unchecked casts
+| Sign-extension                 | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | 🏁 `sign-extension`     | Efficient small integer casts
+| Multi-value                    | <Ch/> <Fi/> <Sa/>       <Wt/> <Ws/> |                         | Tuple return values
 ||
 | 🏁 **Standardize the feature**
-| Reference Types                |       <Fi/>             <Wt/> <Ws/> | ⏳ `reference-types`    | Prerequisite for garbage collection
-| Bulk memory                    | <Ch/> <Fi/>             <Wt/> <Ws/> | ⏳ `bulk-memory`        | Replace `memcpy`, `memset`
+| Reference Types                |       <Fi/>             <Wt/> <Ws/> | 🔨 `reference-types`    | Prerequisite for garbage collection
+| Bulk memory                    | <Ch/> <Fi/>             <Wt/> <Ws/> | 🔨 `bulk-memory`        | Replace `memcpy`, `memset`
+| Fixed-width SIMD               |                                     | 🔨 `simd`               | Expose as built-ins; Auto-vectorize?
 ||
 | 🔨 **Implementation phase**
 | Tail call                      |                                     |                         |
-| Fixed-width SIMD               |                                     | ⏳ `simd`               | Expose as built-ins; Auto-vectorize?
 | Multiple memories              |                                     |                         |
 | Custom annotations             |                                     |                         |
 ||
 | 📖 **Spec text available** 
-| Threads                        | <Ch/> <Fi/>                         | ⏳ `threads`            | Expose as built-ins; WebWorker?
+| Threads                        | <Ch/> <Fi/>                         | 🔨 `threads`            | Expose as built-ins; WebWorker?
 | ESM integration                |                                     |                         | Natural web interop
-| Exception handling             |                                     | ⏳ `exception-handling` | Implement exceptions
+| Exception handling             |                                     | 🔨 `exception-handling` | Implement exceptions
 | Function references            |                                     |                         | Implement closures
-| Memory64                       |                                     | ⏳                      | Provide a Wasm64 target
+| Memory64                       |                                     | 🔨                      | Provide a Wasm64 target
 ||
 | 💡 **Feature proposal**
 | Type Imports                   |                                     |                         | Web interop?
 | Garbage collection             |                                     |                         | Reuse host GC; Share objects?
 | Interface Types                |                                     |                         | Non-web interop?
 | Feature detection              |                                     |                         |
-| Extended name section          |                                     | ⏳                      | Debug names for locals etc.
+| Extended name section          |                                     | 🔨                      | Debug names for locals etc.
 | Flexible vectors               |                                     |                         | Expose as built-ins
 | Call Tags                      |                                     |                         |
 | Module Linking                 |                                     |                         | Linking pre-compiled modules
-| Branch hinting                 |                                     |                         | `likely(x)`, `unlikely(x)`?
+| Branch Hinting                 |                                     |                         | `likely(x)` / `unlikely(x)` hints
+| Extended Constant Expressions  |                                     |                         | Inline more global initializers
 
 <Ch/> <a href="https://www.chromestatus.com/features#webassembly">Chrome</a> &nbsp;
 <Fi/> <a href="https://platform-status.mozilla.org">Firefox</a> &nbsp;
