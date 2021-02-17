@@ -58,8 +58,6 @@ The memory manager guarantees an alignment of 16 bytes, so an `ArrayBuffer`, whi
 
 Objects in AssemblyScript have a common hidden header used by the runtime to keep track of them. The header includes information about the block used by the memory manager, state information used by the garbage collector, a unique id per concrete class and the data's actual size. The length of a `String` \(id = 1\) is computed from that size for example. The header is "hidden" in that the reference to an object points right after it, at the first byte of the object's actual data.
 
-<img src="images/managedobjectlayout.svg" alt="Managed Object Layout" />
-
 #### Common header layout
 
 | Name     | Offset | Type  | Description
@@ -94,6 +92,16 @@ The most basic objects using the common header are `ArrayBuffer` and `String`. T
 | \[1\] |      2 | u16       | The second character
 | ...   |        |           |
 | \[N\] | N << 1 | u16       | The N-th character
+
+### Functions
+
+Functions being passed by reference are represented by a first-class `Function<T>`, consisting of the index of the function in the WebAssembly table and an optional pointer to the function's environment if it is a closure. If the function is not a closure, the environment pointer is zero.
+
+| Name        | Offset | Type        | Description
+| :---------- | -----: | :---------- | :----------
+|             |    -20 | See above   | Common header
+| .index      |      0 | u32         | Function index
+| #env        |      4 | usize       | Function environment pointer
 
 ### Collections
 
