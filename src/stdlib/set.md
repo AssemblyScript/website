@@ -54,4 +54,4 @@ The Set API is very similar to JavaScript's \([MDN](https://developer.mozilla.or
 * ```ts
   function toString(): string
   ```
-  Returns a string representation of this map.
+  Returns a string representation of this set.
