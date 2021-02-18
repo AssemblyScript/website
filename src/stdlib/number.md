@@ -84,7 +84,7 @@ The name `Number` below stands for one of the wrappers `F32` or `F64` representi
   NaN \(Not A Number\) of the respective basic type.
 
 * ```ts
-  function isNan(value: T): bool
+  function isNaN(value: T): bool
   ```
   Tests if the value is `NaN`.
 
