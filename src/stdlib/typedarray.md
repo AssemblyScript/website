@@ -6,7 +6,7 @@ description: An Array-like view on a raw binary buffer.
 
 An Array-like view on a raw binary buffer.
 
-The TypedArray API works very much like JavaScript's \([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray)\). The name `TypedArray` below represents one of the variants of element type `T` and is not an actual class.
+The TypedArray API works very much like JavaScript's \([MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray)\). The name `TypedArray` below represents one of the variants of element type `T` and is not an actual class. Note that typed arrays are not actually generic, but concrete implementations like `Uint8Array` and `Float64Array` have an identical interface that only differs in the implementation's element type denoted as `T`.
 
 ## Variants
 
