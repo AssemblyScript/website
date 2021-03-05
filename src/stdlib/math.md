@@ -30,7 +30,7 @@ Where small module size is more important than performance, one can opt to overr
 
 ## Static members
 
-The type `T` below substitutes either `f32` or `f64` depending on the implementation used.
+The type `T` below substitutes either `f32` or `f64` depending on the implementation used. Note that `Math` is not actually generic, but concrete implementations like `Math` and `Mathf` have an identical interface that only differs in the implementation's floating-point precision denoted by `T`.
 
 ### Constants
 
