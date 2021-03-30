@@ -24,36 +24,36 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | BigInt integration<sup>1</sup> | <Ch/> <Fi/>             <Wt/> <Ws/> | ✔️                      | 64-bit integer interop
 | Non-trapping F2I               | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | 🏁 `nontrapping-f2i`    | Checked and unchecked casts
 | Sign-extension                 | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | 🏁 `sign-extension`     | Efficient small integer casts
+| Reference Types                |       <Fi/>             <Wt/> <Ws/> | 🏁 `reference-types`    | Prerequisite for garbage collection
+| Bulk memory                    | <Ch/> <Fi/>             <Wt/> <Ws/> | 🏁 `bulk-memory`        | Replace `memcpy`, `memset`
 | Multi-value                    | <Ch/> <Fi/> <Sa/>       <Wt/> <Ws/> |                         | Tuple return values
 ||
 | 🏁 **Standardize the feature**
-| Reference Types                |       <Fi/>             <Wt/> <Ws/> | 🔨 `reference-types`    | Prerequisite for garbage collection
-| Bulk memory                    | <Ch/> <Fi/>             <Wt/> <Ws/> | 🔨 `bulk-memory`        | Replace `memcpy`, `memset`
 | Fixed-width SIMD               |                                     | 🔨 `simd`               | Expose as built-ins; Auto-vectorize?
 ||
 | 🔨 **Implementation phase**
 | Tail call                      |                                     |                         |
 | Multiple memories              |                                     |                         |
-| Custom annotations             |                                     |                         |
+| Memory64                       |                                     | 🔨                      | Provide a Wasm64 target
 ||
 | 📖 **Spec text available** 
 | Threads                        | <Ch/> <Fi/>                         | 🔨 `threads`            | Expose as built-ins; WebWorker?
 | ESM integration                |                                     |                         | Natural web interop
 | Exception handling             |                                     | 🔨 `exception-handling` | Implement exceptions
 | Function references            |                                     |                         | Implement closures
-| Memory64                       |                                     | 🔨                      | Provide a Wasm64 target
+| Branch Hinting                 |                                     |                         | `likely(x)` / `unlikely(x)` hints
 ||
 | 💡 **Feature proposal**
 | Type Imports                   |                                     |                         | Web interop?
 | Garbage collection             |                                     |                         | Reuse host GC; Share objects?
 | Interface Types                |                                     |                         | Non-web interop?
-| Feature detection              |                                     |                         |
+| Feature detection              |                                     |                         | Detect available features
 | Extended name section          |                                     | 🔨                      | Debug names for locals etc.
 | Flexible vectors               |                                     |                         | Expose as built-ins
-| Call Tags                      |                                     |                         |
+| Call Tags                      |                                     |                         | Speed up indirect calls
 | Module Linking                 |                                     |                         | Linking pre-compiled modules
-| Branch Hinting                 |                                     |                         | `likely(x)` / `unlikely(x)` hints
 | Extended Constant Expressions  |                                     |                         | Inline more global initializers
+| Relaxed SIMD                   |                                     |                         | Expose as built-ins
 
 <Ch/> <a href="https://www.chromestatus.com/features#webassembly">Chrome</a> &nbsp;
 <Fi/> <a href="https://platform-status.mozilla.org">Firefox</a> &nbsp;
