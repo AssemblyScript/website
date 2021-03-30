@@ -532,7 +532,7 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
   Selects bits of either vector according to the specified mask.
 
 * ```ts
-  function v128.any_true<T>(a: v128): bool
+  function v128.any_true(a: v128): bool
   ```
   Reduces a vector to a scalar indicating whether any lane is considered `true`.
 
