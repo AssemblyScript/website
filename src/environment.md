@@ -482,12 +482,12 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
   Negates each lane.
 
 * ```ts
-  function v128.add_saturate<T>(a: v128, b: v128): v128
+  function v128.add_sat<T>(a: v128, b: v128): v128
   ```
   Adds each signed small integer lane using saturation.
 
 * ```ts
-  function v128.sub_saturate<T>(a: v128, b: v128): v128
+  function v128.sub_sat<T>(a: v128, b: v128): v128
   ```
   Subtracts each signed small integer lane using saturation.
 
@@ -532,7 +532,7 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
   Selects bits of either vector according to the specified mask.
 
 * ```ts
-  function v128.any_true<T>(a: v128): bool
+  function v128.any_true(a: v128): bool
   ```
   Reduces a vector to a scalar indicating whether any lane is considered `true`.
 
@@ -555,6 +555,16 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
   function v128.min<T>(a: v128, b: v128): v128
   ```
   Computes the minimum of each lane.
+
+* ```ts
+  function v128.pmax<T>(a: v128, b: v128): v128
+  ```
+  Computes the pseudo-maximum of each lane.
+
+* ```ts
+  function v128.pmin<T>(a: v128, b: v128): v128
+  ```
+  Computes the psuedo-minimum of each lane.
 
 * ```ts
   function v128.dot<T>(a: v128, b: v128): v128
@@ -642,24 +652,14 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
   Narrows wider integer lanes to their respective narrower lanes.
 
 * ```ts
-  function v128.widen_low<TFrom>(a: v128): v128
+  function v128.extend_low<TFrom>(a: v128): v128
   ```
-  Widens the low half of narrower integer lanes to their respective wider lanes.
+  Extends the low half of narrower integer lanes to their respective wider lanes.
 
 * ```ts
-  function v128.widen_high<TFrom>(a: v128): v128
+  function v128.extend_high<TFrom>(a: v128): v128
   ```
-  Widens the high half of narrower integer lanes to their respective wider lanes.
-
-* ```ts
-  function v128.qfma<T>(a: v128, b: v128, c: v128): v128
-  ```
-  Computes `(a * b) + c` for each floating point lane.
-
-* ```ts
-  function v128.qfms<T>(a: v128, b: v128, c: v128): v128
-  ```
-  Computes `(a * b) - c` for each floating point lane.
+  Extends the high half of narrower integer lanes to their respective wider lanes.
 
 In addition, the namespaces `i8x16`, `i16x8`, `i32x4`, `i64x2` , `f32x4` and `f64x2` provide their respective non-generic instructions, like `i32x4.splat` etc. Each of them can also be used to create a literal directly:
 
@@ -692,5 +692,3 @@ In addition, the namespaces `i8x16`, `i16x8`, `i32x4`, `i64x2` , `f32x4` and `f6
   function f64x2(a: f64, b: f64): v128
   ```
   Initializes a 128-bit vector from two 64-bit float values. Arguments must be compile-time constants.
-
-The namespaces `v8x16`, `v16x8`, `v32x4` and `v64x2` provide the respective sign agnostic instructions according to text format.
