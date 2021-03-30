@@ -23,6 +23,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 
 ## Blockchain
 
+* [ASContract / subscript](https://github.com/ascontract/subscript)<br />
+  Substrate smart contract framework written in AssemblyScript.
 * [eWasm / Biturbo](https://github.com/ewasm/biturbo)<br />
   Eth1 EE using Turboproofs.
 * [ewasm / scout.ts ](https://github.com/ewasm/scout.ts)<br />
