@@ -86,7 +86,7 @@ if (a === c) { /* false */ }
 if (a == c) { /* true */ }
 ```
 
-This semantical change turned out to be quite useful during implementation of some parts of the standard library where knowing if something is actually exactly the same makes a lot of sense, but it can be confusing for those coming from a TypeScript background where using `===` for everything unless required otherwise is common good practice. However, the alternative here is to make `===` a redundanat alias of `==` by sacrificing an otherwise useful feature, and it's still unclear if that'd be objectively better, so has been postponed multiple times.
+This semantical change turned out to be quite useful during implementation of some parts of the standard library where knowing if something is actually exactly the same makes a lot of sense, but it can be confusing for those coming from a TypeScript background where using `===` for everything unless required otherwise is common good practice. However, the alternative here is to make `===` a redundant alias of `==` by sacrificing an otherwise useful feature, and it's still unclear if that'd be objectively better, so has been postponed multiple times.
 
 ### Nullability checks
 
