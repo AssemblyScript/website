@@ -38,7 +38,7 @@ The Date API is still preliminary with only a subset of properties and methods i
 * ```ts
   function parse(dateString: string): Date
   ```
-  Parse a Date object from a string (ISO 8601 format only).
+  Parses a Date object from a string (ISO 8601 format only).
 
 * ```ts
   function fromString(dateTimeString: string): Date
