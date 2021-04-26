@@ -34,9 +34,14 @@ The Date API is still preliminary with only a subset of properties and methods i
   ): i64
   ```
   Returns the UTC timestamp in milliseconds of the specified date.
-  
+
 * ```ts
-   function fromString(dateTimeString: string): Date 
+  function parse(dateString: string): Date
+  ```
+  Parse a Date object from a string (ISO 8601 format only).
+
+* ```ts
+  function fromString(dateTimeString: string): Date
   ```
   Creates a Date object from an ISO 8601 formatted string.
 
@@ -51,7 +56,7 @@ The Date API is still preliminary with only a subset of properties and methods i
   function setTime(value: i64): i64
   ```
   Sets the UTC timestamp of this date in milliseconds and returns the timestamp.
-  
+
 * ```ts
   function getUTCFullYear(): i32
   ```
@@ -71,7 +76,7 @@ The Date API is still preliminary with only a subset of properties and methods i
   function setUTCMonth(value: i32): i32
   ```
   Sets the (zero indexed) month according to universal time.
-  
+
 * ```ts
   function getUTCDate(): i32
   ```
@@ -81,7 +86,12 @@ The Date API is still preliminary with only a subset of properties and methods i
   function setUTCDate(value: i32): i32
   ```
   Sets the day of the month according to universal time.
-  
+
+* ```ts
+  function getUTCDay(): i32
+  ```
+  Gets the day of the week in the specified date according to universal time, where 0 represents Sunday.
+
 * ```ts
   function getUTCHours(): i32
   ```
@@ -91,7 +101,7 @@ The Date API is still preliminary with only a subset of properties and methods i
   function setUTCHours(value: i32): i32
   ```
   Sets the hour according to universal time.
-  
+
 * ```ts
   function getUTCMinutes(): i32
   ```
@@ -101,7 +111,7 @@ The Date API is still preliminary with only a subset of properties and methods i
   function setUTCMinutes(value: i32): i32
   ```
   Sets the minute according to universal time.
-  
+
 * ```ts
   function getUTCSeconds(): i32
   ```
@@ -111,7 +121,7 @@ The Date API is still preliminary with only a subset of properties and methods i
   function setUTCSeconds(value: i32): i32
   ```
   Sets the second according to universal time.
-  
+
 * ```ts
   function getUTCMilliseconds(): i32
   ```
@@ -121,9 +131,8 @@ The Date API is still preliminary with only a subset of properties and methods i
   function setUTCMilliseconds(value: i32): i32
   ```
   Sets the millisecond according to universal time.
- 
+
 * ```ts
   function toISOString(): string
   ```
   Returns the a string in simplified extended ISO 8601 format.
-  
