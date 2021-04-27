@@ -231,7 +231,7 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
   Stores a value of the specified type to memory. Equivalent to dereferencing a pointer in other languages when assigning a value.
 
   ::: warning
-  `immOffset` argument in `load` and `store` should be a non-negative constant value.
+  `immOffset` argument in `load` and `store` should be a non-negative constant value. See more details in [rationale](https://github.com/WebAssembly/design/blob/master/Rationale.md#loadstore-addressing)
   :::
 
 * ```ts
