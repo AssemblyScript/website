@@ -230,6 +230,10 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
   ```
   Stores a value of the specified type to memory. Equivalent to dereferencing a pointer in other languages when assigning a value.
 
+  ::: warning
+  `immOffset` argument in `load` and `store` should be a non-negative offset in bytes constant value.
+  :::
+
 * ```ts
   function memory.size(): i32
   ```
@@ -239,7 +243,7 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
   function memory.grow(value: i32): i32
   ```
   Grows linear memory by a given unsigned delta of pages. One page is 64kb. Returns the previous size of the memory in units of pages or `-1` on failure.
-  
+
   ::: warning
   Calling `memory.grow` where a memory manager is present might break it.
   :::
@@ -263,8 +267,8 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
   function memory.compare(lhs: usize, rhs: usize, n: usize): i32
   ```
   Compares the first `n` bytes of `left` and `rigth` and returns a value that indicates their relationship:
-  - **Negative** value if the first differing byte in `lhs` is less than the corresponding byte in `rhs`.  
-  - **Positive** value if the first differing byte in `lhs` is greater than the corresponding byte in `rhs`.  
+  - **Negative** value if the first differing byte in `lhs` is less than the corresponding byte in `rhs`.
+  - **Positive** value if the first differing byte in `lhs` is greater than the corresponding byte in `rhs`.
   - **Zero​** if all `n` bytes of `lhs` and `rhs` are equal.
 
 * ```ts
