@@ -377,7 +377,7 @@
       'https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/sdk.js',
       'scripts/webassembly-language.js'
     ], (
-      { languages, editor }, 
+      { languages, editor },
       { asc, ASSEMBLYSCRIPT_VERSION, BINARYEN_VERSION, LONG_VERSION },
       { config: wasmLanguageConfig, tokens: wasmLanguageTokens }
     ) => {
@@ -442,6 +442,9 @@
         theme: 'vs-wasm',
         automaticLayout: true,
         scrollBeyondLastLine: false,
+        scrollbar: {
+          handleMouseWheel: false
+        },
         minimap: {
           enabled: false
         },
