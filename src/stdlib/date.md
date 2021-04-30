@@ -153,7 +153,7 @@ The Date API is still preliminary with only a subset of properties and methods i
   Returns the a time string in HH:MM:SS format.
 
 ::: warning
-`toTimeString` currently don't output time zone and don't use local time zone offset!
+At the moment `toTimeString` doesn't output time zone and doesn't use local time zone offset!
 :::
 
 * ```ts
@@ -162,5 +162,5 @@ The Date API is still preliminary with only a subset of properties and methods i
   Returns the a time string in human readable form in English WWW MMM DD YYYY HH:MM:SS format.
 
 ::: warning
-`toString` currently don't output time zone and don't use local time zone offset!
+At the moment `toString` doesn't output time zone and doesn't use local time zone offset!
 :::
