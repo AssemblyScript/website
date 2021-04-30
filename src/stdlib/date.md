@@ -136,3 +136,31 @@ The Date API is still preliminary with only a subset of properties and methods i
   function toISOString(): string
   ```
   Returns the a string in simplified extended ISO 8601 format.
+
+* ```ts
+  function toUTCString(): string
+  ```
+  Returns the a string in RFC-1123 format and the UTC time zone.
+
+* ```ts
+  function toDateString(): string
+  ```
+  Returns the a date string in human readable form in English WWW MMM DD YYYY format.
+
+* ```ts
+  function toTimeString(): string
+  ```
+  Returns the a time string in HH:MM:SS format.
+
+::: warning
+`toTimeString` currently don't output time zone and don't use local time zone offset!
+:::
+
+* ```ts
+  function toString(): string
+  ```
+  Returns the a time string in human readable form in English WWW MMM DD YYYY HH:MM:SS format.
+
+::: warning
+`toString` currently don't output time zone and don't use local time zone offset!
+:::
