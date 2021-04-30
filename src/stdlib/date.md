@@ -8,6 +8,10 @@ Represents timestamps.
 
 The Date API is still preliminary with only a subset of properties and methods implemented. Note that getting the current date, via `Date.now`, requires importing the `Date` object from the host \(as `Date`\).
 
+::: warning
+  Date does not currently support timezones other than UTC. Therefore, methods such as `toString` and `toTimeString` can only be partially implemented.
+:::
+
 ## Constructor
 
 * ```ts
