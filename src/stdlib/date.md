@@ -8,6 +8,10 @@ Represents timestamps.
 
 The Date API is still preliminary with only a subset of properties and methods implemented. Note that getting the current date, via `Date.now`, requires importing the `Date` object from the host \(as `Date`\).
 
+::: warning
+  Date does not currently support timezones other than UTC. Therefore, methods such as `toString` and `toTimeString` can only be partially implemented.
+:::
+
 ## Constructor
 
 * ```ts
@@ -136,3 +140,31 @@ The Date API is still preliminary with only a subset of properties and methods i
   function toISOString(): string
   ```
   Returns the a string in simplified extended ISO 8601 format.
+
+* ```ts
+  function toUTCString(): string
+  ```
+  Returns the a string in RFC-1123 format and the UTC time zone.
+
+* ```ts
+  function toDateString(): string
+  ```
+  Returns the a date string in human readable form in English WWW MMM DD YYYY format.
+
+* ```ts
+  function toTimeString(): string
+  ```
+  Returns the a time string in HH:MM:SS format.
+
+::: warning
+At the moment `toTimeString` doesn't output time zone and doesn't use local time zone offset!
+:::
+
+* ```ts
+  function toString(): string
+  ```
+  Returns the a time string in human readable form in English WWW MMM DD YYYY HH:MM:SS format.
+
+::: warning
+At the moment `toString` doesn't output time zone and doesn't use local time zone offset!
+:::
