@@ -95,6 +95,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   BSON encoder / decoder.
 * [assemblyscript-json](https://github.com/nearprotocol/assemblyscript-json)<br />
   JSON encoder / decoder.
+* [as-bigint](https://github.com/Web3-API/as-bigint)<br />
+  A BigInt class for math with arbitrarily large integers.
 * [as-bignum](https://github.com/MaxGraey/as-bignum) \(formerly bignum.wasm\)<br />
   Fixed length big numbers like `u128`, `i256`, `fp128` and etc for AssemblyScript.
 * [ASTL](https://github.com/samchon/astl)<br />
