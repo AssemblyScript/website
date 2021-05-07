@@ -46,6 +46,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   A web dev server that lets you import anything\*.
 * [rollup-plugin-assemblyscript](https://github.com/surma/rollup-plugin-assemblyscript)<br />
   A Rollup plugin that allows you to import AssemblyScript files and compiles them on-the-fly.
+* [as-loader](https://github.com/piotr-oles/as-loader)<br />
+  A webpack loader for AssemblyScript
 * [visitor-as](https://github.com/willemneal/visitor-as)<br />
   Tools for creating compiler transformers.
 
