@@ -81,6 +81,7 @@ As such, certain higher-level language features still have their limitations or 
 | [Symbols](#symbols)                               | Implemented, but no deep compiler integration yet.
 | [JSON](#json)                                     | Third-party library available.
 | [RegExp](#regexp)                                 | Third-party library available.
+| [Date](#date)                                     | Third-party library available.
 ||
 | 🥚 **Not implemented**
 | [Closures](#closures)                             | Perhaps implement in linear memory. (needs Function references 🦄)
@@ -170,6 +171,14 @@ Regular expressions have been on our todo list for quite a while. It's mostly th
 Solutions being developed by the community:
 
 * [ColinEberhardt/assemblyscript-regex](https://github.com/ColinEberhardt/assemblyscript-regex)
+
+### Date
+
+The JavaScript Date API is pretty poorly constructed, with limited support for timezones. AssemblyScript has a very limited Date implementation that just provides UTC methods and functionality. 
+
+A new date, time and calendar API, called Temporal, is being actively developed and is currently at stage 3 of the TC39 process. This is a much better API for AssemblyScript to adopt. A solution is being developed by the community:
+
+* [ColinEberhardt/assemblyscript-temporal](https://github.com/ColinEberhardt/assemblyscript-temporal)
 
 ### Closures
 
