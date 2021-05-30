@@ -5,7 +5,7 @@ const tiers = require('../data/tiers.json')
 /** Repositories where commits are being considered as contributions. */
 const repos = [
   "AssemblyScript/assemblyscript",
-  "AssemblyScript/working-group",
+  "AssemblyScript/core",
   "AssemblyScript/community-group",
   "AssemblyScript/examples",
   "AssemblyScript/website"

@@ -97,17 +97,12 @@ module.exports = [
         link: 'https://github.com/AssemblyScript/assemblyscript/blob/master/CODE_OF_CONDUCT.md'
       },
       {
-        text: 'Groups',
-        items: [
-          {
-            text: 'Community Group',
-            link: 'https://github.com/AssemblyScript/community-group'
-          },
-          {
-            text: 'Working Group',
-            link: 'https://github.com/AssemblyScript/working-group'
-          }
-        ]
+        text: 'Core / Governance',
+        link: 'https://github.com/AssemblyScript/core'
+      },
+      {
+        text: 'Community Group',
+        link: 'https://github.com/AssemblyScript/community-group'
       },
       {
         text: 'Social',
@@ -118,7 +113,7 @@ module.exports = [
           },
           {
             text: 'Discord',
-            link: 'https://discord.gg/U63XU2J'
+            link: 'https://discord.gg/assemblyscript'
           }
         ]
       },
