@@ -66,11 +66,11 @@ The compiler can optimize for both speed and size. `--optimizeLevel` \(0-3\) ind
 ```
 --optimize, -O        Optimizes the module. Typical shorthands are:
 
-                       Default optimizations   -O / -O3s
+                       Default optimizations   -O
                        Make a release build    -O --noAssert
                        Make a debug build      --debug
-                       Optimize for speed      -O3
-                       Optimize for size       -O3z --converge
+                       Optimize for speed      -Ospeed
+                       Optimize for size       -Osize
 
 --optimizeLevel       How much to focus on optimizing code. [0-3]
 --shrinkLevel         How much to focus on shrinking code size. [0-2, s=1, z=2]
@@ -134,16 +134,17 @@ There are several flags that enable or disable specific WebAssembly or compiler 
 --explicitStart       Exports an explicit '_start' function to call.
 --enable              Enables WebAssembly features being disabled by default.
 
-                        sign-extension      Sign-extension operations
+                        nontrapping-f2i     Non-trapping float to integer ops.
                         bulk-memory         Bulk memory operations.
                         simd                SIMD types and operations.
                         threads             Threading and atomic operations.
                         reference-types     Reference types and operations.
-                        gc                  Garbage collection (anyref, WIP).
+                        gc                  Garbage collection (WIP).
 
 --disable             Disables WebAssembly features being enabled by default.
 
-                        mutable-globals     Mutable global imports and exports.
+                        mutable-globals     Mutable global imports and exports
+                        sign-extension      Sign-extension operations
 
 --use, -u             Aliases a global object under another name, e.g., to switch
                       the default 'Math' implementation used: --use Math=JSMath
