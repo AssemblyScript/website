@@ -127,6 +127,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Work with AssemblyScript memory and classes from Python.
 * [io-devices-lib](https://github.com/wasmerio/io-devices-lib)<br />
   Library for interacting with the Wasmer Experimental IO Devices.
+* [as-container](https://github.com/yjhmelody/as-container) <br />
+  AssemblyScript version of Rust Option<T> and Result<O, E> etc.
 
 ## Embedded / IoT
 
