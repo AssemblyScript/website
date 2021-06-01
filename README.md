@@ -1,7 +1,7 @@
 AssemblyScript's Website
 ========================
 
-![Deploy](https://github.com/AssemblyScript/website/workflows/Deploy/badge.svg?branch=master)
+![Deploy](https://github.com/AssemblyScript/website/workflows/Deploy/badge.svg?branch=main)
 
 The site is built with [VuePress](https://vuepress.vuejs.org/) and reuses its default theme to ease upgrading to newer versions.
 
