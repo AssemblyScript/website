@@ -341,10 +341,10 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
   | u16      | i32.load16_u | i64.load16_u
   | i32      | i32.load     | i64.load32_s
   | u32      | i32.load     | i64.load32_u
-  | i64, u64 | i64.load     | *not applicable*
-  | f32      | f32.load     | *not applicable*
-  | f64      | f64.load     | *not applicable*
-  | \<ref>   | i32/i64.load | *not applicable*
+  | i64, u64 | i64.load     | *n/a*
+  | f32      | f32.load     | *n/a*
+  | f64      | f64.load     | *n/a*
+  | \<ref>   | i32/i64.load | *n/a*
   </details>
 
 * ```ts
@@ -357,10 +357,10 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
   | i8, u8   | i32.store8    | i64.store8
   | i16, u16 | i32.store16   | i64.store16
   | i32, u32 | i32.store     | i64.store32
-  | i64, u64 | i64.store     | *not applicable*
-  | f32      | f32.store     | *not applicable*
-  | f64      | f64.store     | *not applicable*
-  | \<ref>   | i32/i64.store | *not applicable*
+  | i64, u64 | i64.store     | *n/a*
+  | f32      | f32.store     | *n/a*
+  | f64      | f64.store     | *n/a*
+  | \<ref>   | i32/i64.store | *n/a*
   </details>
 
   ::: warning
