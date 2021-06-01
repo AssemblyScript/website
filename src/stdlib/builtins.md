@@ -175,7 +175,7 @@ The following generic built-ins compile to WebAssembly instructions directly.
   |----------------------------|-------------
   | i8, u8, i16, u16, i32, u32 | i32.popcnt
   | i64, u64                   | i64.popcnt
-  | bool                       | *omitted*
+  | bool                       | *none*
   </details>
 
 * ```ts
@@ -188,7 +188,7 @@ The following generic built-ins compile to WebAssembly instructions directly.
   | i32, u32         | i32.rotl
   | i64, u64         | i64.rotl
   | i8, u8, i16, u16 | *emulated*
-  | bool             | *omitted*
+  | bool             | *none*
   </details>
 
 * ```ts
@@ -201,7 +201,7 @@ The following generic built-ins compile to WebAssembly instructions directly.
   | i32, u32         | i32.rotr
   | i64, u64         | i64.rotr
   | i8, u8, i16, u16 | *emulated*
-  | bool             | *omitted*
+  | bool             | *none*
   </details>
 
 * ```ts
@@ -214,7 +214,7 @@ The following generic built-ins compile to WebAssembly instructions directly.
   | f32                     | f32.abs
   | f64                     | f64.abs
   | i8, i16, i32, i64       | *emulated*
-  | u8, u16, u32, u64, bool | *omitted*
+  | u8, u16, u32, u64, bool | *none*
   </details>
 
 * ```ts
@@ -250,7 +250,7 @@ The following generic built-ins compile to WebAssembly instructions directly.
   |--------------------------------------------|-------------
   | f32                                        | f32.ceil
   | f64                                        | f64.ceil
-  | i8, u8, i16, u16, i32, u32, i64, u64, bool | *omitted*
+  | i8, u8, i16, u16, i32, u32, i64, u64, bool | *none*
   </details>
 
 * ```ts
@@ -262,7 +262,7 @@ The following generic built-ins compile to WebAssembly instructions directly.
   |--------------------------------------------|-------------
   | f32                                        | f32.floor
   | f64                                        | f64.floor
-  | i8, u8, i16, u16, i32, u32, i64, u64, bool | *omitted*
+  | i8, u8, i16, u16, i32, u32, i64, u64, bool | *none*
   </details>
 
 * ```ts
@@ -285,7 +285,7 @@ The following generic built-ins compile to WebAssembly instructions directly.
   |--------------------------------------------|-------------
   | f32                                        | f32.nearest
   | f64                                        | f64.nearest
-  | i8, u8, i16, u16, i32, u32, i64, u64, bool | *omitted*
+  | i8, u8, i16, u16, i32, u32, i64, u64, bool | *none*
   </details>
 
 * ```ts
@@ -321,7 +321,7 @@ The following generic built-ins compile to WebAssembly instructions directly.
   |--------------------------------------------|-------------
   | f32                                        | f32.trunc
   | f64                                        | f64.trunc
-  | i8, u8, i16, u16, i32, u32, i64, u64, bool | *omitted*
+  | i8, u8, i16, u16, i32, u32, i64, u64, bool | *none*
   </details>
 
 ### Memory
@@ -341,10 +341,10 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
   | u16      | i32.load16_u | i64.load16_u
   | i32      | i32.load     | i64.load32_s
   | u32      | i32.load     | i64.load32_u
-  | i64, u64 | i64.load     |
-  | f32      | f32.load     |
-  | f64      | f64.load     |
-  | \<ref>   | i32/i64.load |
+  | i64, u64 | i64.load     | *not applicable*
+  | f32      | f32.load     | *not applicable*
+  | f64      | f64.load     | *not applicable*
+  | \<ref>   | i32/i64.load | *not applicable*
   </details>
 
 * ```ts
@@ -357,10 +357,10 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
   | i8, u8   | i32.store8    | i64.store8
   | i16, u16 | i32.store16   | i64.store16
   | i32, u32 | i32.store     | i64.store32
-  | i64, u64 | i64.store     |
-  | f32      | f32.store     |
-  | f64      | f64.store     |
-  | \<ref>   | i32/i64.store |
+  | i64, u64 | i64.store     | *not applicable*
+  | f32      | f32.store     | *not applicable*
+  | f64      | f64.store     | *not applicable*
+  | \<ref>   | i32/i64.store | *not applicable*
   </details>
 
   ::: warning
