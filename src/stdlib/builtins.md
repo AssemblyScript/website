@@ -147,77 +147,182 @@ The following generic built-ins compile to WebAssembly instructions directly.
 * ```ts
   function clz<T>(value: T): T
   ```
-  Performs the sign-agnostic count leading zero bits operation on a 32-bit or 64-bit integer. All zero bits are considered leading if the value is zero.
+  <details><summary>Performs the sign-agnostic count leading zero bits operation on a 32-bit or 64-bit integer. All zero bits are considered leading if the value is zero.</summary>
+
+  | T                                | Instruction
+  |----------------------------------|-------------
+  | i8, u8, i16, u16, i32, u32, bool | i32.clz
+  | i64, u64                         | i64.clz
+  </details>
 
 * ```ts
   function ctz<T>(value: T): T
   ```
-  Performs the sign-agnostic count tailing zero bits operation on a 32-bit or 64-bit integer. All zero bits are considered trailing if the value is zero.
+  <details><summary>Performs the sign-agnostic count tailing zero bits operation on a 32-bit or 64-bit integer. All zero bits are considered trailing if the value is zero.</summary>
+
+  | T                                | Instruction
+  |----------------------------------|-------------
+  | i8, u8, i16, u16, i32, u32, bool | i32.ctz
+  | i64, u64                         | i64.ctz
+  </details>
 
 * ```ts
   function popcnt<T>(value: T): T
   ```
-  Performs the sign-agnostic count number of one bits operation on a 32-bit or 64-bit integer.
+  <details><summary>Performs the sign-agnostic count number of one bits operation on a 32-bit or 64-bit integer.</summary>
+
+  | T                          | Instruction
+  |----------------------------|-------------
+  | i8, u8, i16, u16, i32, u32 | i32.popcnt
+  | i64, u64                   | i64.popcnt
+  | bool                       | *omitted*
+  </details>
 
 * ```ts
   function rotl<T>(value: T, shift: T): T
   ```
-  Performs the sign-agnostic rotate left operation on a 32-bit or 64-bit integer.
+  <details><summary>Performs the sign-agnostic rotate left operation on a 32-bit or 64-bit integer.</summary>
+
+  | T                | Instruction
+  |------------------|-------------
+  | i32, u32         | i32.rotl
+  | i64, u64         | i64.rotl
+  | i8, u8, i16, u16 | *emulated*
+  | bool             | *omitted*
+  </details>
 
 * ```ts
   function rotr<T>(value: T, shift: T): T
   ```
-  Performs the sign-agnostic rotate right operation on a 32-bit or 64-bit integer.
+  <details><summary>Performs the sign-agnostic rotate right operation on a 32-bit or 64-bit integer.</summary>
+
+  | T                | Instruction
+  |------------------|-------------
+  | i32, u32         | i32.rotr
+  | i64, u64         | i64.rotr
+  | i8, u8, i16, u16 | *emulated*
+  | bool             | *omitted*
+  </details>
 
 * ```ts
   function abs<T>(value: T): T
   ```
-  Computes the absolute value of an integer or float.
+  <details><summary>Computes the absolute value of an integer or float.</summary>
+
+  | T                       | Instruction
+  |-------------------------|-------------
+  | f32                     | f32.abs
+  | f64                     | f64.abs
+  | i8, i16, i32, i64       | *emulated*
+  | u8, u16, u32, u64, bool | *omitted*
+  </details>
 
 * ```ts
   function max<T>(left: T, right: T): T
   ```
-  Determines the maximum of two integers or floats. If either operand is `NaN`, returns `NaN`.
+  <details><summary>Determines the maximum of two integers or floats. If either operand is <code>NaN</code>, returns <code>NaN</code>.</summary>
+
+  | T                                          | Instruction
+  |--------------------------------------------|-------------
+  | f32                                        | f32.max
+  | f64                                        | f64.max
+  | i8, u8, i16, u16, i32, u32, i64, u64, bool | *emulated*
+  </details>
 
 * ```ts
   function min<T>(left: T, right: T): T
   ```
-  Determines the minimum of two integers or floats. If either operand is `NaN`, returns `NaN`.
+  <details><summary>Determines the minimum of two integers or floats. If either operand is <code>NaN</code>, returns <code>NaN</code>.</summary>
+
+  | T                                          | Instruction
+  |--------------------------------------------|-------------
+  | f32                                        | f32.min
+  | f64                                        | f64.min
+  | i8, u8, i16, u16, i32, u32, i64, u64, bool | *emulated*
+  </details>
 
 * ```ts
   function ceil<T>(value: T): T
   ```
-  Performs the ceiling operation on a 32-bit or 64-bit float.
+  <details><summary>Performs the ceiling operation on a 32-bit or 64-bit float.</summary>
+
+  | T                                          | Instruction
+  |--------------------------------------------|-------------
+  | f32                                        | f32.ceil
+  | f64                                        | f64.ceil
+  | i8, u8, i16, u16, i32, u32, i64, u64, bool | *omitted*
+  </details>
 
 * ```ts
   function floor<T>(value: T): T
   ```
-  Performs the floor operation on a 32-bit or 64-bit float.
+  <details><summary>Performs the floor operation on a 32-bit or 64-bit float.</summary>
+
+  | T                                          | Instruction
+  |--------------------------------------------|-------------
+  | f32                                        | f32.floor
+  | f64                                        | f64.floor
+  | i8, u8, i16, u16, i32, u32, i64, u64, bool | *omitted*
+  </details>
 
 * ```ts
   function copysign<T>(x: T , y: T): T
   ```
-  Composes a 32-bit or 64-bit float from the magnitude of `x` and the sign of `y`.
+  <details><summary>Composes a 32-bit or 64-bit float from the magnitude of <code>x</code> and the sign of <code>y</code>.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | f32 | f32.copysign
+  | f64 | f64.copysign
+  </details>
 
 * ```ts
   function nearest<T>(value: T): T
   ```
-  Rounds to the nearest integer tied to even of a 32-bit or 64-bit float.
+  <details><summary>Rounds to the nearest integer tied to even of a 32-bit or 64-bit float.</summary>
+
+  | T                                          | Instruction
+  |--------------------------------------------|-------------
+  | f32                                        | f32.nearest
+  | f64                                        | f64.nearest
+  | i8, u8, i16, u16, i32, u32, i64, u64, bool | *omitted*
+  </details>
 
 * ```ts
-  function reinterpret<T>(value: auto): T
+  function reinterpret<TTo>(value: auto): T
   ```
-  Reinterprets the bits of the specified value as type `T`. Valid reinterpretations are u32/i32 to/from f32 and u64/i64 to/from f64.
+  <details><summary>Reinterprets the bits of the specified value as type <code>T</code>.</summary>
+
+  | TTo      | Instruction
+  |----------|-------------
+  | i32, u32 | i32.reinterpret_f32
+  | i64, u64 | i64.reinterpret_f64
+  | f32      | f32.reinterpret_i32
+  | f64      | f64.reinterpret_i64
+  </details>
 
 * ```ts
   function sqrt<T>(value: T): T
   ```
-  Calculates the square root of a 32-bit or 64-bit float.
+  <details><summary>Calculates the square root of a 32-bit or 64-bit float.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | f32 | f32.sqrt
+  | f64 | f64.sqrt
+  </details>
 
 * ```ts
   function trunc<T>(value: T): T
   ```
-  Rounds to the nearest integer towards zero of a 32-bit or 64-bit float.
+  <details><summary>Rounds to the nearest integer towards zero of a 32-bit or 64-bit float.</summary>
+
+  | T                                          | Instruction
+  |--------------------------------------------|-------------
+  | f32                                        | f32.trunc
+  | f64                                        | f64.trunc
+  | i8, u8, i16, u16, i32, u32, i64, u64, bool | *omitted*
+  </details>
 
 ### Memory
 
@@ -226,12 +331,37 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
 * ```ts
   function load<T>(ptr: usize, immOffset?: usize): T
   ```
-  Loads a value of the specified type from memory. Equivalent to dereferencing a pointer in other languages.
+  <details><summary>Loads a value of the specified type from memory. Equivalent to dereferencing a pointer in other languages.</summary>
+
+  | T        | Instruction  | If context is i64
+  |----------|--------------|-------------------
+  | i8       | i32.load8_s  | i64.load8_s
+  | u8       | i32.load8_u  | i64.load8_u
+  | i16      | i32.load16_s | i64.load16_s
+  | u16      | i32.load16_u | i64.load16_u
+  | i32      | i32.load     | i64.load32_s
+  | u32      | i32.load     | i64.load32_u
+  | i64, u64 | i64.load     |
+  | f32      | f32.load     |
+  | f64      | f64.load     |
+  | \<ref>   | i32/i64.load |
+  </details>
 
 * ```ts
   function store<T>(ptr: usize, value: auto, immOffset?: usize): void
   ```
-  Stores a value of the specified type to memory. Equivalent to dereferencing a pointer in other languages when assigning a value.
+  <details><summary>Stores a value of the specified type to memory. Equivalent to dereferencing a pointer in other languages and assigning a value.</summary>
+
+  | T        | Instruction   | If value is i64
+  |----------|---------------|-----------------
+  | i8, u8   | i32.store8    | i64.store8
+  | i16, u16 | i32.store16   | i64.store16
+  | i32, u32 | i32.store     | i64.store32
+  | i64, u64 | i64.store     |
+  | f32      | f32.store     |
+  | f64      | f64.store     |
+  | \<ref>   | i32/i64.store |
+  </details>
 
   ::: warning
   `immOffset` argument in `load` and `store` should be a non-negative constant value. See more details in [rationale](https://github.com/WebAssembly/design/blob/master/Rationale.md#loadstore-addressing)
