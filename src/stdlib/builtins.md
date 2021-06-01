@@ -1,16 +1,11 @@
 ---
-description: Reinventing the wheel. Again. But with a notch.
+description: Direct access to WebAssembly and compiler features.
+sidebarDepth: 2
 ---
 
-# Environment
+# Builtins
 
-A WebAssembly environment is more limited than a usual browser environment, but AssemblyScript tries to fill the gaps by reimplementing commonly known functionality, besides providing direct access to WebAssembly instructions through built-ins.
-
-## Standard library
-
-AssemblyScript comes with its own [standard library](./stdlib/globals.md) very much resembling what developers became used to when writing JavaScript, with a few specialized classes, like `StaticArray`, that exist in AssemblyScript only to tackle very specific problems.
-
-Additional rather low-level WebAssembly functionality that the standard library makes extensive use of is described below.
+The following builtins provide direct access to WebAssembly and compiler features. They form the low-level foundation of the standard library, for example, while also being available for everyone to utilize where directly tapping into WebAssembly or the compiler is desired.
 
 ## Static type checks
 
@@ -91,7 +86,7 @@ function add<T>(a: T, b: T): T {
 If you are not going to use low-level WebAssembly in the foreseeable future, feel free to come back to the following paragraphs at a later time and continue at the next page[ ](./loader.md)right away.
 :::
 
-## Sizes and alignments
+## Utility
 
 * ```ts
   function sizeof<T>(): usize
@@ -107,8 +102,6 @@ If you are not going to use low-level WebAssembly in the foreseeable future, fee
   function alignof<T>(): usize
   ```
   Determines the alignment \(log2\) of the specified underlying _basic type_. Means: If `T` is a class type, the alignment of `usize` is returned. Compiles to a constant.
-
-## Utility
 
 * ```ts
   function assert<T>(isTrueish: T, message?: string): T
@@ -135,7 +128,17 @@ If you are not going to use low-level WebAssembly in the foreseeable future, fee
   ```
   Determines the name of a given type.
 
-## Low-level WebAssembly operations
+* ```ts
+  function bswap<T>(value: T): T
+  ```
+  Reverses the byte order of the specified integer.
+
+* ```ts
+  function bswap16<T>(value: T): T
+  ```
+  Reverses only the last 2 bytes regardless of the type argument.
+
+## WebAssembly
 
 ### Math
 
@@ -283,44 +286,6 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
 
 The `immOffset` argument is a bit special here, because it becomes an actual immediate of the respective WebAssembly instruction instead of a normal operand. Thus it must be provided as a compile time constant value. This can be a literal or the value of a `const` variable that the compiler can precompute.
 
-#### **Memory Manager**
-
-An unsafe interface to use the dynamic memory manager directly, resembling `malloc`, `realloc` and `free` in C. Manual memory management can be used in parallel to garbage collection, which can be quite handy, but manually managed blocks cannot be mixed with garbage collected objects (i.e. trying to `heap.free` a GC object or casting a block to a managed object respectively would break since one has a GC header and the other does not).
-
-* ```ts
-  function heap.alloc(size: usize): usize
-  ```
-  Allocates a chunk of memory of at least the specified size.
-
-* ```ts
-  function heap.realloc(ptr: usize, size: usize): usize
-  ```
-  Reallocates a chunk of memory to have at least the specified size.
-
-* ```ts
-  function heap.free(ptr: usize): void
-  ```
-  Frees a chunk of memory.
-
-* ```ts
-  function heap.reset(): void
-  ```
-  Dangerously resets the entire heap. Specific to the "stub" runtime.
-
-#### **Memory Utility**
-
-Sign-agnostic endian conversions \(reverse bytes\).
-
-* ```ts
-  function bswap<T>(value: T): T
-  ```
-  Reverses the byte order of the specified integer.
-
-* ```ts
-  function bswap16<T>(value: T): T
-  ```
-  Reverses only the last 2 bytes regardless of the type argument.
-
 ### Control flow
 
 * ```ts
@@ -415,25 +380,64 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
   ```
   Initializes a 128-bit vector from sixteen 8-bit integer values. Arguments must be compile-time constants.
 
+  See [Constructing constant vectors](#constructing-constant-vectors) for additional type-specific options.
+
 * ```ts
   function v128.splat<T>(x: T): v128
   ```
-  Creates a vector with identical lanes.
+  <details><summary>Creates a vector with identical lanes.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i8, u8   | i8x16.splat
+  | i16, u16 | i16x8.splat
+  | i32, u32 | i32x4.splat
+  | i64, u64 | i64x2.splat
+  | f32      | f32x4.splat
+  | f64      | f64x2.splat
+  </details>
 
 * ```ts
   function v128.extract_lane<T>(x: v128, idx: u8): T
   ```
-  Extracts one lane as a scalar.
+  <details><summary>Extracts one lane as a scalar.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i8       | i8x16.extract_lane_s
+  | u8       | i8x16.extract_lane_u
+  | i16      | i16x8.extract_lane_s
+  | u16      | i16x8.extract_lane_u
+  | i32, u32 | i32x4.extract_lane
+  | i64, u64 | i64x2.extract_lane
+  | f32      | f32x4.extract_lane
+  | f64      | f64x2.extract_lane
+  </details>
 
 * ```ts
   function v128.replace_lane<T>(x: v128, idx: u8, value: T): v128
   ```
-  Replaces one lane.
+  <details><summary>Replaces one lane.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i8, u8   | i8x16.replace_lane
+  | i16, u16 | i16x8.replace_lane
+  | i32, u32 | i32x4.replace_lane
+  | i64, u64 | i64x2.replace_lane
+  | f32      | f32x4.replace_lane
+  | f64      | f64x2.replace_lane
+  </details>
 
 * ```ts
   function v128.shuffle<T>(a: v128, b: v128, ...lanes: u8[]): v128
   ```
-  Selects lanes from either vector according to the specified lane indexes.
+  <details><summary>Selects lanes from either vector according to the specified lane indexes.</summary>
+
+  | T                                              | Instruction
+  |------------------------------------------------|-------------
+  | i8, u8, i16, u16, i32, u32, i64, u64, f32, f64 | i8x16.shuffle
+  </details>
 
 * ```ts
   function v128.swizzle(a: v128, s: v128): v128
@@ -446,14 +450,73 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
   Loads a vector from memory.
 
 * ```ts
-  function v128.load_splat<T>(ptr: usize, immOffset?: usize, immAlign?: usize): v128
-  ```
-  Creates a vector with identical lanes by loading the splatted value.
-
-* ```ts
   function v128.load_ext<TFrom>(ptr: usize, immOffset?: usize, immAlign?: usize): v128
   ```
-  Creates a vector by loading the lanes of the specified integer type and extending each to the next larger type.
+  <details><summary>Creates a vector by loading the lanes of the specified integer type and extending each to the next larger type.</summary>
+
+  | TFrom | Instruction
+  |-------|-------------
+  | i8    | v128.load8x8_s
+  | u8    | v128.load8x8_u
+  | i16   | v128.load16x4_s
+  | u16   | v128.load16x4_u
+  | i32   | v128.load32x2_s
+  | u32   | v128.load32x2_u
+  </details>
+
+* ```ts
+  function v128.load_zero<TFrom>(ptr: usize, immOffset?: usize, immAlign?: usize): v128
+  ```
+  <details><summary>Creates a vector by loading a value of the specified type into the lowest bits and initializing all other bits of the vector to zero.</summary>
+
+  | TFrom    | Instruction
+  |----------|-------------
+  | i32, u32 | v128.load32_zero
+  | i64, u64 | v128.load64_zero
+  </details>
+
+* ```ts
+  function v128.load_lane<T>(
+    ptr: usize, vec: v128, idx: u8, immOffset?: usize, immAlign?: usize
+  ): v128
+  ```
+  <details><summary>Loads a single lane from memory into the specified lane of the given vector. Other lanes are bypassed as is.</summary>
+
+  | T             | Instruction
+  |---------------|-------------
+  | i8, u8        | v128.load8_lane
+  | i16, u16      | v128.load16_lane
+  | i32, u32, f32 | v128.load32_lane
+  | i64, u64, f64 | v128.load64_lane
+  </details>
+
+* ```ts
+  function v128.store_lane<T>(
+    ptr: usize, vec: v128, idx: u8, immOffset?: usize, immAlign?: usize
+  ): v128
+  ```
+  <details><summary>Stores the single lane at the specified index of the given vector to memory.</summary>
+
+  | T             | Instruction
+  |---------------|-------------
+  | i8, u8        | v128.store8_lane
+  | i16, u16      | v128.store16_lane
+  | i32, u32, f32 | v128.store32_lane
+  | i64, u64, f64 | v128.store64_lane
+  </details>
+
+* ```ts
+  function v128.load_splat<T>(ptr: usize, immOffset?: usize, immAlign?: usize): v128
+  ```
+  <details><summary>Creates a vector with identical lanes by loading the splatted value.</summary>
+
+  | T             | Instruction
+  |---------------|-------------
+  | i8, u8        | v128.load8_splat
+  | i16, u16      | v128.load16_splat
+  | i32, u32, f32 | v128.load32_splat
+  | i64, u64, f64 | v128.load64_splat
+  </details>
 
 * ```ts
   function v128.store(ptr: usize, value: v128, immOffset?: usize, immAlign?: usize): void
@@ -463,47 +526,128 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
 * ```ts
   function v128.add<T>(a: v128, b: v128): v128
   ```
-  Adds each lane.
+  <details><summary>Adds each lane.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i8, u8   | i8x16.add
+  | i16, u16 | i16x8.add
+  | i32, u32 | i32x4.add
+  | i64, u64 | i64x2.add
+  | f32      | f32x4.add
+  | f64      | f64x2.add
+  </details>
 
 * ```ts
   function v128.sub<T>(a: v128, b: v128): v128
   ```
-  Subtracts each lane.
+  <details><summary>Subtracts each lane.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i8, u8   | i8x16.sub
+  | i16, u16 | i16x8.sub
+  | i32, u32 | i32x4.sub
+  | i64, u64 | i64x2.sub
+  | f32      | f32x4.sub
+  | f64      | f64x2.sub
+  </details>
 
 * ```ts
   function v128.mul<T>(a: v128, b: v128): v128
   ```
-  Multiplies each lane.
+  <details><summary>Multiplies each lane.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i16, u16 | i16x8.mul
+  | i32, u32 | i32x4.mul
+  | i64, u64 | i64x2.mul
+  | f32      | f32x4.mul
+  | f64      | f64x2.mul
+  </details>
 
 * ```ts
   function v128.div<T>(a: v128, b: v128): v128
   ```
-  Divides each floating point lane.
+  <details><summary>Divides each floating point lane.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | f32 | f32x4.div
+  | f64 | f64x2.div
+  </details>
 
 * ```ts
   function v128.neg<T>(a: v128): v128
   ```
-  Negates each lane.
+  <details><summary>Negates each lane.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i8, u8   | i8x16.neg
+  | i16, u16 | i16x8.neg
+  | i32, u32 | i32x4.neg
+  | i64, u64 | i64x2.neg
+  | f32      | f32x4.neg
+  | f64      | f64x2.neg
+  </details>
 
 * ```ts
   function v128.add_sat<T>(a: v128, b: v128): v128
   ```
-  Adds each signed small integer lane using saturation.
+  <details><summary>Adds each signed small integer lane using saturation.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | i8  | i8x16.add_sat_s
+  | u8  | i8x16.add_sat_u
+  | i16 | i16x8.add_sat_s
+  | u16 | i16x8.add_sat_u
+  </details>
 
 * ```ts
   function v128.sub_sat<T>(a: v128, b: v128): v128
   ```
-  Subtracts each signed small integer lane using saturation.
+  <details><summary>Subtracts each signed small integer lane using saturation.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | i8  | i8x16.sub_sat_s
+  | u8  | i8x16.sub_sat_u
+  | i16 | i16x8.sub_sat_s
+  | u16 | i16x8.sub_sat_u
+  </details>
 
 * ```ts
   function v128.shl<T>(a: v128, b: i32): v128
   ```
-  Performs a bitwise left shift by a scalar on each integer lane.
+  <details><summary>Performs a bitwise left shift by a scalar on each integer lane.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i8, u8   | i8x16.shl
+  | i16, u16 | i16x8.shl
+  | i32, u32 | i32x4.shl
+  | i64, u64 | i64x2.shl
+  </details>
 
 * ```ts
   function v128.shr<T>(a: v128, b: i32): v128
   ```
-  Performs a bitwise right shift by a scalar on each integer lane.
+  <details><summary>Performs a bitwise right shift by a scalar on each integer lane.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | i8  | i8x16.shr_s
+  | u8  | i8x16.shr_u
+  | i16 | i16x8.shr_s
+  | u16 | i16x8.shr_u
+  | i32 | i32x4.shr_s
+  | u32 | i32x4.shr_u
+  | i64 | i64x2.shr_s
+  | u64 | i64x2.shr_u
+  </details>
 
 * ```ts
   function v128.and(a: v128, b: v128): v128
@@ -543,129 +687,449 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
 * ```ts
   function v128.all_true<T>(a: v128): bool
   ```
-  Reduces a vector to a scalar indicating whether all lanes are considered `true`.
+  <details><summary>Reduces a vector to a scalar indicating whether all lanes are considered <code>true</code>.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i8, u8   | i8x16.all_true
+  | i16, u16 | i16x8.all_true
+  | i32, u32 | i32x4.all_true
+  | i64, u64 | i64x2.all_true
+  </details>
 
 * ```ts
   function v128.bitmask<T>(a: v128): bool
   ```
-  Extracts the high bit of each integer lane (except 64-bit) and produces a scalar mask with all bits concatenated.
+  <details><summary>Extracts the high bit of each integer lane (except 64-bit) and produces a scalar mask with all bits concatenated.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i8, u8   | i8x16.bitmask
+  | i16, u16 | i16x8.bitmask
+  | i32, u32 | i32x4.bitmask
+  | i64, u64 | i64x2.bitmask
+  </details>
 
 * ```ts
-  function v128.max<T>(a: v128, b: v128): v128
+  function v128.popcnt<T>(a: v128): v128
   ```
-  Computes the maximum of each lane.
+  <details><summary>Counts the number of bits set to one within each lane.</summary>
+
+  | T      | Instruction
+  |--------|-------------
+  | i8, u8 | i8x16.popcnt
+  </details>
 
 * ```ts
   function v128.min<T>(a: v128, b: v128): v128
   ```
-  Computes the minimum of each lane.
+  <details><summary>Computes the minimum of each lane.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | i8  | i8x16.min_s
+  | u8  | i8x16.min_u
+  | i16 | i16x8.min_s
+  | u16 | i16x8.min_u
+  | i32 | i32x4.min_s
+  | u32 | i32x4.min_u
+  | f32 | f32x4.min
+  | f64 | f64x2.min
+  </details>
 
 * ```ts
-  function v128.pmax<T>(a: v128, b: v128): v128
+  function v128.max<T>(a: v128, b: v128): v128
   ```
-  Computes the pseudo-maximum of each lane.
+  <details><summary>Computes the maximum of each lane.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | i8  | i8x16.max_s
+  | u8  | i8x16.max_u
+  | i16 | i16x8.max_s
+  | u16 | i16x8.max_u
+  | i32 | i32x4.max_s
+  | u32 | i32x4.max_u
+  | f32 | f32x4.max
+  | f64 | f64x2.max
+  </details>
 
 * ```ts
   function v128.pmin<T>(a: v128, b: v128): v128
   ```
-  Computes the psuedo-minimum of each lane.
+  <details><summary>Computes the psuedo-minimum of each lane.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | f32 | f32x4.pmin
+  | f64 | f64x2.pmin
+  </details>
+
+* ```ts
+  function v128.pmax<T>(a: v128, b: v128): v128
+  ```
+  <details><summary>Computes the pseudo-maximum of each lane.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | f32 | f32x4.pmax
+  | f64 | f64x2.pmax
+  </details>
 
 * ```ts
   function v128.dot<T>(a: v128, b: v128): v128
   ```
-  Computes the dot product of two 16-bit integer lanes each, yielding lanes one size wider than the input.
+  <details><summary>Computes the dot product of two 16-bit integer lanes each, yielding lanes one size wider than the input.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | i16 | i32x4.dot_i16x8_s
+  </details>
 
 * ```ts
   function v128.avgr<T>(a: v128, b: v128): v128)
   ```
-  Computes the rounding average of each unsigned small integer lane.
+  <details><summary>Computes the rounding average of each unsigned small integer lane.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | u8  | i8x16.avgr_u
+  | u16 | i16x8.avgr_u
+  </details>
 
 * ```ts
   function v128.abs<T>(a: v128): v128
   ```
-  Computes the absolute value of each lane (except 64-bit integers).
+  <details><summary>Computes the absolute value of each lane (except 64-bit integers).</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i8, u8   | i8x16.abs
+  | i16, u16 | i16x8.abs
+  | i32, u32 | i32x4.abs
+  | i64, u64 | i64x2.abs
+  | f32      | f32x4.abs
+  | f64      | f64x2.abs
+  </details>
 
 * ```ts
   function v128.sqrt<T>(a: v128): v128
   ```
-  Computes the square root of each floating point lane.
+  <details><summary>Computes the square root of each floating point lane.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | f32 | f32x4.sqrt
+  | f64 | f64x2.sqrt
+  </details>
 
 * ```ts
   function v128.ceil<T>(a: v128): v128
   ```
-  Performs the ceiling operation on each lane.
+  <details><summary>Performs the ceiling operation on each lane.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | f32 | f32x4.ceil
+  | f64 | f64x2.ceil
+  </details>
 
 * ```ts
   function v128.floor<T>(a: v128): v128
   ```
-  Performs the floor operation on each lane.
+  <details><summary>Performs the floor operation on each lane.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | f32 | f32x4.floor
+  | f64 | f64x2.floor
+  </details>
 
 * ```ts
   function v128.trunc<T>(a: v128): v128
   ```
-  Rounds to the nearest integer towards zero of each lane.
+  <details><summary>Rounds to the nearest integer towards zero of each lane.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | f32 | f32x4.trunc
+  | f64 | f64x2.trunc
+  </details>
 
 * ```ts
   function v128.nearest<T>(a: v128): v128
   ```
-  Rounds to the nearest integer tied to even of each lane.
+  <details><summary>Rounds to the nearest integer tied to even of each lane.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | f32 | f32x4.nearest
+  | f64 | f64x2.nearest
+  </details>
 
 * ```ts
   function v128.eq<T>(a: v128, b: v128): v128
   ```
-  Computes which lanes are equal.
+  <details><summary>Computes which lanes are equal.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i8, u8   | i8x16.eq
+  | i16, u16 | i16x8.eq
+  | i32, u32 | i32x4.eq
+  | i64, u64 | i64x2.eq
+  | f32      | f32x4.eq
+  | f64      | f64x2.eq
+  </details>
 
 * ```ts
   function v128.ne<T>(a: v128, b: v128): v128
   ```
-  Computes which lanes are not equal.
+  <details><summary>Computes which lanes are not equal.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i8, u8   | i8x16.ne
+  | i16, u16 | i16x8.ne
+  | i32, u32 | i32x4.ne
+  | i64, u64 | i64x2.ne
+  | f32      | f32x4.ne
+  | f64      | f64x2.ne
+  </details>
 
 * ```ts
   function v128.lt<T>(a: v128, b: v128): v128
   ```
-  Computes which lanes of the first vector are less than those of the second.
+  <details><summary>Computes which lanes of the first vector are less than those of the second.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | i8  | i8x16.lt_s
+  | u8  | i8x16.lt_u
+  | i16 | i16x8.lt_s
+  | u16 | i16x8.lt_u
+  | i32 | i32x4.lt_s
+  | u32 | i32x4.lt_u
+  | i64 | i64x2.lt_s
+  | f32 | f32x4.lt
+  | f64 | f64x2.lt
+  </details>
 
 * ```ts
   function v128.le<T>(a: v128, b: v128): v128
   ```
-  Computes which lanes of the first vector are less than or equal those of the second.
+  <details><summary>Computes which lanes of the first vector are less than or equal those of the second.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | i8  | i8x16.le_s
+  | u8  | i8x16.le_u
+  | i16 | i16x8.le_s
+  | u16 | i16x8.le_u
+  | i32 | i32x4.le_s
+  | u32 | i32x4.le_u
+  | i64 | i64x2.le_s
+  | f32 | f32x4.le
+  | f64 | f64x2.le
+  </details>
 
 * ```ts
   function v128.gt<T>(a: v128, b: v128): v128
   ```
-  Computes which lanes of the first vector are greater than those of the second.
+  <details><summary>Computes which lanes of the first vector are greater than those of the second.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | i8  | i8x16.gt_s
+  | u8  | i8x16.gt_u
+  | i16 | i16x8.gt_s
+  | u16 | i16x8.gt_u
+  | i32 | i32x4.gt_s
+  | u32 | i32x4.gt_u
+  | i64 | i64x2.gt_s
+  | f32 | f32x4.gt
+  | f64 | f64x2.gt
+  </details>
 
 * ```ts
   function v128.ge<T>(a: v128, b: v128): v128
   ```
-  Computes which lanes of the first vector are greater than or equal those of the second.
+  <details><summary>Computes which lanes of the first vector are greater than or equal those of the second.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | i8  | i8x16.ge_s
+  | u8  | i8x16.ge_u
+  | i16 | i16x8.ge_s
+  | u16 | i16x8.ge_u
+  | i32 | i32x4.ge_s
+  | u32 | i32x4.ge_u
+  | i64 | i64x2.ge_s
+  | f32 | f32x4.ge
+  | f64 | f64x2.ge
+  </details>
 
 * ```ts
   function v128.convert<TFrom>(a: v128): v128
   ```
-  Converts each lane from integer to floating point.
+  <details><summary>Converts each lane of a vector from integer to single-precision floating point.</summary>
+
+  | TFrom | Instruction
+  |-------|-------------
+  | i32   | f32x4.convert_i32x4_s
+  | u32   | f32x4.convert_i32x4_u
+  </details>
+
+* ```ts
+  function v128.convert_low<TFrom>(a: v128): v128
+  ```
+  <details><summary>Converts the low lanes of a vector from integer to double-precision floating point.</summary>
+
+  | TFrom | Instruction
+  |-------|-------------
+  | i32   | f64x2.convert_low_i32x4_s
+  | u32   | f64x2.convert_low_i32x4_u
+  </details>
 
 * ```ts
   function v128.trunc_sat<TTo>(a: v128): v128
   ```
-  Truncates each lane from floating point to integer with saturation.
+  <details><summary>Truncates each lane of a vector from single-precision floating point to integer with saturation. Takes the target type.</summary>
+
+  | TTo | Instruction
+  |-----|-------------
+  | i32 | i32x4.trunc_sat_f32x4_s
+  | u32 | i32x4.trunc_sat_f32x4_u
+  </details>
+
+* ```ts
+  function v128.trunc_sat_zero<TTo>(a: v128): v128
+  ```
+  <details><summary>Truncates each lane of a vector from double-precision floating point to integer with saturation. Takes the target type.</summary>
+
+  | TTo | Instruction
+  |-----|-------------
+  | i32 | i32x4.trunc_sat_f64x2_s_zero
+  | u32 | i32x4.trunc_sat_f64x2_u_zero
+  </details>
 
 * ```ts
   function v128.narrow<TFrom>(a: v128, b: v128): v128
   ```
-  Narrows wider integer lanes to their respective narrower lanes.
+  <details><summary>Narrows wider integer lanes to their respective narrower lanes.</summary>
+
+  | TFrom | Instruction
+  |-------|-------------
+  | i16   | i8x16.narrow_i16x8_s
+  | u16   | i8x16.narrow_i16x8_u
+  | i32   | i16x8.narrow_i32x4_s
+  | u32   | i16x8.narrow_i32x4_u
+  </details>
 
 * ```ts
   function v128.extend_low<TFrom>(a: v128): v128
   ```
-  Extends the low half of narrower integer lanes to their respective wider lanes.
+  <details><summary>Extends the low half of narrower integer lanes to their respective wider lanes.</summary>
+
+  | TFrom | Instruction
+  |-------|-------------
+  | i8    | i16x8.extend_low_i8x16_s
+  | u8    | i16x8.extend_low_i8x16_u
+  | i16   | i32x4.extend_low_i16x8_s
+  | u16   | i32x4.extend_low_i16x8_u
+  | i32   | i64x2.extend_low_i32x4_s
+  | u32   | i64x2.extend_low_i32x4_u
+  </details>
 
 * ```ts
   function v128.extend_high<TFrom>(a: v128): v128
   ```
-  Extends the high half of narrower integer lanes to their respective wider lanes.
+  <details><summary>Extends the high half of narrower integer lanes to their respective wider lanes.</summary>
 
-In addition, the namespaces `i8x16`, `i16x8`, `i32x4`, `i64x2` , `f32x4` and `f64x2` provide their respective non-generic instructions, like `i32x4.splat` etc. Each of them can also be used to create a literal directly:
+  | TFrom | Instruction
+  |-------|-------------
+  | i8    | i16x8.extend_high_i8x16_s
+  | u8    | i16x8.extend_high_i8x16_u
+  | i16   | i32x4.extend_high_i16x8_s
+  | u16   | i32x4.extend_high_i16x8_u
+  | i32   | i64x2.extend_high_i32x4_s
+  | u32   | i64x2.extend_high_i32x4_u
+  </details>
+
+* ```ts
+  function v128.extadd_pairwise<TFrom>(a: v128): v128
+  ```
+  <details><summary>Adds lanes pairwise producing twice wider extended results.</summary>
+
+  | TFrom | Instruction
+  |-------|-------------
+  | i16   | i16x8.extadd_pairwise_i8x16_s
+  | u16   | i16x8.extadd_pairwise_i8x16_u
+  | i32   | i32x4.extadd_pairwise_i16x8_s
+  | u32   | i32x4.extadd_pairwise_i16x8_u
+  </details>
+
+* ```ts
+  function v128.demote_zero<T>(a: v128): v128
+  ```
+  <details><summary>Demotes each float lane to lower precision. The higher lanes of the result are initialized to zero.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | f64 | f32x4.demote_f64x2_zero
+  </details>
+
+* ```ts
+  function v128.promote_low<T>(a: v128): v128
+  ```
+  <details><summary>Promotes the lower float lanes to higher precision.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | f32 | f64x2.promote_low_f32x4
+  </details>
+
+* ```ts
+  function v128.q15mulr_sat<T>(a: v128, b: v128): v128
+  ```
+  <details><summary>Performs the line-wise saturating rounding multiplication in Q15 format.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | i16 | i16x8.q15mulr_sat_s
+  </details>
+
+* ```ts
+  function v128.extmul_low<T>(a: v128, b: v128): v128
+  ```
+  <details><summary>Performs the lane-wise integer extended multiplication of the lower lanes producing a twice wider result than the inputs.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | i8  | i16x8.extmul_low_i8x16_s
+  | u8  | i16x8.extmul_low_i8x16_u
+  | i16 | i32x4.extmul_low_i16x8_s
+  | u16 | i32x4.extmul_low_i16x8_u
+  | i32 | i64x2.extmul_low_i32x4_s
+  | u32 | i64x2.extmul_low_i32x4_u
+  </details>
+
+* ```ts
+  function v128.extmul_high<T>(a: v128, b: v128): v128
+  ```
+  <details><summary>Performs the lane-wise integer extended multiplication of the higher lanes producing a twice wider result than the inputs.</summary>
+
+  | T   | Instruction
+  |-----|-------------
+  | i8  | i16x8.extmul_high_i8x16_s
+  | u8  | i16x8.extmul_high_i8x16_u
+  | i16 | i32x4.extmul_high_i16x8_s
+  | u16 | i32x4.extmul_high_i16x8_u
+  | i32 | i64x2.extmul_high_i32x4_s
+  | u32 | i64x2.extmul_high_i32x4_u
+  </details>
+
+#### Constructing constant vectors
 
 * ```ts
   function i8x16(a: i8, ... , p: i8): v128
@@ -696,3 +1160,15 @@ In addition, the namespaces `i8x16`, `i16x8`, `i32x4`, `i64x2` , `f32x4` and `f6
   function f64x2(a: f64, b: f64): v128
   ```
   Initializes a 128-bit vector from two 64-bit float values. Arguments must be compile-time constants.
+
+### Inline instructions
+
+In addition to using the generic builtins above, most WebAssembly instructions can be written directly in AssemblyScript code. For example, the following is equivalent:
+
+```ts
+// generic builtin
+v128.splat<i32>(42);
+
+// inline instruction
+i32x4.splat(42);
+```

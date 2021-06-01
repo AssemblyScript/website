@@ -1,4 +1,4 @@
-/basics/environment /environment
+/basics/environment /stdlib/builtins
 /basics/exports-and-imports /exports-and-imports
 /basics/loader /loader
 /basics/types /types
@@ -26,3 +26,4 @@
 /standard-library/typedarray /stdlib/typedarray
 /extended-library/staticarray /stdlib/staticarray
 /faq /frequently-asked-questions
+/environment /stdlib/builtins

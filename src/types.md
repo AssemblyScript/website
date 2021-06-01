@@ -2,7 +2,7 @@
 description: When one number just doesn't cut it.
 ---
 
-# Types
+# WebAssembly types
 
 Instead of using the `number` type for all sorts of numeric values, AssemblyScript inherits WebAssembly's more specific integer and floating point types:
 

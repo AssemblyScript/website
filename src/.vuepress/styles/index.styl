@@ -85,3 +85,18 @@ div[class~="language-c"]:before {
 }
 
 img.engine { position: relative; top: 3px; }
+
+// API docs: <details><summary> spoiler
+
+details summary {
+  cursor: pointer;
+}
+details summary::marker {
+  color: $arrowBgColor;
+}
+details summary:hover {
+  color: $accentColor;
+}
+details table td {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
