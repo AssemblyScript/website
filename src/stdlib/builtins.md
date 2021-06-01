@@ -599,10 +599,10 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
   ```
   <details><summary>Creates a vector by loading a value of the specified type into the lowest bits and initializing all other bits of the vector to zero.</summary>
 
-  | TFrom    | Instruction
-  |----------|-------------
-  | i32, u32 | v128.load32_zero
-  | i64, u64 | v128.load64_zero
+  | TFrom         | Instruction
+  |---------------|-------------
+  | i32, u32, f32 | v128.load32_zero
+  | i64, u64, f64 | v128.load64_zero
   </details>
 
 * ```ts
