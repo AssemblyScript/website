@@ -105,10 +105,10 @@ function getExamplesSidebar() {
       collapsable: false,
       children: [
         '/examples/arrays',
-        ['https://github.com/AssemblyScript/examples/tree/master/i64', 'I64 as a (node) library'],
-        ['https://github.com/AssemblyScript/examples/tree/master/loader', 'Using the loader'],
-        ['https://github.com/AssemblyScript/examples/tree/master/sdk', 'Using the browser SDK'],
-        ['https://github.com/AssemblyScript/examples/tree/master/transform', 'Using compiler transforms']
+        ['https://github.com/AssemblyScript/examples/tree/main/i64', 'I64 as a (node) library'],
+        ['https://github.com/AssemblyScript/examples/tree/main/loader', 'Using the loader'],
+        ['https://github.com/AssemblyScript/examples/tree/main/sdk', 'Using the browser SDK'],
+        ['https://github.com/AssemblyScript/examples/tree/main/transform', 'Using compiler transforms']
       ]
     },
     {

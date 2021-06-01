@@ -86,7 +86,7 @@ Working with objects through imports and exports, like when using [the loader](.
 
 ### Working with references internally
 
-Working with objects internally, like when creating custom standard library components or otherwise writing low-level code, requires special care because switching between pointers and reference types can become quite tricky. The internal interface also provides [additional utility](https://github.com/AssemblyScript/assemblyscript/tree/master/std/assembly/rt) that is only relevant in very specific cases.
+Working with objects internally, like when creating custom standard library components or otherwise writing low-level code, requires special care because switching between pointers and reference types can become quite tricky. The internal interface also provides [additional utility](https://github.com/AssemblyScript/assemblyscript/tree/main/std/assembly/rt) that is only relevant in very specific cases.
 
 ::: tip
 One common point of confusion here is that the rules above **operate on types, not values**. Means: If the target is of a reference-type, the rules apply, but if the target is of an `usize` type, the rules do not apply, even if the value is a `changetype<usize>(..)`'d object.
@@ -135,7 +135,7 @@ It is also likely that our implementations are not as optimized yet as ultimatel
 
 ## Internals
 
-If you are interested in the inner workings, the internal APIs are explained in [the runtime's README file](https://github.com/AssemblyScript/assemblyscript/tree/master/std/assembly/rt) and of course in its sources - feel free to take a look!
+If you are interested in the inner workings, the internal APIs are explained in [the runtime's README file](https://github.com/AssemblyScript/assemblyscript/tree/main/std/assembly/rt) and of course in its sources - feel free to take a look!
 
 #### Runtime type information \(RTTI\)
 

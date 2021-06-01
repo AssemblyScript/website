@@ -212,5 +212,5 @@ Other options include those forwarded to Binaryen and various flags useful in ce
 
 The compiler can also be used programmatically.
 
-* [Compiler frontend API](https://github.com/AssemblyScript/assemblyscript/tree/master/cli#api)
-* [Browser SDK](https://github.com/AssemblyScript/assemblyscript/tree/master/lib/sdk) \([example](https://github.com/AssemblyScript/examples/tree/master/sdk)\)
+* [Compiler frontend API](https://github.com/AssemblyScript/assemblyscript/tree/main/cli#api)
+* [Browser SDK](https://github.com/AssemblyScript/assemblyscript/tree/main/lib/sdk) \([example](https://github.com/AssemblyScript/examples/tree/main/sdk)\)

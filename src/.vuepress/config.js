@@ -29,7 +29,7 @@ module.exports = {
     sidebarDepth: 1,
     docsRepo: 'AssemblyScript/website',
     docsDir: 'src',
-    docsBranch: 'master',
+    docsBranch: 'main',
     editLinks: true,
     editLinkText: 'Edit this page on GitHub',
     algolia: {

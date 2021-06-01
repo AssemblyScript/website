@@ -45,7 +45,7 @@ Shows how to exchange and work with arrays using the loader.
 
 ### Examples repository
 
-Various more advanced examples are available as part of the [examples repository](https://github.com/AssemblyScript/examples), including a sophisticated example of [using the loader](https://github.com/AssemblyScript/examples/tree/master/loader), [creating (node) libraries](https://github.com/AssemblyScript/examples/tree/master/i64), [utilizing the browser SDK](https://github.com/AssemblyScript/examples/tree/master/sdk) and [hooking into the compiler using transforms](https://github.com/AssemblyScript/examples/tree/master/transform).
+Various more advanced examples are available as part of the [examples repository](https://github.com/AssemblyScript/examples), including a sophisticated example of [using the loader](https://github.com/AssemblyScript/examples/tree/main/loader), [creating (node) libraries](https://github.com/AssemblyScript/examples/tree/main/i64), [utilizing the browser SDK](https://github.com/AssemblyScript/examples/tree/main/sdk) and [hooking into the compiler using transforms](https://github.com/AssemblyScript/examples/tree/main/transform).
 
 ## Additional resources
 

@@ -7,7 +7,7 @@ description: Instructions for setting up a development environment.
 Instructions for setting up a development environment.
 
 ::: tip
-Please see our [contribution guidelines](https://github.com/AssemblyScript/assemblyscript/blob/master/CONTRIBUTING.md) before submitting your first pull request.
+Please see our [contribution guidelines](https://github.com/AssemblyScript/assemblyscript/blob/main/CONTRIBUTING.md) before submitting your first pull request.
 :::
 
 ## Setting up a development environment
@@ -43,7 +43,7 @@ Linting potential changes:
 npm run check
 ```
 
- Running the [tests](https://github.com/AssemblyScript/assemblyscript/blob/master/tests):
+ Running the [tests](https://github.com/AssemblyScript/assemblyscript/blob/main/tests):
 
 ```sh
 npm test
@@ -57,4 +57,4 @@ npm run all
 
 ## Creating tests
 
-The test suite is composed of a set of tests for each component, like the parser, the compiler and runtime. For each pull request, all the tests are run automatically and the PR only goes green if it passes all of them. Please see the [instructions within the repository](https://github.com/AssemblyScript/assemblyscript/tree/master/tests) for all the details.
+The test suite is composed of a set of tests for each component, like the parser, the compiler and runtime. For each pull request, all the tests are run automatically and the PR only goes green if it passes all of them. Please see the [instructions within the repository](https://github.com/AssemblyScript/assemblyscript/tree/main/tests) for all the details.

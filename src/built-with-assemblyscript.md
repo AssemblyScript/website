@@ -37,8 +37,6 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   AssemblyScript implementation of SHA256 for [Lodestar](https://github.com/ChainSafe/lodestar).
 * [ParityTech / srml-contracts-waterfall](https://github.com/paritytech/srml-contracts-waterfall)<br />
   Collection of simple Substrate smart contract examples written in Rust and AssemblyScript and tests for Substrates SRML Contracts module.
-* [CasperLabs / contract-as](https://github.com/CasperLabs/CasperLabs/tree/master/execution-engine/contract-as)<br />
-  AssemblyScript smart contracting library for the CasperLabs protocol.
 
 ## Build Tools
 
@@ -57,7 +55,7 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Learn, Teach, Work and Play in the WebAssembly Studio.
 * [Fastly Terrarium](https://wasm.fastlylabs.com/)<br />
   A compilation toolchain and sandbox to run WebAssembly server-side, with native support for AssemblyScript.
-* [NEAR Protocol Examples](https://examples.nearprotocol.com/?q=assembly)<br />
+* [NEAR Protocol Examples](https://examples.near.org/)<br />
   Examples that use [GitPod](https://gitpod.io/) to develop and deploy distributed web apps using NEAR smart contracts authored in AssemblyScript.
 * [Iodide Notebook](https://alpha.iodide.io/notebooks/1234)<br />
   Experimental tool for scientific communication and exploration on the web \([more](https://hacks.mozilla.org/2019/03/iodide-an-experimental-tool-for-scientific-communicatiodide-for-scientific-communication-exploration-on-the-web)\).
@@ -132,7 +130,7 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 
 ## Embedded / IoT
 
-* [wasm3-arduino](https://github.com/wasm3/wasm3-arduino/tree/master/wasm_apps)<br />
+* [wasm3-arduino](https://github.com/wasm3/wasm3-arduino/tree/main/wasm_apps)<br />
   Usage example with wasm3 which run on Arduino, PlatformIO, Particle.
 * [Wasm3\_RGB\_Lamp](https://github.com/vshymanskyy/Wasm3_RGB_Lamp)<br />
   Animating an RGB lamp, using WebAssembly \(AssemblyScript\).

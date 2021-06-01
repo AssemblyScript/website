@@ -19,7 +19,7 @@ require("assemblyscript/std/portable")
 and extend `assemblyscript/std/portable.json` instead of `assemblyscript/std/assembly.json` within your `tsconfig.json`. The AssemblyScript compiler itself is an example of how this can be done.
 
 ::: tip
-The portable standard library is still pretty much a work in progress and we are extending it as we go while working on the compiler. If you need something specific, feel free to improve [its definitions and feature set](https://github.com/AssemblyScript/assemblyscript/tree/master/std/portable).
+The portable standard library is still pretty much a work in progress and we are extending it as we go while working on the compiler. If you need something specific, feel free to improve [its definitions and feature set](https://github.com/AssemblyScript/assemblyscript/tree/main/std/portable).
 :::
 
 ## Differences
@@ -89,6 +89,6 @@ In JavaScript, some parts of the standard library function a little more loosely
 
 ## Limitations
 
-In JavaScript, all numeric values are IEEE754 doubles that cannot represent the full range of values fitting in a 64-bit integer \([max. safe integer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER) is `2^53 - 1`\). Hence `i64` and `u64` are not portable and not present in `std/portable`. There are several ways to deal with this. One is to use an i64 polyfill like [in this example](https://github.com/AssemblyScript/examples/tree/master/i64).
+In JavaScript, all numeric values are IEEE754 doubles that cannot represent the full range of values fitting in a 64-bit integer \([max. safe integer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER) is `2^53 - 1`\). Hence `i64` and `u64` are not portable and not present in `std/portable`. There are several ways to deal with this. One is to use an i64 polyfill like [in this example](https://github.com/AssemblyScript/examples/tree/main/i64).
 
 Other than that, portable code \(JavaScript\) does not have a concept of memory, so there are no `load` and `store` implementations. Technically this can be polyfilled in various ways, but no default is provided since actual implementations are expected to be relatively specific \(for instance: the portable compiler accesses Binaryen's memory\).

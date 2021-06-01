@@ -364,7 +364,7 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
   </details>
 
   ::: warning
-  `immOffset` argument in `load` and `store` should be a non-negative constant value. See more details in [rationale](https://github.com/WebAssembly/design/blob/master/Rationale.md#loadstore-addressing)
+  `immOffset` argument in `load` and `store` should be a non-negative constant value. See more details in [rationale](https://github.com/WebAssembly/design/blob/main/Rationale.md#loadstore-addressing)
   :::
 
 * ```ts

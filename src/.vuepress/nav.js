@@ -98,11 +98,11 @@ module.exports = [
     items: [
       {
         text: 'Contributing guidelines',
-        link: 'https://github.com/AssemblyScript/assemblyscript/blob/master/CONTRIBUTING.md'
+        link: 'https://github.com/AssemblyScript/assemblyscript/blob/main/CONTRIBUTING.md'
       },
       {
         text: 'Code of Conduct',
-        link: 'https://github.com/AssemblyScript/assemblyscript/blob/master/CODE_OF_CONDUCT.md'
+        link: 'https://github.com/AssemblyScript/assemblyscript/blob/main/CODE_OF_CONDUCT.md'
       },
       {
         text: 'Core / Governance',
