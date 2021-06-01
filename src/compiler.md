@@ -2,9 +2,9 @@
 description: How to use the compiler from the command line or as an API.
 ---
 
-# Compiler
+# Using the compiler
 
-Similar to TypeScript's `tsc` compiling to JavaScript, AssemblyScript's `asc` compiles to WebAssembly.
+Similar to TypeScript's `tsc` transpiling to JavaScript, AssemblyScript's `asc` compiles to WebAssembly.
 
 ## Command line options
 

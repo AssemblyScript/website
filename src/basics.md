@@ -2,7 +2,7 @@
 description: There is something appealing to it, isn't it?
 ---
 
-# Basics
+# Basic concepts
 
 WebAssembly is fundamentally different from JavaScript, ultimately enabling entirely new use cases not only on the web. Consequently, AssemblyScript is much more similar to a static compiler than it is to a JavaScript VM. One can think of it as a mix of TypeScript's high level syntax and C's low-level capabilities. This page is dedicated to getting you up to speed in no time.
 

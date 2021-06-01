@@ -62,8 +62,16 @@ module.exports = [
         text: 'Extended',
         items: [
           {
+            text: 'Builtins',
+            link: '/stdlib/builtins'
+          },
+          {
             text: 'StaticArray',
             link: '/stdlib/staticarray'
+          },
+          {
+            text: 'heap',
+            link: '/stdlib/heap'
           },
           {
             text: 'process',

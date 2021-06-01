@@ -3,7 +3,7 @@ description: How to make working with an AssemblyScript module more convenient.
 sidebarDepth: 2
 ---
 
-# Loader
+# Using the loader
 
 AssemblyScript provides a tiny [module loader](https://github.com/AssemblyScript/assemblyscript/tree/master/lib/loader) that makes working with AssemblyScript modules as convenient as it gets without sacrificing efficiency. It about mirrors the relevant parts of the WebAssembly API while also providing utility to allocate and read strings, arrays and classes.
 

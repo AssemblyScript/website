@@ -3,7 +3,7 @@ description: Are we there yet?
 sidebarDepth: 2
 ---
 
-# Status
+# Implementation status
 
 Not all language features are equally viable to implement on top of WebAssembly's current capabilities, and while AssemblyScript is already useful today, there is also still a lot to do. Keep in mind that WebAssembly is an evolving technology, and so is AssemblyScript.
 
@@ -21,15 +21,15 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 |--------------------------------|-------------------------------------|-------------------------|------------------------------------
 | ✔️ **Finished proposal**
 | Import/export mutable globals  | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | Global variable interop
-| BigInt integration<sup>1</sup> | <Ch/> <Fi/>             <Wt/> <Ws/> | ✔️                      | 64-bit integer interop
+| BigInt integration<sup>1</sup> | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | 64-bit integer interop
+| Sign-extension                 | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | Efficient small integer casts
 | Non-trapping F2I               | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | 🏁 `nontrapping-f2i`    | Checked and unchecked casts
-| Sign-extension                 | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | 🏁 `sign-extension`     | Efficient small integer casts
-| Reference Types                |       <Fi/>             <Wt/> <Ws/> | 🏁 `reference-types`    | Prerequisite for garbage collection
-| Bulk memory                    | <Ch/> <Fi/>             <Wt/> <Ws/> | 🏁 `bulk-memory`        | Replace `memcpy`, `memset`
-| Multi-value                    | <Ch/> <Fi/> <Sa/>       <Wt/> <Ws/> |                         | Tuple return values
+| Bulk memory                    | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | 🏁 `bulk-memory`        | Replace `memcpy`, `memset`
+| Reference Types                |       <Fi/>             <Wt/>       | 🏁 `reference-types`    | Prerequisite for garbage collection
+| Multi-value                    | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> |                         | Tuple return values
 ||
 | 🏁 **Standardize the feature**
-| Fixed-width SIMD               |                                     | 🔨 `simd`               | Expose as built-ins; Auto-vectorize?
+| Fixed-width SIMD               | <Ch/>                               | 🏁 `simd`               | Expose as built-ins; Auto-vectorize?
 ||
 | 🔨 **Implementation phase**
 | Tail call                      |                                     |                         |
@@ -112,7 +112,7 @@ Some [standard library APIs](./stdlib/globals.md) function a little different th
 
 ### Generics
 
-AssemblyScript compiles generics to one concrete method or function per set of unique contextual type arguments, also known as [monomorphisation](https://en.wiktionary.org/wiki/monomorphisation). Implications are that a module only includes and exports concrete functions for sets of type arguments actually used and that concrete functions can be shortcutted with [static type checks](./environment.md#static-type-checks) at compile time, which turned out to be quite useful.
+AssemblyScript compiles generics to one concrete method or function per set of unique contextual type arguments, also known as [monomorphisation](https://en.wiktionary.org/wiki/monomorphisation). Implications are that a module only includes and exports concrete functions for sets of type arguments actually used and that concrete functions can be shortcutted with [static type checks](./stdlib/builtins.md#static-type-checks) at compile time, which turned out to be quite useful.
 
 * The compiler does not currently enforce `extends Y` clauses on type parameters. Likely to be enforced in the future.
 * WebAssembly GC 🦄 may introduce more sophisticated mechanisms like reified generics, potentially post-MVP.
@@ -134,7 +134,7 @@ See also: [Will interop between AssemblyScript and JavaScript become better?](./
 
 ### Union types
 
-WebAssembly cannot efficiently represent locals or globals of dynamic types, so union types are not supported in AssemblyScript. One can however take advantage of the fact that AssemblyScript is a static compiler, with monomorphized generics and [static type checks](./environment.md#static-type-checks), to achieve a similar effect:
+WebAssembly cannot efficiently represent locals or globals of dynamic types, so union types are not supported in AssemblyScript. One can however take advantage of the fact that AssemblyScript is a static compiler, with monomorphized generics and [static type checks](./stdlib/builtins.md#static-type-checks), to achieve a similar effect:
 
 ```ts
 function addOrConcat<T>(a: T, b: T): T {
@@ -311,7 +311,7 @@ Debugging of AssemblyScript modules is not as convenient as it should be, but [p
 
 ### Testing
 
-The standard library provides the [`assert`](./environment.md#utility) built-in, which does not decide on a particular flavor of testing, yet is often sufficient to write basic tests.
+The standard library provides the [`assert`](./stdlib/builtins.md#utility) built-in, which does not decide on a particular flavor of testing, yet is often sufficient to write basic tests.
 
 Solutions being developed by the community:
 

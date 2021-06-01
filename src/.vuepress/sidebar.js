@@ -12,21 +12,20 @@ function getDefaultSidebar() {
       collapsable: false,
       children: [
         '/introduction',
-        '/quick-start',
-        '/basics',
-        '/status',
-        '/frequently-asked-questions'
+        '/quick-start'
       ]
     },
     {
       title: 'Documentation',
       collapsable: false,
       children: [
+        '/basics',
+        '/status',
         '/compiler',
         '/types',
-        '/environment',
         '/exports-and-imports',
-        '/loader'
+        '/loader',
+        '/frequently-asked-questions'
       ]
     },
     {
@@ -39,8 +38,8 @@ function getDefaultSidebar() {
         '/portability',
         '/debugging',
         '/interoperability',
-        '/development',
-        '/transforms'
+        '/transforms',
+        '/development'
       ]
     }
   ]
@@ -71,7 +70,9 @@ function getStdlibSidebar() {
       title: 'Extended Library',
       collapsable: false,
       children: [
+        '/stdlib/builtins',
         '/stdlib/staticarray',
+        '/stdlib/heap',
         '/stdlib/process',
         '/stdlib/console',
         '/stdlib/crypto'
