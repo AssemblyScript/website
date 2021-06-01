@@ -28,7 +28,7 @@ In its simplest form, it is JavaScript with [WebAsembly types](./types.md), comp
 asc fib.ts --binaryFile fib.wasm --optimize
 ```
 
-As such, it differs from running dynamically typed JavaScript (just in time) in that it instead [statically compiles](./compiler.md) to a strictly typed WebAssembly binary **ahead of time**, quite similar to what a traditional compiler would do. However, since it is deliberatly designed to be very similar to JavaScript, it has the potential to integrate seamlessly with existing Web Platform concepts to produce lean and mean WebAssembly binaries, while also making it almost natural to use for those who are already familiar with writing code for the Web.
+As such, it differs from running dynamically typed JavaScript (just in time) in that it instead [statically compiles](./compiler.md) to a strictly typed WebAssembly binary **ahead of time**, quite similar to what a traditional compiler would do. However, since it is deliberately designed to be very similar to JavaScript, it has the potential to integrate seamlessly with existing Web Platform concepts to produce lean and mean WebAssembly binaries, while also making it almost natural to use for those who are already familiar with writing code for the Web.
 
 ## Low-level perspective
 
