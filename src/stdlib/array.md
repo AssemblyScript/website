@@ -110,7 +110,7 @@ arr[0]; // now it works 😊
 * ```ts
   function pop(): T
   ```
-  Removes and returns the last value of the array. Modifies `Array#length`.
+  Removes and returns the last value of the array. Modifies `Array#length`. Throws a `RangeError` if the array is empty.
 
 * ```ts
   function push(value: T): i32
