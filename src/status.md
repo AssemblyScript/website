@@ -79,6 +79,7 @@ As such, certain higher-level language features still have their limitations or 
 | 🐣 **Limited**
 | [Union types](#union-types)                       | Nullable class types only. Can use generics with static type checks instead. (No proposal so far)
 | [Symbols](#symbols)                               | Implemented, but no deep compiler integration yet.
+| [Object literals](#object-literals)               | Implemented, but with limitations.
 | [JSON](#json)                                     | Third-party library available.
 | [RegExp](#regexp)                                 | Third-party library available.
 | [Date](#date)                                     | Third-party library available.
@@ -155,6 +156,21 @@ Another effect of the above is that AssemblyScript does not have an `any` type o
 ### Symbols
 
 The standard library implements [`Symbol`](./stdlib/symbol.md), and it is possible to work with and create new symbols, but there is no deep compiler integration like registration of `Symbol.iterator` etc. yet.
+
+### Object Literals
+
+Object literals can be used to create object instances as an alternative to the use of constructors. 
+
+```ts
+class MyClass {
+  propOne: i32;
+  propTwo: i32;
+}
+
+var myInstance: MyClass = { propOne: 2, propTwo: 3 };
+```
+
+Objects created via literals can have methods and default property values, but may not have a constructor.
 
 ### JSON
 
