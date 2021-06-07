@@ -22,7 +22,7 @@ export function fib(n: i32): i32 {
 }
 ```
 
-In its simplest form, it is JavaScript with [WebAsembly types](./types.md), compiled statically to a bunch of WebAssembly [exports and imports](./exports-and-imports.md), like so:
+In its simplest form, it is JavaScript with [WebAssembly types](./types.md), compiled statically to a bunch of WebAssembly [exports and imports](./exports-and-imports.md), like so:
 
 ```sh
 asc fib.ts --binaryFile fib.wasm --optimize
