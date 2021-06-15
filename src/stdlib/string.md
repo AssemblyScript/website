@@ -42,6 +42,11 @@ The String API works very much like JavaScript's \([MDN](https://developer.mozil
 ### Methods
 
 * ```ts
+  function at(pos: i32): string
+  ```
+  Gets the UTF-16 code unit at the specified position as a single character string. Panics if out of bounds.
+
+* ```ts
   function charAt(pos: i32): string
   ```
   Gets the UTF-16 code unit at the specified position as a single character string. Returns `""` \(empty string\) if out of bounds.
