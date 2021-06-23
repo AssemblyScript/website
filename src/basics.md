@@ -34,7 +34,7 @@ function foo(a: i32 = 0): i32 {
 }
 ```
 
-### No union types
+### No union types (yet)
 
 ```ts
 // 😢
@@ -62,6 +62,37 @@ class A {
   constructor(public prop: string) {}
 }
 var a = new A("hello world")
+```
+
+### Don't need cast after division / modulo for integers
+
+```ts
+// 😢
+var a: i32 = 5
+var mid = Math.floor(a / 2) as i32
+
+// 😊
+var a: i32 = 5
+// if you care about portability
+var mid = (a / 2) | 0
+
+// 😊
+var a: i32 = 5
+var mid = a / 2
+```
+
+```ts
+// 😢
+var a: i32 = 5
+var isDivBy3 = Math.floor(a % 3) == 0
+
+var a: i32 = 5
+// if you care about portability
+var isDivBy3 = (a % 3 | 0) == 0
+
+// 😊
+var a: i32 = 5
+var isDivBy3 = a % 3 == 0
 ```
 
 ## Sandbox
