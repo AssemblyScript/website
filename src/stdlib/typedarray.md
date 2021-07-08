@@ -142,10 +142,11 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
   function reverse(): this
   ```
   Reverses an array's values in place, modifying the array before returning it.
+
 * ```ts
   function join(separator?: string): string;
   ```
-  The join() method joins all elements of an array into a string. This method has the same algorithm as Array.prototype.join().
+  Joins all elements of an array into a string. This method has the same algorithm as `Array#join`.
 
 * ```ts
   function slice(start?: i32, end?: i32): TypedArray
@@ -155,14 +156,14 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
 * ```ts
   function copyWithin(target: i32, start: i32, end?: i32): this;
   ```
-  The copyWithin() method copies the sequence of array elements within the array to the position starting at target. The copy is taken from the index positions of the second and third arguments start and end. The end argument is optional and defaults to the length of the array.
+  Copies the sequence of array elements within the array to the position starting at target. The copy is taken from the index positions of the second and third arguments start and end. The end argument is optional and defaults to the length of the array.
 
 * ```ts
   function filter(
     fn: (value: T, index: i32, self: TypedArray) => bool
   ): TypedArray;
   ```
-  The filter() method creates a new typed array with all elements that pass the test implemented by the provided function. This method has the same algorithm as Array.prototype.filter().
+  Creates a new typed array with all elements that pass the test implemented by the provided function. This method has the same algorithm as `Array#filter`.
   
 * ```ts
   function some(
