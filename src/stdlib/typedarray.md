@@ -139,6 +139,11 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
   Reverses an array's values in place, modifying the array before returning it.
 
 * ```ts
+  function set(source: TypedArray, fromIndex?: i32): void
+  ```
+  Sets the array values (started at `fromIndex`, or 0) based on the contents of another array.
+
+* ```ts
   function some(
     fn: (value: T, index: i32, self: TypedArray) => bool
   ): bool
