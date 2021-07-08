@@ -158,7 +158,9 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
   The copyWithin() method copies the sequence of array elements within the array to the position starting at target. The copy is taken from the index positions of the second and third arguments start and end. The end argument is optional and defaults to the length of the array.
 
 * ```ts
-  filter(callbackfn: (value: T, index: i32, self: this) => bool): this;
+  function filter(
+    fn: (value: T, index: i32, self: TypedArray) => bool
+  ): TypedArray;
   ```
   The filter() method creates a new typed array with all elements that pass the test implemented by the provided function. This method has the same algorithm as Array.prototype.filter().
   
