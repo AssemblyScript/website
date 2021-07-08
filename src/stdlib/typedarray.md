@@ -48,6 +48,11 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
 ### Fields
 
 * ```ts
+  function at(pos: i32): T
+  ```
+  Gets the element at the specified position. This method allows for positive and negative integers. Negative integers count back from the last element.
+
+* ```ts
   readonly buffer: ArrayBuffer
   ```
   The backing array buffer of this view.
@@ -137,7 +142,26 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
   function reverse(): this
   ```
   Reverses an array's values in place, modifying the array before returning it.
+* ```ts
+  join(separator?: string): string;
+  ```
+  The join() method joins all elements of an array into a string. This method has the same algorithm as Array.prototype.join().
 
+* ```ts
+  function slice(start?: i32, end?: i32): TypedArray
+  ```
+  Returns a shallow copy of the array's values from begin inclusive to end exclusive, as a new array. If omitted, end defaults to the end of the array.
+
+* ```ts
+  copyWithin(target: i32, start: i32, end?: i32): this;
+  ```
+  The copyWithin() method copies the sequence of array elements within the array to the position starting at target. The copy is taken from the index positions of the second and third arguments start and end. The end argument is optional and defaults to the length of the array.
+
+* ```ts
+  filter(callbackfn: (value: T, index: i32, self: this) => bool): this;
+  ```
+  The filter() method creates a new typed array with all elements that pass the test implemented by the provided function. This method has the same algorithm as Array.prototype.filter().
+  
 * ```ts
   function some(
     fn: (value: T, index: i32, self: TypedArray) => bool
