@@ -48,11 +48,6 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
 ### Fields
 
 * ```ts
-  function at(pos: i32): T
-  ```
-  Gets the element at the specified position. This method allows for positive and negative integers. Negative integers count back from the last element.
-
-* ```ts
   readonly buffer: ArrayBuffer
   ```
   The backing array buffer of this view.
@@ -73,6 +68,11 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
   The length in elements.
 
 ### Methods
+
+* ```ts
+  function at(pos: i32): T
+  ```
+  Gets the element at the specified position. This method allows for positive and negative integers. Negative integers count back from the last element.
 
 * ```ts
   function every(

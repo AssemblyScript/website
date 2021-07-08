@@ -43,6 +43,11 @@ arr[0]; // now it works 😊
 ### Methods
 
 * ```ts
+  function at(pos: i32): T
+  ```
+  Gets the element at the specified position. This method allows for positive and negative integers. Negative integers count back from the last element.
+
+* ```ts
   function concat(other: Array<T>): Array<T>
   ```
   Concatenates the values of this and the other array to a new array, in this order.
