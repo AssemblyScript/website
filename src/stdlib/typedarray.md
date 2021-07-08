@@ -143,7 +143,7 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
   ```
   Reverses an array's values in place, modifying the array before returning it.
 * ```ts
-  join(separator?: string): string;
+  function join(separator?: string): string;
   ```
   The join() method joins all elements of an array into a string. This method has the same algorithm as Array.prototype.join().
 
