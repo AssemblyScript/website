@@ -153,7 +153,7 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
   Returns a shallow copy of the array's values from begin inclusive to end exclusive, as a new array. If omitted, end defaults to the end of the array.
 
 * ```ts
-  copyWithin(target: i32, start: i32, end?: i32): this;
+  function copyWithin(target: i32, start: i32, end?: i32): this;
   ```
   The copyWithin() method copies the sequence of array elements within the array to the position starting at target. The copy is taken from the index positions of the second and third arguments start and end. The end argument is optional and defaults to the length of the array.
 
