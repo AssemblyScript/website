@@ -44,8 +44,7 @@ The String API works very much like JavaScript's \([MDN](https://developer.mozil
 * ```ts
   function at(pos: i32): string
   ```
-  Gets the UTF-16 code unit at the specified position as a single character string. Panics if out of bounds.
-
+  Gets the UTF-16 code unit at the specified position as a single character string. This method allows for positive and negative integers. Negative integers count back from the last string character.
 * ```ts
   function charAt(pos: i32): string
   ```
