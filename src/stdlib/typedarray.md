@@ -141,7 +141,7 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
 * ```ts
   function set(source: TypedArray, offset?: i32): void
   ```
-  Sets the array values (started at `fromIndex`, or 0) based on the contents of another array.
+  Sets the typed array values (started at `offset`, or 0) reading input values from a specified `source` array or typed array.
 
 * ```ts
   function some(
