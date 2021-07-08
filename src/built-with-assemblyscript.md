@@ -129,7 +129,11 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   AssemblyScript version of Rust Option<T> and Result<O, E> etc.
 * [as-big](https://github.com/ttulka/as-big)<br />
   An AssemblyScript library for arbitrary-precision decimal arithmetic.
-  
+* [as-variant](https://github.com/MaxGraey/as-variant)<br />
+  Variant (aka Any) data type for AssemblyScript.
+* [as-string-sink](https://github.com/MaxGraey/as-string-sink)<br />
+  An efficient dynamically sized string buffer (aka String Builder) for AssemblyScript.
+
 ## Embedded / IoT
 
 * [wasm3-arduino](https://github.com/wasm3/wasm3-arduino/tree/main/wasm_apps)<br />
