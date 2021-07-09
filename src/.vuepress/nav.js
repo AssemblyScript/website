@@ -91,7 +91,16 @@ module.exports = [
   },
   {
     text: 'Examples',
-    link: '/examples',
+    items: [
+      {
+        text: 'Overview',
+        link: '/examples'
+      },
+      {
+        text: 'Built with AssemblyScript',
+        link: '/built-with-assemblyscript'
+      }
+    ]
   },
   {
     text: 'Community',
