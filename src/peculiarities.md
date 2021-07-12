@@ -30,11 +30,17 @@ Operator overloads can only be used on class methods. The respective argument ty
 ### Binary operations
 
 ```ts
+// a + b
 @operator(OP)
 static __op(left: T, right :T): T { ... }
 
+// a + b
 @operator(OP)
 __op(right: T): T  { ... }
+
+// obj[key] = value
+@operator('[]=')
+__op(key: KeyType, value: ValueType): void { ... }
 ```
 
 | OP      | Description
