@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>heap | The AssemblyScript Book</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#007acc">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <meta name="description" content="Direct access to the memory manager.">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="preload" href="/assets/css/0.styles.eeed5f1a.css" as="style"><link rel="preload" href="/assets/js/app.320ff58d.js" as="script"><link rel="preload" href="/assets/js/4.2c0643ad.js" as="script"><link rel="preload" href="/assets/js/3.5ce27dc9.js" as="script"><link rel="preload" href="/assets/js/53.1ba58584.js" as="script"><link rel="prefetch" href="/assets/js/10.7233805a.js"><link rel="prefetch" href="/assets/js/11.95a4ae24.js"><link rel="prefetch" href="/assets/js/12.dee0e02e.js"><link rel="prefetch" href="/assets/js/13.1f2af9e7.js"><link rel="prefetch" href="/assets/js/14.9bcf354a.js"><link rel="prefetch" href="/assets/js/15.ea608e34.js"><link rel="prefetch" href="/assets/js/16.3a84f2c0.js"><link rel="prefetch" href="/assets/js/17.454a2bd6.js"><link rel="prefetch" href="/assets/js/18.6fc697fb.js"><link rel="prefetch" href="/assets/js/19.00ed0c98.js"><link rel="prefetch" href="/assets/js/20.fb598805.js"><link rel="prefetch" href="/assets/js/21.f4b68f8a.js"><link rel="prefetch" href="/assets/js/22.ba63fd7d.js"><link rel="prefetch" href="/assets/js/23.b3662691.js"><link rel="prefetch" href="/assets/js/24.122c0b17.js"><link rel="prefetch" href="/assets/js/25.7585498b.js"><link rel="prefetch" href="/assets/js/26.8d5ffec9.js"><link rel="prefetch" href="/assets/js/27.ed12c56e.js"><link rel="prefetch" href="/assets/js/28.fd95b4a4.js"><link rel="prefetch" href="/assets/js/29.cb4ce20c.js"><link rel="prefetch" href="/assets/js/30.2e2633de.js"><link rel="prefetch" href="/assets/js/31.152e3057.js"><link rel="prefetch" href="/assets/js/32.2603d3dc.js"><link rel="prefetch" href="/assets/js/33.70591c5f.js"><link rel="prefetch" href="/assets/js/34.280d222b.js"><link rel="prefetch" href="/assets/js/35.95c78684.js"><link rel="prefetch" href="/assets/js/36.3690beed.js"><link rel="prefetch" href="/assets/js/37.65ab3f46.js"><link rel="prefetch" href="/assets/js/38.2529aac0.js"><link rel="prefetch" href="/assets/js/39.a32986c5.js"><link rel="prefetch" href="/assets/js/40.10ffd39e.js"><link rel="prefetch" href="/assets/js/41.3556ceea.js"><link rel="prefetch" href="/assets/js/42.6d9f1c8f.js"><link rel="prefetch" href="/assets/js/43.bebbee86.js"><link rel="prefetch" href="/assets/js/44.b8c6c0af.js"><link rel="prefetch" href="/assets/js/45.a42fe027.js"><link rel="prefetch" href="/assets/js/46.f126225c.js"><link rel="prefetch" href="/assets/js/47.03318c93.js"><link rel="prefetch" href="/assets/js/48.11d95cc9.js"><link rel="prefetch" href="/assets/js/49.c0275c08.js"><link rel="prefetch" href="/assets/js/5.7414921f.js"><link rel="prefetch" href="/assets/js/50.3a24806a.js"><link rel="prefetch" href="/assets/js/51.e720a439.js"><link rel="prefetch" href="/assets/js/52.f4f0bc84.js"><link rel="prefetch" href="/assets/js/54.6058cb42.js"><link rel="prefetch" href="/assets/js/55.42312008.js"><link rel="prefetch" href="/assets/js/56.0f848420.js"><link rel="prefetch" href="/assets/js/57.658392fa.js"><link rel="prefetch" href="/assets/js/58.d9eafa42.js"><link rel="prefetch" href="/assets/js/59.ddd72c06.js"><link rel="prefetch" href="/assets/js/6.ca3056d8.js"><link rel="prefetch" href="/assets/js/60.0bde6bb5.js"><link rel="prefetch" href="/assets/js/61.6fce6eef.js"><link rel="prefetch" href="/assets/js/62.c6756d3b.js"><link rel="prefetch" href="/assets/js/63.64290cc1.js"><link rel="prefetch" href="/assets/js/64.014f9c62.js"><link rel="prefetch" href="/assets/js/7.158eb93f.js"><link rel="prefetch" href="/assets/js/8.5704121c.js"><link rel="prefetch" href="/assets/js/9.471fcd4b.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.7912142d.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.eeed5f1a.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container" data-v-8ef39a8a><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/images/icon.svg" alt="The AssemblyScript Book" class="logo"> <span class="site-name can-hide">The AssemblyScript Book</span></a> <div class="links"><form id="search-form" role="search" class="algolia-search-wrapper search-box"><input id="algolia-search-input" class="search-query"></form> <nav class="nav-links can-hide"><div class="nav-item"><a href="/introduction.html" class="nav-link">
+  Documentation
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Standard library" class="dropdown-title"><span class="title">Standard library</span> <span class="arrow down"></span></button> <button type="button" aria-label="Standard library" class="mobile-dropdown-title"><span class="title">Standard library</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/stdlib/globals.html" class="nav-link">
+  Globals
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/array.html" class="nav-link">
+  Array
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/arraybuffer.html" class="nav-link">
+  ArrayBuffer
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/dataview.html" class="nav-link">
+  DataView
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/date.html" class="nav-link">
+  Date
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/error.html" class="nav-link">
+  Error
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/map.html" class="nav-link">
+  Map
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/math.html" class="nav-link">
+  Math
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/number.html" class="nav-link">
+  Number
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/set.html" class="nav-link">
+  Set
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/string.html" class="nav-link">
+  String
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/symbol.html" class="nav-link">
+  Symbol
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/typedarray.html" class="nav-link">
+  TypedArray
+</a></li><li class="dropdown-item"><h4>
+          Extended
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/stdlib/builtins.html" class="nav-link">
+  Builtins
+</a></li><li class="dropdown-subitem"><a href="/stdlib/staticarray.html" class="nav-link">
+  StaticArray
+</a></li><li class="dropdown-subitem"><a href="/stdlib/heap.html" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  heap
+</a></li><li class="dropdown-subitem"><a href="/stdlib/process.html" class="nav-link">
+  process
+</a></li><li class="dropdown-subitem"><a href="/stdlib/console.html" class="nav-link">
+  console
+</a></li><li class="dropdown-subitem"><a href="/stdlib/crypto.html" class="nav-link">
+  crypto
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Examples" class="dropdown-title"><span class="title">Examples</span> <span class="arrow down"></span></button> <button type="button" aria-label="Examples" class="mobile-dropdown-title"><span class="title">Examples</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/examples.html" class="nav-link">
+  Overview
+</a></li><li class="dropdown-item"><!----> <a href="/built-with-assemblyscript.html" class="nav-link">
+  Built with AssemblyScript
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Community" class="dropdown-title"><span class="title">Community</span> <span class="arrow down"></span></button> <button type="button" aria-label="Community" class="mobile-dropdown-title"><span class="title">Community</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/assemblyscript/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Contributing guidelines
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/assemblyscript/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Code of Conduct
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/core" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Core / Governance
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/community-group" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Community Group
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><h4>
+          Social
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://twitter.com/AssemblyScript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Twitter
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://discord.gg/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Discord
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li><li class="dropdown-item"><h4>
+          Q&amp;A
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://stackoverflow.com/questions/tagged/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Stack Overflow
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li></ul></div></div><div class="nav-item"><a href="https://opencollective.com/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Support us
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/AssemblyScript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/introduction.html" class="nav-link">
+  Documentation
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Standard library" class="dropdown-title"><span class="title">Standard library</span> <span class="arrow down"></span></button> <button type="button" aria-label="Standard library" class="mobile-dropdown-title"><span class="title">Standard library</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/stdlib/globals.html" class="nav-link">
+  Globals
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/array.html" class="nav-link">
+  Array
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/arraybuffer.html" class="nav-link">
+  ArrayBuffer
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/dataview.html" class="nav-link">
+  DataView
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/date.html" class="nav-link">
+  Date
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/error.html" class="nav-link">
+  Error
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/map.html" class="nav-link">
+  Map
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/math.html" class="nav-link">
+  Math
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/number.html" class="nav-link">
+  Number
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/set.html" class="nav-link">
+  Set
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/string.html" class="nav-link">
+  String
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/symbol.html" class="nav-link">
+  Symbol
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/typedarray.html" class="nav-link">
+  TypedArray
+</a></li><li class="dropdown-item"><h4>
+          Extended
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/stdlib/builtins.html" class="nav-link">
+  Builtins
+</a></li><li class="dropdown-subitem"><a href="/stdlib/staticarray.html" class="nav-link">
+  StaticArray
+</a></li><li class="dropdown-subitem"><a href="/stdlib/heap.html" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  heap
+</a></li><li class="dropdown-subitem"><a href="/stdlib/process.html" class="nav-link">
+  process
+</a></li><li class="dropdown-subitem"><a href="/stdlib/console.html" class="nav-link">
+  console
+</a></li><li class="dropdown-subitem"><a href="/stdlib/crypto.html" class="nav-link">
+  crypto
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Examples" class="dropdown-title"><span class="title">Examples</span> <span class="arrow down"></span></button> <button type="button" aria-label="Examples" class="mobile-dropdown-title"><span class="title">Examples</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/examples.html" class="nav-link">
+  Overview
+</a></li><li class="dropdown-item"><!----> <a href="/built-with-assemblyscript.html" class="nav-link">
+  Built with AssemblyScript
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Community" class="dropdown-title"><span class="title">Community</span> <span class="arrow down"></span></button> <button type="button" aria-label="Community" class="mobile-dropdown-title"><span class="title">Community</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/assemblyscript/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Contributing guidelines
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/assemblyscript/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Code of Conduct
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/core" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Core / Governance
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/community-group" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Community Group
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><h4>
+          Social
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://twitter.com/AssemblyScript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Twitter
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://discord.gg/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Discord
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li><li class="dropdown-item"><h4>
+          Q&amp;A
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://stackoverflow.com/questions/tagged/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Stack Overflow
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li></ul></div></div><div class="nav-item"><a href="https://opencollective.com/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Support us
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/AssemblyScript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Standard Library</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/stdlib/globals.html" class="sidebar-link">Globals</a></li><li><a href="/stdlib/array.html" class="sidebar-link">Array</a></li><li><a href="/stdlib/arraybuffer.html" class="sidebar-link">ArrayBuffer</a></li><li><a href="/stdlib/dataview.html" class="sidebar-link">DataView</a></li><li><a href="/stdlib/date.html" class="sidebar-link">Date</a></li><li><a href="/stdlib/error.html" class="sidebar-link">Error</a></li><li><a href="/stdlib/map.html" class="sidebar-link">Map</a></li><li><a href="/stdlib/math.html" class="sidebar-link">Math</a></li><li><a href="/stdlib/number.html" class="sidebar-link">Number</a></li><li><a href="/stdlib/set.html" class="sidebar-link">Set</a></li><li><a href="/stdlib/string.html" class="sidebar-link">String</a></li><li><a href="/stdlib/symbol.html" class="sidebar-link">Symbol</a></li><li><a href="/stdlib/typedarray.html" class="sidebar-link">TypedArray</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Extended Library</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/stdlib/builtins.html" class="sidebar-link">Builtins</a></li><li><a href="/stdlib/staticarray.html" class="sidebar-link">StaticArray</a></li><li><a href="/stdlib/heap.html" aria-current="page" class="active sidebar-link">heap</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/stdlib/heap.html#static-members" class="sidebar-link">Static members</a></li></ul></li><li><a href="/stdlib/process.html" class="sidebar-link">process</a></li><li><a href="/stdlib/console.html" class="sidebar-link">console</a></li><li><a href="/stdlib/crypto.html" class="sidebar-link">crypto</a></li></ul></section></li></ul> </aside> <main class="page" data-v-d1fc1622> <div class="theme-default-content content__default" data-v-d1fc1622><h1 id="heap"><a href="#heap" class="header-anchor">#</a> heap</h1> <p>An unsafe interface to use the dynamic memory manager directly, resembling <code>malloc</code>, <code>realloc</code> and <code>free</code>. Manual memory management can be used in parallel to garbage collection, which can be quite handy, but manually managed blocks cannot be mixed with garbage collected objects (i.e. trying to <code>heap.free</code> a GC object or casting a block to a managed object respectively would break since one has a GC header and the other does not).</p> <h2 id="static-members"><a href="#static-members" class="header-anchor">#</a> Static members</h2> <ul><li><div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">function</span> <span class="token builtin">heap</span><span class="token punctuation">.</span><span class="token function">alloc</span><span class="token punctuation">(</span>size<span class="token operator">:</span> <span class="token builtin">usize</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">usize</span>
+</code></pre></div><p>Allocates a chunk of memory of at least the specified size.</p></li> <li><div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">function</span> <span class="token builtin">heap</span><span class="token punctuation">.</span><span class="token function">realloc</span><span class="token punctuation">(</span>ptr<span class="token operator">:</span> <span class="token builtin">usize</span><span class="token punctuation">,</span> size<span class="token operator">:</span> <span class="token builtin">usize</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">usize</span>
+</code></pre></div><p>Reallocates a chunk of memory to have at least the specified size.</p></li> <li><div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">function</span> <span class="token builtin">heap</span><span class="token punctuation">.</span><span class="token function">free</span><span class="token punctuation">(</span>ptr<span class="token operator">:</span> <span class="token builtin">usize</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span>
+</code></pre></div><p>Frees a chunk of memory.</p></li> <li><div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">function</span> <span class="token builtin">heap</span><span class="token punctuation">.</span><span class="token function">reset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span>
+</code></pre></div><p>Dangerously resets the entire heap. Specific to the &quot;stub&quot; runtime.</p></li></ul></div> <footer class="page-edit" data-v-d1fc1622><div class="edit-link"><a href="https://github.com/AssemblyScript/website/edit/main/src/stdlib/heap.md" target="_blank" rel="noopener noreferrer">Edit this page on GitHub</a> <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></div> <!----></footer> <div class="page-nav" data-v-d1fc1622><p class="inner"><span class="prev">
+      ←
+      <a href="/stdlib/staticarray.html" class="prev">
+        StaticArray
+      </a></span> <span class="next"><a href="/stdlib/process.html">
+        process
+      </a>
+      →
+    </span></p></div> <div class="footer" data-v-d1fc1622 data-v-8ef39a8a><p data-v-d1fc1622 data-v-8ef39a8a><span class="item" data-v-d1fc1622 data-v-8ef39a8a>Apache-2.0 licensed</span>,
+      <span class="item" data-v-d1fc1622 data-v-8ef39a8a>Copyright © 2021</span> <span class="item" data-v-d1fc1622 data-v-8ef39a8a>The AssemblyScript Project</span></p></div></main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.320ff58d.js" defer></script><script src="/assets/js/4.2c0643ad.js" defer></script><script src="/assets/js/3.5ce27dc9.js" defer></script><script src="/assets/js/53.1ba58584.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Using the compiler | The AssemblyScript Book</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#007acc">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <meta name="description" content="How to use the compiler from the command line or as an API.">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="preload" href="/assets/css/0.styles.eeed5f1a.css" as="style"><link rel="preload" href="/assets/js/app.320ff58d.js" as="script"><link rel="preload" href="/assets/js/4.2c0643ad.js" as="script"><link rel="preload" href="/assets/js/3.5ce27dc9.js" as="script"><link rel="preload" href="/assets/js/22.ba63fd7d.js" as="script"><link rel="prefetch" href="/assets/js/10.7233805a.js"><link rel="prefetch" href="/assets/js/11.95a4ae24.js"><link rel="prefetch" href="/assets/js/12.dee0e02e.js"><link rel="prefetch" href="/assets/js/13.1f2af9e7.js"><link rel="prefetch" href="/assets/js/14.9bcf354a.js"><link rel="prefetch" href="/assets/js/15.ea608e34.js"><link rel="prefetch" href="/assets/js/16.3a84f2c0.js"><link rel="prefetch" href="/assets/js/17.454a2bd6.js"><link rel="prefetch" href="/assets/js/18.6fc697fb.js"><link rel="prefetch" href="/assets/js/19.00ed0c98.js"><link rel="prefetch" href="/assets/js/20.fb598805.js"><link rel="prefetch" href="/assets/js/21.f4b68f8a.js"><link rel="prefetch" href="/assets/js/23.b3662691.js"><link rel="prefetch" href="/assets/js/24.122c0b17.js"><link rel="prefetch" href="/assets/js/25.7585498b.js"><link rel="prefetch" href="/assets/js/26.8d5ffec9.js"><link rel="prefetch" href="/assets/js/27.ed12c56e.js"><link rel="prefetch" href="/assets/js/28.fd95b4a4.js"><link rel="prefetch" href="/assets/js/29.cb4ce20c.js"><link rel="prefetch" href="/assets/js/30.2e2633de.js"><link rel="prefetch" href="/assets/js/31.152e3057.js"><link rel="prefetch" href="/assets/js/32.2603d3dc.js"><link rel="prefetch" href="/assets/js/33.70591c5f.js"><link rel="prefetch" href="/assets/js/34.280d222b.js"><link rel="prefetch" href="/assets/js/35.95c78684.js"><link rel="prefetch" href="/assets/js/36.3690beed.js"><link rel="prefetch" href="/assets/js/37.65ab3f46.js"><link rel="prefetch" href="/assets/js/38.2529aac0.js"><link rel="prefetch" href="/assets/js/39.a32986c5.js"><link rel="prefetch" href="/assets/js/40.10ffd39e.js"><link rel="prefetch" href="/assets/js/41.3556ceea.js"><link rel="prefetch" href="/assets/js/42.6d9f1c8f.js"><link rel="prefetch" href="/assets/js/43.bebbee86.js"><link rel="prefetch" href="/assets/js/44.b8c6c0af.js"><link rel="prefetch" href="/assets/js/45.a42fe027.js"><link rel="prefetch" href="/assets/js/46.f126225c.js"><link rel="prefetch" href="/assets/js/47.03318c93.js"><link rel="prefetch" href="/assets/js/48.11d95cc9.js"><link rel="prefetch" href="/assets/js/49.c0275c08.js"><link rel="prefetch" href="/assets/js/5.7414921f.js"><link rel="prefetch" href="/assets/js/50.3a24806a.js"><link rel="prefetch" href="/assets/js/51.e720a439.js"><link rel="prefetch" href="/assets/js/52.f4f0bc84.js"><link rel="prefetch" href="/assets/js/53.1ba58584.js"><link rel="prefetch" href="/assets/js/54.6058cb42.js"><link rel="prefetch" href="/assets/js/55.42312008.js"><link rel="prefetch" href="/assets/js/56.0f848420.js"><link rel="prefetch" href="/assets/js/57.658392fa.js"><link rel="prefetch" href="/assets/js/58.d9eafa42.js"><link rel="prefetch" href="/assets/js/59.ddd72c06.js"><link rel="prefetch" href="/assets/js/6.ca3056d8.js"><link rel="prefetch" href="/assets/js/60.0bde6bb5.js"><link rel="prefetch" href="/assets/js/61.6fce6eef.js"><link rel="prefetch" href="/assets/js/62.c6756d3b.js"><link rel="prefetch" href="/assets/js/63.64290cc1.js"><link rel="prefetch" href="/assets/js/64.014f9c62.js"><link rel="prefetch" href="/assets/js/7.158eb93f.js"><link rel="prefetch" href="/assets/js/8.5704121c.js"><link rel="prefetch" href="/assets/js/9.471fcd4b.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.7912142d.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.eeed5f1a.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container" data-v-8ef39a8a><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/images/icon.svg" alt="The AssemblyScript Book" class="logo"> <span class="site-name can-hide">The AssemblyScript Book</span></a> <div class="links"><form id="search-form" role="search" class="algolia-search-wrapper search-box"><input id="algolia-search-input" class="search-query"></form> <nav class="nav-links can-hide"><div class="nav-item"><a href="/introduction.html" class="nav-link">
+  Documentation
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Standard library" class="dropdown-title"><span class="title">Standard library</span> <span class="arrow down"></span></button> <button type="button" aria-label="Standard library" class="mobile-dropdown-title"><span class="title">Standard library</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/stdlib/globals.html" class="nav-link">
+  Globals
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/array.html" class="nav-link">
+  Array
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/arraybuffer.html" class="nav-link">
+  ArrayBuffer
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/dataview.html" class="nav-link">
+  DataView
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/date.html" class="nav-link">
+  Date
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/error.html" class="nav-link">
+  Error
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/map.html" class="nav-link">
+  Map
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/math.html" class="nav-link">
+  Math
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/number.html" class="nav-link">
+  Number
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/set.html" class="nav-link">
+  Set
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/string.html" class="nav-link">
+  String
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/symbol.html" class="nav-link">
+  Symbol
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/typedarray.html" class="nav-link">
+  TypedArray
+</a></li><li class="dropdown-item"><h4>
+          Extended
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/stdlib/builtins.html" class="nav-link">
+  Builtins
+</a></li><li class="dropdown-subitem"><a href="/stdlib/staticarray.html" class="nav-link">
+  StaticArray
+</a></li><li class="dropdown-subitem"><a href="/stdlib/heap.html" class="nav-link">
+  heap
+</a></li><li class="dropdown-subitem"><a href="/stdlib/process.html" class="nav-link">
+  process
+</a></li><li class="dropdown-subitem"><a href="/stdlib/console.html" class="nav-link">
+  console
+</a></li><li class="dropdown-subitem"><a href="/stdlib/crypto.html" class="nav-link">
+  crypto
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Examples" class="dropdown-title"><span class="title">Examples</span> <span class="arrow down"></span></button> <button type="button" aria-label="Examples" class="mobile-dropdown-title"><span class="title">Examples</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/examples.html" class="nav-link">
+  Overview
+</a></li><li class="dropdown-item"><!----> <a href="/built-with-assemblyscript.html" class="nav-link">
+  Built with AssemblyScript
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Community" class="dropdown-title"><span class="title">Community</span> <span class="arrow down"></span></button> <button type="button" aria-label="Community" class="mobile-dropdown-title"><span class="title">Community</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/assemblyscript/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Contributing guidelines
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/assemblyscript/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Code of Conduct
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/core" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Core / Governance
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/community-group" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Community Group
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><h4>
+          Social
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://twitter.com/AssemblyScript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Twitter
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://discord.gg/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Discord
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li><li class="dropdown-item"><h4>
+          Q&amp;A
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://stackoverflow.com/questions/tagged/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Stack Overflow
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li></ul></div></div><div class="nav-item"><a href="https://opencollective.com/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Support us
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/AssemblyScript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/introduction.html" class="nav-link">
+  Documentation
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Standard library" class="dropdown-title"><span class="title">Standard library</span> <span class="arrow down"></span></button> <button type="button" aria-label="Standard library" class="mobile-dropdown-title"><span class="title">Standard library</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/stdlib/globals.html" class="nav-link">
+  Globals
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/array.html" class="nav-link">
+  Array
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/arraybuffer.html" class="nav-link">
+  ArrayBuffer
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/dataview.html" class="nav-link">
+  DataView
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/date.html" class="nav-link">
+  Date
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/error.html" class="nav-link">
+  Error
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/map.html" class="nav-link">
+  Map
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/math.html" class="nav-link">
+  Math
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/number.html" class="nav-link">
+  Number
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/set.html" class="nav-link">
+  Set
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/string.html" class="nav-link">
+  String
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/symbol.html" class="nav-link">
+  Symbol
+</a></li><li class="dropdown-item"><!----> <a href="/stdlib/typedarray.html" class="nav-link">
+  TypedArray
+</a></li><li class="dropdown-item"><h4>
+          Extended
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/stdlib/builtins.html" class="nav-link">
+  Builtins
+</a></li><li class="dropdown-subitem"><a href="/stdlib/staticarray.html" class="nav-link">
+  StaticArray
+</a></li><li class="dropdown-subitem"><a href="/stdlib/heap.html" class="nav-link">
+  heap
+</a></li><li class="dropdown-subitem"><a href="/stdlib/process.html" class="nav-link">
+  process
+</a></li><li class="dropdown-subitem"><a href="/stdlib/console.html" class="nav-link">
+  console
+</a></li><li class="dropdown-subitem"><a href="/stdlib/crypto.html" class="nav-link">
+  crypto
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Examples" class="dropdown-title"><span class="title">Examples</span> <span class="arrow down"></span></button> <button type="button" aria-label="Examples" class="mobile-dropdown-title"><span class="title">Examples</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/examples.html" class="nav-link">
+  Overview
+</a></li><li class="dropdown-item"><!----> <a href="/built-with-assemblyscript.html" class="nav-link">
+  Built with AssemblyScript
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Community" class="dropdown-title"><span class="title">Community</span> <span class="arrow down"></span></button> <button type="button" aria-label="Community" class="mobile-dropdown-title"><span class="title">Community</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/assemblyscript/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Contributing guidelines
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/assemblyscript/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Code of Conduct
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/core" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Core / Governance
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/community-group" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Community Group
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><h4>
+          Social
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://twitter.com/AssemblyScript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Twitter
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://discord.gg/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Discord
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li><li class="dropdown-item"><h4>
+          Q&amp;A
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://stackoverflow.com/questions/tagged/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Stack Overflow
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li></ul></div></div><div class="nav-item"><a href="https://opencollective.com/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Support us
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/AssemblyScript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Getting started</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/introduction.html" class="sidebar-link">Introduction</a></li><li><a href="/quick-start.html" class="sidebar-link">Quick Start</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Documentation</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/basics.html" class="sidebar-link">Basic concepts</a></li><li><a href="/status.html" class="sidebar-link">Implementation status</a></li><li><a href="/compiler.html" aria-current="page" class="active sidebar-link">Using the compiler</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/compiler.html#command-line-options" class="sidebar-link">Command line options</a></li><li class="sidebar-sub-header"><a href="/compiler.html#api-2" class="sidebar-link">API</a></li></ul></li><li><a href="/types.html" class="sidebar-link">WebAssembly types</a></li><li><a href="/exports-and-imports.html" class="sidebar-link">Exports and imports</a></li><li><a href="/loader.html" class="sidebar-link">Using the loader</a></li><li><a href="/frequently-asked-questions.html" class="sidebar-link">Frequently asked questions</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Advanced</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/memory.html" class="sidebar-link">Memory</a></li><li><a href="/garbage-collection.html" class="sidebar-link">Garbage Collection</a></li><li><a href="/peculiarities.html" class="sidebar-link">Peculiarities</a></li><li><a href="/portability.html" class="sidebar-link">Portability</a></li><li><a href="/debugging.html" class="sidebar-link">Debugging</a></li><li><a href="/interoperability.html" class="sidebar-link">Interoperability</a></li><li><a href="/transforms.html" class="sidebar-link">Transforms</a></li><li><a href="/development.html" class="sidebar-link">Development</a></li></ul></section></li></ul> </aside> <main class="page" data-v-d1fc1622> <div class="theme-default-content content__default" data-v-d1fc1622><h1 id="using-the-compiler"><a href="#using-the-compiler" class="header-anchor">#</a> Using the compiler</h1> <p>Similar to TypeScript's <code>tsc</code> transpiling to JavaScript, AssemblyScript's <code>asc</code> compiles to WebAssembly.</p> <h2 id="command-line-options"><a href="#command-line-options" class="header-anchor">#</a> Command line options</h2> <h3 id="entry-file-s"><a href="#entry-file-s" class="header-anchor">#</a> Entry file(s)</h3> <p>Non-option arguments are treated as the names of entry files. A single program can have multiple entries, with the exports of each entry becoming the exports of the WebAssembly module. Exports of imported files that are not entry files do not become WebAssembly module exports.</p> <div class="language-sh extra-class"><pre class="language-sh"><code>asc entryFile.ts
+</code></pre></div><h3 id="general"><a href="#general" class="header-anchor">#</a> General</h3> <div class="language- extra-class"><pre class="language-text"><code>--version, -v         Prints just the compiler's version and exits.
+--help, -h            Prints this message and exits.
+--noColors            Disables terminal colors.
+--config              Configuration file to apply. CLI arguments take precedence.
+--target              Target configuration to use. Defaults to 'release'.
+</code></pre></div><h4 id="asconfig-json"><a href="#asconfig-json" class="header-anchor">#</a> asconfig.json</h4> <p>Instead of providing the options outlined below on the command line, a configuration file typically named <code>asconfig.json</code> can be used. It may look like in the following example, excluding comments:</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;extends&quot;</span><span class="token operator">:</span> <span class="token string">&quot;./path/to/other/asconfig.json&quot;</span><span class="token punctuation">,</span> <span class="token comment">// (optional) base config</span>
+  <span class="token property">&quot;entries&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token comment">// (optional) entry files, e.g.</span>
+    <span class="token string">&quot;./assembly/index.ts&quot;</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;options&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token comment">// common options, e.g.</span>
+    <span class="token property">&quot;importTable&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;targets&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token comment">// (optional) targets</span>
+    <span class="token property">&quot;release&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token comment">// additional options for the &quot;release&quot; target, e.g.</span>
+      <span class="token property">&quot;optimize&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;binaryFile&quot;</span><span class="token operator">:</span> <span class="token string">&quot;myModule.release.wasm&quot;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;debug&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token comment">// additional options for the &quot;debug&quot; target, e.g.</span>
+      <span class="token property">&quot;debug&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;binaryFile&quot;</span><span class="token operator">:</span> <span class="token string">&quot;myModule.debug.wasm&quot;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Provided command line options override options in the configuration file.</p> <h3 id="optimization"><a href="#optimization" class="header-anchor">#</a> Optimization</h3> <p>The compiler can optimize for both speed and size. <code>--optimizeLevel</code> (0-3) indicates how much the compiler focuses on optimizing the code with <code>--shrinkLevel</code> (0-2, 1=s, 2=z) indicating how much it focuses on keeping the size low during code generation and while optimizing. A convenient shorthand is <code>-O[optimizeLevel][shrinkLevel]</code> , with shrink level indicated by appending the letter <code>s</code> (1) or <code>z</code> (2) to the optimize level.</p> <div class="language- extra-class"><pre class="language-text"><code>--optimize, -O        Optimizes the module. Typical shorthands are:
+
+                       Default optimizations   -O
+                       Make a release build    -O --noAssert
+                       Make a debug build      --debug
+                       Optimize for speed      -Ospeed
+                       Optimize for size       -Osize
+
+--optimizeLevel       How much to focus on optimizing code. [0-3]
+--shrinkLevel         How much to focus on shrinking code size. [0-2, s=1, z=2]
+--converge            Re-optimizes until no further improvements can be made.
+--noAssert            Replaces assertions with just their value without trapping.
+</code></pre></div><h3 id="output"><a href="#output" class="header-anchor">#</a> Output</h3> <p>Typical output formats are WebAssembly binary (.wasm) and/or text format (.wat). Often, both are used in tandem to run and also inspect generated code.</p> <div class="language- extra-class"><pre class="language-text"><code>--outFile, -o         Specifies the output file. File extension indicates format.
+--binaryFile, -b      Specifies the binary output file (.wasm).
+--textFile, -t        Specifies the text output file (.wat).
+</code></pre></div><p>There are several other output formats as well for tooling purposes with varying levels of maturity.</p> <div class="language- extra-class"><pre class="language-text"><code>--jsFile, -j          Specifies the JavaScript output file (.js).
+--idlFile, -i         Specifies the WebIDL output file (.webidl).
+--tsdFile, -d         Specifies the TypeScript definition output file (.d.ts).
+</code></pre></div><h3 id="debugging"><a href="#debugging" class="header-anchor">#</a> Debugging</h3> <p>For easier debugging a <a href="/debugging.html#source-maps">source map</a> can be emitted alongside the WebAssembly binary.</p> <div class="language- extra-class"><pre class="language-text"><code>--sourceMap           Enables source map generation. Optionally takes the URL
+                      used to reference the source map from the binary file.
+</code></pre></div><p>It is also often useful to emit debug information, like function names, alongside the binary.</p> <div class="language- extra-class"><pre class="language-text"><code>--debug               Enables debug information in emitted binaries.
+</code></pre></div><h3 id="features"><a href="#features" class="header-anchor">#</a> Features</h3> <p>There are several flags that enable or disable specific WebAssembly or compiler features. By default, only the bare minimum is exposed, and fully standardized WebAssembly features will be used.</p> <div class="language- extra-class"><pre class="language-text"><code>--importMemory        Imports the memory from 'env.memory'.
+--noExportMemory      Does not export the memory as 'memory'.
+--initialMemory       Sets the initial memory size in pages.
+--maximumMemory       Sets the maximum memory size in pages.
+--sharedMemory        Declare memory as shared. Requires maximumMemory.
+--importTable         Imports the function table from 'env.table'.
+--exportTable         Exports the function table as 'table'.
+--runtime             Specifies the runtime variant to include in the program.
+
+                       incremental  TLSF + incremental GC (default)
+                       minimal      TLSF + lightweight GC invoked externally
+                       stub         Minimal runtime stub (never frees)
+                       ...          Path to a custom runtime implementation
+
+--exportRuntime       Exports the runtime helpers (__new, __collect etc.).
+--explicitStart       Exports an explicit '_start' function to call.
+--enable              Enables WebAssembly features being disabled by default.
+
+                        nontrapping-f2i     Non-trapping float to integer ops.
+                        bulk-memory         Bulk memory operations.
+                        simd                SIMD types and operations.
+                        threads             Threading and atomic operations.
+                        reference-types     Reference types and operations.
+                        gc                  Garbage collection (WIP).
+
+--disable             Disables WebAssembly features being enabled by default.
+
+                        mutable-globals     Mutable global imports and exports
+                        sign-extension      Sign-extension operations
+
+--use, -u             Aliases a global object under another name, e.g., to switch
+                      the default 'Math' implementation used: --use Math=JSMath
+                      Can also be used to introduce an integer constant.
+--lowMemoryLimit      Enforces very low (&lt;64k) memory constraints.
+</code></pre></div><h3 id="linking"><a href="#linking" class="header-anchor">#</a> Linking</h3> <p>Specifying the base offsets of compiler-generated memory respectively the table leaves some space for other data in front. In its current form this is mostly useful to link additional data into an AssemblyScript binary after compilation, be it by populating the binary itself or initializing the data externally upon initialization. One good example is leaving some scratch space for a frame buffer.</p> <div class="language- extra-class"><pre class="language-text"><code>--memoryBase          Sets the start offset of emitted memory segments.
+--tableBase           Sets the start offset of emitted table elements.
+</code></pre></div><h3 id="api"><a href="#api" class="header-anchor">#</a> API</h3> <p>To integrate with the compiler, for example to post-process the AST, one or multiple custom <a href="/transforms.html">transforms</a> can be specified.</p> <div class="language- extra-class"><pre class="language-text"><code>--transform           Specifies the path to a custom transform to 'require'.
+</code></pre></div><h3 id="other"><a href="#other" class="header-anchor">#</a> Other</h3> <p>Other options include those forwarded to Binaryen and various flags useful in certain situations.</p> <h4 id="binaryen"><a href="#binaryen" class="header-anchor">#</a> Binaryen</h4> <div class="language- extra-class"><pre class="language-text"><code>--trapMode            Sets the trap mode to use.
+
+                       allow  Allow trapping operations. This is the default.
+                       clamp  Replace trapping operations with clamping semantics.
+                       js     Replace trapping operations with JS semantics.
+
+--runPasses           Specifies additional Binaryen passes to run after other
+                      optimizations, if any. See: Binaryen/src/passes/pass.cpp
+--noValidate          Skips validating the module using Binaryen.
+</code></pre></div><h4 id="and-the-kitchen-sink"><a href="#and-the-kitchen-sink" class="header-anchor">#</a> And the kitchen sink</h4> <div class="language- extra-class"><pre class="language-text"><code>--noColors            Disables terminal colors.
+--baseDir             Specifies the base directory of input and output files.
+--extension           Specifies an alternative file extension to use.
+--noUnsafe            Disallows the use of unsafe features in user code.
+                      Does not affect library files and external modules.
+--noEmit              Performs compilation as usual but does not emit code.
+--measure             Prints measuring information on I/O and compile times.
+--pedantic            Make yourself sad for no good reason.
+--lib                 Adds one or multiple paths to custom library components and
+                      uses exports of all top-level files at this path as globals.
+--path                Adds one or multiple paths to package resolution, similar
+                      to node_modules. Prefers an 'ascMain' entry in a package's
+                      package.json and falls back to an inner 'assembly/' folder.
+--traceResolution     Enables tracing of package resolution.
+--listFiles           Lists files to be compiled and exits.
+-- ...                Specifies node.js options (CLI only). See: node --help
+</code></pre></div><h2 id="api-2"><a href="#api-2" class="header-anchor">#</a> API</h2> <p>The compiler can also be used programmatically.</p> <ul><li><a href="https://github.com/AssemblyScript/assemblyscript/tree/main/cli#api" target="_blank" rel="noopener noreferrer">Compiler frontend API<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li><a href="https://github.com/AssemblyScript/assemblyscript/tree/main/lib/sdk" target="_blank" rel="noopener noreferrer">Browser SDK<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> (<a href="https://github.com/AssemblyScript/examples/tree/main/sdk" target="_blank" rel="noopener noreferrer">example<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>)</li></ul></div> <footer class="page-edit" data-v-d1fc1622><div class="edit-link"><a href="https://github.com/AssemblyScript/website/edit/main/src/compiler.md" target="_blank" rel="noopener noreferrer">Edit this page on GitHub</a> <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></div> <!----></footer> <div class="page-nav" data-v-d1fc1622><p class="inner"><span class="prev">
+      ←
+      <a href="/status.html" class="prev">
+        Implementation status
+      </a></span> <span class="next"><a href="/types.html">
+        WebAssembly types
+      </a>
+      →
+    </span></p></div> <div class="footer" data-v-d1fc1622 data-v-8ef39a8a><p data-v-d1fc1622 data-v-8ef39a8a><span class="item" data-v-d1fc1622 data-v-8ef39a8a>Apache-2.0 licensed</span>,
+      <span class="item" data-v-d1fc1622 data-v-8ef39a8a>Copyright © 2021</span> <span class="item" data-v-d1fc1622 data-v-8ef39a8a>The AssemblyScript Project</span></p></div></main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.320ff58d.js" defer></script><script src="/assets/js/4.2c0643ad.js" defer></script><script src="/assets/js/3.5ce27dc9.js" defer></script><script src="/assets/js/22.ba63fd7d.js" defer></script>
+  </body>
+</html>
