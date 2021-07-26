@@ -28,7 +28,7 @@ pageClass: frontpage
   </p>
 </div>
 
-<div id="notice" style="margin-top: 100px; margin-bottom: -20px; background: #cb3837; color: #fff; padding: 0.5em 2em">
+<div id="notice" style="margin-top: 100px; margin-bottom: -20px; background: #027acc; color: #fff; padding: 0.5em 2em">
   <h2>URGENT NOTICE TO OUR USERS, STAKEHOLDERS AND SPONSORS</h2>
   <p>On August 3rd, the WebAssembly CG will poll on whether JavaScript string semantics/encoding are out of scope of the Interface Types proposal. This decision will likely be backed by Google, Mozilla and the Bytecode Alliance/WASI, who appear to have a common interest to exclusively promote C++, Rust respectively non-Web semantics and concepts in WebAssembly.</p>
   <p>If the poll passes, which is likely, the decision will impact languages utilizing JavaScript-like 16-bit string semantics (see <a href="https://developer.mozilla.org/en-US/docs/Web/API/DOMString" target="_blank" rel="noopener" style="color: #fff; font-weight: normal">DOMString</a>, also <a href="https://docs.microsoft.com/en-us/dotnet/api/system.string" target="_blank" rel="noopener" style="color: #fff; font-weight: normal">C#</a>, <a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" target="_blank" rel="noopener" style="color: #fff; font-weight: normal">Java</a>) including AssemblyScript and its users. This impact means that there will not be an optimal path towards interop between JavaScript and WebAssembly modules written in AssemblyScript: if Interface Types does not accept to have JavaScript string semantics as a default option, strings will need to be converted at the JS-Wasm boundaries and data will be lost when JS passes strings to a Wasm module, or vice versa.</p>
