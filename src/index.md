@@ -28,15 +28,6 @@ pageClass: frontpage
   </p>
 </div>
 
-<div id="notice" style="margin-top: 100px; margin-bottom: -20px; background: #cb3837; color: #fff; padding: 0.5em 2em">
-  <h2>URGENT NOTICE TO OUR USERS, STAKEHOLDERS AND SPONSORS</h2>
-  <p>On August 3rd, the WebAssembly CG will poll on whether JavaScript string semantics/encoding are out of scope of the Interface Types proposal. This decision will likely be backed by Google, Mozilla and the Bytecode Alliance/WASI, who appear to have a common interest to exclusively promote C++, Rust respectively non-Web semantics and concepts in WebAssembly.</p>
-  <p>If the poll passes, which is likely, AssemblyScript will be severely impacted as the tools it has developed must eventually be deprecated due to unresolvable correctness and security problems the decision imposes upon languages utilizing JavaScript-like 16-bit string semantics (see <a href="https://developer.mozilla.org/en-US/docs/Web/API/DOMString" target="_blank" rel="noopener" style="color: #fff; font-weight: normal">DOMString</a>, also <a href="https://docs.microsoft.com/en-us/dotnet/api/system.string" target="_blank" rel="noopener" style="color: #fff; font-weight: normal">C#</a>, <a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" target="_blank" rel="noopener" style="color: #fff; font-weight: normal">Java</a>) and its users.</p>
-  <p>It is our expectation that AssemblyScript's only viable way forward to guarantee data integrity will be to replace its dependency upon Interface Types with a dependency upon Reference Types and import its standard library from JavaScript. While the full impact cannot be known, this transition may either turn out to be too large in scope, or, if it can be done, is likely to impact users running AssemblyScript on WASI hosts like Wasmtime and Wasmer, in that neither the JavaScript standard library nor a GC will be available on these platforms. As a result, it would likely not be feasible anymore to utilize future versions of AssemblyScript on these platforms, and we would strongly recommend to avoid earlier versions since these will not be safe.</p>
-  <p>We believe that the resulting Web platform, programming language and security breakage, as well as the particularly unfortunate outcome for the AssemblyScript project, should be prevented, but after many years of dedicated yet futile efforts we also have to conclude that we are powerless against giants.</p>
-  <p>�hank you for your consideration</p>
-</div>
-
 <div id="features">
   <div class="feature">
     <h2>Designed for WebAssembly</h2>
