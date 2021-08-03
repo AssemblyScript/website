@@ -114,14 +114,6 @@ module.exports = [
         link: 'https://github.com/AssemblyScript/assemblyscript/blob/main/CODE_OF_CONDUCT.md'
       },
       {
-        text: 'Core / Governance',
-        link: 'https://github.com/AssemblyScript/core'
-      },
-      {
-        text: 'Community Group',
-        link: 'https://github.com/AssemblyScript/community-group'
-      },
-      {
         text: 'Social',
         items: [
           {
