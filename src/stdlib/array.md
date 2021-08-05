@@ -73,6 +73,11 @@ arr[0]; // now it works 😊
   Calls the specified function with every value of the array until it finds the first value for which the function returns `true`, returning its index. Returns `-1` if that's never the case.
 
 * ```ts
+  function findLastIndex(fn: (value: T, index: i32, self: this) => bool): i32;
+  ```
+  Calls the specified function with every value of the array starting at the end until it finds the first value for which the function returns `true`, returning its index. Returns `-1` if that's never the case.
+
+* ```ts
   function flat(): valueof<T>[]
   ```
   Flattens an array of arrays to a one-dimensional array. `null` entries are ignored.

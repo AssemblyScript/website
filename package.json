@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "license": "Apache-2.0",
-  "description": "AssebmlyScript's Website.",
+  "description": "AssemblyScript's Website.",
   "scripts": {
     "start": "vuepress dev src --host localhost --no-cache",
     "build": "vuepress build src",
