@@ -8,11 +8,7 @@ How to talk to AssemblyScript from C or other languages.
 
 ## Strings
 
-Strings in AssemblyScript are stored in [WTF-16](https://simonsapin.github.io/wtf-8/#ill-formed-utf-16) encoding, closely matching JavaScript and its string APIs. When embedding AssemblyScript into a C or Rust environment, conversion between WTF-16 and UTF-8 is typically necessary \([API](./stdlib/string.md#encoding-api)\).
-
-Details to keep in mind: In UTF-16, certain Unicode **code points** are represented by two UTF-16 **code units** called surrogate pairs. However, just like in JavaScript, strings are not sanitized so lone surrogates can appear in a string, which are technically ill-formed UTF-16. This is done to mimic JavaScript as closely as possible, and avoids string re-encoding when calling JavaScript APIs from WebAssembly.
-
-We hope that future WebAssembly features will be designed with both C/Rust and JS/WebAPIs in mind without penalizing the respective other. ([1](https://github.com/WebAssembly/interface-types/issues/13), [2](https://github.com/WebAssembly/gc/issues/145))
+Strings in AssemblyScript closely follow JavaScript and its string APIs and are stored as so-called potentially ill-formed UTF-16 ([WTF-16](https://simonsapin.github.io/wtf-8/#ill-formed-utf-16)) for backwards-compatibility with isolated surrogates. When embedding AssemblyScript into a C or Rust environment, (lossy) conversion between WTF-16 and UTF-8 is typically necessary \([API](./stdlib/string.md#encoding-api)\).
 
 ## Class layout
 

@@ -26,34 +26,37 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | Non-trapping F2I               | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | 🏁 `nontrapping-f2i`    | Checked and unchecked casts
 | Bulk memory                    | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | 🏁 `bulk-memory`        | Replace `memcpy`, `memset`
 | Reference Types                |       <Fi/>             <Wt/>       | 🏁 `reference-types`    | Prerequisite for garbage collection
+| Fixed-width SIMD               | <Ch/>                               | 🏁 `simd`               | Expose as built-ins; Auto-vectorize?
 | Multi-value                    | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> |                         | Tuple return values
 ||
 | 🏁 **Standardize the feature**
-| Fixed-width SIMD               | <Ch/>                               | 🏁 `simd`               | Expose as built-ins; Auto-vectorize?
 ||
 | 🔨 **Implementation phase**
 | Tail call                      |                                     |                         |
 | Multiple memories              |                                     |                         |
 | Memory64                       |                                     | 🔨                      | Provide a Wasm64 target
+| Exception handling             |                                     | 🔨 `exception-handling` | Implement exceptions
 ||
 | 📖 **Spec text available** 
 | Threads                        | <Ch/> <Fi/>                         | 🔨 `threads`            | Expose as built-ins; WebWorker?
 | ESM integration                |                                     |                         | Natural web interop
-| Exception handling             |                                     | 🔨 `exception-handling` | Implement exceptions
 | Function references            |                                     |                         | Implement closures
 | Branch Hinting                 |                                     |                         | `likely(x)` / `unlikely(x)` hints
+| Instrument Tracing             |                                     |                         | `debugger` statement?
 ||
 | 💡 **Feature proposal**
 | Type Imports                   |                                     |                         | Web interop?
 | Garbage collection             |                                     |                         | Reuse host GC; Share objects?
-| Interface Types                |                                     |                         | Non-web interop?
+| Interface Types                |                                     | ❌                     |
 | Feature detection              |                                     |                         | Detect available features
 | Extended name section          |                                     | 🔨                      | Debug names for locals etc.
 | Flexible vectors               |                                     |                         | Expose as built-ins
 | Call Tags                      |                                     |                         | Speed up indirect calls
-| Module Linking                 |                                     |                         | Linking pre-compiled modules
+| Module Linking                 |                                     | ❌                     |
 | Extended Constant Expressions  |                                     |                         | Inline more global initializers
 | Relaxed SIMD                   |                                     |                         | Expose as built-ins
+| Stack Switching                |                                     |                         | `async` / `await`
+| Constant Time                  |                                     |                         | Expose as built-ins / hint
 
 <Ch/> <a href="https://www.chromestatus.com/features#webassembly">Chrome</a> &nbsp;
 <Fi/> <a href="https://platform-status.mozilla.org">Firefox</a> &nbsp;
@@ -74,7 +77,7 @@ As such, certain higher-level language features still have their limitations or 
 | [Standard library](#standard-library)             | Largely implemented in linear memory. Some caveats.
 | [Generics](#generics)                             | Monomorphized templates for now. (maybe post-MVP GC 🦄)
 | [Garbage collection](#garbage-collection)         | Implemented in linear memory for now. (needs GC 🦄)
-| [Interop with JS](#interop-with-js)               | Enabled by the loader package. (needs Type imports / Interface Types 🦄)
+| [Interop with JS](#interop-with-js)               | Enabled by the loader package. (needs Type imports / Reference Types 🦄)
 ||
 | 🐣 **Limited**
 | [Union types](#union-types)                       | Nullable class types only. Can use generics with static type checks instead. (No proposal so far)
@@ -129,9 +132,7 @@ WebAssembly only understands numeric values as of today and cannot easily exchan
 
 For example, to pass a string to a WebAssembly export, one first has to allocate the string in the WebAssembly module's linear memory, and then pass the resulting pointer to the WebAssembly export. The same is true for arrays and other objects.
 
-For now, [the loader](./loader.md) provides the utility necessary to translate between objects in linear memory and JavaScript objects (e.g. with `__newString` and `__getString`), and our hopes are on Type Imports 🦄, Interface Types 🦄 and perhaps Garbage collection 🦄 to make interop more convenient eventually.
-
-See also: [Will interop between AssemblyScript and JavaScript become better?](./frequently-asked-questions.md#will-interop-between-assemblyscript-and-javascript-become-better)
+For now, [the loader](./loader.md) provides the utility necessary to translate between objects in linear memory and JavaScript objects (e.g. with `__newString` and `__getString`), and our hopes are on Reference Types 🦄, Type Imports 🦄 and perhaps Garbage collection 🦄 to make interop more convenient eventually.
 
 ### Union types
 
