@@ -9,11 +9,19 @@ const repos = [
   "AssemblyScript/website"
 ]
 
-/** Excluded GitHub user names of bots. */
+/** Excluded GitHub user names (of bots). */
 const githubExcludes = [
   "dependabot[bot]",
   "jsdelivrbot"
 ]
+
+/** Inherited OSC user names (of duplicate accounts). */
+const sponsorInherits = {
+  "nearprotocol": [ "nearprotocol1" ]
+}
+
+/** Excluded OSC user names (of defunct accounts). */
+const sponsorExcludes = []
 
 const defaultLogoSize = 32
 
@@ -43,18 +51,34 @@ function updateSponsors() {
   fetch('https://opencollective.com/assemblyscript/members/all.json')
     .then(res => res.json())
     .then(json => {
-      const seen = new Set()
+      const seen = new Map()
       const sponsors = json
+        .map(item => {
+          item.username = item.profile.substring(item.profile.lastIndexOf('/') + 1)
+          return item
+        })
         .filter(item => {
-          if (seen.has(item.profile)) return false
-          seen.add(item.profile)
+          if (seen.has(item.username)) return false
+          seen.set(item.username, item.totalAmountDonated)
           return item.isActive && item.totalAmountDonated > 0
         })
+        .map(item => {
+          const inherits = sponsorInherits[item.username]
+          if (Array.isArray(inherits)) {
+            for (let othername of inherits) {
+              json
+                .filter(otheritem => otheritem.username == othername)
+                .forEach(otheritem => item.totalAmountDonated += otheritem.totalAmountDonated)
+              seen.delete(othername)
+            }
+          }
+          return item
+        })
+        .filter(item => !sponsorExcludes.includes(item.username) && seen.has(item.username))
         .sort((a, b) => b.totalAmountDonated - a.totalAmountDonated)
         .map(item => {
-          const username = item.profile.substring(item.profile.lastIndexOf('/') + 1)
           const logoSize = getLogoSize(item)
-          const logo = logos[username] || 'https://images.opencollective.com/' + username + '/avatar/' + logoSize + '.jpg'
+          const logo = logos[item.username] || 'https://images.opencollective.com/' + item.username + '/avatar/' + logoSize + '.jpg'
           const link = item.totalAmountDonated >= tiers.bronze.minAmount
             ? item.website || item.profile
             : item.profile
