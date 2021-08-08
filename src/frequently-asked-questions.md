@@ -31,4 +31,4 @@ It very likely won't. While TypeScript adds *some* static typing to JavaScript, 
 
 ## How can I help?
 
-There are various ways to help. AssemblyScript is an open source project, and everyone is welcome to contribute [code](https://github.com/AssemblyScript/assemblyscript), [documentation](https://github.com/AssemblyScript/website), or [time](https://github.com/AssemblyScript/community-group). We also have an [OpenCollective](https://opencollective.com/assemblyscript) for those preferring to help the project out with a sponsorship.
+There are various ways to help. AssemblyScript is an open source project, and everyone is welcome to contribute [code](https://github.com/AssemblyScript/assemblyscript), [documentation](https://github.com/AssemblyScript/website), or time. We also have an [OpenCollective](https://opencollective.com/assemblyscript) for those preferring to help the project out with a sponsorship.

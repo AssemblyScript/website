@@ -23,10 +23,10 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | Import/export mutable globals  | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | Global variable interop
 | BigInt integration<sup>1</sup> | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | 64-bit integer interop
 | Sign-extension                 | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | Efficient small integer casts
-| Non-trapping F2I               | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | 🏁 `nontrapping-f2i`    | Checked and unchecked casts
-| Bulk memory                    | <Ch/> <Fi/>       <No/> <Wt/> <Ws/> | 🏁 `bulk-memory`        | Replace `memcpy`, `memset`
-| Reference Types                |       <Fi/>             <Wt/>       | 🏁 `reference-types`    | Prerequisite for garbage collection
-| Fixed-width SIMD               | <Ch/>                               | 🏁 `simd`               | Expose as built-ins; Auto-vectorize?
+| Non-trapping F2I               | <Ch/> <Fi/> <Xx/> <No/> <Wt/> <Ws/> | 🏁 `nontrapping-f2i`    | Checked and unchecked casts
+| Bulk memory                    | <Ch/> <Fi/> <Xx/> <No/> <Wt/> <Ws/> | 🏁 `bulk-memory`        | Replace `memcpy`, `memset`
+| Fixed-width SIMD               | <Ch/> <Fi/> <Xx/> <No/> <Xx/> <Ws/> | 🏁 `simd`               | Expose as built-ins; Auto-vectorize?
+| Reference Types                | <Xx/> <Fi/> <Xx/> <Xx/> <Wt/> <Ws/> | 🔨 `reference-types`    | Prerequisite for garbage collection
 | Multi-value                    | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> |                         | Tuple return values
 ||
 | 🏁 **Standardize the feature**
@@ -47,12 +47,12 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | 💡 **Feature proposal**
 | Type Imports                   |                                     |                         | Web interop?
 | Garbage collection             |                                     |                         | Reuse host GC; Share objects?
-| Interface Types                |                                     | ❌                     |
+| Interface Types                |                                     | 🚮                     |
 | Feature detection              |                                     |                         | Detect available features
 | Extended name section          |                                     | 🔨                      | Debug names for locals etc.
 | Flexible vectors               |                                     |                         | Expose as built-ins
 | Call Tags                      |                                     |                         | Speed up indirect calls
-| Module Linking                 |                                     | ❌                     |
+| Module Linking                 |                                     | 🚮                     |
 | Extended Constant Expressions  |                                     |                         | Inline more global initializers
 | Relaxed SIMD                   |                                     |                         | Expose as built-ins
 | Stack Switching                |                                     |                         | `async` / `await`
