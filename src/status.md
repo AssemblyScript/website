@@ -38,7 +38,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | Exception handling             |                                     | 🔨 `exception-handling` | Implement exceptions
 ||
 | 📖 **Spec text available** 
-| Threads                        | <Ch/> <Fi/>                         | 🔨 `threads`            | Expose as built-ins; WebWorker?
+| Threads                        | <Ch/> <Fi/> <Xx/> <No/> <Xx/> <Xx/> | 🔨 `threads`            | Expose as built-ins; WebWorker?
 | ESM integration                |                                     |                         | Natural web interop
 | Function references            |                                     |                         | Implement closures
 | Branch Hinting                 |                                     |                         | `likely(x)` / `unlikely(x)` hints
@@ -47,23 +47,30 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | 💡 **Feature proposal**
 | Type Imports                   |                                     |                         | Web interop?
 | Garbage collection             |                                     |                         | Reuse host GC; Share objects?
-| Interface Types                |                                     | 🚮                     |
 | Feature detection              |                                     |                         | Detect available features
 | Extended name section          |                                     | 🔨                      | Debug names for locals etc.
 | Flexible vectors               |                                     |                         | Expose as built-ins
 | Call Tags                      |                                     |                         | Speed up indirect calls
-| Module Linking                 |                                     | 🚮                     |
 | Extended Constant Expressions  |                                     |                         | Inline more global initializers
 | Relaxed SIMD                   |                                     |                         | Expose as built-ins
 | Stack Switching                |                                     |                         | `async` / `await`
 | Constant Time                  |                                     |                         | Expose as built-ins / hint
+||
+| **Unsure**
+| WASI<sup>2</sup>               | <Xx/> <Xx/> <Xx/> <No/> <Wt/> <Ws/> | 🔨                     | Not a good fit (double-polyfill)
+| Interface Types<sup>3</sup>    |                                     |                         | No DOMString support in MVP
+| Component Model                |                                     |                         | Requires Interface Types
+| Module Linking                 | <Xx/> <Xx/> <Xx/> <Xx/> <Wt/> <Xx/> |                         | Requires Interface Types
 
-<Ch/> <a href="https://www.chromestatus.com/features#webassembly">Chrome</a> &nbsp;
-<Fi/> <a href="https://platform-status.mozilla.org">Firefox</a> &nbsp;
-<Sa/> <a href="https://webkit.org/status/">Safari</a> &nbsp;
-<No/> <a href="https://github.com/nodejs/node/blob/master/CHANGELOG.md">Node.js</a> &nbsp;
-<Wt/> <a href="https://docs.wasmtime.dev/stability-wasm-proposals-support.html">Wasmtime</a> &nbsp;
-<Ws/> <a href="https://docs.wasmer.io/ecosystem/wasmer/wasmer-features#support-of-features-by-compiler">Wasmer</a> &nbsp; (<sup>1</sup> native support in non-JS hosts)
+<Ch/> <a href="https://www.chromestatus.com/features#webassembly" target="_blank" rel="noopener">Chrome</a> &nbsp;
+<Fi/> <a href="https://platform-status.mozilla.org" target="_blank" rel="noopener">Firefox</a> &nbsp;
+<Sa/> <a href="https://webkit.org/status/" target="_blank" rel="noopener">Safari</a> &nbsp;
+<No/> <a href="https://github.com/nodejs/node/blob/master/CHANGELOG.md" target="_blank" rel="noopener">Node.js</a> &nbsp;
+<Wt/> <a href="https://docs.wasmtime.dev/stability-wasm-proposals-support.html" target="_blank" rel="noopener">Wasmtime</a> &nbsp;
+<Ws/> <a href="https://docs.wasmer.io/ecosystem/wasmer/wasmer-features#support-of-features-by-compiler" target="_blank" rel="noopener">Wasmer</a> &nbsp; (<sup>1</sup> native support in non-JS hosts)
+
+<sup>2</sup> WASI is [not a good fit](https://github.com/WebAssembly/WASI/issues/401) for AssemblyScript's use case currently and we would appreciate more cooperation.<br />
+<sup>3</sup> The Wasm CG [has decided](https://github.com/WebAssembly/interface-types/issues/135) that [`DOMString`](https://developer.mozilla.org/en-US/docs/Web/API/DOMString) support (ours and JS's `String`) is out of scope of Interface Types.
 
 ## Language features
 
