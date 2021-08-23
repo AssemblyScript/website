@@ -43,7 +43,7 @@ store<i32>(ptr, load<i32>(ptr) + load<i32>(ptr, 4), 8)
 For comparision, the following C code is roughly equivalent:
 
 ```c
-*(ptr + 8) = *ptr + *(ptr + 4)
+*(ptr + 2) = *ptr + *(ptr + 1)
 ```
 
 ## High-level perspective
