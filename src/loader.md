@@ -243,14 +243,22 @@ The following utility functions are mixed into the module's exports.
   Allocates a new string in the module's memory and returns a pointer to it. Requires `--exportRuntime` for access to `__new`.
 
 * ```ts
-  function __newArray(id: number, values: number[]): number
+  function __newArray(
+    id: number,
+    values: valuesOrCapacity?: number[] | ArrayBufferView | number
+  ): number
   ```
-  Allocates a new array in the module's memory and returns a pointer to it. The `id` is the unique runtime id of the respective array class. If you are using `Int32Array` for example, the best way to know the id is an `export const Int32Array_ID = idof<Int32Array>()`. Requires `--exportRuntime` for access to `__new`.
+  Allocates a new array in the module's memory and returns a pointer to it. The `id` is the unique runtime id of the respective array class. Optional `values` сan reserve capacity or accept an array / typedarray of elements with numbers or pointers. If you are using `Int32Array` for example, the best way to know the id is an `export const Int32Array_ID = idof<Int32Array>()`. Requires `--exportRuntime` for access to `__new`.
 
 * ```ts
   function __getString(ptr: number): string
   ```
   Copies a string's value from the module's memory to a JavaScript string. `ptr` must not be zero.
+
+* ```ts
+  function __getFunction(ptr: number): ((...args: unknown[]) => unknown) | null
+  ```
+  Gets a function object from pointer which contain table's index. `ptr` must not be zero.
 
 * ```ts
   function __getArrayBuffer(ptr: number): ArrayBuffer
