@@ -15,6 +15,8 @@ Decorators work more like actual compiler annotations in AssemblyScript.
 | `@inline`           | Requests inlining of a constant or function.
 | `@lazy`             | Requests lazy compilation of a variable. Useful to avoid unnecessary globals.
 | `@global`           | Registers an element to be part of the global scope.
+| `@final`            | Annotates a class as non-subclassed.
+| `@unmanaged`        | Annotates a class as not tracked by GC, essentially C structs.
 | `@external`         | Changes the external name of an imported element. `@external(module, name)` changes both the module and element name, `@external(name)` changes the element name only.
 | `@operator`         | Annotates a method as a binary operator overload. See below.
 | `@operator.binary`  | Alias of `@operator`.
@@ -76,10 +78,10 @@ __op(): T { ... }
 
 | OP     | Description      | Notes
 | :----- | :--------------- | :-----
-| `"!"`  | Logical NOT      | 
-| `"~"`  | Bitwise NOT      | 
-| `"+"`  | Unary plus       | 
-| `"-"`  | Unary negation   | 
+| `"!"`  | Logical NOT      |
+| `"~"`  | Bitwise NOT      |
+| `"+"`  | Unary plus       |
+| `"-"`  | Unary negation   |
 | `"++"` | Prefix increment | Instance overload reassigns
 | `"--"` | Prefix decrement | Instance overload reassigns
 
