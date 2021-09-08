@@ -258,7 +258,7 @@ The following utility functions are mixed into the module's exports.
 * ```ts
   function __getFunction(ptr: number): ((...args: unknown[]) => unknown) | null
   ```
-  Gets a function object from pointer which contain table's index. `ptr` must not be zero.
+  Gets a callable function object from the module's memory containing its table index. `ptr` must not be zero.
 
 * ```ts
   function __getArrayBuffer(ptr: number): ArrayBuffer
