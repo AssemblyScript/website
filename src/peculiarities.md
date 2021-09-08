@@ -15,6 +15,8 @@ Decorators work more like actual compiler annotations in AssemblyScript.
 | `@inline`           | Requests inlining of a constant or function.
 | `@lazy`             | Requests lazy compilation of a variable. Useful to avoid unnecessary globals.
 | `@global`           | Registers an element to be part of the global scope.
+| `@final`            | Annotates a class as final, that is it cannot be subclassed.
+| `@unmanaged`        | Annotates a class as not tracked by GC, essentially C structs.
 | `@external`         | Changes the external name of an imported element. `@external(module, name)` changes both the module and element name, `@external(name)` changes the element name only.
 | `@operator`         | Annotates a method as a binary operator overload. See below.
 | `@operator.binary`  | Alias of `@operator`.
@@ -76,10 +78,10 @@ __op(): T { ... }
 
 | OP     | Description      | Notes
 | :----- | :--------------- | :-----
-| `"!"`  | Logical NOT      | 
-| `"~"`  | Bitwise NOT      | 
-| `"+"`  | Unary plus       | 
-| `"-"`  | Unary negation   | 
+| `"!"`  | Logical NOT      |
+| `"~"`  | Bitwise NOT      |
+| `"+"`  | Unary plus       |
+| `"-"`  | Unary negation   |
 | `"++"` | Prefix increment | Instance overload reassigns
 | `"--"` | Prefix decrement | Instance overload reassigns
 
@@ -168,6 +170,7 @@ The following range limits are present as global constants for convenience:
 * ```ts
   const f32.MIN_VALUE: f32 = -3.40282347e+38
   const f32.MAX_VALUE: f32 = 3.40282347e+38
+  const f32.MIN_NORMAL_VALUE: f32 = 1.17549435e-38
   const f32.MIN_SAFE_INTEGER: f32 = -16777215
   const f32.MAX_SAFE_INTEGER: f32 = 16777215
   const f32.EPSILON: f32 = 1.19209290e-07
@@ -176,6 +179,7 @@ The following range limits are present as global constants for convenience:
 * ```ts
   const f64.MIN_VALUE: f64 = -1.7976931348623157e+308
   const f64.MAX_VALUE: f64 = 1.7976931348623157e+308
+  const f64.MIN_NORMAL_VALUE: f64 = 2.2250738585072014e-308
   const f64.MIN_SAFE_INTEGER: f64 = -9007199254740991
   const f64.MAX_SAFE_INTEGER: f64 = 9007199254740991
   const f64.EPSILON: f64 = 2.2204460492503131e-16

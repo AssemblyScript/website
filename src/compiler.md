@@ -121,6 +121,7 @@ There are several flags that enable or disable specific WebAssembly or compiler 
 --initialMemory       Sets the initial memory size in pages.
 --maximumMemory       Sets the maximum memory size in pages.
 --sharedMemory        Declare memory as shared. Requires maximumMemory.
+--zeroFilledMemory    Assume that imported memory is zero filled (requires --importMemory).
 --importTable         Imports the function table from 'env.table'.
 --exportTable         Exports the function table as 'table'.
 --runtime             Specifies the runtime variant to include in the program.
