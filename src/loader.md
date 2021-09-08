@@ -248,7 +248,7 @@ The following utility functions are mixed into the module's exports.
     values: valuesOrCapacity?: number[] | ArrayBufferView | number
   ): number
   ```
-  Allocates a new array in the module's memory and returns a pointer to it. The `id` is the unique runtime id of the respective array class. Optional `values` сan reserve capacity or accept an array / typedarray of elements with numbers or pointers. If you are using `Int32Array` for example, the best way to know the id is an `export const Int32Array_ID = idof<Int32Array>()`. Requires `--exportRuntime` for access to `__new`.
+  Allocates a new array in the module's memory and returns a pointer to it. The `id` is the unique runtime id of the respective array class. If you are using `Int32Array` for example, the best way to know the id is an `export const Int32Array_ID = idof<Int32Array>()`. Requires `--exportRuntime` for access to `__new`. The `values` parameter сan also be used to pre-allocate an otherwise empty array of a certain capacity. 
 
 * ```ts
   function __getString(ptr: number): string
