@@ -149,7 +149,6 @@ There are several flags that enable or disable specific WebAssembly or compiler 
 --use, -u             Aliases a global object under another name, e.g., to switch
                       the default 'Math' implementation used: --use Math=JSMath
                       Can also be used to introduce an integer constant.
-
 --lowMemoryLimit      Enforces very low (<64k) memory constraints.
 --zeroFilledMemory    Assume that imported memory is zero filled (requires --importMemory).
 ```
