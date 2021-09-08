@@ -121,6 +121,7 @@ There are several flags that enable or disable specific WebAssembly or compiler 
 --initialMemory       Sets the initial memory size in pages.
 --maximumMemory       Sets the maximum memory size in pages.
 --sharedMemory        Declare memory as shared. Requires maximumMemory.
+--zeroFilledMemory    Assume that imported memory is zero filled (requires --importMemory).
 --importTable         Imports the function table from 'env.table'.
 --exportTable         Exports the function table as 'table'.
 --runtime             Specifies the runtime variant to include in the program.
@@ -150,7 +151,6 @@ There are several flags that enable or disable specific WebAssembly or compiler 
                       the default 'Math' implementation used: --use Math=JSMath
                       Can also be used to introduce an integer constant.
 --lowMemoryLimit      Enforces very low (<64k) memory constraints.
---zeroFilledMemory    Assume that imported memory is zero filled (requires --importMemory).
 ```
 
 ### Linking
