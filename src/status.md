@@ -15,11 +15,11 @@ As such, while AssemblyScript wants to stay as close as possible to being a lang
 
 ## WebAssembly features
 
-Some crucial language features rely on [future WebAssembly functionality](https://github.com/WebAssembly/proposals) to be efficient. The following table aims to give an overview from a WebAssembly perspective:
+[Future WebAssembly functionality](https://github.com/WebAssembly/proposals) may be useful to more easily enable new functionality. The following table aims to give an overview of the implementation status from a WebAssembly perspective:
 
 | WebAssembly spec               | Engines                             | AssemblyScript (flag)
 |--------------------------------|-------------------------------------|----------------------
-| ✔️ **Finished proposal**
+| ✔️ **Feature is standardized**
 | Import/export mutable globals  | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️
 | BigInt integration<sup>1</sup> | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️
 | Sign-extension                 | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️
@@ -32,10 +32,10 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | 🏁 **Standardize the feature**
 ||
 | 🔨 **Implementation phase**
+| Exception handling             |                                     | 🔨 `exception-handling`
+| Memory64                       |                                     | 🔨
 | Tail call                      |                                     |
 | Multiple memories              |                                     |
-| Memory64                       |                                     | 🔨
-| Exception handling             |                                     | 🔨 `exception-handling`
 ||
 | 📖 **Spec text available** 
 | Threads                        | <Ch/> <Fi/> <Xx/> <No/> <Xx/> <Xx/> | 🔨 `threads`
@@ -45,16 +45,17 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | Instrument Tracing             |                                     |
 ||
 | 💡 **Feature proposal**
+| Extended name section          |                                     | 🔨
 | Type Imports                   |                                     |
 | Garbage collection             |                                     |
 | Feature detection              |                                     |
-| Extended name section          |                                     | 🔨
 | Flexible vectors               |                                     |
 | Call Tags                      |                                     |
 | Extended Constant Expressions  |                                     |
 | Relaxed SIMD                   |                                     |
 | Stack Switching                |                                     |
 | Constant Time                  |                                     |
+| JS Promise Integration         |                                     |
 ||
 | **Unsure**
 | WASI<sup>2</sup>               | <Xx/> <Xx/> <Xx/> <No/> <Wt/> <Ws/> | 🔨
@@ -68,7 +69,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 <Wt/> <a href="https://docs.wasmtime.dev/stability-wasm-proposals-support.html" target="_blank" rel="noopener">Wasmtime</a> &nbsp;
 <Ws/> <a href="https://docs.wasmer.io/ecosystem/wasmer/wasmer-features#support-of-features-by-compiler" target="_blank" rel="noopener">Wasmer</a> &nbsp; (<sup>1</sup> native support in non-JS hosts)
 
-<sup>2</sup> WASI is [not a good fit](https://github.com/WebAssembly/WASI/issues/401) for AssemblyScript's use case currently and we would appreciate more cooperation.<br />
+<sup>2</sup> WASI is [not a good fit](https://github.com/WebAssembly/WASI/issues/401) for AssemblyScript's use case currently and we would appreciate at least some cooperation.<br />
 <sup>3</sup> The Wasm CG [has decided](https://github.com/WebAssembly/interface-types/issues/135) that [`DOMString`](https://developer.mozilla.org/en-US/docs/Web/API/DOMString) (ours and JS's `String`) is out of scope of Interface Types and Module Linking.
 
 ## Language features
@@ -86,7 +87,7 @@ As such, certain higher-level language features still have their limitations or 
 | [Interop with JS](#interop-with-js)               | Enabled by the loader package.
 ||
 | 🐣 **Limited**
-| [Union types](#union-types)                       | Nullable class types only. Can use generics with static type checks instead. (No proposal so far)
+| [Union types](#union-types)                       | Nullable class types only. Can use generics with static type checks instead.
 | [Symbols](#symbols)                               | Implemented, but no deep compiler integration yet.
 | [Object literals](#object-literals)               | Implemented, but with limitations.
 | [JSON](#json)                                     | Third-party library available.
@@ -96,9 +97,9 @@ As such, certain higher-level language features still have their limitations or 
 | 🥚 **Not implemented**
 | [Closures](#closures)                             | Perhaps implement in linear memory.
 | [Iterators](#iterators)                           | Not implemented yet. Depends on symbols.
-| [Rest parameters](#rest-parameters)               | Perhaps implement in linear memory. (No proposal so far)
+| [Rest parameters](#rest-parameters)               | Perhaps implement in linear memory.
 | [Exceptions](#exceptions)                         | Throwing currently aborts the program.
-| [Promises](#promises)                             | There is no concept of async/await yet due to the lack of an event loop. (No proposal so far)
+| [Promises](#promises)                             | There is no concept of async/await yet due to the lack of an event loop.
 | [BigInt](#bigint)                                 | There are no BigInts yet, but there are i64s.
 ||
 | 🕳️ **Not supported**
