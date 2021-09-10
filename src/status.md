@@ -17,50 +17,49 @@ As such, while AssemblyScript wants to stay as close as possible to being a lang
 
 Some crucial language features rely on [future WebAssembly functionality](https://github.com/WebAssembly/proposals) to be efficient. The following table aims to give an overview from a WebAssembly perspective:
 
-| WebAssembly spec               | Engines                             | AssemblyScript (flag)   | What's the plan?
-|--------------------------------|-------------------------------------|-------------------------|------------------------------------
+| WebAssembly spec               | Engines                             | AssemblyScript (flag)
+|--------------------------------|-------------------------------------|----------------------
 | ✔️ **Finished proposal**
-| Import/export mutable globals  | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | Global variable interop
-| BigInt integration<sup>1</sup> | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | 64-bit integer interop
-| Sign-extension                 | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | Efficient small integer casts
-| Non-trapping F2I               | <Ch/> <Fi/> <Xx/> <No/> <Wt/> <Ws/> | 🏁 `nontrapping-f2i`    | Checked and unchecked casts
-| Bulk memory                    | <Ch/> <Fi/> <Xx/> <No/> <Wt/> <Ws/> | 🏁 `bulk-memory`        | Replace `memcpy`, `memset`
-| Fixed-width SIMD               | <Ch/> <Fi/> <Xx/> <No/> <Xx/> <Ws/> | 🏁 `simd`               | Expose as built-ins; Auto-vectorize?
-| Reference Types                | <Xx/> <Fi/> <Xx/> <Xx/> <Wt/> <Ws/> | 🔨 `reference-types`    | Prerequisite for garbage collection
-| Multi-value                    | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> |                         | Tuple return values
+| Import/export mutable globals  | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️
+| BigInt integration<sup>1</sup> | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️
+| Sign-extension                 | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️
+| Non-trapping F2I               | <Ch/> <Fi/> <Xx/> <No/> <Wt/> <Ws/> | 🏁 `nontrapping-f2i`
+| Bulk memory                    | <Ch/> <Fi/> <Xx/> <No/> <Wt/> <Ws/> | 🏁 `bulk-memory`
+| Fixed-width SIMD               | <Ch/> <Fi/> <Xx/> <No/> <Xx/> <Ws/> | 🏁 `simd`
+| Reference Types                | <Xx/> <Fi/> <Xx/> <Xx/> <Wt/> <Ws/> | 🔨 `reference-types`
+| Multi-value                    | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> |
 ||
 | 🏁 **Standardize the feature**
 ||
 | 🔨 **Implementation phase**
-| Tail call                      |                                     |                         |
-| Multiple memories              |                                     |                         |
-| Memory64                       |                                     | 🔨                      | Provide a Wasm64 target
-| Exception handling             |                                     | 🔨 `exception-handling` | Implement exceptions
+| Tail call                      |                                     |
+| Multiple memories              |                                     |
+| Memory64                       |                                     | 🔨
+| Exception handling             |                                     | 🔨 `exception-handling`
 ||
 | 📖 **Spec text available** 
-| Threads                        | <Ch/> <Fi/> <Xx/> <No/> <Xx/> <Xx/> | 🔨 `threads`            | Expose as built-ins; WebWorker?
-| ESM integration                |                                     |                         | Natural web interop
-| Function references            |                                     |                         | Implement closures
-| Branch Hinting                 |                                     |                         | `likely(x)` / `unlikely(x)` hints
-| Instrument Tracing             |                                     |                         | `debugger` statement?
+| Threads                        | <Ch/> <Fi/> <Xx/> <No/> <Xx/> <Xx/> | 🔨 `threads`
+| ESM integration                |                                     |
+| Function references            |                                     |
+| Branch Hinting                 |                                     |
+| Instrument Tracing             |                                     |
 ||
 | 💡 **Feature proposal**
-| Type Imports                   |                                     |                         | Web interop?
-| Garbage collection             |                                     |                         | Reuse host GC; Share objects?
-| Feature detection              |                                     |                         | Detect available features
-| Extended name section          |                                     | 🔨                      | Debug names for locals etc.
-| Flexible vectors               |                                     |                         | Expose as built-ins
-| Call Tags                      |                                     |                         | Speed up indirect calls
-| Extended Constant Expressions  |                                     |                         | Inline more global initializers
-| Relaxed SIMD                   |                                     |                         | Expose as built-ins
-| Stack Switching                |                                     |                         | `async` / `await`
-| Constant Time                  |                                     |                         | Expose as built-ins / hint
+| Type Imports                   |                                     |
+| Garbage collection             |                                     |
+| Feature detection              |                                     |
+| Extended name section          |                                     | 🔨
+| Flexible vectors               |                                     |
+| Call Tags                      |                                     |
+| Extended Constant Expressions  |                                     |
+| Relaxed SIMD                   |                                     |
+| Stack Switching                |                                     |
+| Constant Time                  |                                     |
 ||
 | **Unsure**
-| WASI<sup>2</sup>               | <Xx/> <Xx/> <Xx/> <No/> <Wt/> <Ws/> | 🔨                     | Not a good fit (double-polyfill)
-| Interface Types<sup>3</sup>    |                                     |                         | No DOMString support in MVP
-| Component Model                |                                     |                         | Requires Interface Types
-| Module Linking                 | <Xx/> <Xx/> <Xx/> <Xx/> <Wt/> <Xx/> |                         | Requires Interface Types
+| WASI<sup>2</sup>               | <Xx/> <Xx/> <Xx/> <No/> <Wt/> <Ws/> | 🔨
+| Interface Types<sup>3</sup>    |                                     |
+| Module Linking<sup>3</sup>     | <Xx/> <Xx/> <Xx/> <Xx/> <Wt/> <Xx/> |
 
 <Ch/> <a href="https://www.chromestatus.com/features#webassembly" target="_blank" rel="noopener">Chrome</a> &nbsp;
 <Fi/> <a href="https://platform-status.mozilla.org" target="_blank" rel="noopener">Firefox</a> &nbsp;
@@ -70,7 +69,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 <Ws/> <a href="https://docs.wasmer.io/ecosystem/wasmer/wasmer-features#support-of-features-by-compiler" target="_blank" rel="noopener">Wasmer</a> &nbsp; (<sup>1</sup> native support in non-JS hosts)
 
 <sup>2</sup> WASI is [not a good fit](https://github.com/WebAssembly/WASI/issues/401) for AssemblyScript's use case currently and we would appreciate more cooperation.<br />
-<sup>3</sup> The Wasm CG [has decided](https://github.com/WebAssembly/interface-types/issues/135) that [`DOMString`](https://developer.mozilla.org/en-US/docs/Web/API/DOMString) support (ours and JS's `String`) is out of scope of Interface Types.
+<sup>3</sup> The Wasm CG [has decided](https://github.com/WebAssembly/interface-types/issues/135) that [`DOMString`](https://developer.mozilla.org/en-US/docs/Web/API/DOMString) support (ours and JS's `String`) is out of scope of Interface Types and Module Linking.
 
 ## Language features
 
