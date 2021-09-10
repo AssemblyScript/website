@@ -4,7 +4,7 @@ description: How to import and export memory, and all the details on its layout.
 
 # Memory
 
-Similar to other languages that use linear memory, and until the [GC](https://github.com/WebAssembly/gc) 🦄 proposal becomes available, all data in AssemblyScript is stored at a specific offset in linear memory so other parts of the program can read and modify it.
+Similar to other languages that use linear memory, all data in AssemblyScript is stored at a specific offset in linear memory for now so other parts of the program can read and modify it.
 
 ## Importing memory
 

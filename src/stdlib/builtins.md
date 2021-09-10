@@ -428,7 +428,7 @@ The `immOffset` argument is a bit special here, because it becomes an actual imm
   ```
   Emits an unreachable instruction that results in a runtime error \(trap\) when executed. Both a statement and an expression of any type. Beware that trapping in managed code will most likely lead to memory leaks or even break the program because it ends execution prematurely.
 
-### Atomics 🦄
+### Atomics
 
 The following instructions represent the [WebAssembly threads and atomics](https://github.com/WebAssembly/threads) specification. Must be enabled with `--enable threads`.
 
@@ -501,7 +501,7 @@ The following instructions represent the [WebAssembly threads and atomics](https
 
 Again, the `immOffset` argument must be a compile time constant value.
 
-### SIMD 🦄
+### SIMD
 
 Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/simd) specification. Must be enabled with `--enable simd`.
 

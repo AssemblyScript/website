@@ -62,6 +62,6 @@ view[2] = view[0] + view[1]
 
 [Strictly typed](./basics.md#strictness) AssemblyScript differs a bit from idiomatic TypeScript, which even though typed, attempts to describe all the dynamic features of JavaScript, many of which cannot be efficiently compiled ahead of time. Not a blocker, but takes a bit to get used to.
 
-Also, we are patiently waiting for [future WebAssembly features](./status.md) (marked as 🦄 throughout the documentation) to become available for us to use. In particular, we are looking forward to proposals that promise to improve WebAssembly's integration with the Web Platform, e.g. to more naturally and efficiently share strings, arrays and objects with JavaScript.
+Also note that WebAssembly is still a rather barebones technology that hasn't made much progress yet, especially not on the Web, and we hope that future features will one day also benefit us and the broader WebAssembly community.
 
 That being said, do you feel ready for a [quick start](./quick-start.md)?

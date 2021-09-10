@@ -69,7 +69,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 <Ws/> <a href="https://docs.wasmer.io/ecosystem/wasmer/wasmer-features#support-of-features-by-compiler" target="_blank" rel="noopener">Wasmer</a> &nbsp; (<sup>1</sup> native support in non-JS hosts)
 
 <sup>2</sup> WASI is [not a good fit](https://github.com/WebAssembly/WASI/issues/401) for AssemblyScript's use case currently and we would appreciate more cooperation.<br />
-<sup>3</sup> The Wasm CG [has decided](https://github.com/WebAssembly/interface-types/issues/135) that [`DOMString`](https://developer.mozilla.org/en-US/docs/Web/API/DOMString) support (ours and JS's `String`) is out of scope of Interface Types and Module Linking.
+<sup>3</sup> The Wasm CG [has decided](https://github.com/WebAssembly/interface-types/issues/135) that [`DOMString`](https://developer.mozilla.org/en-US/docs/Web/API/DOMString) (ours and JS's `String`) is out of scope of Interface Types and Module Linking.
 
 ## Language features
 
@@ -79,11 +79,11 @@ As such, certain higher-level language features still have their limitations or 
 |---------------------------------------------------|-----------------
 | 🐤 **Functional**
 | [Bootstrap](#bootstrap)                           | The compiler can compile itself to WebAssembly, passing the test suite.
-| [Classes and interfaces](#classes-and-interfaces) | Largely implemented in linear memory. Some caveats. (needs GC 🦄)
+| [Classes and interfaces](#classes-and-interfaces) | Largely implemented in linear memory. Some caveats.
 | [Standard library](#standard-library)             | Largely implemented in linear memory. Some caveats.
-| [Generics](#generics)                             | Monomorphized templates for now. (maybe post-MVP GC 🦄)
-| [Garbage collection](#garbage-collection)         | Implemented in linear memory for now. (needs GC 🦄)
-| [Interop with JS](#interop-with-js)               | Enabled by the loader package. (needs Type imports / Reference Types 🦄)
+| [Generics](#generics)                             | Monomorphized templates for now.
+| [Garbage collection](#garbage-collection)         | Implemented in linear memory for now.
+| [Interop with JS](#interop-with-js)               | Enabled by the loader package.
 ||
 | 🐣 **Limited**
 | [Union types](#union-types)                       | Nullable class types only. Can use generics with static type checks instead. (No proposal so far)
@@ -94,10 +94,10 @@ As such, certain higher-level language features still have their limitations or 
 | [Date](#date)                                     | Third-party library available.
 ||
 | 🥚 **Not implemented**
-| [Closures](#closures)                             | Perhaps implement in linear memory. (needs Function references 🦄)
+| [Closures](#closures)                             | Perhaps implement in linear memory.
 | [Iterators](#iterators)                           | Not implemented yet. Depends on symbols.
 | [Rest parameters](#rest-parameters)               | Perhaps implement in linear memory. (No proposal so far)
-| [Exceptions](#exceptions)                         | Throwing currently aborts the program. (needs Exception handling 🦄)
+| [Exceptions](#exceptions)                         | Throwing currently aborts the program.
 | [Promises](#promises)                             | There is no concept of async/await yet due to the lack of an event loop. (No proposal so far)
 | [BigInt](#bigint)                                 | There are no BigInts yet, but there are i64s.
 ||
@@ -125,7 +125,6 @@ Some [standard library APIs](./stdlib/globals.md) function a little different th
 AssemblyScript compiles generics to one concrete method or function per set of unique contextual type arguments, also known as [monomorphisation](https://en.wiktionary.org/wiki/monomorphisation). Implications are that a module only includes and exports concrete functions for sets of type arguments actually used and that concrete functions can be shortcutted with [static type checks](./stdlib/builtins.md#static-type-checks) at compile time, which turned out to be quite useful.
 
 * The compiler does not currently enforce `extends Y` clauses on type parameters. Likely to be enforced in the future.
-* WebAssembly GC 🦄 may introduce more sophisticated mechanisms like reified generics, potentially post-MVP.
 * Concrete functions compiling to the exact same code are de-duplicated during optimization.
 
 ### Garbage collection
@@ -138,7 +137,7 @@ WebAssembly only understands numeric values as of today and cannot easily exchan
 
 For example, to pass a string to a WebAssembly export, one first has to allocate the string in the WebAssembly module's linear memory, and then pass the resulting pointer to the WebAssembly export. The same is true for arrays and other objects.
 
-For now, [the loader](./loader.md) provides the utility necessary to translate between objects in linear memory and JavaScript objects (e.g. with `__newString` and `__getString`), and our hopes are on Reference Types 🦄, Type Imports 🦄 and perhaps Garbage collection 🦄 to make interop more convenient eventually.
+For now, [the loader](./loader.md) provides the utility necessary to translate between objects in linear memory and JavaScript objects (e.g. with `__newString` and `__getString`).
 
 ### Union types
 
@@ -205,7 +204,7 @@ A new date, time and calendar API, called Temporal, is being actively developed 
 
 ### Closures
 
-Closures (functions with a captured environment) are not yet supported and we are waiting for the Function References 🦄 and Garbage collection 🦄 (captured environments are GC'ed) proposals to land. However, since this is a crucial language feature, we may end up with a filler implementation using linear memory. Not available yet, though.
+Closures (functions with a captured environment) are not yet supported. However, since this is a crucial language feature, we may end up with a filler implementation using linear memory. Not available yet, though.
 
 In the meantime we recommend to restructure code so closures are not necessary, i.e. instead of writing
 
@@ -284,7 +283,7 @@ function handleGiven(a: i32, b: i32 = -1, c: i32 = -1): void {
 
 ### Exceptions
 
-Exceptions are not yet supported and we are waiting for the Exception handling 🦄 proposal to land. It is not yet feasible to implement exceptions without the help of the proposal as throwing and catching an exception requires stack unwinding, so the following will currently crash the program with a call to `abort("message", ...)`:
+Exceptions are not yet supported. Throwing and catching an exception requires stack unwinding, which is currently being specified, so the following will currently crash the program with a call to `abort("message", ...)`:
 
 ```ts
 function doThrow(): void {

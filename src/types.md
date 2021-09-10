@@ -14,8 +14,8 @@ Instead of using the `number` type for all sorts of numeric values, AssemblyScri
 | `u64`               | i64              | A 64-bit unsigned integer.
 | `f32`               | f32              | A 32-bit float.
 | `f64`               | f64              | A 64-bit float.
-| `v128`              | v128             | A 128-bit vector 🦄.
-| `anyref`            | anyref           | An opaque host reference 🦄.
+| `v128`              | v128             | A 128-bit vector.
+| `anyref`            | anyref           | An opaque host reference.
 | **Small integer types**                |
 | `i8`                | i32              | An 8-bit signed integer.
 | `u8`                | i32              | An 8-bit unsigned integer.
@@ -23,8 +23,8 @@ Instead of using the `number` type for all sorts of numeric values, AssemblyScri
 | `u16`               | i32              | A 16-bit unsigned integer.
 | `bool`              | i32              | A 1-bit unsigned integer.
 | **Variable integer types**             |
-| `isize`             | i32 or i64       | A 32-bit signed integer in WASM32.<br />A 64-bit signed integer in WASM64 🦄.
-| `usize`             | i32 or i64       | A 32-bit unsigned integer in WASM32.<br />A 64-bit unsigned integer in WASM64 🦄.
+| `isize`             | i32 or i64       | A 32-bit signed integer in WASM32.
+| `usize`             | i32 or i64       | A 32-bit unsigned integer in WASM32.
 | **Special types**                      |
 | `void`              | -                | Indicates no return value.
 | `auto`              | ?                | Makes an educated guess. Internal only.
@@ -59,7 +59,7 @@ Assigning a value of one type to a target of another type can be performed witho
 | f32     |  |  |  |  |  | ✓ | ✓ |
 | f64     |  |  |  |  |  |  | ✓ |
 
-Note that `isize` and `usize` are aliases of either `i32` and `u32` in WASM32 respectively `i64` and `u64` in WASM64 🦄.
+Note that `isize` and `usize` are aliases of either `i32` and `u32` in WASM32.
 
 ```ts
 var  i8val: i8  = -128  // 0x80

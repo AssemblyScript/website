@@ -9,7 +9,7 @@ sidebarDepth: 2
 This section covers the new runtime added in AssemblyScript 0.18. The previous runtime documentation including migration guidelines [can be found here](./runtime.md).
 :::
 
-AssemblyScript implements garbage collection on top of linear memory while the WebAssembly [GC](https://github.com/WebAssembly/gc) 🦄 proposal is still in the works. More precisely it implements multiple runtime variants that are useful for different use cases, with the default being your typical memory manager and GC. The interface of the different variants is always the same, so these are interchangeable, yet differ in their level of sophistication. In case of doubt, starting out with the default is probably just fine.
+AssemblyScript implements garbage collection on top of linear memory for now. More precisely it implements multiple runtime variants that are useful for different use cases, with the default being your typical memory manager and GC. The interface of the different variants is always the same, so these are interchangeable, yet differ in their level of sophistication. In case of doubt, starting out with the default is probably just fine.
 
 ## Runtime interface
 
@@ -165,7 +165,3 @@ Even though of limited usefulness, it is also possible to create a new runtime (
 * Runtimes typically include a general purpose memory manager to also drive `heap.alloc` and `heap.free`
 * Garbage collection is precise, with compiler-generated visitors aware of what's a pointer and what's not
 * The interface is tailored for tracing GCs, so attempts to implement other forms of GC may not be viable
-
-## The future: WebAssembly GC
-
-The WebAssembly [GC](https://github.com/WebAssembly/gc) 🦄 proposal is still in the works but our focus is to switch to it as soon as possible, hopefully making most of the above redundant and the overall experience more convenient.
