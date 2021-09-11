@@ -44,6 +44,11 @@ The StaticArray API is similar to the [Array API](./array.md), with the importan
 ### Methods
 
 * ```ts
+  function at(pos: i32): T
+  ```
+  Gets the element at the specified position. This method allows for positive and negative integers. Negative integers count back from the last element.
+
+* ```ts
   function concat(other: T[]): T[]
   ```
   Concatenates the values of this static and the other normal array to a new normal array, in this order.
@@ -72,6 +77,11 @@ The StaticArray API is similar to the [Array API](./array.md), with the importan
   function slice(start?: i32, end?: i32): T[]
   ```
   Returns a shallow copy of this static array's values from `begin` inclusive to `end` exclusive, as a new normal array. If omitted, `end` defaults to the end of the array.
+
+* ```ts
+  function sort(fn?: (a: T, b: T) => i32): this
+  ```
+  Sorts the values of the array in place, using the specified comparator function, modifying the array before returning it. The comparator returning a negative value means `a < b`, a positive value means `a > b` and `0` means that both are equal. Unlike in JavaScript, where an implicit conversion to strings is performed, the comparator defaults to compare two values of type `T`.
 
 * ```ts
   function toString(): string
