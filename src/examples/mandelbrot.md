@@ -160,7 +160,7 @@ As soon as these conditions are no longer met, one would instead either reserve 
 Set up a new AssemblyScript project as described in [Quick start](../quick-start.md) and copy `module.ts` to `assembly/index.ts` and `index.html` to the project's top-level directory. Edit the build commands in `package.json` to include
 
 ```
---runtime none --use Math=JSMath --importMemory
+--runtime stub --use Math=JSMath --importMemory
 ```
 
 The example can now be compiled with
@@ -186,11 +186,11 @@ WebAssembly.instantiateStreaming(fetch('./build/optimized.wasm'), {
   env: {
     memory
   },
-  JSMath: Math
+  Math
 }).then(({ exports }) => {
 ```
 
-because using the [loader](../loader.md) is not ultimately necessary here (no managed objects are exchanged). If the loader is used instead, it will automatically provide `JSMath`.
+because using the [loader](../loader.md) is not ultimately necessary here (no managed objects are exchanged). If the loader is used instead, it will automatically provide JavaScript's `Math`.
 
 Some browsers may restrict `fetch`ing local resources when just opening `index.html` now, but one can set up a local server as a workaround:
 

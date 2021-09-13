@@ -125,7 +125,7 @@ As soon as this condition is no longer met, one would instead either reserve som
 Set up a new AssemblyScript project as described in [Quick start](../quick-start.md) and copy `module.ts` to `assembly/index.ts` and `index.html` to the project's top-level directory. Edit the build commands in `package.json` to include
 
 ```
---runtime none
+--runtime stub
 ```
 
 The example can now be compiled with
