@@ -53,7 +53,7 @@ arr[0]; // now it works 😊
   Copies a region of an array's values over the respective values starting at the target location.
 
 * ```ts
-  function every(fn: (value: T, index: i32, array: Array<T>) => bool): bool
+  function every(fn: (value: T, index: i32, self: Array<T>) => bool): bool
   ```
   Calls the specified function with every value of the array until it finds the first value for which the function returns `false`. Returns `true` if all functions returned `true` or the array is empty, otherwise `false`.
 
@@ -63,17 +63,17 @@ arr[0]; // now it works 😊
   Replaces the values of the array from `start` inclusive to `end` exclusive in place with the specified value, returning the array.
 
 * ```ts
-  function filter(fn: (value: T, index: i32, array: Array<T>) => bool): Array<T>
+  function filter(fn: (value: T, index: i32, self: Array<T>) => bool): Array<T>
   ```
   Calls the specified function with every value of the array, returning a new array with all values for which the function returned `true`.
 
 * ```ts
-  function findIndex(fn: (value: T, index: i32, array: Array<T>) => bool): i32
+  function findIndex(fn: (value: T, index: i32, self: Array<T>) => bool): i32
   ```
   Calls the specified function with every value of the array until it finds the first value for which the function returns `true`, returning its index. Returns `-1` if that's never the case.
 
 * ```ts
-  function findLastIndex(fn: (value: T, index: i32, self: this) => bool): i32;
+  function findLastIndex(fn: (value: T, index: i32, self: Array<T>) => bool): i32;
   ```
   Calls the specified function with every value of the array starting at the end until it finds the first value for which the function returns `true`, returning its index. Returns `-1` if that's never the case.
 
@@ -83,7 +83,7 @@ arr[0]; // now it works 😊
   Flattens an array of arrays to a one-dimensional array. `null` entries are ignored.
 
 * ```ts
-  function forEach(fn: (value: T, index: i32, array: Array<T>) => void): void
+  function forEach(fn: (value: T, index: i32, self: Array<T>) => void): void
   ```
   Calls the specified function with every value of the array.
 
@@ -108,7 +108,7 @@ arr[0]; // now it works 😊
   Gets the last index where the specified value can be found in the array. Returns `-1` if not found.
 
 * ```ts
-  function map<U>(fn: (value: T, index: i32, array: Array<T>) => U): Array<U>
+  function map<U>(fn: (value: T, index: i32, self: Array<T>) => U): Array<U>
   ```
   Calls the specified function with every value of the array, returning a new array of the function's return values.
 
@@ -124,15 +124,15 @@ arr[0]; // now it works 😊
 
 * ```ts
   function reduce<U>(
-    fn: (acc: U, cur: T, idx: i32, src: Array) => U,
+    fn: (accumValue: U, currentValue: T, index: i32, self: Array<T>) => U,
     initialValue: U
   ): U
   ```
-  Calls the specified reducer function with each value of the array, resulting in a single return value. The respective previous reducer function's return value is remembered in `acc`, starting with `initialValue`, becoming the final return value in the process.
+  Calls the specified reducer function with each value of the array, resulting in a single return value. The respective previous reducer function's return value is remembered in `accumValue`, starting with `initialValue`, becoming the final return value in the process.
 
 * ```ts
   function reduceRight<U>(
-    fn: (acc: U, cur: T, idx: i32, src: Array) => U,
+    fn: (accumValue: U, currentValue: T, index: i32, self: Array<T>) => U,
     initialValue: U
   ): U
   ```
@@ -154,7 +154,7 @@ arr[0]; // now it works 😊
   Returns a shallow copy of the array's values from `begin` inclusive to `end` exclusive, as a new array. If omitted, `end` defaults to the end of the array.
 
 * ```ts
-  function some(fn: (value: T, index: i32, array: Array<T>) => bool): bool
+  function some(fn: (value: T, index: i32, self: Array<T>) => bool): bool
   ```
   Calls the specified function with every value of the array until it finds the first value for which the function returns `true`, returning `true`. Returns `false` otherwise or if the array is empty.
 

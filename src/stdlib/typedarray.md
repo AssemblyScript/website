@@ -27,7 +27,7 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
 ## Constructor
 
 * ```ts
-  new TypedArray<T>(length: i32)
+  new TypedArray(length: i32)
   ```
   Constructs a new typed array view with a new backing buffer and all values initialized to zero. See `wrap` below for wrapping a raw buffer.
 
@@ -39,7 +39,7 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
   Number of bytes per element.
 
 * ```ts
-  function wrap(buffer: ArrayBuffer, byteOffset?: i32, length?: i32): TypedArray<T>
+  function wrap(buffer: ArrayBuffer, byteOffset?: i32, length?: i32): TypedArray
   ```
   Wraps a raw buffer to be viewed as a sequence of values of the typed array's value type. This is equivalent to the respective alternative constructor signature in JS but exists because there is no function overloading \(yet\).
 
@@ -70,9 +70,7 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
 ### Methods
 
 * ```ts
-  function every(
-    fn: (value: T, index: i32, self: TypedArray) => bool
-  ): bool
+  function every(fn: (value: T, index: i32, self: TypedArray) => bool): bool
   ```
   Calls the specified function with every value of the array until it finds the first value for which the function returns `false`. Returns `true` if all functions returned `true` or the array is empty, otherwise `false`.
 
@@ -82,23 +80,17 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
   Replaces the values of the array from `start` inclusive to `end` exclusive in place with the specified value, returning the array.
 
 * ```ts
-  function findIndex(
-    fn: (value: T, index: i32, self: TypedArray) => bool
-  ): i32
+  function findIndex(fn: (value: T, index: i32, self: TypedArray) => bool): i32
   ```
   Calls the specified function with every value of the array until it finds the first value for which the function returns `true`, returning its index. Returns `-1` if that's never the case.
 
 * ```ts
-  function findLastIndex(
-    fn: (value: T, index: i32, self: TypedArray) => bool
-  ): i32;
+  function findLastIndex(fn: (value: T, index: i32, self: TypedArray) => bool): i32
   ```
   Calls the specified function with every value of the array starting at the end until it finds the first value for which the function returns `true`, returning its index. Returns `-1` if that's never the case.
 
 * ```ts
-  function forEach(
-    fn: (value: T, index: i32, self: TypedArray) => void
-  ): void
+  function forEach(fn: (value: T, index: i32, self: TypedArray) => void): void
   ```
   Calls the specified function with every value of the array.
 
@@ -118,23 +110,21 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
   Gets the last index where the specified value can be found in the array. Returns `-1` if not found.
 
 * ```ts
-  function map(
-    fn: (value: T, index: i32, self: TypedArray) => T
-  ): TypedArray
+  function map(fn: (value: T, index: i32, self: TypedArray) => T): TypedArray
   ```
   Calls the specified function with every value of the array, returning a new array of the function's return values.
 
 * ```ts
   function reduce<U>(
-    fn: (acc: U, cur: T, idx: i32, src: Array) => U,
+    fn: (accumValue: U, currentValue T, index: i32, self: TypedArray) => U,
     initialValue: U
   ): U
   ```
-  Calls the specified reducer function with each value of the array, resulting in a single return value. The respective previous reducer function's return value is remembered in `acc`, starting with `initialValue`, becoming the final return value in the process.
+  Calls the specified reducer function with each value of the array, resulting in a single return value. The respective previous reducer function's return value is remembered in `accumValue`, starting with `initialValue`, becoming the final return value in the process.
 
 * ```ts
   function reduceRight<U>(
-    fn: (acc: U, cur: T, idx: i32, src: Array) => U,
+    fn: (accumValue: U, currentValue: T, index: i32, self: TypedArray) => U,
     initialValue: U
   ): U
   ```
@@ -151,9 +141,7 @@ The TypedArray API works very much like JavaScript's \([MDN](https://developer.m
   Sets the typed array values (starting at `offset`, or 0), reading input values from a specified `source` typed array.
 
 * ```ts
-  function some(
-    fn: (value: T, index: i32, self: TypedArray) => bool
-  ): bool
+  function some(fn: (value: T, index: i32, self: TypedArray) => bool): bool
   ```
   Calls the specified function with every value of the array until it finds the first value for which the function returns `true`, returning `true`. Returns `false` otherwise or if the array is empty.
 
