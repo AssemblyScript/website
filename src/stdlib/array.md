@@ -124,7 +124,7 @@ arr[0]; // now it works 😊
 
 * ```ts
   function reduce<U>(
-    fn: (accumValue: U, currentValue: T, index: i32, self: Array) => U,
+    fn: (accumValue: U, currentValue: T, index: i32, self: Array<T>) => U,
     initialValue: U
   ): U
   ```
@@ -132,7 +132,7 @@ arr[0]; // now it works 😊
 
 * ```ts
   function reduceRight<U>(
-    fn: (accumValue: U, currentValue: T, index: i32, self: Array) => U,
+    fn: (accumValue: U, currentValue: T, index: i32, self: Array<T>) => U,
     initialValue: U
   ): U
   ```
