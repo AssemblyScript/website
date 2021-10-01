@@ -24,7 +24,7 @@ Instead of using the `number` type for all sorts of numeric values, AssemblyScri
 | `bool`              | i32              | A 1-bit unsigned integer.
 | **Variable integer types**             |
 | `isize`             | i32 or i64       | A 32-bit signed integer in WASM32.<br />A 64-bit signed integer in WASM64 🦄.
-| `usize`             | i32 or i64       | A 32-bit unsigned integer in WASM32.<br />A 64-bit unsigned integer in WASM64 🦄.
+| `usize`             | u32 or u64       | A 32-bit unsigned integer in WASM32.<br />A 64-bit unsigned integer in WASM64 🦄.
 | **Special types**                      |
 | `void`              | -                | Indicates no return value.
 | `auto`              | ?                | Makes an educated guess. Internal only.
