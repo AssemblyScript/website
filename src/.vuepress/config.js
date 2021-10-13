@@ -75,17 +75,18 @@ function extendMarkdown(md) {
     'string', 'number', 'boolean', 'symbol', 'void',
 
     // Common names
-    'ArrayBuffer', 'String', 'Array', 'Int8Array', 'Int16Array', 'Int32Array', 'Uint8Array',
-    'Uint8ClampedArray', 'Uint16Array', 'Uint32Array', 'Float32Array', 'Float64Array', 'DataView',
-    'Map', 'Set', 'Promise', 'Math', 'Number', 'Error', 'Date',
+    'ArrayBuffer', 'Array', 'Int8Array', 'Int16Array', 'Int32Array', 'Uint8Array', 'Uint8ClampedArray',
+    'Uint16Array', 'Uint32Array', 'Float32Array', 'Float64Array', 'DataView', 'String', 'Map', 'Set',
+    'Promise', 'Math', 'Number', 'Boolean', 'Error', 'Date',
 
     // AssemblyScript types
     'i8', 'i16', 'i32', 'i64', 'isize', 'u8', 'u16', 'u32', 'u64', 'usize', 'bool', 'f32', 'f64',
-    'v128', 'anyref', 'auto',
+    'v128', 'externref', 'auto',
 
     // AssemblyScript names
-    'memory', 'table', 'atomic', 'i8x16', 'i16x8', 'i32x4', 'i64x2', 'f32x4', 'f64x2', 'v8x16',
-    'v16x8', 'v32x2', 'Int64Array', 'Uint64Array', 'heap'
+    'heap', 'memory', 'table', 'atomic', 'i8x16', 'i16x8', 'i32x4', 'i64x2', 'f32x4', 'f64x2', 'v32x2',
+    'Int64Array', 'Uint64Array', 'Mathf', 'Bool', 'I8', 'I16', 'I32', 'I64', 'U8', 'U16', 'U32', 'U64',
+    'F32', 'F64', 'sizeof', 'alignof', 'offsetof', 'nameof'
 
   ].join('|') + ')\\b')
 }
