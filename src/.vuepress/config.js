@@ -80,8 +80,8 @@ function extendMarkdown(md) {
     'Promise', 'Math', 'Number', 'Boolean', 'Error', 'Date',
 
     // AssemblyScript types
-    'i8', 'i16', 'i32', 'i64', 'isize', 'u8', 'u16', 'u32', 'u64', 'usize', 'bool', 'f32', 'f64',
-    'v128', 'externref', 'auto',
+    'i8', 'i16', 'i32', 'i64', 'isize', 'u8', 'u16', 'u32', 'u64', 'usize', 'bool', 'f32', 'f64', 'v128',
+    'externref', 'auto',
 
     // AssemblyScript names
     'heap', 'memory', 'table', 'atomic', 'i8x16', 'i16x8', 'i32x4', 'i64x2', 'f32x4', 'f64x2', 'v32x2',
