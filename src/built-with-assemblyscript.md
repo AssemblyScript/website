@@ -20,6 +20,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   WebAssembly N-body simulation benchmark _\(use 1000 bodies compare to original\)._
 * [as-benchmarks](https://github.com/nischayv/as-benchmarks) \([demo](https://nischayv.github.io/as-benchmarks/index.html)\)<br />
   A set of computational benchmarks \(JS, AssemblyScript\).
+* [AssemblyScript vs. MNIST](https://github.com/taumechanica/as-ml)<br />
+  Pure AssemblyScript implementation of adaptive boosting fights against MNIST and Fashion-MNIST.
 
 ## Blockchain
 
