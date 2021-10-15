@@ -86,7 +86,7 @@ function extendMarkdown(md) {
     // AssemblyScript names
     'heap', 'memory', 'table', 'atomic', 'i8x16', 'i16x8', 'i32x4', 'i64x2', 'f32x4', 'f64x2', 'v32x2',
     'Int64Array', 'Uint64Array', 'Mathf', 'Bool', 'I8', 'I16', 'I32', 'I64', 'U8', 'U16', 'U32', 'U64',
-    'F32', 'F64', 'sizeof', 'alignof', 'offsetof', 'nameof'
+    'F32', 'F64', 'idof', 'sizeof', 'alignof', 'offsetof', 'nameof'
 
   ].join('|') + ')\\b')
 }
