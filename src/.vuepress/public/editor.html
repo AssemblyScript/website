@@ -136,8 +136,8 @@
     .popup:before {
       content: "";
       position: absolute;
-      top: -24px;
-      right: 0;
+      top: -21px;
+      right: 12px;
       border: solid 12px transparent;
       border-bottom-color: #3c3c3c;
       z-index: 2502;
@@ -529,7 +529,7 @@
           optionsPopup.style.display = 'block'
           const bounds = evt.target.getBoundingClientRect()
           optionsPopup.style.top = (bounds.y + bounds.height + 12) + 'px'
-          optionsPopup.style.right = (window.innerWidth - (bounds.x + bounds.width / 2) - 12) + 'px'
+          optionsPopup.style.right = (window.innerWidth - (bounds.x + bounds.width / 2) - 24) + 'px'
         } else {
           optionsPopup.style.display = 'none'
         }
