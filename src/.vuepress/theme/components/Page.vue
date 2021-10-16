@@ -36,7 +36,7 @@ function installEditors() {
     const maximize = document.createElement('a')
     maximize.classList.add('maximize')
     maximize.addEventListener('click', evt => { toggleEditor(editor) })
-    maximize.innerText = '🗖'
+    maximize.innerText = '◰'
     editor.appendChild(maximize)
 
     const iframe = document.createElement('iframe')
@@ -63,12 +63,12 @@ function toggleEditor(editor) {
   if (isMaximized = !isMaximized) {
     editor.classList.add('maximized')
     document.body.style.overflow = 'hidden'
-    editor.querySelector('a.maximize').innerHTML = '🗗'
+    editor.querySelector('a.maximize').innerHTML = '◲'
   } else {
     editor.classList.remove('maximized')
     document.body.style.overflow = 'auto'
     editor.scrollIntoView()
-    editor.querySelector('a.maximize').innerHTML = '🗖'
+    editor.querySelector('a.maximize').innerHTML = '◰'
   }
 }
 
