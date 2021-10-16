@@ -252,6 +252,7 @@
         <h5>Future features</h5>
         <div class="option">
           <p><input id="option-feature-signextension" type="checkbox" /><label for="option-feature-signextension"> Enable Sign Extension</label></p>
+          <p><input id="option-feature-nontrapping-f2i" type="checkbox" /><label for="option-feature-nontrapping-f2i"> Non-trapping float to integer</label></p>
           <p><input id="option-feature-bulkmemory" type="checkbox" /><label for="option-feature-bulkmemory"> Enable Bulk Memory</label></p>
           <p><input id="option-feature-simd" type="checkbox" /><label for="option-feature-simd"> Enable SIMD</label></p>
           <p><input id="option-feature-threads" type="checkbox" /><label for="option-feature-threads"> Enable Threads</label></p>
@@ -337,6 +338,7 @@
     const optionTableBase = document.getElementById('option-tableBase')
     const optionUse = document.getElementById('option-use')
     const optionFeatureSignextension = document.getElementById('option-feature-signextension')
+    const optionFeatureNonTrappingFloatToInt = document.getElementById('option-feature-nontrapping-f2i')
     const optionFeatureBulkmemory = document.getElementById('option-feature-bulkmemory')
     const optionFeatureSimd = document.getElementById('option-feature-simd')
     const optionFeatureThreads = document.getElementById('option-feature-threads')
@@ -360,6 +362,7 @@
 
     const optionFeatures = {
       'sign-extension': optionFeatureSignextension,
+      'nontrapping-f2i': optionFeatureNonTrappingFloatToInt,
       'bulk-memory': optionFeatureBulkmemory,
       'simd': optionFeatureSimd,
       'threads': optionFeatureThreads,
