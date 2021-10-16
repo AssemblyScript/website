@@ -40,14 +40,15 @@ function installEditors() {
     editor.appendChild(maximize)
 
     const iframe = document.createElement('iframe')
+    const pathWithHash = '/editor.html#' + btoa(code.innerText)
     iframe.setAttribute('title', 'Editor')
-    if (document.readyState == 'complete') {
-      iframe.setAttribute('src', '/editor.html#' + btoa(code.innerText))
+    if (document.readyState === 'complete') {
+      iframe.setAttribute('src', pathWithHash)
     } else {
       iframe.setAttribute('src', 'data:text/html;base64,')
       document.addEventListener('readystatechange', evt => {
-        if (document.readyState == 'complete') {
-          iframe.setAttribute('src', '/editor.html#' + btoa(code.innerText))
+        if (document.readyState === 'complete') {
+          iframe.setAttribute('src', pathWithHash)
         }
       })
     }
