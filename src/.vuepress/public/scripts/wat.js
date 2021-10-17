@@ -55,7 +55,6 @@ var WebAssemblyTextLanguage = {
       'dataref',
       'externref',
       'funcref',
-      'nullref',
       'exnref',
       'extern',
       'null',
