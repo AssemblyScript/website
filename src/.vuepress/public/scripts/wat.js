@@ -383,9 +383,6 @@ var WebAssemblyTextLanguage = {
       'call',
       'call_indirect',
       'call_ref',
-      'try',
-      'catch',
-      'catch_all',
       'delegate',
       'throw',
       'rethrow',
@@ -594,6 +591,9 @@ var WebAssemblyTextLanguage = {
       'return_call',
       'return_call_indirect',
       'return_call_ref',
+      'try',
+      'catch',
+      'catch_all',
       'unreachable'
     ],
 
