@@ -398,16 +398,7 @@
 
       // Add WebAssembly Text Format language
       languages.register({ id: 'webassembly' })
-      languages.setLanguageConfiguration('webassembly', {
-        ...wasmLanguageConfig,
-        brackets: [['(', ')'], ['if', 'end'], ['loop', 'end'], ['block', 'end']],
-        surroundingPairs: [
-          { open: '(', close: ')' },
-          { open: 'if', close: 'end' },
-          { open: 'loop', close: 'end' },
-          { open: 'block', close: 'end' }
-        ]
-      })
+      languages.setLanguageConfiguration('webassembly', wasmLanguageConfig)
       languages.setMonarchTokensProvider('webassembly', wasmLanguageTokens)
 
       // Extend the default theme with WebAssembly rules

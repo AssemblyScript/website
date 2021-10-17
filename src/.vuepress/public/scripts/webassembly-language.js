@@ -3,13 +3,19 @@
 var WebAssemblyLanguage = {
   config: {
     brackets: [
-      ['(', ')']
+      ['(', ')'], ['if', 'end'], ['loop', 'end'], ['block', 'end']
     ],
     autoClosingPairs: [
-      { open: '(', close: ')' }
+      { open: '(', close: ')' },
+      { open: 'if', close: 'end' },
+      { open: 'loop', close: 'end' },
+      { open: 'block', close: 'end' }
     ],
     surroundingPairs: [
-      { open: '(', close: ')' }
+      { open: '(', close: ')' },
+      { open: 'if', close: 'end' },
+      { open: 'loop', close: 'end' },
+      { open: 'block', close: 'end' }
     ]
   },
   tokens: {
@@ -506,23 +512,23 @@ var WebAssemblyLanguage = {
       'drop',
       'select'
     ],
-  
+
     escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
     digits: /\d+(_+\d+)*/,
     octaldigits: /[0-7]+(_+[0-7]+)*/,
     binarydigits: /[0-1]+(_+[0-1]+)*/,
     hexdigits: /[[0-9a-fA-F]+(_+[0-9a-fA-F]+)*/,
-  
+
     tokenizer: {
       root: [
-  
+
         // whitespace
         { include: '@whitespace' },
-  
+
         // strings
         [/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
         [/"/, 'string', '@string'],
-  
+
         // numbers (not all of these are generated, but here to be sure)
         [/(@digits)[eE]([\-+]?(@digits))?[fFdD]?/, 'number.float'],
         [/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/, 'number.float'],
@@ -531,10 +537,10 @@ var WebAssemblyLanguage = {
         [/0[bB](@binarydigits)[Ll]?/, 'number.binary'],
         [/(@digits)[fFdD]/, 'number.float'],
         [/(@digits)[lL]?/, 'number'],
-  
+
         // variable names
         [/\$[^\s\)]*/, { token: 'identifier' }],
-  
+
         // instructions
         [/[a-zA-Z0-9]+(?:\.[a-zA-Z0-9_]+)*/, {
           cases: {
@@ -546,14 +552,14 @@ var WebAssemblyLanguage = {
           }
         }]
       ],
-  
+
       string: [
         [/[^\\"]+/, 'string'],
         [/@escapes/, 'string.escape'],
         [/\\./, 'string.escape.invalid'],
         [/"/, 'string', '@pop']
       ],
-  
+
       whitespace: [
         [/[ \t\r\n]+/, ''],
         [/(;; )(ERROR |FAILURE )([^\n]*)/, [ 'comment', 'error', '' ]],
