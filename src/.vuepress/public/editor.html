@@ -297,23 +297,22 @@
     </div>
   </div>
   <input type="text" id="clipboardHelper" aria-hidden="true" />
-  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.28.1/min/vs/loader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/loader.js"></script>
   <script>
+    const MONACO_VERSION = '0.20.0'
     require.config({
       paths: {
-        'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.28.1/min/vs'
+        'vs': `https://cdn.jsdelivr.net/npm/monaco-editor@${MONACO_VERSION}/min/vs`
       }
     })
     window.MonacoEnvironment = {
       getWorkerUrl: function(workerId, label) {
-        // Dummy out the worker. We are not using it (yet) and it's large.
-        return `data:text/javascript;base64,`
-        // return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-        //   self.MonacoEnvironment = {
-        //     baseUrl: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/'
-        //   };
-        //   importScripts('https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/base/worker/workerMain.js');`
-        // )}`
+        return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+          self.MonacoEnvironment = {
+            baseUrl: 'https://cdn.jsdelivr.net/npm/monaco-editor@${MONACO_VERSION}/min/'
+          };
+          importScripts('https://cdn.jsdelivr.net/npm/monaco-editor@${MONACO_VERSION}/min/vs/base/worker/workerMain.js');`
+        )}`
       }
     }
 
