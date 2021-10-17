@@ -29,12 +29,16 @@ var WebAssemblyTextLanguage = {
       'elem',
       'start',
       'func',
+      'tag',
       'type',
       'param',
       'result',
       'global',
       'local',
-      'mut'
+      'mut',
+      'struct',
+      'array',
+      'field'
     ],
     types: [
       'i32',
@@ -369,6 +373,7 @@ var WebAssemblyTextLanguage = {
       'atomic.fence',
       'elem.drop',
       'func.bind',
+      'ref',
       'ref.null',
       'ref.is_null',
       'ref.as_non_null',
@@ -380,9 +385,9 @@ var WebAssemblyTextLanguage = {
       'table.fill',
       'table.init',
       'table.copy',
-      'delegate',
       'throw',
       'rethrow',
+      'pop',
       'i32.push',
       'i32.pop',
       'i64.push',
@@ -578,6 +583,8 @@ var WebAssemblyTextLanguage = {
       'if',
       'else',
       'end',
+      'do',
+      'let',
       'br',
       'br_if',
       'br_table',
@@ -594,6 +601,7 @@ var WebAssemblyTextLanguage = {
       'try',
       'catch',
       'catch_all',
+      'delegate',
       'unreachable'
     ],
 
