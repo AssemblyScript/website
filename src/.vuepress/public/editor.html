@@ -416,7 +416,11 @@
           { token: 'info', foreground: '11a8cd' },
           { token: 'pedantic', foreground: 'c586c0' },
           { token: 'underline', foreground: 'd16969' }
-        ]
+        ],
+        colors: {
+          // disable shadow over editor
+          'scrollbar.shadow': '#00000000'
+        }
       })
 
       // Add AssemblyScript Standard Library definition
@@ -460,7 +464,8 @@
           enabled: false
         },
         // contextmenu: false,
-        renderLineHighlight: 'none'
+        renderLineHighlight: 'none',
+        cursorWidth: 1
       }
 
       // Create editor panes
