@@ -297,9 +297,9 @@
     </div>
   </div>
   <input type="text" id="clipboardHelper" aria-hidden="true" />
-  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/loader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.29.1/min/vs/loader.js"></script>
   <script>
-    const MONACO_VERSION = '0.20.0'
+    const MONACO_VERSION = '0.29.1'
     require.config({
       paths: {
         'vs': `https://cdn.jsdelivr.net/npm/monaco-editor@${MONACO_VERSION}/min/vs`
@@ -462,6 +462,10 @@
         fontSize: 13,
         fontFamily: 'JetBrains Mono',
         fontLigatures: true,
+        padding: {
+          bottom: 18,
+          top: 18
+        },
         scrollbar: {
           alwaysConsumeMouseWheel: false
         },
@@ -470,6 +474,7 @@
         },
         // contextmenu: false,
         renderLineHighlight: 'none',
+        cursorBlinking: 'smooth',
         cursorWidth: 1
       }
 
