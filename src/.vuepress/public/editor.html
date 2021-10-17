@@ -392,14 +392,14 @@
     ], (
       { languages, editor },
       { asc, ASSEMBLYSCRIPT_VERSION, BINARYEN_VERSION, LONG_VERSION },
-      { config: wasmLanguageConfig, tokens: wasmLanguageTokens }
+      { config: watLanguageConfig, tokens: watLanguageTokens }
     ) => {
       console.log(`AssemblyScript v${ASSEMBLYSCRIPT_VERSION} (Binaryen v${BINARYEN_VERSION}, Long v${LONG_VERSION})`)
 
       // Add WebAssembly Text Format language
       languages.register({ id: 'wat' })
-      languages.setLanguageConfiguration('wat', wasmLanguageConfig)
-      languages.setMonarchTokensProvider('wat', wasmLanguageTokens)
+      languages.setLanguageConfiguration('wat', watLanguageConfig)
+      languages.setMonarchTokensProvider('wat', watLanguageTokens)
 
       // Extend the default theme with WebAssembly rules
       editor.defineTheme('vs-wasm', {
