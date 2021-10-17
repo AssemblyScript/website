@@ -388,7 +388,7 @@
     require([
       'vs/editor/editor.main',
       'https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/sdk.js',
-      'scripts/webassembly-language.js'
+      'scripts/wat.js'
     ], (
       { languages, editor },
       { asc, ASSEMBLYSCRIPT_VERSION, BINARYEN_VERSION, LONG_VERSION },
@@ -397,9 +397,9 @@
       console.log(`AssemblyScript v${ASSEMBLYSCRIPT_VERSION} (Binaryen v${BINARYEN_VERSION}, Long v${LONG_VERSION})`)
 
       // Add WebAssembly Text Format language
-      languages.register({ id: 'webassembly' })
-      languages.setLanguageConfiguration('webassembly', wasmLanguageConfig)
-      languages.setMonarchTokensProvider('webassembly', wasmLanguageTokens)
+      languages.register({ id: 'wat' })
+      languages.setLanguageConfiguration('wat', wasmLanguageConfig)
+      languages.setMonarchTokensProvider('wat', wasmLanguageTokens)
 
       // Extend the default theme with WebAssembly rules
       editor.defineTheme('vs-wasm', {
@@ -489,7 +489,7 @@
       const sourceEditor = editor.create(sourcePane, Object.assign({}, commonEditorOptions, {
         model: sourceModel,
       }))
-      const binaryModel = editor.createModel('(module\n 🚀\n)\n', 'webassembly')
+      const binaryModel = editor.createModel('(module\n 🚀\n)\n', 'wat')
       binaryModel.updateOptions({ tabSize: 1 })
       const binaryEditor = editor.create(binaryPane, Object.assign({}, commonEditorOptions, {
         model: binaryModel,
