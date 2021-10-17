@@ -1,6 +1,6 @@
 // 'WebAssembly Text Format' Monarch language
 
-var WebAssemblyLanguage = {
+var WebAssemblyTextLanguage = {
   config: {
     brackets: [
       ['(', ')'], ['if', 'end'], ['loop', 'end'], ['block', 'end']
@@ -575,7 +575,7 @@ var WebAssemblyLanguage = {
 }
 
 if (typeof define === 'function' && define.amd) {
-  define(() => WebAssemblyLanguage)
+  define(() => WebAssemblyTextLanguage)
 } else if (typeof module === 'object' && module.exports) {
-  module.exports = WebAssemblyLanguage
+  module.exports = WebAssemblyTextLanguage
 }
