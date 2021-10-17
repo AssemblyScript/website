@@ -43,7 +43,6 @@ var WebAssemblyTextLanguage = {
     types: [
       'i8',
       'i16',
-      'i31',
       'i32',
       'i64',
       'f32',
