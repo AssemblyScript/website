@@ -398,7 +398,16 @@
 
       // Add WebAssembly Text Format language
       languages.register({ id: 'webassembly' })
-      languages.setLanguageConfiguration('webassembly', wasmLanguageConfig)
+      languages.setLanguageConfiguration('webassembly', {
+        ...wasmLanguageConfig,
+        brackets: [['(', ')'], ['if', 'end'], ['loop', 'end'], ['block', 'end']],
+        surroundingPairs: [
+          { open: '(', close: ')' },
+          { open: 'if', close: 'end' },
+          { open: 'loop', close: 'end' },
+          { open: 'block', close: 'end' }
+        ]
+      })
       languages.setMonarchTokensProvider('webassembly', wasmLanguageTokens)
 
       // Extend the default theme with WebAssembly rules
@@ -473,9 +482,14 @@
           enabled: false
         },
         // contextmenu: false,
+        guides: {
+          bracketPairs: true
+        },
+        matchBrackets: 'near',
+        // colorizedBracketPairs: [['(',')'], ['[',']'], ['{','}']],
         renderLineHighlight: 'none',
-        cursorBlinking: 'smooth',
-        cursorWidth: 1
+        cursorStyle: 'line-thin',
+        cursorBlinking: 'smooth'
       }
 
       // Create editor panes
