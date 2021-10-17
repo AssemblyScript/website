@@ -90,12 +90,12 @@ export default Page
 }
 .editor-wrap a.maximize {
   position: absolute;
-  top: 4px;
+  top: 8px;
   right: 12px;
   user-select: none;
   color: #c7c4c7;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   z-index: 1000;
 }
 .editor-wrap a.maximize:hover {
