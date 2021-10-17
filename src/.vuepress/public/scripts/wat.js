@@ -3,7 +3,10 @@
 var WebAssemblyTextLanguage = {
   config: {
     brackets: [
-      ['(', ')'], ['if', 'end'], ['loop', 'end'], ['block', 'end']
+      ['(', ')'],
+      ['if', 'end'],
+      ['loop', 'end'],
+      ['block', 'end']
     ],
     autoClosingPairs: [
       { open: '(', close: ')' },
