@@ -528,6 +528,7 @@
         model: sourceModel,
       }))
       const binaryModel = editor.createModel('(module\n 🚀\n)\n', 'wat')
+      binaryModel.updateOptions({ tabSize: 1 });
       const binaryEditor = editor.create(binaryPane, Object.assign({}, commonEditorOptions, {
         model: binaryModel,
         readOnly: true
