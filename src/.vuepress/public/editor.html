@@ -463,7 +463,10 @@
       })
 
       // Add AssemblyScript Standard Library definition
-      languages.typescript.typescriptDefaults.addExtraLib(asc.definitionFiles.assembly, "assemblyscript/std/assembly/index.d.ts")
+      languages.typescript.typescriptDefaults.addExtraLib(
+        asc.definitionFiles.assembly,
+        "assemblyscript/std/assembly/index.d.ts"
+      )
 
       // Obtain the source provided via the location's hash
       let source = document.location.hash
@@ -512,9 +515,6 @@
         },
         minimap: {
           enabled: false
-        },
-        guides: {
-          bracketPairs: true
         },
         matchBrackets: 'near',
         renderLineHighlight: 'none',
