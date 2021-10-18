@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Try out AssemblyScript right in your browser." />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
   <style>
     html, body {
       margin: 0;
@@ -54,28 +57,35 @@
 
     /* Editor tabs */
     #tabs {
+      color: #fff;
       background: #2d2d2d;
-      padding: 0 10px 0 10px;
+      padding: 0 8px 0 8px;
       user-select: none;
-      height: 34px;
+      height: 42px;
       box-sizing: border-box;
     }
     #tabs .tab {
       display: inline-block;
       font-size: 0.9rem;
       font-weight: 300;
-      padding: 8px 16px 8px 34px;
+      padding: 12px 24px 13px 52px;
       background: #2d2d2d;
       background-size: 20px 20px;
       background-repeat: no-repeat;
-      background-position: 8px center;
+      background-position: 21px center;
       display: inline-block;
       cursor: pointer;
       text-decoration: none;
+      filter: grayscale(100%);
+      opacity: 0.6;
+    }
+    #tabs .tab:hover {
+      opacity: 0.8;
     }
     #tabs .tab.active {
-      color: #fff;
       background-color: #1e1e1e;
+      filter: none;
+      opacity: 1;
     }
     #tabs .tab.disabled {
       display: none;
@@ -97,12 +107,16 @@
     #buttons {
       user-select: none;
       float: right;
-      padding: 7px 38px 0 0;
+      height: 42px;
+      padding: 8px;
+      margin-right: 31px;
+      box-sizing: border-box;
     }
     #buttons a {
       color: #fff;
-      padding: 1px 0.2rem;
+      padding: 1px 0.4rem;
       text-align: center;
+      vertical-align: middle;
       text-decoration: none !important;
       cursor: pointer;
       opacity: 0.5;
@@ -126,8 +140,8 @@
     .popup:before {
       content: "";
       position: absolute;
-      top: -24px;
-      right: 0;
+      top: -21px;
+      right: 12px;
       border: solid 12px transparent;
       border-bottom-color: #3c3c3c;
       z-index: 2502;
@@ -137,6 +151,7 @@
     /* Options */
     #options .columns {
       display: flex;
+      min-width: 520px;
     }
     #options .column {
       width: 50%;
@@ -180,7 +195,7 @@
     .pane {
       position: absolute;
       width: 100%;
-      height: calc(100% - 34px);
+      height: calc(100% - 42px);
       z-index: 0;
       background: #1e1e1e;
     }
@@ -209,8 +224,8 @@
   </div>
   <div id="loading"></div>
   <div id="buttons">
-    <a class="button share" title="Copy shareable link">🔗</a>
-    <a class="button options" title="Configure compiler options">⚙️</a>
+    <a class="button share" title="Copy shareable Link">🔗</a>
+    <a class="button options" title="Compiler Options">⚙️</a>
   </div>
   <div id="options" class="popup">
     <div class="columns">
@@ -270,10 +285,10 @@
     Shareable link copied to clipboard.
   </div>
   <div id="tabs">
-    <a id="sourceTab" class="tab source active">module.ts</a>
-    <a id="binaryTab" class="tab binary">module.wat <span title="Click to compile">⭯</span></a>
-    <a id="htmlTab" class="tab html">index.html</a>
-    <a id="playTab" class="tab play">Run</a>
+    <a id="sourceTab" class="tab source active" title="AssemblyScript source code">module.ts</a>
+    <a id="binaryTab" class="tab binary" title="Click to Compile">module.wat</a>
+    <a id="htmlTab" class="tab html" title="JavaScript host code">index.html</a>
+    <a id="playTab" class="tab play" title="Click to Compile & Run">Run</a>
   </div>
   <div id="panes">
     <div id="source" class="pane source active" aria-labelledby="sourceTab"></div>
@@ -284,32 +299,64 @@
     </div>
   </div>
   <input type="text" id="clipboardHelper" aria-hidden="true" />
-  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/loader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.29.1/min/vs/loader.js"></script>
   <script>
-    require.config({
-      paths: {
-        'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs'
+    const MONACO_VERSION = '0.29.1'
+    const MONACO_EDITOR_FONT = 'JetBrains Mono'
+
+    function crossDomainWorker() {
+      if (!window.MonacoEnvironment) return
+      const oldGetWorkerUrl = window.MonacoEnvironment.getWorkerUrl
+
+      if (oldGetWorkerUrl.$) return
+      oldGetWorkerUrl.$ = true
+
+      const isSameOrigin = url => {
+        const loc = window.location
+        const a = document.createElement('a')
+        a.href = url
+
+        return {
+          isSame: a.hostname === loc.hostname && a.port === loc.port && a.protocol === loc.protocol,
+          // maybe the protocol is relative
+          url: a.href,
+        }
       }
-    })
-    window.MonacoEnvironment = {
-      getWorkerUrl: function(workerId, label) {
-        // Dummy out the worker. We are not using it (yet) and it's large.
-        return `data:text/javascript;base64,`
-        // return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-        //   self.MonacoEnvironment = {
-        //     baseUrl: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/'
-        //   };
-        //   importScripts('https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/base/worker/workerMain.js');`
-        // )}`
+
+      window.MonacoEnvironment.getWorkerUrl = (moduleId, label) => {
+        const workerUrl = oldGetWorkerUrl(moduleId, label)
+        const { isSame, url } = isSameOrigin(workerUrl)
+
+        /* istanbul ignore else */
+        if (isSame) return workerUrl
+        else {
+          let blob
+          try {
+            blob = new Blob([`importScripts('${url}');`], { type: 'application/javascript' })
+          } catch (e) {
+            const blobBuilder = new window.BlobBuilder()
+            blobBuilder.append(`importScripts('${url}');`)
+            blob = blobBuilder.getBlob('application/javascript')
+          }
+          return window.URL.createObjectURL(blob)
+        }
       }
     }
+
+    require.config({
+      paths: {
+        'vs': `https://cdn.jsdelivr.net/npm/monaco-editor@${MONACO_VERSION}/min/vs`
+      }
+    })
+
+    crossDomainWorker()
 
     const isIframe = window.parent !== window
     if (!isIframe) {
       document.getElementById('header').style.display = 'block'
       document.getElementById('buttons').style.paddingRight = '15px'
       document.querySelectorAll('.pane').forEach(element => {
-        element.style.height = 'calc(100% - 34px - 25px)'
+        element.style.height = 'calc(100% - 42px - 25px)'
       })
     }
 
@@ -378,24 +425,27 @@
     require([
       'vs/editor/editor.main',
       'https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/sdk.js',
-      'scripts/webassembly-language.js'
-    ], (
+      'scripts/wat.js'
+    ], async (
       { languages, editor },
       { asc, ASSEMBLYSCRIPT_VERSION, BINARYEN_VERSION, LONG_VERSION },
-      { config: wasmLanguageConfig, tokens: wasmLanguageTokens }
+      { config: watLanguageConfig, tokens: watLanguageTokens }
     ) => {
       console.log(`AssemblyScript v${ASSEMBLYSCRIPT_VERSION} (Binaryen v${BINARYEN_VERSION}, Long v${LONG_VERSION})`)
 
       // Add WebAssembly Text Format language
-      languages.register({ id: 'webassembly' })
-      languages.setLanguageConfiguration('webassembly', wasmLanguageConfig)
-      languages.setMonarchTokensProvider('webassembly', wasmLanguageTokens)
+      languages.register({ id: 'wat' })
+      languages.setLanguageConfiguration('wat', watLanguageConfig)
+      languages.setMonarchTokensProvider('wat', watLanguageTokens)
 
       // Extend the default theme with WebAssembly rules
       editor.defineTheme('vs-wasm', {
         base: 'vs-dark',
         inherit: true,
         rules: [
+          // Common
+          { token: 'number', foreground: 'ffc37a' },
+          { token: 'comment', foreground: '595959', fontStyle: 'italic' },
           // WebAssembly
           { token: 'instruction', foreground: 'dcdcaa' },
           { token: 'controlInstruction', foreground: 'c586c0' },
@@ -408,11 +458,19 @@
           { token: 'info', foreground: '11a8cd' },
           { token: 'pedantic', foreground: 'c586c0' },
           { token: 'underline', foreground: 'd16969' }
-        ]
+        ],
+        colors: {
+          'scrollbar.shadow': '#1e1e1eff',
+          'editorLineNumber.foreground': '#444444',
+          'editorLineNumber.activeForeground': '#888888'
+        }
       })
 
       // Add AssemblyScript Standard Library definition
-      languages.typescript.typescriptDefaults.addExtraLib(asc.definitionFiles.assembly, "assemblyscript/std/assembly/index.d.ts")
+      languages.typescript.typescriptDefaults.addExtraLib(
+        asc.definitionFiles.assembly,
+        "assemblyscript/std/assembly/index.d.ts"
+      )
 
       // Obtain the source provided via the location's hash
       let source = document.location.hash
@@ -439,42 +497,53 @@
         source = ''
       }
 
+      // Waiting for EDITOR_FONT to load before set it in editor
+      await document.fonts.load(`1em ${MONACO_EDITOR_FONT}`)
+
       // Common editor options
       const commonEditorOptions = {
         value: '',
         theme: 'vs-wasm',
         automaticLayout: true,
         scrollBeyondLastLine: false,
+        tabSize: 2,
+        fontSize: 13,
+        fontFamily: MONACO_EDITOR_FONT,
+        fontLigatures: true,
+        padding: {
+          bottom: 18,
+          top: 18
+        },
         scrollbar: {
           alwaysConsumeMouseWheel: false
         },
         minimap: {
           enabled: false
         },
-        // contextmenu: false,
-        renderLineHighlight: 'none'
+        matchBrackets: 'near',
+        renderLineHighlight: 'none',
+        cursorStyle: 'line-thin',
+        cursorBlinking: 'smooth'
       }
 
       // Create editor panes
       const sourceModel = editor.createModel(source, 'typescript')
-      sourceModel.updateOptions({ tabSize: 2 })
       const sourceEditor = editor.create(sourcePane, Object.assign({}, commonEditorOptions, {
         model: sourceModel,
       }))
-      const binaryModel = editor.createModel('(module\n 🚀\n)\n', 'webassembly')
-      binaryModel.updateOptions({ tabSize: 1 })
+      const binaryModel = editor.createModel('(module\n 🚀\n)\n', 'wat')
+      binaryModel.updateOptions({ tabSize: 1 });
       const binaryEditor = editor.create(binaryPane, Object.assign({}, commonEditorOptions, {
         model: binaryModel,
         readOnly: true
       }))
       const htmlModel = editor.createModel(html, 'html')
-      htmlModel.updateOptions({ tabSize: 2 })
       const htmlEditor = editor.create(htmlPane, Object.assign({}, commonEditorOptions, {
         model: htmlModel
       }))
 
       // Intercept scroll event when focused
-      window.addEventListener("wheel", evt => {
+      window.addEventListener('wheel', evt => {
         if (document.hasFocus()) {
           evt.stopPropagation()
           evt.preventDefault()
@@ -522,7 +591,7 @@
           optionsPopup.style.display = 'block'
           const bounds = evt.target.getBoundingClientRect()
           optionsPopup.style.top = (bounds.y + bounds.height + 12) + 'px'
-          optionsPopup.style.right = (window.innerWidth - (bounds.x + bounds.width / 2) - 12) + 'px'
+          optionsPopup.style.right = (window.innerWidth - (bounds.x + bounds.width / 2) - 24) + 'px'
         } else {
           optionsPopup.style.display = 'none'
         }

@@ -36,18 +36,19 @@ function installEditors() {
     const maximize = document.createElement('a')
     maximize.classList.add('maximize')
     maximize.addEventListener('click', evt => { toggleEditor(editor) })
-    maximize.innerText = '🗖'
+    maximize.innerText = '◰'
     editor.appendChild(maximize)
 
     const iframe = document.createElement('iframe')
+    const pathWithHash = '/editor.html#' + btoa(code.innerText)
     iframe.setAttribute('title', 'Editor')
-    if (document.readyState == 'complete') {
-      iframe.setAttribute('src', '/editor.html#' + btoa(code.innerText))
+    if (document.readyState === 'complete') {
+      iframe.setAttribute('src', pathWithHash)
     } else {
       iframe.setAttribute('src', 'data:text/html;base64,')
       document.addEventListener('readystatechange', evt => {
-        if (document.readyState == 'complete') {
-          iframe.setAttribute('src', '/editor.html#' + btoa(code.innerText))
+        if (document.readyState === 'complete') {
+          iframe.setAttribute('src', pathWithHash)
         }
       })
     }
@@ -63,12 +64,12 @@ function toggleEditor(editor) {
   if (isMaximized = !isMaximized) {
     editor.classList.add('maximized')
     document.body.style.overflow = 'hidden'
-    editor.querySelector('a.maximize').innerHTML = '🗗'
+    editor.querySelector('a.maximize').innerHTML = '◲'
   } else {
     editor.classList.remove('maximized')
     document.body.style.overflow = 'auto'
     editor.scrollIntoView()
-    editor.querySelector('a.maximize').innerHTML = '🗖'
+    editor.querySelector('a.maximize').innerHTML = '◰'
   }
 }
 
@@ -89,12 +90,12 @@ export default Page
 }
 .editor-wrap a.maximize {
   position: absolute;
-  top: 4px;
+  top: 8px;
   right: 12px;
   user-select: none;
   color: #c7c4c7;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   z-index: 1000;
 }
 .editor-wrap a.maximize:hover {
