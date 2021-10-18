@@ -422,7 +422,7 @@
       'vs/editor/editor.main',
       'https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/sdk.js',
       'scripts/wat.js'
-    ], (
+    ], async (
       { languages, editor },
       { asc, ASSEMBLYSCRIPT_VERSION, BINARYEN_VERSION, LONG_VERSION },
       { config: watLanguageConfig, tokens: watLanguageTokens }
@@ -487,14 +487,19 @@
         source = ''
       }
 
+      const EDITOR_FONT = 'JetBrains Mono'
+
+      await document.fonts.load(`1em ${EDITOR_FONT}`)
+
       // Common editor options
       const commonEditorOptions = {
         value: '',
         theme: 'vs-wasm',
         automaticLayout: true,
         scrollBeyondLastLine: false,
+        tabSize: 2,
         fontSize: 13,
-        fontFamily: 'JetBrains Mono',
+        fontFamily: EDITOR_FONT,
         fontLigatures: true,
         padding: {
           bottom: 18,
@@ -517,18 +522,15 @@
 
       // Create editor panes
       const sourceModel = editor.createModel(source, 'typescript')
-      sourceModel.updateOptions({ tabSize: 2 })
       const sourceEditor = editor.create(sourcePane, Object.assign({}, commonEditorOptions, {
         model: sourceModel,
       }))
       const binaryModel = editor.createModel('(module\n 🚀\n)\n', 'wat')
-      binaryModel.updateOptions({ tabSize: 1 })
       const binaryEditor = editor.create(binaryPane, Object.assign({}, commonEditorOptions, {
         model: binaryModel,
         readOnly: true
       }))
       const htmlModel = editor.createModel(html, 'html')
-      htmlModel.updateOptions({ tabSize: 2 })
       const htmlEditor = editor.create(htmlPane, Object.assign({}, commonEditorOptions, {
         model: htmlModel
       }))
