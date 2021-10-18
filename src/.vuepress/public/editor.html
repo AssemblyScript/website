@@ -301,6 +301,7 @@
   <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.29.1/min/vs/loader.js"></script>
   <script>
     const MONACO_VERSION = '0.29.1'
+    const MONACO_EDITOR_FONT = 'JetBrains Mono'
 
     function crossDomainWorker() {
       if (!window.MonacoEnvironment) return
@@ -487,10 +488,8 @@
         source = ''
       }
 
-      const EDITOR_FONT = 'JetBrains Mono'
-
       // Waiting for EDITOR_FONT to load before set it in editor
-      await document.fonts.load(`1em ${EDITOR_FONT}`)
+      await document.fonts.load(`1em ${MONACO_EDITOR_FONT}`)
 
       // Common editor options
       const commonEditorOptions = {
@@ -500,7 +499,7 @@
         scrollBeyondLastLine: false,
         tabSize: 2,
         fontSize: 13,
-        fontFamily: EDITOR_FONT,
+        fontFamily: MONACO_EDITOR_FONT,
         fontLigatures: true,
         padding: {
           bottom: 18,
@@ -537,7 +536,7 @@
       }))
 
       // Intercept scroll event when focused
-      window.addEventListener("wheel", evt => {
+      window.addEventListener('wheel', evt => {
         if (document.hasFocus()) {
           evt.stopPropagation()
           evt.preventDefault()
