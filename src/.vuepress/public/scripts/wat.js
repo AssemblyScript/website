@@ -102,6 +102,7 @@ var WebAssemblyTextLanguage = {
       'v128.load32_zero',
       'v128.load64_zero',
       'v128.store',
+      'v128.store8_lane',
       'v128.store16_lane',
       'v128.store32_lane',
       'v128.store64_lane',
