@@ -301,21 +301,53 @@
   <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.29.1/min/vs/loader.js"></script>
   <script>
     const MONACO_VERSION = '0.29.1'
+
+    function crossDomainWorker() {
+      if (!window.MonacoEnvironment) return
+      const oldGetWorkerUrl = window.MonacoEnvironment.getWorkerUrl
+
+      if (oldGetWorkerUrl.$) return
+      oldGetWorkerUrl.$ = true
+
+      const isSameOrigin = url => {
+        const loc = window.location
+        const a = document.createElement('a')
+        a.href = url
+
+        return {
+          isSame: a.hostname === loc.hostname && a.port === loc.port && a.protocol === loc.protocol,
+          // maybe the protocol is relative
+          url: a.href,
+        }
+      }
+
+      window.MonacoEnvironment.getWorkerUrl = (moduleId, label) => {
+        const workerUrl = oldGetWorkerUrl(moduleId, label)
+        const { isSame, url } = isSameOrigin(workerUrl)
+
+        /* istanbul ignore else */
+        if (isSame) return workerUrl
+        else {
+          let blob
+          try {
+            blob = new Blob([`importScripts('${url}');`], { type: 'application/javascript' })
+          } catch (e) {
+            const blobBuilder = new window.BlobBuilder()
+            blobBuilder.append(`importScripts('${url}');`)
+            blob = blobBuilder.getBlob('application/javascript')
+          }
+          return window.URL.createObjectURL(blob)
+        }
+      }
+    }
+
     require.config({
       paths: {
         'vs': `https://cdn.jsdelivr.net/npm/monaco-editor@${MONACO_VERSION}/min/vs`
       }
     })
-    window.MonacoEnvironment = {
-      getWorkerUrl: function(workerId, label) {
-        return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-          self.MonacoEnvironment = {
-            baseUrl: 'https://cdn.jsdelivr.net/npm/monaco-editor@${MONACO_VERSION}/min/'
-          };
-          importScripts('https://cdn.jsdelivr.net/npm/monaco-editor@${MONACO_VERSION}/min/vs/base/worker/workerMain.js');`
-        )}`
-      }
-    }
+
+    crossDomainWorker()
 
     const isIframe = window.parent !== window
     if (!isIframe) {
