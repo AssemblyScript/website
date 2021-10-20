@@ -122,7 +122,7 @@ function layoutItems(items, data, y) {
       if (image.height > maxHeight) maxHeight = image.height
     }
   }
-  
+
   if (n) {
     let i = 0
     while (i < items.length) {
@@ -150,7 +150,7 @@ function buildSponsorsSVG(sponsorsByTier) {
   const data = []
   data.push('<style>a { cursor: pointer; } a circle { pointer-events: none; } text { fill: #2c3e50; font-weight: 600; font-size: 21px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; }</style>\n')
   data.push(`<defs><clipPath id="circle"><circle cx="16" cy="16" r="15.5" /></clipPath></defs>\n`)
-  data.push(`<rect width="100%" height="100%" fill="white"/>\n`)
+  data.push(`<rect width="100%" height="100%" fill="transparent"/>\n`)
   let y = 0
   Object.entries(tiers).forEach(([tierId, tier], i) => {
     const items = sponsorsByTier[tierId]
