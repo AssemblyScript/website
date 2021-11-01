@@ -68,7 +68,7 @@ function toggleEditor(editor) {
   } else {
     editor.classList.remove('maximized')
     document.body.style.overflow = 'auto'
-    editor.scrollIntoView()
+    editor.scrollIntoView({ block: "nearest", behavior: "smooth" })
     editor.querySelector('a.maximize').innerHTML = '◰'
   }
 }
