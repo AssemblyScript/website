@@ -37,7 +37,6 @@ export default {
   flex-direction: row-reverse;
 }
 .testimonial .logo {
-
   border-radius: 50%;
   width: 80px;
   height: 80px;
@@ -53,18 +52,22 @@ export default {
   text-align-last: right;
 }
 @media only screen and (max-width: 720px) {
+  .testimonial {
+    flex-direction: column;
+  }
+  .testimonial:nth-child(even) {
+    flex-direction: column;
+  }
   .testimonial .logo {
-    position: relative;
-    float: left;
-    top: 3px;
-    left: 0;
-    right: 0;
-    width: 48px;
-    height: 48px;
-    margin: 0 10px 0 0;
+    width: 90px;
+    height: 90px;
   }
   .testimonial p {
-    margin: 0;
+    margin: 30px 0 10px 0;
+  }
+  .testimonial:nth-child(even) p {
+    margin: 30px 0 10px 0;
+    text-align-last: initial;
   }
 }
 </style>
