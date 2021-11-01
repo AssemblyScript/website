@@ -28,22 +28,29 @@ export default {
   border: 0;
 }
 .testimonial {
-  position: relative;
-  padding: 1rem 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1.5rem 0;
+}
+.testimonial:nth-child(even) {
+  flex-direction: row-reverse;
 }
 .testimonial .logo {
-  position: absolute;
-  left: 30px;
-  top: 20px;
+
   border-radius: 50%;
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 80px;
   border: 1px solid #fff;
   box-shadow: 0 0 0 1px #007acc;
 }
 .testimonial p {
-  margin: 0 40px 0 110px;
+  margin: 0 0 0 40px;
   text-align: justify;
+}
+.testimonial:nth-child(even) p {
+  margin: 0 40px 0 0;
+  text-align-last: right;
 }
 @media only screen and (max-width: 720px) {
   .testimonial .logo {
