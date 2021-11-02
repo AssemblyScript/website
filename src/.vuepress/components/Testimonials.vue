@@ -32,24 +32,18 @@ export default {
   flex-direction: row;
   align-items: center;
   padding: 1.5rem 0;
-}
-.testimonial:nth-child(even) {
-  flex-direction: row-reverse;
+  margin: 0 0 0 30px;
 }
 .testimonial .logo {
   border-radius: 50%;
-  width: 80px;
-  height: 80px;
+  width: 76px;
+  height: 76px;
   border: 1px solid #fff;
   box-shadow: 0 0 0 1px #007acc;
 }
 .testimonial p {
-  margin: 0 0 0 40px;
+  margin: 0 30px 0 30px;
   text-align: justify;
-}
-.testimonial:nth-child(even) p {
-  margin: 0 40px 0 0;
-  text-align-last: right;
 }
 @media only screen and (max-width: 720px) {
   .testimonial {
@@ -64,10 +58,6 @@ export default {
   }
   .testimonial p {
     margin: 30px 0 10px 0;
-  }
-  .testimonial:nth-child(even) p {
-    margin: 30px 0 10px 0;
-    text-align-last: initial;
   }
 }
 </style>
