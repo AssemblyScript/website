@@ -49,9 +49,6 @@ export default {
   .testimonial {
     flex-direction: column;
   }
-  .testimonial:nth-child(even) {
-    flex-direction: column;
-  }
   .testimonial .logo {
     width: 90px;
     height: 90px;
