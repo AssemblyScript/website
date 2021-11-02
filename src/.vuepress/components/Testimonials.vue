@@ -48,13 +48,14 @@ export default {
 @media only screen and (max-width: 720px) {
   .testimonial {
     flex-direction: column;
+    margin: 0;
   }
   .testimonial .logo {
     width: 90px;
     height: 90px;
   }
   .testimonial p {
-    margin: 30px 0 10px 0;
+    margin: 20px 0 10px 0;
   }
 }
 </style>
