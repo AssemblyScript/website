@@ -40,7 +40,7 @@ For example, memory can be accessed using the `load<T>(offset[, immOffset])` and
 store<i32>(ptr, load<i32>(ptr) + load<i32>(ptr, 4), 8)
 ```
 
-For comparision, the following C code is roughly equivalent:
+For comparison, the following C code is roughly equivalent:
 
 ```c
 *(ptr + 2) = *ptr + *(ptr + 1)
