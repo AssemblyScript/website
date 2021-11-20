@@ -553,7 +553,6 @@
       // Make tabs switchable
       document.querySelectorAll('.tab').forEach(element => {
         element.addEventListener('click', () => {
-          if (optionsVisible) toggleOptions(null)
           document.querySelectorAll('.tab').forEach(element => element.classList.remove('active'))
           element.classList.add('active')
           document.querySelectorAll('.pane').forEach(element => element.classList.remove('active'))
@@ -597,6 +596,13 @@
         }
       }
       document.querySelector('.button.options').addEventListener('click', toggleOptions)
+      document.querySelector('#tabs').addEventListener('click', () => {
+        if (optionsVisible) toggleOptions(null)
+      })
+      Array.prototype.slice.call(document.querySelectorAll('.pane'))
+        .map(pane => pane.addEventListener('click', () => {
+          if (optionsVisible) toggleOptions(null)
+        }))
 
       // Make contents shareable
       let clipboardTimer = null
