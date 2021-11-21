@@ -1,6 +1,6 @@
 ---
 metaTitle: AssemblyScript
-description: Definitely not a TypeScript to WebAssembly compiler 🚀
+description: A TypeScript-like language for WebAssembly
 navbar: false
 sidebar: false
 editLink: false
