@@ -16,7 +16,6 @@ module.exports = {
     ['link', { rel: "mask-icon", href: "/favicons/safari-pinned-tab.svg", color: "#007acc" }],
     ['link', { rel: "shortcut icon", href: "/favicon.ico" }],
     ['link', { rel: "preconnect", href: "https://cdn.jsdelivr.net" }],
-    ['meta', { charset: "utf-8" }],
     ['meta', { name: "msapplication-TileColor", content: "#ffffff" }],
     ['meta', { name: "msapplication-config", content: "/browserconfig.xml" }],
     ['meta', { name: "theme-color", content: "#ffffff" }],
