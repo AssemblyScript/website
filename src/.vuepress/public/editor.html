@@ -421,6 +421,7 @@
     var module_wat = '(module)\n'
     var module_wasm = new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0])
     var didCompile = false
+    var compilingTimeout = null
 
     require([
       'vs/editor/editor.main',
@@ -550,6 +551,24 @@
         }
       }, { passive: false })
 
+      function debounce(fn, delay = 1500) {
+        let timeout
+        return function (...args) {
+          clearTimeout(compilingTimeout)
+          clearTimeout(timeout)
+          timeout = setTimeout(() => {
+            fn.call(this, ...args)
+          }, delay)
+        }
+      }
+
+      document.querySelectorAll('input[id][type="checkbox"],input[id][type="radio"]').forEach(input => {
+        input.addEventListener('change', debounce(e => {
+          const activePane = document.querySelector('.tab.active')
+          recompile(activePane.id)
+        }))
+      })
+
       // Make tabs switchable
       document.querySelectorAll('.tab').forEach(element => {
         element.addEventListener('click', () => {
@@ -558,30 +577,34 @@
           document.querySelectorAll('.pane').forEach(element => element.classList.remove('active'))
           const pane = document.getElementById(element.id.substring(0, element.id.length - 3))
           pane.classList.add('active')
-          if (element.id == 'binaryTab') {
-            binaryEditor.setValue('(module\n 🚀\n)\n')
-            setTimeout(() => {
-              compile()
-            }, 10)
-          } else if (element.id == 'playTab') {
-            function serialize() {
-              return 'data:text/html;base64,' + btoa([
-                '<script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/umd/index.js"><', '/script>',
-                '<script>var module_wasm=new Uint8Array([', module_wasm.join(','), ']);<', '/script>\n\n',
-                htmlEditor.getValue().trimRight()
-              ].join(''))
-            }
-            if (didCompile) {
-              playFrame.src = serialize()
-            } else {
-              playFrame.src = 'data:text/html;base64,Q29tcGlsaW5nLi4u' // Compiling...
-              compile(() => {
-                playFrame.src = serialize()
-              })
-            }
-          }
+          recompile(element.id)
         })
       })
+
+      function recompile(id) {
+        if (id == 'binaryTab') {
+          binaryEditor.setValue('(module\n 🚀\n)\n')
+          setTimeout(() => {
+            compile()
+          }, 1)
+        } else if (id == 'playTab') {
+          function serialize() {
+            return 'data:text/html;base64,' + btoa([
+              '<script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/umd/index.js"><', '/script>',
+              '<script>var module_wasm=new Uint8Array([', module_wasm.join(','), ']);<', '/script>\n\n',
+              htmlEditor.getValue().trimRight()
+            ].join(''))
+          }
+          if (didCompile) {
+            playFrame.src = serialize()
+          } else {
+            playFrame.src = 'data:text/html;base64,Q29tcGlsaW5nLi4u' // Compiling...
+            compile(() => {
+              playFrame.src = serialize()
+            })
+          }
+        }
+      }
 
       // Make options clickable
       let optionsVisible = false
@@ -599,10 +622,11 @@
       document.querySelector('#tabs').addEventListener('click', () => {
         if (optionsVisible) toggleOptions(null)
       })
-      Array.prototype.slice.call(document.querySelectorAll('.pane'))
-        .map(pane => pane.addEventListener('click', () => {
+      document.querySelectorAll('.pane').forEach(pane => {
+        pane.addEventListener('click', () => {
           if (optionsVisible) toggleOptions(null)
-        }))
+        })
+      })
 
       // Make contents shareable
       let clipboardTimer = null
@@ -803,7 +827,7 @@
           '--textFile', 'module.wat',
           '--binaryFile', 'module.wasm'
         ].concat(getCompilerOptions())
-        setTimeout(() => {
+        compilingTimeout = setTimeout(() => {
           asc.main(options, {
             stdout,
             stderr: stdout,
@@ -824,9 +848,10 @@
               binaryEditor.setValue(output + module_wat)
             }
             didCompile = true
+            compilingTimeout = null
             if (cb) cb(err)
           })
-        }, 100)
+        }, 50)
       }
 
       // Finally, hide the loading animation
