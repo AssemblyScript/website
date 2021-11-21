@@ -550,6 +550,13 @@
         }
       }, { passive: false })
 
+      document.querySelectorAll('input[id][type="checkbox"],input[id][type="radio"]').forEach(input => {
+        input.addEventListener('change', e => {
+          const activePane = document.querySelector('.tab.active')
+          recompile(activePane.id)
+        })
+      })
+
       // Make tabs switchable
       document.querySelectorAll('.tab').forEach(element => {
         element.addEventListener('click', () => {
@@ -558,30 +565,34 @@
           document.querySelectorAll('.pane').forEach(element => element.classList.remove('active'))
           const pane = document.getElementById(element.id.substring(0, element.id.length - 3))
           pane.classList.add('active')
-          if (element.id == 'binaryTab') {
-            binaryEditor.setValue('(module\n 🚀\n)\n')
-            setTimeout(() => {
-              compile()
-            }, 10)
-          } else if (element.id == 'playTab') {
-            function serialize() {
-              return 'data:text/html;base64,' + btoa([
-                '<script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/umd/index.js"><', '/script>',
-                '<script>var module_wasm=new Uint8Array([', module_wasm.join(','), ']);<', '/script>\n\n',
-                htmlEditor.getValue().trimRight()
-              ].join(''))
-            }
-            if (didCompile) {
-              playFrame.src = serialize()
-            } else {
-              playFrame.src = 'data:text/html;base64,Q29tcGlsaW5nLi4u' // Compiling...
-              compile(() => {
-                playFrame.src = serialize()
-              })
-            }
-          }
+          recompile(element.id)
         })
       })
+
+      function recompile(id) {
+        if (id == 'binaryTab') {
+          binaryEditor.setValue('(module\n 🚀\n)\n')
+          setTimeout(() => {
+            compile()
+          }, 10)
+        } else if (id == 'playTab') {
+          function serialize() {
+            return 'data:text/html;base64,' + btoa([
+              '<script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/umd/index.js"><', '/script>',
+              '<script>var module_wasm=new Uint8Array([', module_wasm.join(','), ']);<', '/script>\n\n',
+              htmlEditor.getValue().trimRight()
+            ].join(''))
+          }
+          if (didCompile) {
+            playFrame.src = serialize()
+          } else {
+            playFrame.src = 'data:text/html;base64,Q29tcGlsaW5nLi4u' // Compiling...
+            compile(() => {
+              playFrame.src = serialize()
+            })
+          }
+        }
+      }
 
       // Make options clickable
       let optionsVisible = false
@@ -599,10 +610,11 @@
       document.querySelector('#tabs').addEventListener('click', () => {
         if (optionsVisible) toggleOptions(null)
       })
-      Array.prototype.slice.call(document.querySelectorAll('.pane'))
-        .map(pane => pane.addEventListener('click', () => {
+      document.querySelectorAll('.pane').forEach(pane => {
+        pane.addEventListener('click', () => {
           if (optionsVisible) toggleOptions(null)
-        }))
+        })
+      })
 
       // Make contents shareable
       let clipboardTimer = null
