@@ -1,5 +1,5 @@
 ---
-metaTitle: The AssemblyScript Book
+metaTitle: AssemblyScript
 description: A TypeScript-like language for WebAssembly
 navbar: false
 sidebar: false
