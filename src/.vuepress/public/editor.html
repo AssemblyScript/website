@@ -554,6 +554,7 @@
       function debounce(fn, delay = 1500) {
         let timeout
         return function (...args) {
+          clearTimeout(compilingTimeout)
           clearTimeout(timeout)
           timeout = setTimeout(() => {
             fn.call(this, ...args)
@@ -583,9 +584,9 @@
       function recompile(id) {
         if (id == 'binaryTab') {
           binaryEditor.setValue('(module\n 🚀\n)\n')
-          compilingTimeout = setTimeout(() => {
+          setTimeout(() => {
             compile()
-          }, 10)
+          }, 1)
         } else if (id == 'playTab') {
           function serialize() {
             return 'data:text/html;base64,' + btoa([
@@ -816,7 +817,6 @@
 
       // Compiles the source to WebAssembly
       function compile(cb) {
-        clearTimeout(compilingTimeout)
         const stdout = asc.createMemoryStream()
         const sources = {
           'module.ts': sourceEditor.getValue()
