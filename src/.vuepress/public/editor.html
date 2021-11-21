@@ -421,6 +421,7 @@
     var module_wat = '(module)\n'
     var module_wasm = new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0])
     var didCompile = false
+    var compilingTimeout = null
 
     require([
       'vs/editor/editor.main',
@@ -550,11 +551,21 @@
         }
       }, { passive: false })
 
+      function debounce(fn, delay = 1500) {
+        let timeout
+        return function (...args) {
+          clearTimeout(timeout)
+          timeout = setTimeout(() => {
+            fn.call(this, ...args)
+          }, delay)
+        }
+      }
+
       document.querySelectorAll('input[id][type="checkbox"],input[id][type="radio"]').forEach(input => {
-        input.addEventListener('change', e => {
+        input.addEventListener('change', debounce(e => {
           const activePane = document.querySelector('.tab.active')
           recompile(activePane.id)
-        })
+        }))
       })
 
       // Make tabs switchable
@@ -572,7 +583,7 @@
       function recompile(id) {
         if (id == 'binaryTab') {
           binaryEditor.setValue('(module\n 🚀\n)\n')
-          setTimeout(() => {
+          compilingTimeout = setTimeout(() => {
             compile()
           }, 10)
         } else if (id == 'playTab') {
@@ -805,6 +816,7 @@
 
       // Compiles the source to WebAssembly
       function compile(cb) {
+        clearTimeout(compilingTimeout)
         const stdout = asc.createMemoryStream()
         const sources = {
           'module.ts': sourceEditor.getValue()
@@ -815,7 +827,7 @@
           '--textFile', 'module.wat',
           '--binaryFile', 'module.wasm'
         ].concat(getCompilerOptions())
-        setTimeout(() => {
+        compilingTimeout = setTimeout(() => {
           asc.main(options, {
             stdout,
             stderr: stdout,
@@ -836,9 +848,10 @@
               binaryEditor.setValue(output + module_wat)
             }
             didCompile = true
+            compilingTimeout = null
             if (cb) cb(err)
           })
-        }, 100)
+        }, 50)
       }
 
       // Finally, hide the loading animation
