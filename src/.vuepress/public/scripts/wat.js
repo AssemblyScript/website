@@ -673,13 +673,13 @@ var WebAssemblyTextLanguage = {
         // variable names
         [/\$[^\s\)]*/, { token: 'identifier' }],
 
-        // instructions
-        [/[a-zA-Z0-9]+(?:\.[a-zA-Z0-9_]+)*/, {
+        // instructions and types
+        [/[a-z0-9_]+(?:\.[a-z0-9_]+)*/, {
           cases: {
-            '@instructions': { token: 'instruction.$0' },
-            '@controlInstructions': { token: 'controlInstruction.$0' },
-            '@keywords': { token: 'keyword.$0' },
             '@types': { token: 'type.$0' },
+            '@keywords': { token: 'keyword.$0' },
+            '@controlInstructions': { token: 'controlInstruction.$0' },
+            '@instructions': { token: 'instruction.$0' },
             '@default': 'identifier'
           }
         }]
