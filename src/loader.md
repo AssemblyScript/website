@@ -147,7 +147,7 @@ const { __getArrayView, __pin, __unpin } = myModule.exports
 function doGetRandomArrayView(len) {
   const arrPtr = __pin(getRandomArray(len)) // pin if necessary
   const view = __getArrayView(arrPtr)
-  return { ptr, view }
+  return { arrPtr, view }
 }
 
 const randomArray = doGetRandomArrayView(10)
