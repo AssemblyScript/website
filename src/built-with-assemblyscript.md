@@ -133,6 +133,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Variant (aka Any) data type for AssemblyScript.
 * [as-string-sink](https://github.com/MaxGraey/as-string-sink)<br />
   An efficient dynamically sized string buffer (aka String Builder) for AssemblyScript.
+* [as-proto](https://github.com/piotr-oles/as-proto)<br />
+  Protobuf encoder/decoder library.
 
 ## Embedded / IoT
 
