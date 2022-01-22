@@ -13,7 +13,7 @@
   "devDependencies": {
     "@vuepress/plugin-html-redirect": "^0.1.2",
     "he": "^1.2.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.1.1",
     "pngquant": "^4.0.0",
     "prism-themes": "^1.9.0",
     "sharp": "^0.29.3",
