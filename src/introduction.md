@@ -1,6 +1,5 @@
 ---
 description: Let's attempt the unthinkable, shall we?
-sidebarDepth: 0
 ---
 
 # Introduction
@@ -21,20 +20,15 @@ export function fib(n: i32): i32 {
   return a
 }
 ```
-
-In its simplest form, it is JavaScript with [WebAssembly types](./types.md), compiled statically to a bunch of WebAssembly [exports and imports](./exports-and-imports.md), like so:
-
 ```sh
-asc fib.ts --binaryFile fib.wasm --optimize
+asc fib.ts --out fib.wasm --optimize
 ```
 
-As such, it differs from running dynamically typed JavaScript (just in time) in that it instead [statically compiles](./compiler.md) to a strictly typed WebAssembly binary **ahead of time**, quite similar to what a traditional compiler would do. However, since it is deliberately designed to be very similar to JavaScript, it has the potential to integrate seamlessly with existing Web Platform concepts to produce lean and mean WebAssembly binaries, while also making it almost natural to use for those who are already familiar with writing code for the Web.
+It is very similiar to **TypeScript but with WebAssembly types**, has some constraints due to compiling **strictly typed** code **ahead of time**, but also some additions originating in WebAssembly's feature set. Its close relation to JavaScript makes it a familiar choice for developers who are already used to writing code for the Web, and also has the potential to integrate seamlessly with existing Web Platform concepts to produce lean and mean WebAssembly modules.
 
-## Low-level perspective
+## From a WebAssembly perspective
 
-AssemblyScript provides WebAssembly and compiler foundations as [low-level built-ins](./stdlib/builtins.md), making it suitable as a thin layer on top of raw WebAssembly. In fact, its standard library is implemented on top of just these foundations.
-
-For example, memory can be accessed using the `load<T>(offset[, immOffset])` and `store<T>(offset, value[, immOffset])` built-ins that compile to WebAssembly instructions directly:
+AssemblyScript provides WebAssembly and compiler foundations as [built-in functions](./stdlib/globals.md#builtins), making it suitable as a thin layer on top of raw WebAssembly. For example, memory can be accessed using built-in functions that compile to WebAssembly instructions directly:
 
 ```ts
 store<i32>(ptr, load<i32>(ptr) + load<i32>(ptr, 4), 8)
@@ -46,11 +40,20 @@ For comparison, the following C code is roughly equivalent:
 *(ptr + 2) = *ptr + *(ptr + 1)
 ```
 
-## High-level perspective
+Most WebAssembly instructions can also be written directly in AssemblyScript code, with generic variants available as well:
 
-On top of its low-level capabilities, AssemblyScript provides a JavaScript-like [standard library](./stdlib/globals.md) that is closely integrated with [memory management](/memory.md) and [garbage collection](./garbage-collection.md). The standard library provides implementations of many of the classes and namespaces one would expect from JavaScript, including [Math](./stdlib/math.md) (double and single precision), [Array](./stdlib/array.md), [String](./stdlib/string.md), [Map](./stdlib/map.md), [Typed arrays](./stdlib/typedarray.md) and so on.
+```ts
+i32.ctz(...)             // ctz<i32>(...)
+f64.reinterpret_i64(...) // reinterpret<f64>(...)
+i64.load32_u(...)        // <i64>load<u32>(...)
+...
+```
 
-The example above could look like this in idiomatic AssemblyScript:
+## From a JavaScript perspective
+
+Implemented on top of its low-level capabilities, AssemblyScript provides a JavaScript-like [standard library](./stdlib/globals.md) with many of the classes and namespaces one is used to from JavaScript, including `Math` (also `Mathf` for single precision), `Array<T>`, `String`, `Map<K,V>`, the typed arrays and so on.
+
+The load/store example above could look like this when utilizing the standard library:
 
 ```ts
 var view = new Int32Array(12)
@@ -58,10 +61,32 @@ var view = new Int32Array(12)
 view[2] = view[0] + view[1]
 ```
 
-## Setting realistic expectations
+Both perspectives can be mixed depending on whether raw performance with WebAssembly instructions or idiomatic concepts with the managed standard library are desirable to accomplish an individual task.
 
-[Strictly typed](./basics.md#strictness) AssemblyScript differs a bit from idiomatic TypeScript, which even though typed, attempts to describe all the dynamic features of JavaScript, many of which cannot be efficiently compiled ahead of time. Not a blocker, but takes a bit to get used to.
+## Frequently asked questions
 
-Also, we are patiently waiting for [future WebAssembly features](./status.md) (marked as 🦄 throughout the documentation) to become available for us to use. In particular, we are looking forward to proposals that promise to improve WebAssembly's integration with the Web Platform, e.g. to more naturally and efficiently share strings, arrays and objects with JavaScript.
+::: tip Does AssemblyScript involve an interpreter, or a "VM in a VM"?
+No, AssemblyScript compiles to WebAssembly bytecode directly, statically, ahead-of-time.
+:::
 
-That being said, do you feel ready for a [quick start](./quick-start.md)?
+::: tip What are the differences between AssemblyScript and Typescript?
+TypeScript transpiles down to JavaScript, a dynamic just-in-time compiled language. AssemblyScript, on the other hand, compiles to WebAssembly with all of its static guarantees. Their implementation is wildly, and their feature set is slightly different. However, the two languages are so very similar on the surface that they share many concepts. For example, TypeScript tooling can be used to author and refactor AssemblyScript code and, with some effort, the same code base can be transpiled to JavaScript with `tsc` and compiled to WebAssembly with `asc`, or code shared. The AssemblyScript compiler itself is portable.
+:::
+
+::: tip Will AssemblyScript support all of TypeScript eventually?
+It likely won't. While TypeScript adds typings to JavaScript, it is a superset after all and can describe many of JavaScript's dynamic features, not all of which are feasible to support in ahead-of-time compilation. Yet, sufficiently strict TypeScript code can often be made compatible with the AssemblyScript compiler with little effort.
+:::
+
+::: tip What are good use cases for AssemblyScript?
+Computation-heavy logic like image manipulation, hot game logic, specialized algorithms, emulators, compilers and the likes are great use cases for WebAssembly, and as such for AssemblyScript as well. In some situations it may also be preferrable to ship bytecode instead of minified JS, or just the ability to utilize a TypeScript-like language may open up new opportunities, for example for embedded scripting or plugins.
+:::
+
+::: tip Can AssemblyScript be used outside of the browser?
+Absolutely! AssemblyScript modules are self-contained and run anywhere where WebAssembly is supported.
+:::
+
+::: tip Why the strange name?
+AssemblyScript is to Assembly as JavaScript is to Java. Gotta stick to the theme.
+:::
+
+But now, let's [get started](./getting-started.md)!

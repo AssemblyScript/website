@@ -2,36 +2,53 @@
 description: When one number just doesn't cut it.
 ---
 
-# WebAssembly types
+# Types
 
-Instead of using the `number` type for all sorts of numeric values, AssemblyScript inherits WebAssembly's more specific integer and floating point types:
+AssemblyScript inherits WebAssembly's more specific integer, floating point and reference types:
 
-| AssemblyScript Type | WebAssembly type | Description
-| :------------------ | :--------------- | :-----------
-| `i32`               | i32              | A 32-bit signed integer.
-| `u32`               | i32              | A 32-bit unsigned integer.
-| `i64`               | i64              | A 64-bit signed integer.
-| `u64`               | i64              | A 64-bit unsigned integer.
-| `f32`               | f32              | A 32-bit float.
-| `f64`               | f64              | A 64-bit float.
-| `v128`              | v128             | A 128-bit vector 🦄.
-| `anyref`            | anyref           | An opaque host reference 🦄.
-| **Small integer types**                |
-| `i8`                | i32              | An 8-bit signed integer.
-| `u8`                | i32              | An 8-bit unsigned integer.
-| `i16`               | i32              | A 16-bit signed integer.
-| `u16`               | i32              | A 16-bit unsigned integer.
-| `bool`              | i32              | A 1-bit unsigned integer.
-| **Variable integer types**             |
-| `isize`             | i32 or i64       | A 32-bit signed integer in WASM32.<br />A 64-bit signed integer in WASM64 🦄.
-| `usize`             | i32 or i64       | A 32-bit unsigned integer in WASM32.<br />A 64-bit unsigned integer in WASM64 🦄.
-| **Special types**                      |
-| `void`              | -                | Indicates no return value.
-| `auto`              | ?                | Makes an educated guess. Internal only.
+| AssemblyScript Type | WebAssembly type | TypeScript type  | Description
+| :------------------ | :--------------- | :--------------- | :-----------
+| *Integer types*     |                  |                  |
+| `i32`               | i32              | number           | A 32-bit signed integer.
+| `u32`               | i32              | number           | A 32-bit unsigned integer.
+| `i64`               | i64              | bigint           | A 64-bit signed integer.
+| `u64`               | i64              | bigint           | A 64-bit unsigned integer.
+| `isize`             | i32 or i64       | number or bigint | A 32-bit signed integer in WASM32.<br />A 64-bit signed integer in WASM64 🦄.
+| `usize`             | i32 or i64       | number or bigint | A 32-bit unsigned integer in WASM32.<br />A 64-bit unsigned integer in WASM64 🦄.
+||
+| *Floating point types*                 |
+| `f32`               | f32              | number           | A 32-bit float.
+| `f64`               | f64              | number           | A 64-bit float.
+||
+| *Small integer types*                  |
+| `i8`                | i32              | number           | An 8-bit signed integer.
+| `u8`                | i32              | number           | An 8-bit unsigned integer.
+| `i16`               | i32              | number           | A 16-bit signed integer.
+| `u16`               | i32              | number           | A 16-bit unsigned integer.
+| `bool`              | i32              | boolean          | A 1-bit unsigned integer.
+||
+| *Vector types* 🦄                     |
+| `v128`              | v128             | -                | A 128-bit vector.
+||
+| *Reference types* 🦄                  |
+| `externref`         | externref        | Object           | An opaque host reference.
+| `funcref  `         | funcref          | Function         | An opaque host reference.
+||
+| *Special types*                        |
+| `void`              | -                | void             | Indicates no return value.
+
+Just like in TypeScript, types are annotated after variable, function argument or class member names, separated by `:`, like so:
+
+```ts
+function add(a: i32, b: i32): i32 {
+  let sum: i32 = a + b; // type can be inferred, annotation can be omitted
+  return sum;
+}
+```
 
 ## Type rules
 
-AssemblyScript will complain when it sees an implicit conversion that might not actually be intended, quite similar to what a C compiler would do.
+The compiler will complain when it sees an implicit conversion that might not actually be intended, quite similar to what a C compiler would do.
 
 ### Casting
 
@@ -73,10 +90,12 @@ var f32val: f32 = i8val // becomes -128.0
 
 Comparing two values of different types can be performed without an explicit cast under the same rules as outlined in assignability above
 
-1. if the comparison is absolute \(`==`, `!=`\)
+1. if the comparison is absolute \(`==` or `===`, `!=` or `!==`\)
 2. if the comparison is relative \(`>`, `<`, `>=`, `<=`\) and **both types have the same signedness**
 
 because WebAssembly has distinct operations for signed and unsigned comparisons. The comparison uses the larger type and returns `bool`.
+
+Note that `==` and `===` respectively `!=` and `!==` are the same in AssemblyScript because comparing two values of different types is invalid under its strict typing rules anyhow.
 
 ### Bit shifts
 
@@ -105,3 +124,80 @@ The following macro types provide access to related types that would otherwise b
 | `indexof<T>`  | Obtains the index type of a collection based on the indexed access overload.
 | `valueof<T>`  | Obtains the value type of a collection based on the indexed access overload.
 | `returnof<T>` | Obtains the return type of a function type.
+
+## Range limits
+
+Various range limits specific to the WebAssembly types are present as global constants for convenience:
+
+* ```ts
+  const i8.MIN_VALUE: i8 = -128
+  const i8.MAX_VALUE: i8 = 127
+  ```
+
+* ```ts
+  const i16.MIN_VALUE: i16 = -32768
+  const i16.MAX_VALUE: i16 = 32767
+  ```
+
+* ```ts
+  const i32.MIN_VALUE: i32 = -2147483648
+  const i32.MAX_VALUE: i32 = 2147483647
+  ```
+
+* ```ts
+  const i64.MIN_VALUE: i64 = -9223372036854775808
+  const i64.MAX_VALUE: i64 = 9223372036854775807
+  ```
+
+* ```ts
+  const isize.MIN_VALUE: isize // WASM32: i32.MIN_VALUE, WASM64: i64.MIN_VALUE
+  const isize.MAX_VALUE: isize // WASM32: i32.MAX_VALUE, WASM64: i64.MAX_VALUE
+  ```
+
+* ```ts
+  const u8.MIN_VALUE: u8 = 0
+  const u8.MAX_VALUE: u8 = 255
+  ```
+
+* ```ts
+  const u16.MIN_VALUE: u16 = 0
+  const u16.MAX_VALUE: u16 = 65535
+  ```
+
+* ```ts
+  const u32.MIN_VALUE: u32 = 0
+  const u32.MAX_VALUE: u32 = 4294967295
+  ```
+
+* ```ts
+  const u64.MIN_VALUE: u64 = 0
+  const u64.MAX_VALUE: u64 = 18446744073709551615
+  ```
+
+* ```ts
+  const usize.MIN_VALUE: usize = 0
+  const usize.MAX_VALUE: usize // WASM32: u32.MAX_VALUE, WASM64: u64.MAX_VALUE
+  ```
+
+* ```ts
+  const bool.MIN_VALUE: bool = 0
+  const bool.MAX_VALUE: bool = 1
+  ```
+
+* ```ts
+  const f32.MIN_VALUE: f32 = -3.40282347e+38
+  const f32.MAX_VALUE: f32 = 3.40282347e+38
+  const f32.MIN_NORMAL_VALUE: f32 = 1.17549435e-38
+  const f32.MIN_SAFE_INTEGER: f32 = -16777215
+  const f32.MAX_SAFE_INTEGER: f32 = 16777215
+  const f32.EPSILON: f32 = 1.19209290e-07
+  ```
+
+* ```ts
+  const f64.MIN_VALUE: f64 = -1.7976931348623157e+308
+  const f64.MAX_VALUE: f64 = 1.7976931348623157e+308
+  const f64.MIN_NORMAL_VALUE: f64 = 2.2250738585072014e-308
+  const f64.MIN_SAFE_INTEGER: f64 = -9007199254740991
+  const f64.MAX_SAFE_INTEGER: f64 = 9007199254740991
+  const f64.EPSILON: f64 = 2.2204460492503131e-16
+  ```

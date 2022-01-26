@@ -1,5 +1,5 @@
 module.exports = {
-  '/stdlib/': getStdlibSidebar(),
+  // '/stdlib/': getStdlibSidebar(),
   '/examples': getExamplesSidebar(),
   '/built-with-assemblyscript': getExamplesSidebar(),
   '/': getDefaultSidebar()
@@ -8,75 +8,71 @@ module.exports = {
 function getDefaultSidebar() {
   return [
     {
-      title: 'Getting started',
+      title: "Introduction",
+      path: '/introduction'
+    },
+    {
+      title: "Getting started",
+      path: '/getting-started'
+    },
+    {
+      title: "Using the compiler",
+      path: '/compiler'
+    },
+    {
+      title: 'Using the language',
       collapsable: false,
+      sidebarDepth: 0,
       children: [
-        '/introduction',
-        '/quick-start'
+        {
+          title: "Concepts",
+          path: '/concepts'
+        },
+        {
+          title: "Types",
+          path: '/types'
+        },
+        {
+          title: "Standard library",
+          collapsable: true,
+          sidebarDepth: 0,
+          children: [
+            '/stdlib/globals',
+            '/stdlib/array',
+            '/stdlib/arraybuffer',
+            '/stdlib/dataview',
+            '/stdlib/date',
+            '/stdlib/error',
+            '/stdlib/math',
+            '/stdlib/map',
+            '/stdlib/number',
+            '/stdlib/set',
+            '/stdlib/staticarray',
+            '/stdlib/string',
+            '/stdlib/symbol',
+            '/stdlib/typedarray'
+          ]
+        },
+        {
+          title: "Extended library",
+          collapsable: true,
+          sidebarDepth: 0,
+          children: [
+            '/stdlib/console',
+            '/stdlib/crypto',
+            '/stdlib/heap',
+            '/stdlib/process'
+          ]
+        },
+        {
+          title: 'Implementation status',
+          path: '/status'
+        }
       ]
     },
     {
-      title: 'Documentation',
-      collapsable: false,
-      children: [
-        '/basics',
-        '/status',
-        '/compiler',
-        '/types',
-        '/exports-and-imports',
-        '/loader',
-        '/frequently-asked-questions'
-      ]
-    },
-    {
-      title: 'Advanced',
-      collapsable: false,
-      children: [
-        '/memory',
-        '/garbage-collection',
-        '/peculiarities',
-        '/portability',
-        '/debugging',
-        '/interoperability',
-        '/transforms',
-        '/development'
-      ]
-    }
-  ]
-}
-
-function getStdlibSidebar() {
-  return [
-    {
-      title: 'Standard Library',
-      collapsable: false,
-      children: [
-        '/stdlib/globals',
-        '/stdlib/array',
-        '/stdlib/arraybuffer',
-        '/stdlib/dataview',
-        '/stdlib/date',
-        '/stdlib/error',
-        '/stdlib/map',
-        '/stdlib/math',
-        '/stdlib/number',
-        '/stdlib/set',
-        '/stdlib/string',
-        '/stdlib/symbol',
-        '/stdlib/typedarray'
-      ]
-    },
-    {
-      title: 'Extended Library',
-      collapsable: false,
-      children: [
-        '/stdlib/builtins',
-        '/stdlib/staticarray',
-        '/stdlib/heap',
-        '/stdlib/process',
-        '/stdlib/console',
-        '/stdlib/crypto'
-      ]
+      title: "Using the runtime",
+      path: "/runtime"
     }
   ]
 }
@@ -106,7 +102,6 @@ function getExamplesSidebar() {
       children: [
         '/examples/arrays',
         ['https://github.com/AssemblyScript/examples/tree/main/i64', 'I64 as a (node) library'],
-        ['https://github.com/AssemblyScript/examples/tree/main/loader', 'Using the loader'],
         ['https://github.com/AssemblyScript/examples/tree/main/sdk', 'Using the browser SDK'],
         ['https://github.com/AssemblyScript/examples/tree/main/transform', 'Using compiler transforms']
       ]

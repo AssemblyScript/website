@@ -1,10 +1,6 @@
----
-description: Node.js-like process on top of WASI.
----
-
 # process
 
-An implementation of a Node.js-like `process` global on top of WASI. Requires a WASI-enabled host and opting into WASI in the entry file with
+An implementation of a Node.js-like `process` global. Due to the lack of an alternative, this API requires a WASI-enabled host or polyfill, then opting into WASI in the entry file with
 
 ```ts
 import "wasi";

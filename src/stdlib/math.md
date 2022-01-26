@@ -20,13 +20,9 @@ Math in AssemblyScript is available in multiple variants.
 
 By default, the global `Math` object is an alias of `NativeMath` and `Mathf` is an alias of `NativeMathf` .
 
-### Using NativeMath
-
-This is the default, so no additional configuration options are required. Note, however, that `Math.random` needs a way to seed the random number generator in this scenario, which WebAssembly alone cannot do, hence a function `env.seed()` is imported from the host \([see also](../exports-and-imports.md#anatomy-of-a-module)\) that must return an `f64` value \(the seed\). The [loader](../loader.md) and `import "WASI"` automatically take care of providing the seed function in this scenario, but one can always implement their own, for example to make the PRNG deterministic by returning a fixed seed value.
-
 ### Using JSMath
 
-Where small module size is more important than performance, one can opt to override the default by adding `--use Math=JSMath` on the command line, essentially aliasing `Math` with `JSMath` instead, which maps to an import of the browser's math implementation. Naturally, this option requires importing the browser's `Math` object as a whole, but does not require seeding / is not seedable. The [loader](../loader.md) automatically takes care of importing the browser's math in this scenario.
+By default, the compiler utilizes `NativeMath` which is implemented in WebAssembly directly, but where small module size is more important than performance, one can opt to override the default by adding `--use Math=JSMath` on the command line, essentially aliasing `Math` with `JSMath` instead, which maps to an import of the browser's math implementation. Naturally, this option requires importing the browser's `Math` object as a whole, but does not require seeding / is not seedable. Generated bindings automatically take care of importing the browser's math in this scenario.
 
 ## Static members
 
@@ -210,10 +206,8 @@ The type `T` below substitutes either `f32` or `f64` depending on the implementa
   function random(): T
   ```
   Returns a pseudo-random number in the range from 0.0 inclusive up to but not including 1.0.
-  
-  ::: tip
-  Seeding happens automatically in common scenarios. See the [notes on using NativeMath above](#using-nativemath) if it doesn't.
-  :::
+
+  Note that `Math.random` needs a way to seed the random number generator, which is achieved with a [special import](../concepts.md#special-imports) `env.seed` returning the seed as an `f64` value. Generated bindings and WASI take care of it automatically.
 
 * ```ts
   function round(x: T): T
@@ -262,4 +256,4 @@ The type `T` below substitutes either `f32` or `f64` depending on the implementa
 
 ## Considerations
 
-The Math implementations are meant as a drop-in replacement for JavaScript's Math so sometimes mimic special JavaScript semantics, like `Math.round` always rounding towards `+Infinity`. Also, functions like `Math.fround` or `Math.imul` do not return an `f32` respectively an `i32` as some might expect for the same reason. Hence, depending on the use case, using [WebAssembly's math instructions](./builtins.md#math) directly can be a worthwhile alternative where portability is not a concern.
+The Math implementations are meant as a drop-in replacement for JavaScript's `Math` with all its quirks. For example, `Math.round` always rounds towards `+Infinity` and `Math.imul` and similar functions operate on `number`, which is `f64` in AssemblyScript. Hence, using [WebAssembly's math instructions](./globals.md#math) directly where possible is often more efficient.
