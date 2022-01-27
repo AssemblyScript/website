@@ -329,7 +329,7 @@ The following generic built-ins compile to WebAssembly instructions directly.
 Similarly, the following built-ins emit WebAssembly instructions accessing or otherwise modifying memory.
 
 * ```ts
-  function load<T>(ptr: usize, immOffset?: usize): T
+  function load<T>(ptr: usize, immOffset?: usize, immAlign?: usize): T
   ```
   <details><summary>Loads a value of the specified type from memory. Equivalent to dereferencing a pointer in other languages.</summary>
 
@@ -348,7 +348,7 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
   </details>
 
 * ```ts
-  function store<T>(ptr: usize, value: auto, immOffset?: usize): void
+  function store<T>(ptr: usize, value: auto, immOffset?: usize, immAlign?: usize): void
   ```
   <details><summary>Stores a value of the specified type to memory. Equivalent to dereferencing a pointer in other languages and assigning a value.</summary>
 
@@ -364,7 +364,7 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
   </details>
 
   ::: warning
-  `immOffset` argument in `load` and `store` should be a non-negative constant value. See more details in [rationale](https://github.com/WebAssembly/design/blob/main/Rationale.md#loadstore-addressing)
+  `immOffset` and `immAlign` arguments in `load` and `store` should be non-negative constant values. See more details in [rationale](https://github.com/WebAssembly/design/blob/main/Rationale.md#loadstore-addressing)
   :::
 
 * ```ts
