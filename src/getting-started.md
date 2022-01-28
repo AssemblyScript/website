@@ -23,7 +23,7 @@ Once installed, the compiler provides a handy scaffolding utility to quickly set
 npx asinit .
 ```
 
-It automatically creates the recommended directory structure and configuration files:
+The `asinit` command automatically creates the recommended directory structure and configuration files:
 
 ```
   ./assembly
@@ -41,17 +41,17 @@ It automatically creates the recommended directory structure and configuration f
   ./build/.gitignore
   Git configuration that excludes compiled binaries from source control.
 
-  ./index.js
-  Main file loading the WebAssembly module and exporting its exports.
-
-  ./tests/index.js
-  Example test to check that your module is indeed working.
-
   ./asconfig.json
   Configuration file defining both a 'debug' and a 'release' target.
 
   ./package.json
   Package info containing the necessary commands to compile to WebAssembly.
+
+  ./tests/index.js
+  Stater test to check that the module is functioning.
+
+  ./index.html
+  Starter HTML file that loads the module in a browser.
 ```
 
 ## Working with your module
@@ -62,7 +62,7 @@ The example in `assembly/index.ts` can now be compiled to WebAssembly by invokin
 npm run asbuild
 ```
 
-Doing so will emit the compiled binary and definition files to the `build/` directory.
+Doing so will emit the compiled binaries, bindings and definition files to the `build/` directory.
 
 The generated test case in `tests/index.js` can be executed with:
 
@@ -70,22 +70,29 @@ The generated test case in `tests/index.js` can be executed with:
 npm test
 ```
 
-Via the generated `index.js` (loads the WebAssembly binary), the module can be imported like a normal Node.js module:
+Once built, the directory contains all the bits to use the module like any other modern Node.js
+module (ESM format), e.g. when it is installed as a dependency of another module:
 
 ```js
-import myModule from "path/to/myModule";
-myModule.add(1, 2);
+import * as myModule from "myModule";
 ```
 
-Likewise, the generated `index.html` shows how the module can be used on the Web.
+The generated `index.html` shows how the module can be used on the Web. A web server serving
+the module directory, defaulting to display `index.html`, can be started with:
+
+```sh
+npm start
+```
+
+Note that not all of the files may be required depending on the use case, and it is safe
+to delete what's not needed. If anything goes wrong, `asinit` can be executed again, then
+restoring the deleted default files while keeping already edited ones.
 
 ## The journey ahead
 
 So far, so good! Now it is time to start editing the project of course, which typically involves:
 
 * Editing and adding source files within the `assembly/` directory and updating the tests in `tests/`.
-
-* Editing the generated `index.js` to wire up [imports and exports](./exports-and-imports.md#imports) between WebAssembly and the outside world.
 
 * Tweaking [compiler options](./compiler.md) in [`asconfig.json`](./compiler.md#asconfig-json) to fit your project's needs.
 
