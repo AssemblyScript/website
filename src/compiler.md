@@ -128,7 +128,7 @@ Specifying the base offsets of compiler-generated memory respectively the table 
 To integrate with the compiler, for example to post-process the AST, one or multiple custom [transforms](#transforms) can be specified.
 
 ```
---transform           Specifies the path to a custom transform to 'require'.
+--transform           Specifies the path to a custom transform to load.
 ```
 
 ### Other
@@ -341,15 +341,15 @@ Some JavaScript engines also support adding break points directly in WebAssembly
 
 AssemblyScript is compiled statically, so code transformation cannot be done at runtime but must instead be performed at compile-time. To enable this, the compiler frontend \(asc\) provides a mechanism to hook into the compilation process before, while and after the module is being compiled.
 
-Specifying `--transform ./myTransform` on the command line will load the node module pointed to by `./myTransform`.
+Specifying `--transform ./myTransform.js` on the command line will load the node module pointed to by `./myTransform.js`.
 
 ```js
-const { Transform } = require("assemblyscript/cli/transform")
-const assemblyscript = require("assemblyscript")
+import * as assemblyscript from "assemblyscript"
+import { Transform } from "assemblyscript/transform"
 class MyTransform extends Transform {
   ...
 }
-module.exports = MyTransform
+export default MyTransform
 ```
 
 ### Properties
