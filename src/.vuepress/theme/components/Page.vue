@@ -126,3 +126,27 @@ export default Page
   resize: none;
 }
 </style>
+
+<style>
+
+@media (prefers-color-scheme: dark) {
+:root {
+	--background-color: #222426;
+	--font-color: #cccccc;
+	--hover-color: #ffffff;
+}
+
+html, body, header, aside, span, nav, div, 
+dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, 
+pre, code, form,a, fieldset, legend, input, button, 
+textarea, p, blockquote, th, td
+{
+    background-color: var(--background-color) !important;
+    color: var(--font-color) ! important;
+}
+
+a:hover{
+    color: var(--hover-color) ! important;
+}
+}
+</style>
