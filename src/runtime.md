@@ -66,9 +66,17 @@ It is typically not necessary to invoke the runtime interface manually since gen
 
 ## Memory layout
 
-Besides partitioning memory into static data (starts at `0`), the stack (starts at `__data_end`) and the heap (starts at `__heap_base`), in this order, any kind of managed object in AssemblyScript utilizes a managed header for the runtime to operate on:
+Overall, AssemblyScript partitions liner memory as follows:
+
+| Region        | Start offset  | End offset            | Description
+|---------------|---------------|-----------------------|-------------
+| Static data   | `0`           | `__data_end`          | Contents of static strings, arrays, etc.
+| Managed stack | `__data_end`  | `__heap_base`         | Present only if the incremental runtime is used.
+| Heap          | `__heap_base` | `memory.size() << 16` | Remaining space is used for dynamic allocations. Can grow.
 
 ### Header layout
+
+Any kind of managed object in AssemblyScript utilizes a managed header for the runtime to operate on:
 
 | Name     | Offset | Type  | Description
 | :------- | -----: | :---- | :----------
