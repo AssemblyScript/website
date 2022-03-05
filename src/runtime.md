@@ -25,7 +25,7 @@ The runtime comes in different flavors, each useful in different use cases. The 
   --exportRuntime       Exports the runtime helpers (__new, __collect etc.).
 ```
 
-The default `incremental` runtime provides the full package recommended in most use cases. The `minimal` runtime is a stripped down variant (no shadow stack, no heuristic, simpler algorithm, smaller and more efficient) that is not automated and requires calling `__collect` externally at appropriate times (when the execution stack in unwound), whereas the `stub` runtime does not provide a garbage collector at all and never frees (simple bump allocation, extremely small).
+The default `incremental` runtime provides the full package recommended in most use cases. The `minimal` runtime is a stripped down variant (no shadow stack, no heuristic, simpler algorithm, smaller and more efficient) that is not automated and requires calling `__collect` externally at appropriate times (when there are no more values on the WebAssembly stack, which would be the case when WebAssembly calls out to the host, directly or indirectly), whereas the `stub` runtime does not provide a garbage collector at all and never frees (simple bump allocation, extremely small).
 
 For example, the `stub` runtime can be useful where modules are short-lived and collected as a whole anyhow, while the `minimal` runtime provides a compromise for use cases where it is sufficient to collect garbage manually, occasionally, say where a module performs a fixed amount of work before being invoked again.
 
