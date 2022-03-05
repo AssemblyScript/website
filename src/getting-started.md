@@ -71,7 +71,7 @@ npm test
 ```
 
 Once built, the directory contains all the bits to use the module like any other modern Node.js
-module (ESM format), e.g. when it is installed as a dependency of another module:
+ESM module:
 
 ```js
 import * as myModule from "myModule";
