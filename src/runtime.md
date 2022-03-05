@@ -118,7 +118,7 @@ Exported functions wrap basic numeric return values to their respective value ra
 
 ### Managed values
 
-Any kind of object is passed as a pointer into memory, and the host is expected to perform the steps necessary to exchange the value between linear memory and the host system. Passing a string for example passes a pointer to its first char code, and the managed header can be evaluated to obtain the string's byte length.
+Any kind of object is passed as a pointer into memory, and the host is expected to perform the steps necessary to exchange the value between linear memory and the host system. For example, when a string is passed from WebAssembly to the host or vice-versa, it is not its data that is passed but a pointer to the string's data in linear memory. In order to read the data, the managed header before the payload can be evaluated to obtain the string's byte length. Note that [host bindings](./compiler.md#host-bindings) automate this process for common data types.
 
 ### Optional arguments
 
