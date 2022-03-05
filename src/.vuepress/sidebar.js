@@ -40,28 +40,21 @@ function getDefaultSidebar() {
             '/stdlib/globals',
             '/stdlib/array',
             '/stdlib/arraybuffer',
+            '/stdlib/console',
+            '/stdlib/crypto',
             '/stdlib/dataview',
             '/stdlib/date',
             '/stdlib/error',
+            '/stdlib/heap',
             '/stdlib/math',
             '/stdlib/map',
             '/stdlib/number',
+            '/stdlib/process',
             '/stdlib/set',
             '/stdlib/staticarray',
             '/stdlib/string',
             '/stdlib/symbol',
             '/stdlib/typedarray'
-          ]
-        },
-        {
-          title: "Extended library",
-          collapsable: true,
-          sidebarDepth: 0,
-          children: [
-            '/stdlib/console',
-            '/stdlib/crypto',
-            '/stdlib/heap',
-            '/stdlib/process'
           ]
         },
         {

@@ -29,7 +29,7 @@ asc entryFile.ts
 
 ### Optimization
 
-The compiler can optimize for both speed and size. `--optimizeLevel` \(0-3\) indicates how much the compiler focuses on optimizing the code with `--shrinkLevel` \(0-2, 1=s, 2=z\) indicating how much it focuses on keeping the size low during code generation and while optimizing. A convenient shorthand is `-O[optimizeLevel][shrinkLevel]` , with shrink level indicated by appending the letter `s` \(1\) or `z` \(2\) to the optimize level.
+The compiler can optimize for both speed (`-Ospeed`) and size (`-Osize`), as well as produce a debug build (`--debug`).
 
 ```
 --optimize, -O        Optimizes the module. Typical shorthands are:
@@ -46,13 +46,14 @@ The compiler can optimize for both speed and size. `--optimizeLevel` \(0-3\) ind
 --noAssert            Replaces assertions with just their value without trapping.
 ```
 
+Optimization levels can also be tweaked manually: `--optimizeLevel` \(0-3\) indicates how much the compiler focuses on optimizing the code with `--shrinkLevel` \(0-2, 1=s, 2=z\) indicating how much it focuses on keeping the size low during code generation and while optimizing. A shorthand for both is `-O[optimizeLevel][shrinkLevel]` , with shrink level indicated by optionally appending the letter `s` \(1\) or `z` \(2\).
+
 ### Output
 
-Typical output formats are WebAssembly binary \(.wasm\) and/or text format \(.wat\). Often, both are used in tandem to run and also inspect generated code.
+Typical output formats are WebAssembly binary \(.wasm, `--outFile`\) and/or text format \(.wat, `--textFile`\). Often, both are used in tandem to run and also inspect generated code.
 
 ```
 --outFile, -o         Specifies the output file. File extension indicates format.
---binaryFile, -b      Specifies the binary output file (.wasm).
 --textFile, -t        Specifies the text output file (.wat).
 --tsdFile, -d         Specifies the TypeScript definition output file (.d.ts).
 ```

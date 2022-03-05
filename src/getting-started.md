@@ -94,8 +94,8 @@ So far, so good! Now it is time to start editing the project of course, which ty
 
 * Editing and adding source files within the `assembly/` directory and updating the tests in `tests/`.
 
-* Tweaking [compiler options](./compiler.md) in [`asconfig.json`](./compiler.md#asconfig-json) to fit your project's needs.
+* Tweaking [compiler options](./compiler.md#compiler-options) in [`asconfig.json`](./compiler.md#configuration-file) to fit your project's needs.
 
 * Realizing that AssemblyScript is not quite TypeScript and that WebAssembly still has a way to go 🙂
 
-But that's it already for a quick start. Read on to [learn more](/basics.md)!
+But that's it already for a quick start. Read on to [learn more](/compiler.md)!

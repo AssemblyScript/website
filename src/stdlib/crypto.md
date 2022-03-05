@@ -1,10 +1,6 @@
 # crypto
 
-An implementation of the `crypto` global. Due to the lack of an alternative, this API requires a WASI-enabled host or polyfill, then opting into WASI in the entry file with
-
-```ts
-import "wasi";
-```
+An implementation of the `crypto` global. Works with generated [host bindings](../compiler.md#host-bindings) or when [targeting WASI](../concepts.md#targeting-wasi).
 
 ## Static members
 
