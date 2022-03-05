@@ -54,6 +54,24 @@ The `asinit` command automatically creates the recommended directory structure a
   Starter HTML file that loads the module in a browser.
 ```
 
+For completeness, `asinit` supports the following options:
+
+```
+Sets up a new AssemblyScript project or updates an existing one.
+
+SYNTAX
+  asinit directory [options]
+
+EXAMPLES
+  asinit .
+  asinit ./newProject -y
+
+OPTIONS
+  --help, -h            Prints this help message.
+  --yes, -y             Answers all questions with their default option
+                        for non-interactive usage.
+```
+
 ## Working with your module
 
 The example in `assembly/index.ts` can now be compiled to WebAssembly by invoking the build command:
