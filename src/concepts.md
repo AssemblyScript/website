@@ -65,15 +65,15 @@ var a = new A("hello world")
 And nullability checks are limited to locals to guarantee soundness where TypeScript [would](https://www.typescriptlang.org/play?#code/G4QwTgBAZg9jBcEDOAXMBLAdgcwgHwkwFcAbEiAXggCIRqBuAKEfSggApYYBKCAb0YRkAUxQAxOADlSJdtyZCuAOhLCcKABb0IAeh2EYEYWDAwwjAL7MoRTAGMU6GJhHipMuf0HQ4lQjKYrIA) not [diagnose](https://www.typescriptlang.org/play/index.html#code/MYGwhgzhAEBiD29oG8BQ0PQvAtgUwBcALASwDsBzALiwICdyLoAfaMgVxBGgF43OQAblQBfVKgBm7MsAIl4ZaABN4AZVyFSlABQTENBPACUKdJhITouxADps+YoxNpMr5Wo2PKAURAQ81sbCbph68HaeWhQ2IHiUxILQAPRJWETwnErQeHR08HQANNAARuwE7ngQZADkBGYYYmKS0rLyiirqDlG+-oEGiM710GERXYy8-FzCIkA) a [problem](https://www.typescriptlang.org/play/index.html#code/MYGwhgzhAEBiD29oG8BQ0PQPoXgWwFMAXACwEsA7AcwC5oIiAnSq6AH2goFcQRoBeaACISBXvCEBudJirF6+YuWoAKAJR0Gzau048+aTEegh5jeYNJkIAOhyKr1accxXb9wo9aDuvZy+hzIi5GCkDifwwAX1QY1AAzLgpgIjJ4MIATeABlB2UqFXjEOgR4NRQZDDJ46ELEG1xPfPLDAKL4BryWG1NqUkloAHpB+hJ4HgzoAkZGeEYAGmgAIy4iaCyCCAoAciJK6BiYoA):
 
 ```ts
-// 😢
 function doSomething(foo: Foo): void {
+  // 😢
   if (foo.something) {
     foo.something.length // fails
   }
 }
 
-// 😊
 function doSomething(foo: Foo): void {
+  // 😊
   var something = foo.something
   if (something) {
     something.length // works
