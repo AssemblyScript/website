@@ -114,7 +114,7 @@ AssemblyScript's calling convention is relatively straight forward, as it does n
 
 ### Basic values
 
-Exported functions wrap basic numeric return values to their respective value ranges. Basic numeric values passed to exported functions are wrapped to their respective value ranges on demand. Functions internal to the module do not provide these guarantees.
+Exported functions wrap basic numeric return values to their respective value ranges. Basic numeric values passed to exported functions are wrapped to their respective value ranges on demand.
 
 ### Managed values
 
