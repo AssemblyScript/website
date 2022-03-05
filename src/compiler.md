@@ -323,7 +323,7 @@ Also note that exporting an entire `class` has no effect at the module boundary 
 
 ## Debugging
 
-The debugging workflow is similar to debugging JavaScript (it's one engine) and the compiler provides various options to set up additional WebAssembly-specific debug information. Note that any sort of optimization should be disabled in debug builds.
+The debugging workflow is similar to debugging JavaScript since both Wasm and JS execute in the same engine, and the compiler provides various options to set up additional WebAssembly-specific debug information. Note that any sort of optimization should be disabled in debug builds.
 
 ### Debug symbols
 
