@@ -40,7 +40,7 @@ It is typically not necessary to invoke the runtime interface manually since gen
 * ```ts
   function __new(size: usize, id: u32): usize
   ```
-  Allocates a new garbage collected instance of the object represented by the specified class id, of at least the specified size. Returns the pointer to the object, typically pointing at the object's data respectively its first field.
+  Allocates a new garbage collected instance of the object represented by the specified class id, of at least the specified size. Returns the pointer to the object (pointing at its data, not its internal header).
 
 * ```ts
   function __pin(ptr: usize): usize
