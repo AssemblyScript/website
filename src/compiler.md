@@ -281,7 +281,7 @@ Externref       | By reference | Using reference-types.
 **Object**      | Copy         | If a plain object. That is: Has no constructor or non-public fields.
 **Object**      | By reference | If not a plain object. Passed as an opaque reference counted pointer.
 
-Note the two different strategies used for **Object**: In some situations, say when calling a Web API, it may be preferrable to copy the object as a whole, field by field, which is the strategy chosen for plain objects with no constructor or non-public fields:
+Note the two different strategies used for **Object**: In some situations, say when calling a Web API, it may be preferable to copy the object as a whole, field by field, which is the strategy chosen for plain objects with no constructor or non-public fields:
 
 ```ts
 // Copied to a JS object

@@ -78,7 +78,7 @@ It likely won't. While TypeScript adds typings to JavaScript, it is a superset a
 :::
 
 ::: tip What are good use cases for AssemblyScript?
-Computation-heavy logic like image manipulation, hot game logic, specialized algorithms, emulators, compilers and the likes are great use cases for WebAssembly, and as such for AssemblyScript as well. In some situations it may also be preferrable to ship bytecode instead of minified JS, or just the ability to utilize a TypeScript-like language may open up new opportunities, for example for embedded scripting or plugins.
+Computation-heavy logic like image manipulation, hot game logic, specialized algorithms, emulators, compilers and the likes are great use cases for WebAssembly, and as such for AssemblyScript as well. In some situations it may also be preferable to ship bytecode instead of minified JS, or just the ability to utilize a TypeScript-like language may open up new opportunities, for example for embedded scripting or plugins.
 :::
 
 ::: tip Can AssemblyScript be used outside of the browser?
