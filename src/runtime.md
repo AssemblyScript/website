@@ -47,7 +47,7 @@ It is typically not necessary to invoke the runtime interface manually since gen
   ```
   Pins the object pointed to by `ptr` externally so it and any object it references do not become garbage collected. Note that the same object cannot be pinned more than once.
 
-  An external object that is not referenced from within WebAssembly must be pinned whenever an allocation might happen in between its allocation and passing it to WebAssembly. If not pinned, the allocation may trigger the garbage collector to step, which would prematurely collect the object and lead to undefined behavior.
+  An external object that is not referenced from within WebAssembly must be pinned whenever an allocation might happen in between allocating it and passing it to WebAssembly. If not pinned, the allocation may trigger the garbage collector to step, which would prematurely collect the object and lead to undefined behavior.
 
 * ```ts
   function __unpin(ptr: usize): void
