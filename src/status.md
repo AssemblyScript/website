@@ -48,11 +48,11 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | Extended Constant Expressions  |                                     |                         | Inline more global initializers
 | Stack Switching                |                                     |                         | `async` / `await`
 | Constant Time                  |                                     |                         | Expose as built-ins / hint
-| Interface Types                |                                     | 🤷 Harmful<sup>2</sup> | *No `DOMString` support*
-| Module Linking                 | <Xx/> <Xx/> <Xx/> <Xx/> <Wt/> <Xx/> | 🤷 Harmful<sup>2</sup> | *Requires Interface Types*
+| Interface Types                |                                     | Harmful<sup>2</sup> | *No `DOMString` support*
+| Module Linking                 | <Xx/> <Xx/> <Xx/> <Xx/> <Wt/> <Xx/> |                         | *Requires Interface Types*
 ||
-| **Half-official proposal**
-| WASI                           | <Xx/> <Xx/> <Xx/> <No/> <Wt/> <Ws/> | 🔨 Harmful<sup>3</sup> but no alternative | *Not a good fit (double-polyfill)*
+| **Quasi proposal**
+| WASI                           | <Xx/> <Xx/> <Xx/> <No/> <Wt/> <Ws/> | 🔨 Harmful<sup>3</sup> | *Not a good fit (double-polyfill)*
 
 <Ch/> <a href="https://www.chromestatus.com/features#webassembly" target="_blank" rel="noopener">Chrome</a> &nbsp;
 <Fi/> <a href="https://platform-status.mozilla.org" target="_blank" rel="noopener">Firefox</a> &nbsp;
@@ -61,7 +61,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 <Wt/> <a href="https://docs.wasmtime.dev/stability-wasm-proposals-support.html" target="_blank" rel="noopener">Wasmtime</a> &nbsp;
 <Ws/> <a href="https://docs.wasmer.io/ecosystem/wasmer/wasmer-features#support-of-features-by-compiler" target="_blank" rel="noopener">Wasmer</a> &nbsp; (<sup>1</sup> native support in non-JS hosts)
 
-<sup>2</sup> The Wasm CG [has decided](https://github.com/WebAssembly/interface-types/issues/135) that compatibility with JavaScript strings is out of scope of the Component Model. We are also looking with sorrow at the very close relation to just one of many programming languages in both concept and syntax. [See also](./stdlib/string.md#considerations).<br />
+<sup>2</sup> The Wasm CG [has decided](https://github.com/WebAssembly/interface-types/issues/135) that compatibility with JavaScript (strings) is out of scope of the Component Model. We are also looking with sorrow at the very close relation to just one of many programming languages in both concept and syntax. [See also](./stdlib/string.md#considerations).<br />
 <sup>3</sup> WASI is [not a good fit](https://github.com/WebAssembly/WASI/issues/401) for AssemblyScript and the Web in general and we would appreciate cooperation instead. It is also the driver behind the Component Model, which introduces incompatibility with the existing Web throughout all of WebAssembly.
 
 ## Language features

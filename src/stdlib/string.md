@@ -222,6 +222,8 @@ The following mostly exist to have a safe way to copy between Strings and ArrayB
 
 ## Considerations
 
+**TL;DR:** AssemblyScript does strings like JavaScript, but...
+
 AssemblyScript strings purposely share their semantics with JavaScript strings, including that isolated surrogates can occur and are not eagerly sanitized. This is done for two reasons. First, as the [Unicode Standard, Version 13.0](https://www.unicode.org/versions/Unicode13.0.0/ch02.pdf) states in **§2.7 Unicode Strings**:
 
 > Depending on the programming environment, a Unicode string may or may not be required to be in the corresponding Unicode encoding form. For example, strings in Java, C#, or ECMAScript are Unicode 16-bit strings, but are not necessarily well-formed UTF-16 sequences. In normal processing, it can be far more efficient to allow such strings to contain code unit sequences that are not well-formed UTF-16—that is, isolated surrogates. Because strings are such a fundamental component of every program, checking for isolated surrogates in every operation that modifies strings can create significant overhead, especially because supplementary characters are extremely rare as a percentage of overall text in programs worldwide.

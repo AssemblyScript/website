@@ -42,7 +42,7 @@ The following global constants and functions are present alongside the standard 
 
 ## Builtins
 
-The following builtins provide direct access to WebAssembly and compiler features. They form the low-level foundation of the standard library, for example, while also being available for everyone to utilize where directly tapping into WebAssembly or the compiler is desired.
+The following builtins provide direct access to WebAssembly and compiler features. They form the low-level foundation of the standard library, while also being available for everyone to utilize where directly tapping into WebAssembly or the compiler is desired.
 
 ### Static type checks
 
@@ -103,7 +103,7 @@ By making use of the following special type checks, especially in generic contex
   ```
   Tests if the specified type _or_ expression is of a managed type. Compiles to a constant. Usually only relevant when implementing custom collection-like classes.
 
-#### Example
+#### Example of static type checking
 
 ```ts
 function add<T>(a: T, b: T): T {
@@ -120,30 +120,30 @@ function add<T>(a: T, b: T): T {
 ```
 
 ::: tip
-If you are not going to use low-level WebAssembly in the foreseeable future, feel free to come back to the following paragraphs at a later time and continue at the next page[ ](./loader.md)right away.
+If you are not going to use low-level WebAssembly in the foreseeable future, feel free to come back to the following paragraphs at a later time.
 :::
 
-### Utility
+### Utilities
 
 * ```ts
   function sizeof<T>(): usize
   ```
-  Determines the byte size of the respective _basic type_. Means: If `T` is a class type, the size of `usize` is returned. To obtain the size of a class in memory, use `offsetof<T>()` instead. Compiles to a constant.
+  Determines the byte size of the respective _basic type_. Means: If `T` is a class type, the size of `usize`, the pointer type, is returned. To obtain the size of a class in memory, use `offsetof<T>()` instead. Compiles to a constant.
 
 * ```ts
   function offsetof<T>(fieldName?: string): usize
   ```
-  Determines the offset of the specified field within the given class type. Returns the class type's end offset \(means: where the next field would be located, before alignment\) if field name has been omitted. Compiles to a constant. The `fieldName` argument must be a compile-time constant `string` because there is no information about field names anymore in the final binary. Hence, the field's name must be known at the time the returned constant is computed.
+  Determines the offset of the specified field within the given class type. If `fieldName` is omitted, this returns what could be interpreted as either the size of the class, or the offset where the next field would be located, before alignment. Compiles to a constant. The `fieldName` argument must be a compile-time constant `string` because there is no information about field names anymore at runtime. Therefore, the field's name must be known at the time the returned constant is computed.
 
 * ```ts
   function alignof<T>(): usize
   ```
-  Determines the alignment \(log2\) of the specified underlying _basic type_. Means: If `T` is a class type, the alignment of `usize` is returned. Compiles to a constant.
+  Determines the alignment \(log2\) of the specified underlying _basic type_; i.e. If `T` is a class type, the alignment of `usize` is returned. Compiles to a constant.
 
 * ```ts
   function assert<T>(isTrueish: T, message?: string): T
   ```
-  Traps if the specified value is not true-ish, otherwise returns the non-nullable value. Like assertions in C, aborting the entire program if the expectation fails, with the `--noAssert` option to disable all assertions in production.
+  Traps if the specified value is not true-ish, otherwise returns the non-nullable value. Like assertions in C, aborting the entire program if the expectation fails. Where desired, the `--noAssert` compiler option can be used to disable assertions in production.
 
 * ```ts
   function instantiate<T>(...args: auto[]): T
@@ -163,7 +163,7 @@ If you are not going to use low-level WebAssembly in the foreseeable future, fee
 * ```ts
   function nameof<T>(value?: T): string
   ```
-  Determines the name of a given type.
+  Returns the name of a given type.
 
 * ```ts
   function bswap<T>(value: T): T
@@ -316,7 +316,7 @@ The following generic built-ins compile to WebAssembly instructions directly.
 * ```ts
   function nearest<T>(value: T): T
   ```
-  <details><summary>Rounds to the nearest integer tied to even of a 32-bit or 64-bit float.</summary>
+  <details><summary>Rounds to the nearest integer [half to even](https://en.wikipedia.org/wiki/Rounding#Round_half_to_even) of a 32-bit or 64-bit float.</summary>
 
   | T                                          | Instruction
   |--------------------------------------------|-------------
@@ -326,7 +326,7 @@ The following generic built-ins compile to WebAssembly instructions directly.
   </details>
 
 * ```ts
-  function reinterpret<TTo>(value: auto): T
+  function reinterpret<TTo>(value: auto): TTo
   ```
   <details><summary>Reinterprets the bits of the specified value as type <code>T</code>.</summary>
 
@@ -365,13 +365,17 @@ The following generic built-ins compile to WebAssembly instructions directly.
 
 Similarly, the following built-ins emit WebAssembly instructions accessing or otherwise modifying memory.
 
+::: tip NOTE
+The `immOffset` and `immAlign` arguments, if provided, must be compile time constant values. See more details in [rationale](https://github.com/WebAssembly/design/blob/main/Rationale.md#loadstore-addressing).
+:::
+
 * ```ts
   function load<T>(ptr: usize, immOffset?: usize): T
   ```
   <details><summary>Loads a value of the specified type from memory. Equivalent to dereferencing a pointer in other languages.</summary>
 
-  | T        | Instruction  | If context is i64
-  |----------|--------------|-------------------
+  | T        | Instruction  | If contextual type is i64
+  |----------|--------------|---------------------------
   | i8       | i32.load8_s  | i64.load8_s
   | u8       | i32.load8_u  | i64.load8_u
   | i16      | i32.load16_s | i64.load16_s
@@ -399,10 +403,6 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
   | f64      | f64.store     | *n/a*
   | \<ref>   | i32/i64.store | *n/a*
   </details>
-
-  ::: warning
-  `immOffset` argument in `load` and `store` should be a non-negative constant value. See more details in [rationale](https://github.com/WebAssembly/design/blob/main/Rationale.md#loadstore-addressing)
-  :::
 
 * ```ts
   function memory.size(): i32
@@ -436,7 +436,7 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
 * ```ts
   function memory.compare(lhs: usize, rhs: usize, n: usize): i32
   ```
-  Compares the first `n` bytes of `left` and `rigth` and returns a value that indicates their relationship:
+  Compares the first `n` bytes of `left` and `right` and returns a value that indicates their relationship:
   - **Negative** value if the first differing byte in `lhs` is less than the corresponding byte in `rhs`.
   - **Positive** value if the first differing byte in `lhs` is greater than the corresponding byte in `rhs`.
   - **Zero​** if all `n` bytes of `lhs` and `rhs` are equal.
@@ -451,14 +451,12 @@ Similarly, the following built-ins emit WebAssembly instructions accessing or ot
   ```
   Gets a pointer to a pre-initialized static chunk of memory. Alignment defaults to the size of `T`. Arguments must be compile-time constants.
 
-The `immOffset` argument is a bit special here, because it becomes an actual immediate of the respective WebAssembly instruction instead of a normal operand. Thus it must be provided as a compile time constant value. This can be a literal or the value of a `const` variable that the compiler can precompute.
-
 #### Control flow
 
 * ```ts
   function select<T>(ifTrue: T, ifFalse: T, condition: bool): T
   ```
-  Selects one of two pre-evaluated values depending on the condition. Differs from an `if/else` in that both arms are always executed and the final value is picked based on the condition afterwards. Performs better than an `if/else` only if the condition is random \(means: branch prediction is not going to perform well\) and both alternatives are cheap. It is also worth to note that Binaryen will do relevant optimizations like switching to a `select` automatically, so using a ternary `? :` for example is just fine.
+  Selects one of two pre-evaluated values depending on the condition. Differs from an `if/else` in that both arms are always executed and the final value is picked based on the condition afterwards. Performs better than an `if/else` only if the condition is random \(means: branch prediction is not going to perform well\) and both alternatives are cheap. It is also worth to note that Binaryen will do relevant optimizations like switching to a `select` automatically, so simply using a ternary `? :` may be preferable.
 
 * ```ts
   function unreachable(): auto
@@ -518,7 +516,7 @@ The following instructions represent the [WebAssembly threads and atomics](https
   function atomic.wait<T>(ptr: usize, expected: T, timeout: i64): AtomicWaitResult
   ```
 
-  Performs a wait operation on an address in memory suspending this agent if the integer condition is met. Return values are
+  Performs a wait operation on an address in memory, suspending this agent if the integer condition is met. Return values are
 
   | Value | Description
   | :---- | :----------
@@ -535,8 +533,6 @@ The following instructions represent the [WebAssembly threads and atomics](https
   function atomic.fence(): void
   ```
   Performs a fence operation, preserving synchronization guarantees of higher level languages.
-
-Again, the `immOffset` argument must be a compile time constant value.
 
 #### SIMD 🦄
 
@@ -1026,7 +1022,7 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
 * ```ts
   function v128.nearest<T>(a: v128): v128
   ```
-  <details><summary>Rounds to the nearest integer tied to even of each lane.</summary>
+  <details><summary>Rounds to the nearest integer [half to even](https://en.wikipedia.org/wiki/Rounding#Round_half_to_even) of each lane.</summary>
 
   | T   | Instruction
   |-----|-------------
