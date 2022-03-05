@@ -5,7 +5,7 @@ Paving the way to your first AssemblyScript module.
 
 ## Setting up a new project
 
-Make sure that a [recent version of Node.js](https://nodejs.org) and its package manager **npm** \(comes with Node.js\) are installed, then switch to a new directory and initialize a new Node.js module as usual:
+Make sure that a [recent version of Node.js](https://nodejs.org) and its package manager **npm** \(that comes with Node.js\) are installed, then switch to a new directory and initialize a new Node.js module as usual:
 
 ```sh
 npm init
