@@ -86,7 +86,7 @@ Absolutely! AssemblyScript modules are self-contained and run anywhere where Web
 :::
 
 ::: tip Why the strange name?
-AssemblyScript is to Assembly as JavaScript is to Java. Gotta stick to the theme.
+AssemblyScript is to Assembly as JavaScript is to Java. Not quite.
 :::
 
 But now, let's [get started](./getting-started.md)!
