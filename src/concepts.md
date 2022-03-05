@@ -107,7 +107,7 @@ Ambient declarations in an AssemblyScript file will yield a WebAssembly module i
 ```js
 WebAssembly.instantiateStreaming(fetch(...), {
   "assembly/env": {
-    "logInteger"(i) { console.log("logInteger: " + i) }
+    logInteger(i) { console.log("logInteger: " + i) }
   }
 })
 ```
