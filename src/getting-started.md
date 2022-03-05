@@ -96,6 +96,6 @@ So far, so good! Now it is time to start editing the project of course, which ty
 
 * Tweaking [compiler options](./compiler.md#compiler-options) in [`asconfig.json`](./compiler.md#configuration-file) to fit your project's needs.
 
-* Realizing that AssemblyScript is not quite TypeScript and that WebAssembly still has a way to go 🙂
+* Realizing that WebAssembly still has a ways to go 🙂
 
 But that's it already for a quick start. Read on to [learn more](/compiler.md)!
