@@ -103,8 +103,8 @@ npm start
 ```
 
 Note that not all of the files may be required depending on the use case, and it is safe
-to delete what's not needed. If anything goes wrong, `asinit` can be executed again, then
-restoring the deleted default files while keeping already edited ones.
+to delete what's not needed. If anything goes wrong, `asinit` can be executed again, which
+would restore the deleted default files while keeping already edited ones.
 
 ## The journey ahead
 
