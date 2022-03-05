@@ -110,7 +110,7 @@ It is also possible to build custom data types that integrate with the GC by imp
 
 ## Calling convention
 
-AssemblyScript's calling convention is relatively straight forward, as it does not add additional parameters to functions or similar. Note that generated bindings take care of the calling convention automatically, but other environments may want to adhere to it specifically.
+AssemblyScript's calling convention is relatively straight forward, as it does not add additional parameters to functions or other behind-the-scenes magic. Note that generated bindings take care of the calling convention automatically, but other environments may want to adhere to it specifically.
 
 ### Basic values
 
@@ -122,4 +122,4 @@ Any kind of object is passed as a pointer into memory, and the host is expected 
 
 ### Optional arguments
 
-When an exported function allows one or multiple arguments to be omitted, the module must be informed of the number of significant arguments by calling `exports.__setArgumentsLength(numArgs)` before calling the export, so it can fill in default values. Omitted arguments are not evaluated, zeroes can be passed. Not calling the helper leads to undefined behavior. If a function has a fixed number of arguments, it is not necessary to call the helper. The helper may not be present if a module only exports functions with a fixed number of arguments.
+When an exported function allows one or multiple arguments to be omitted, the module must be informed of the number of significant arguments by calling `exports.__setArgumentsLength(numArgs)` before calling the export, so it can fill in default values. Omitted arguments are not evaluated, i.e. zeroes can be passed. Not calling the helper leads to undefined behavior. If a function has a fixed number of arguments, it is not necessary to call the helper. The helper may not be present if a module only exports functions with a fixed number of arguments.
