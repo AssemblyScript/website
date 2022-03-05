@@ -92,7 +92,7 @@ References to an object always point at the start of the payload, with the heade
 
 ### Class layout
 
-Class fields are layed out similar to C structs, sequentially and without packing. Each field is aligned to its type's native alignment, potentially leaving padding in between. If a class has the `@unmanaged` decorator, it effectively only describes a region of memory as if it was a struct, does not utilize a managed header, is not garbage collected, and can be used with `heap.free`. Managed classes with a managed header cannot be manually freed, and managed and unmanaged classes cannot be mixed (e.g. extend from each other).
+Class fields are laid out similarly to C structs, sequentially and without packing. Each field is aligned to its type's native alignment, potentially leaving padding in between. If a class has the `@unmanaged` decorator, it effectively only describes a region of memory as if it were a struct that does not utilize a managed header, is not garbage collected, and can be used with `heap.free`. Managed classes with a managed header cannot be manually freed, and managed and unmanaged classes cannot be mixed (e.g. extend from each other).
 
 Standard library data types use the following layouts:
 
