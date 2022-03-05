@@ -69,7 +69,7 @@ Both perspectives can be mixed depending on whether low-level control with WebAs
 No, AssemblyScript compiles to WebAssembly bytecode directly, statically, ahead-of-time.
 :::
 
-::: tip What are the differences between AssemblyScript and Typescript?
+::: tip What are the differences between AssemblyScript and TypeScript?
 TypeScript transpiles down to JavaScript, a dynamic just-in-time compiled language. AssemblyScript, on the other hand, compiles to a static WebAssembly binary. Their implementation is wildly, and their feature set is slightly different. However, the two languages are so very similar on the surface that they share many concepts. For example, TypeScript tooling can be used to author and refactor AssemblyScript code and, with some effort, the same code base can be transpiled to JavaScript with `tsc` and compiled to WebAssembly with `asc`, or code shared. The AssemblyScript compiler itself is portable.
 :::
 
