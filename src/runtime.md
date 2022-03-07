@@ -88,7 +88,7 @@ Any kind of managed object in AssemblyScript utilizes a managed header for the r
 |          |        |       |
 |          |      0 |       | Payload starts here
 
-References to an object always point at the start of the payload, with the header beginning in the 20 bytes before. Null references are just the value `0`. When working with an AssemblyScript module externally, knowing the memory layout can be helpful to for example obtain an object's class id or size. Invoking `__new` automatically prepends a managed header and registers the object with the GC, using the provided class id for `rtId` and the provided size for `rtSize`.
+References to an object always point at the start of the payload, with the header beginning 20 bytes before. Null references are just the value `0`. When working with an AssemblyScript module externally, knowing the memory layout can be helpful to for example obtain an object's class id or size. Invoking `__new` automatically prepends a managed header and registers the object with the GC, using the provided class id for `rtId` and the provided size for `rtSize`.
 
 ### Class layout
 

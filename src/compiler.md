@@ -428,13 +428,13 @@ Besides the full standard library, AssemblyScript provides a portable variant of
 
 Also note that some parts of JavaScript's standard library function a little more loosely than how they would when compiling to WebAssembly. While the portable definitions try to take care of this, one example where this can happen is `Map#get` returning `undefined` when a key cannot be found in JavaScript, while resulting in an abort in WebAssembly, where it is necessary to first check that the key exists using `Map#has`.
 
-To use the portable library, add the following somewhere along your build step so the portable features are present in the environment
+To use the portable library, extend `assemblyscript/std/portable.json` instead of `assemblyscript/std/assembly.json` within `tsconfig.json` and add the following somewhere along your build step so the portable features are present in the environment:
 
 ```js
 import "assemblyscript/std/portable.js"
 ```
 
-and extend `assemblyscript/std/portable.json` instead of `assemblyscript/std/assembly.json` within your `tsconfig.json`. Note that the portable standard library is still a work in progress and so far focuses on functionality useful to make the compiler itself portable, so if you need something specific, feel free to improve [its definitions and feature set](https://github.com/AssemblyScript/assemblyscript/tree/main/std/portable).
+Note that the portable standard library is still a work in progress and so far focuses on functionality useful to make the compiler itself portable, so if you need something specific, feel free to improve [its definitions and feature set](https://github.com/AssemblyScript/assemblyscript/tree/main/std/portable).
 
 ### Portable conversions
 
