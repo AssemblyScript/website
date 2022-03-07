@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Try out AssemblyScript right in your browser." />
-  <!-- <link rel="preconnect" href="https://cdn.jsdelivr.net" /> -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
@@ -300,6 +300,7 @@
   </div>
   <input type="text" id="clipboardHelper" aria-hidden="true" />
   <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.31.1/min/vs/loader.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1.3.2/dist/es-module-shims.js"></script>
   <script type="importmap">
     {
       "imports": {
@@ -309,7 +310,7 @@
         "assemblyscript/asc": "./dist/asc.js"
       }
     }
-    </script>
+  </script>
   <script type="module">
     import asc from "assemblyscript/asc";
 
