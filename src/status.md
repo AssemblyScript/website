@@ -10,49 +10,50 @@ AssemblyScript both aims to be a thin and efficient layer on top of WebAssembly,
 
 Some crucial language features rely on [future WebAssembly functionality](https://github.com/WebAssembly/proposals) to be efficient. The following table aims to give an overview from a WebAssembly perspective:
 
-| WebAssembly spec               | Engines                             | AssemblyScript (flag)   | What's the plan?
-|--------------------------------|-------------------------------------|-------------------------|------------------------------------
+| WebAssembly spec                  | Engines                             | AssemblyScript (flag)   | Perspective
+|-----------------------------------|-------------------------------------|-------------------------|------------------------------------
 | ✔️ **Finished proposal**
-| Import/export mutable globals  | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | Global variable interop
-| BigInt integration<sup>1</sup> | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | 64-bit integer interop
-| Sign-extension                 | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | Efficient small integer casts
-| Non-trapping F2I               | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | Trap-free casts
-| Bulk memory                    | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | Use for `memcpy`, `memset`
-| Fixed-width SIMD               | <Ch/> <Fi/> <Xx/> <No/> <Xx/> <Ws/> | 🏁 `simd`               | Expose as built-ins
-| Reference Types                | <Ch/> <Fi/> <Sa/> <Xx/> <Wt/> <Ws/> | 🔨 `reference-types`    | Road to JS integration
-| Multi-value                    | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> |                         | Tuple return values
+| Import & export mutable globals   | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Interop
+| JS BigInt integration<sup>1</sup> | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Interop
+| Sign-extension                    | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Efficiency
+| Non-trapping F2I                  | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Efficiency
+| Bulk memory                       | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Efficiency
+| Fixed-width SIMD                  | <Ch/> <Fi/> <Xx/> <No/> <Wt/> <Ws/> | 🏁 `simd`               | <Badge text="good" type="tip"/> Feature
+| Reference Types                   | <Ch/> <Fi/> <Sa/> <Xx/> <Wt/> <Ws/> | 🔨 `reference-types`    | <Badge text="good" type="tip"/> Interop
+| Multi-value                       | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> |                         | <Badge text="uncertain" type="warning"/>
 ||
 | 🏁 **Standardize the feature**
 ||
 | 🔨 **Implementation phase**
-| Exception handling             | <Ch/> <Xx/> <Sa/> <Xx/> <Xx/> <Xx/> | 🔨 `exception-handling` | Implement exceptions
-| Tail call                      |                                     |                         |
-| Multiple memories              |                                     |                         |
-| Memory64                       |                                     | 🔨                      | Provide a Wasm64 target
-| Branch Hinting                 |                                     |                         | `likely(x)` / `unlikely(x)` hints
+| Exception handling                | <Ch/> <Xx/> <Sa/> <Xx/> <Xx/> <Xx/> | 🔨 `exception-handling` | <Badge text="good" type="tip"/> Feature
+| Tail call                         |                                     |                         | <Badge text="uncertain" type="warning"/>
+| Multiple memories                 |                                     |                         | <Badge text="uncertain" type="warning"/>
+| Memory64                          |                                     | 🔨                      | <Badge text="uncertain" type="warning"/>
+| Branch Hinting                    |                                     |                         | <Badge text="good" type="tip"/> Efficiency
 ||
 | 📖 **Spec text available** 
-| Threads                        | <Ch/> <Fi/> <Sa/> <No/> <Xx/> <Xx/> | 🔨 `threads`            | Expose as built-ins; WebWorker?
-| ESM integration                |                                     |                         | Natural web interop
-| Function references            |                                     |                         | Implement closures
-| Instrument Tracing             |                                     |                         | `debugger` statement?
-| Relaxed SIMD                   |                                     |                         | Expose as built-ins
+| Threads                           | <Ch/> <Fi/> <Sa/> <No/> <Xx/> <Xx/> | 🔨 `threads`            | <Badge text="uncertain" type="warning"/>
+| ESM integration                   |                                     |                         | <Badge text="good" type="tip"/> Interop
+| Function references               |                                     |                         | <Badge text="good" type="tip"/> Feature
+| Instrument Tracing                |                                     |                         | <Badge text="good" type="tip"/> Debugging
+| Relaxed SIMD                      |                                     |                         | <Badge text="good" type="tip"/> Feature
+| Garbage collection                |                                     |                         | <Badge text="good" type="tip"/> Efficiency / Interop
 ||
 | 💡 **Feature proposal**
-| Type Imports                   |                                     |                         | Web interop?
-| Garbage collection             |                                     |                         | Reuse host GC; Share objects?
-| Feature detection              |                                     |                         | Detect available features
-| Extended name section          |                                     | 🔨                      | Debug names for locals etc.
-| Flexible vectors               |                                     |                         | Expose as built-ins
-| Call Tags                      |                                     |                         | Speed up indirect calls
-| Extended Constant Expressions  |                                     |                         | Inline more global initializers
-| Stack Switching                |                                     |                         | `async` / `await`
-| Constant Time                  |                                     |                         | Expose as built-ins / hint
-| Interface Types                |                                     | Harmful<sup>2</sup> | *No `DOMString` support*
-| Module Linking                 | <Xx/> <Xx/> <Xx/> <Xx/> <Wt/> <Xx/> |                         | *Requires Interface Types*
+| Type Imports                      |                                     |                         | <Badge text="good" type="tip"/> Interop
+| Feature detection                 |                                     |                         | <Badge text="uncertain" type="warning"/>
+| Extended name section             |                                     | 🔨                      | <Badge text="good" type="tip"/> Debugging
+| Flexible vectors                  |                                     |                         | <Badge text="good" type="tip"/> Feature
+| Call Tags                         |                                     |                         | <Badge text="uncertain" type="warning"/>
+| Extended Constant Expressions     |                                     |                         | <Badge text="good" type="tip"/> Efficiency
+| Stack Switching                   |                                     |                         | <Badge text="good" type="tip"/> Feature / Interop
+| Constant Time                     |                                     |                         | <Badge text="good" type="tip"/> Security
+| JS Promise Integration            |                                     |                         | <Badge text="uncertain" type="warning"/>
+| Interface Types<sup>2</sup>       |                                     |                         | <Badge text="harmful" type="error"/>
+| Module Linking<sup>2</sup>        |                                     |                         | <Badge text="harmful" type="error"/>
 ||
-| **Quasi proposal**
-| WASI                           | <Xx/> <Xx/> <Xx/> <No/> <Wt/> <Ws/> | 🔨 Harmful<sup>3</sup> | *Not a good fit (double-polyfill)*
+| ❔ **Quasi proposal**
+| WASI<sup>3</sup>                  | <Xx/> <Xx/> <Xx/> <No/> <Wt/> <Ws/> | 🔨                      | <Badge text="harmful" type="error"/>
 
 <Ch/> <a href="https://www.chromestatus.com/features#webassembly" target="_blank" rel="noopener">Chrome</a> &nbsp;
 <Fi/> <a href="https://platform-status.mozilla.org" target="_blank" rel="noopener">Firefox</a> &nbsp;
@@ -61,8 +62,14 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 <Wt/> <a href="https://docs.wasmtime.dev/stability-wasm-proposals-support.html" target="_blank" rel="noopener">Wasmtime</a> &nbsp;
 <Ws/> <a href="https://docs.wasmer.io/ecosystem/wasmer/wasmer-features#support-of-features-by-compiler" target="_blank" rel="noopener">Wasmer</a> &nbsp; (<sup>1</sup> native support in non-JS hosts)
 
-<sup>2</sup> The Wasm CG [has decided](https://github.com/WebAssembly/interface-types/issues/135) that compatibility with JavaScript (strings) is out of scope of the Component Model. We are also looking with sorrow at the very close relation to just one of many programming languages in both concept and syntax. [See also](./stdlib/string.md#considerations).<br />
-<sup>3</sup> WASI is [not a good fit](https://github.com/WebAssembly/WASI/issues/401) for AssemblyScript and the Web in general and we would appreciate cooperation instead. It is also the driver behind the Component Model, which introduces incompatibility with the existing Web throughout all of WebAssembly.
+<sup>2</sup> Repurposed for the Component Model, where [it has been decided](https://github.com/WebAssembly/interface-types/issues/135) that compatibility with JavaScript ([strings](./stdlib/string.md#considerations)) is out of scope. We are looking with sorrow at the exclusivity to non-Web embeddings respectively one primary programming language.<br />
+<sup>3</sup> WASI is [not a good fit](https://github.com/WebAssembly/WASI/issues/401) for the Web embedding and we would appreciate some amount of cooperation. The many risks of eagerly introducing incompatibility with the Web platform should be discussed and mitigated.<br />
+
+| Perspective                          | Description
+|--------------------------------------|-------------
+| <Badge text="good" type="tip"/>      | This specification is conceptually good and worth looking into
+| <Badge text="uncertain" type="warning"/> | AssemblyScript is uncertain about this specification and not in a hurry to implement it
+| <Badge text="harmful" type="error"/> | AssemblyScript considers this specification to be harmful in its current state
 
 ## Language features
 
