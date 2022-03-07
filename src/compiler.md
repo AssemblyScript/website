@@ -189,12 +189,12 @@ Instead of providing the options outlined above on the command line, a configura
     "release": {
       // additional options for the "release" target, e.g.
       "optimize": true,
-      "binaryFile": "myModule.release.wasm"
+      "outFile": "myModule.release.wasm"
     },
     "debug": {
       // additional options for the "debug" target, e.g.
       "debug": true,
-      "binaryFile": "myModule.debug.wasm"
+      "outFile": "myModule.debug.wasm"
     }
   }
 }
@@ -216,7 +216,7 @@ import asc from "assemblyscript/asc";
 const { error, stdout, stderr, stats } = await asc.main([
   // Command line options
   "myModule.ts",
-  "--binaryFile", "myModule.wasm",
+  "--outFile", "myModule.wasm",
   "--optimize",
   "--sourceMap",
   "--stats"
