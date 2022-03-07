@@ -75,23 +75,26 @@ function getExamplesSidebar() {
     {
       title: 'Examples',
       collapsable: false,
+      sidebarDepth: 0,
       children: [
-        ['/examples', 'Overview'],
-        '/examples/snippets',
+        ['/examples', 'Overview']
       ]
     },
     {
       title: 'Starter examples',
       collapsable: false,
+      sidebarDepth: 0,
       children: [
         '/examples/mandelbrot',
         '/examples/interference',
-        '/examples/game-of-life'
+        '/examples/game-of-life',
+        '/examples/snippets',
       ]
     },
     {
       title: 'Advanced examples',
       collapsable: false,
+      sidebarDepth: 0,
       children: [
         '/examples/arrays',
         ['https://github.com/AssemblyScript/examples/tree/main/i64', 'I64 as a (node) library'],
@@ -102,6 +105,7 @@ function getExamplesSidebar() {
     {
       title: 'Additional resources',
       collapsable: false,
+      sidebarDepth: 0,
       children: [
         ['https://wasmbyexample.dev/', 'Wasm By Example'],
         '/built-with-assemblyscript'
