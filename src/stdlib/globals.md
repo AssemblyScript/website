@@ -316,7 +316,7 @@ The following generic built-ins compile to WebAssembly instructions directly.
 * ```ts
   function nearest<T>(value: T): T
   ```
-  <details><summary>Rounds to the nearest integer [half to even](https://en.wikipedia.org/wiki/Rounding#Round_half_to_even) of a 32-bit or 64-bit float.</summary>
+  <details><summary>Rounds to the nearest integer <a href="https://en.wikipedia.org/wiki/Rounding#Round_half_to_even" target="_blank" rel="noopener noreferrer">half to even</a> of a 32-bit or 64-bit float.</summary>
 
   | T                                          | Instruction
   |--------------------------------------------|-------------
@@ -1022,7 +1022,7 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
 * ```ts
   function v128.nearest<T>(a: v128): v128
   ```
-  <details><summary>Rounds to the nearest integer [half to even](https://en.wikipedia.org/wiki/Rounding#Round_half_to_even) of each lane.</summary>
+  <details><summary>Rounds to the nearest integer <a href="https://en.wikipedia.org/wiki/Rounding#Round_half_to_even" target="_blank" rel="noopener noreferrer">half to even</a> of each lane.</summary>
 
   | T   | Instruction
   |-----|-------------
