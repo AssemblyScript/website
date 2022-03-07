@@ -119,7 +119,7 @@ export function fill(x: u32, y: u32, p: f64): void {
 
 #!html
 <canvas id="canvas" style="width: 100%; height: 100%; background: #000; cursor: crosshair"></canvas>
-<script>
+<script type="module">
 // Configuration
 const RGB_ALIVE = 0xD392E6;
 const RGB_DEAD  = 0xA61B85;
@@ -144,8 +144,8 @@ ctx.imageSmoothingEnabled = false;
 // Compute the size of and instantiate the module's memory
 const memory = new WebAssembly.Memory({ initial: ((byteSize + 0xffff) & ~0xffff) >>> 16 });
 
-// Fetch and instantiate the module
-loader.instantiate(module_wasm, {
+// Compile and instantiate the module
+const exports = await instantiate(await compile(), {
   env: {
     memory
   },
@@ -154,56 +154,56 @@ loader.instantiate(module_wasm, {
     BGR_DEAD  : rgb2bgr(RGB_DEAD) & ~1, // LSB not set indicates dead
     BIT_ROT
   }
-}).then(({ exports }) => {
-  // Initialize the module with the universe's width and height
-  exports.init(width, height);
-
-  var buffer = new Uint32Array(memory.buffer);
-
-  // Update about 30 times a second
-  (function update() {
-    setTimeout(update, 1000 / 30);
-    buffer.copyWithin(0, size, size + size);   // copy output to input
-    exports.step();                            // perform the next step
-  })();
-
-  // Keep rendering the output at [size, 2*size]
-  var imageData = ctx.createImageData(width, height);
-  var argb = new Uint32Array(imageData.data.buffer);
-  (function render() {
-    requestAnimationFrame(render);
-    argb.set(buffer.subarray(size, size + size)); // copy output to image buffer
-    ctx.putImageData(imageData, 0, 0);            // apply image buffer
-  })();
-
-  // When clicked or dragged, fill the current row and column with random live cells
-  var down = false;
-  [ [canvas, "mousedown"],
-    [canvas, "touchstart"]
-  ].forEach(eh => eh[0].addEventListener(eh[1], e => down = true));
-  [ [document, "mouseup"],
-    [document, "touchend"]
-  ].forEach(eh => eh[0].addEventListener(eh[1], e => down = false));
-  [ [canvas, "mousemove"],
-    [canvas, "touchmove"],
-    [canvas, "mousedown"]
-  ].forEach(eh => eh[0].addEventListener(eh[1], e => {
-    if (!down) return;
-    var loc;
-    if (e.touches) {
-      if (e.touches.length > 1) return;
-      loc = e.touches[0];
-    } else {
-      loc = e;
-    }
-    const currentBoundingRect = canvas.getBoundingClientRect();
-    exports.fill(
-      ((loc.clientX - currentBoundingRect.left) / currentBoundingRect.width * boundingRect.width) >>> 1,
-      ((loc.clientY - currentBoundingRect.top) / currentBoundingRect.height * boundingRect.height) >>> 1,
-      0.5
-    );
-  }));
 });
+
+// Initialize the module with the universe's width and height
+exports.init(width, height);
+
+var buffer = new Uint32Array(memory.buffer);
+
+// Update about 30 times a second
+(function update() {
+  setTimeout(update, 1000 / 30);
+  buffer.copyWithin(0, size, size + size);   // copy output to input
+  exports.step();                            // perform the next step
+})();
+
+// Keep rendering the output at [size, 2*size]
+var imageData = ctx.createImageData(width, height);
+var argb = new Uint32Array(imageData.data.buffer);
+(function render() {
+  requestAnimationFrame(render);
+  argb.set(buffer.subarray(size, size + size)); // copy output to image buffer
+  ctx.putImageData(imageData, 0, 0);            // apply image buffer
+})();
+
+// When clicked or dragged, fill the current row and column with random live cells
+var down = false;
+[ [canvas, "mousedown"],
+  [canvas, "touchstart"]
+].forEach(eh => eh[0].addEventListener(eh[1], e => down = true));
+[ [document, "mouseup"],
+  [document, "touchend"]
+].forEach(eh => eh[0].addEventListener(eh[1], e => down = false));
+[ [canvas, "mousemove"],
+  [canvas, "touchmove"],
+  [canvas, "mousedown"]
+].forEach(eh => eh[0].addEventListener(eh[1], e => {
+  if (!down) return;
+  var loc;
+  if (e.touches) {
+    if (e.touches.length > 1) return;
+    loc = e.touches[0];
+  } else {
+    loc = e;
+  }
+  const currentBoundingRect = canvas.getBoundingClientRect();
+  exports.fill(
+    ((loc.clientX - currentBoundingRect.left) / currentBoundingRect.width * boundingRect.width) >>> 1,
+    ((loc.clientY - currentBoundingRect.top) / currentBoundingRect.height * boundingRect.height) >>> 1,
+    0.5
+  );
+}));
 
 /** Bitshifts an RGB color to BGR instead (WebAssembly is little endian). */
 function rgb2bgr(rgb) {

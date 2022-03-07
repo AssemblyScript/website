@@ -78,38 +78,37 @@ export function resize(w: i32, h: i32): void {
 
 #!html
 <canvas id="canvas" style="width: 100%; height: 100%; background: #aff"></canvas>
-<script>
-var step = 0.012;
-loader.instantiate(module_wasm).then(({ exports }) => {
-  const canvas = document.getElementById("canvas");
-  const context = canvas.getContext("2d");
+<script type="module">
+const exports = await instantiate(await compile());
+const canvas = document.getElementById("canvas");
+const context = canvas.getContext("2d");
+const step = 0.012;
 
-  // Upscale the image to speed up calculations
-  const upscaleFactor = 4;
+// Upscale the image to speed up calculations
+const upscaleFactor = 4;
 
-  var width, height, image;
+var width, height, image;
 
-  // Inform the module about the viewport's size, incl. on resize
-  function onresize() {
-    width = (canvas.offsetWidth / upscaleFactor) | 0;
-    height = (canvas.offsetHeight / upscaleFactor) | 0;
-    canvas.width = width;
-    canvas.height = height;
-    image = context.createImageData(width, height);
-    exports.resize(width, height);
-  }
-  onresize();
-  new ResizeObserver(onresize).observe(canvas);
+// Inform the module about the viewport's size, incl. on resize
+function onresize() {
+  width = (canvas.offsetWidth / upscaleFactor) | 0;
+  height = (canvas.offsetHeight / upscaleFactor) | 0;
+  canvas.width = width;
+  canvas.height = height;
+  image = context.createImageData(width, height);
+  exports.resize(width, height);
+}
+onresize();
+new ResizeObserver(onresize).observe(canvas);
 
-  // Keep updating the image
-  var tick = 0.0;
-  (function update() {
-    requestAnimationFrame(update);
-    exports.update(tick += step);
-    new Uint32Array(image.data.buffer).set(new Uint32Array(exports.memory.buffer, exports.offset, width * height));
-    context.putImageData(image, 0, 0);
-  })();
-});
+// Keep updating the image
+var tick = 0.0;
+(function update() {
+  requestAnimationFrame(update);
+  exports.update(tick += step);
+  new Uint32Array(image.data.buffer).set(new Uint32Array(exports.memory.buffer, exports.offset.value, width * height));
+  context.putImageData(image, 0, 0);
+})();
 </script>
 ```
 

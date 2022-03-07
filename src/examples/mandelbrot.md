@@ -77,7 +77,7 @@ function clamp<T>(value: T, minValue: T, maxValue: T): T {
 
 #!html
 <canvas id="canvas" style="width: 100%; height: 100%"></canvas>
-<script>
+<script type="module">
 
 // Set up the canvas with a 2D rendering context
 const canvas = document.getElementById("canvas");
@@ -102,27 +102,27 @@ const memory = new WebAssembly.Memory({ initial: ((byteSize + 0xffff) & ~0xffff)
 const buffer = new Uint16Array(memory.buffer);
 const imageData = ctx.createImageData(width, height);
 const argb = new Uint32Array(imageData.data.buffer);
+const colors = computeColors();
 
-loader.instantiate(module_wasm, {
+const exports = await instantiate(await compile(), {
   env: {
     memory
   }
-}).then(({ exports }) => {
+})
 
-  // Update state
-  exports.update(width, height, 40);
+// Update state
+exports.update(width, height, 40);
 
-  // Translate 16-bit color indices to colors
-  for (let y = 0; y < height; ++y) {
-    const yx = y * width;
-    for (let x = 0; x < width; ++x) {
-      argb[yx + x] = colors[buffer[yx + x]];
-    }
+// Translate 16-bit color indices to colors
+for (let y = 0; y < height; ++y) {
+  const yx = y * width;
+  for (let x = 0; x < width; ++x) {
+    argb[yx + x] = colors[buffer[yx + x]];
   }
+}
 
-  // Render the image buffer.
-  ctx.putImageData(imageData, 0, 0);
-});
+// Render the image buffer.
+ctx.putImageData(imageData, 0, 0);
 
 /** Computes a nice set of colors using a gradient. */
 function computeColors() {
@@ -140,8 +140,6 @@ function computeColors() {
   ctx.fillRect(0, 0, 2048, 1);
   return new Uint32Array(ctx.getImageData(0, 0, 2048, 1).data.buffer);
 }
-
-const colors = computeColors();
 </script>
 ```
 

@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Try out AssemblyScript right in your browser." />
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <!-- <link rel="preconnect" href="https://cdn.jsdelivr.net" /> -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
@@ -299,9 +299,23 @@
     </div>
   </div>
   <input type="text" id="clipboardHelper" aria-hidden="true" />
-  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.30.1/min/vs/loader.js"></script>
-  <script>
-    const MONACO_VERSION = '0.30.1'
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.31.1/min/vs/loader.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "binaryen": "https://cdn.jsdelivr.net/npm/binaryen@105.0.0-nightly.20220305/index.js",
+        "long": "https://cdn.jsdelivr.net/npm/long@5.2.0/index.js",
+        "assemblyscript": "./dist/assemblyscript.js",
+        "assemblyscript/asc": "./dist/asc.js"
+      }
+    }
+    </script>
+  <script type="module">
+    import asc from "assemblyscript/asc";
+
+    // TODO: upgrade to recent version once the following issue is fixed:
+    // https://github.com/microsoft/monaco-editor/issues/2962
+    const MONACO_VERSION = '0.31.1'
     const MONACO_EDITOR_FONT = 'JetBrains Mono'
 
     function crossDomainWorker() {
@@ -420,18 +434,17 @@
 
     var module_wat = '(module)\n'
     var module_wasm = new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0])
+    var module_js = '\n';
     var didCompile = false
 
     require([
       'vs/editor/editor.main',
-      'https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/sdk.js',
       'scripts/wat.js'
     ], async (
       { languages, editor },
-      { asc, ASSEMBLYSCRIPT_VERSION, BINARYEN_VERSION, LONG_VERSION },
       { config: watLanguageConfig, tokens: watLanguageTokens }
     ) => {
-      console.log(`AssemblyScript v${ASSEMBLYSCRIPT_VERSION} (Binaryen v${BINARYEN_VERSION}, Long v${LONG_VERSION})`)
+      // FIXME: https://github.com/microsoft/monaco-editor/issues/2962
 
       // Add WebAssembly Text Format language
       languages.register({ id: 'wat' })
@@ -566,8 +579,11 @@
           } else if (element.id == 'playTab') {
             function serialize() {
               return 'data:text/html;base64,' + btoa([
-                '<script src="https://cdn.jsdelivr.net/npm/@assemblyscript/loader/umd/index.js"><', '/script>',
-                '<script>var module_wasm=new Uint8Array([', module_wasm.join(','), ']);<', '/script>\n\n',
+                '<script>\n',
+                'async function compile() {\n',
+                '  return await WebAssembly.compile(new Uint8Array([', module_wasm.join(','), ']));\n',
+                '}\n',
+                module_js.replace(/^export async function instantiate\(/m, 'async function instantiate('), '<', '/script>\n\n',
                 htmlEditor.getValue().trimRight()
               ].join(''))
             }
@@ -801,32 +817,32 @@
         const options = [
           'module.ts',
           '--textFile', 'module.wat',
-          '--binaryFile', 'module.wasm'
+          '--outFile', 'module.wasm',
+          '--bindings', 'raw'
         ].concat(getCompilerOptions())
-        setTimeout(() => {
-          asc.main(options, {
-            stdout,
-            stderr: stdout,
-            readFile: name => Object.prototype.hasOwnProperty.call(sources, name) ? sources[name] : null,
-            writeFile: (name, contents) => outputs[name] = contents,
-            listFiles: () => []
-          }, err => {
-            let output = stdout.toString().trim()
-            if (output.length) {
-              output = ';; ' + output.replace(/\n/g, '\n;; ') + '\n'
-            }
-            output = ';; INFO asc ' + options.join(' ') + '\n' + output
-            if (err) {
-              binaryEditor.setValue(output + `(module\n ;; FAILURE ${err.message}\n)\n`)
-            } else {
-              module_wat = outputs['module.wat']
-              module_wasm = outputs['module.wasm']
-              binaryEditor.setValue(output + module_wat)
-            }
-            didCompile = true
-            if (cb) cb(err)
-          })
-        }, 100)
+        asc.main(options, {
+          stdout,
+          stderr: stdout,
+          readFile: name => Object.prototype.hasOwnProperty.call(sources, name) ? sources[name] : null,
+          writeFile: (name, contents) => outputs[name] = contents,
+          listFiles: () => []
+        }).then(({ error, stdout }) => {
+          let output = stdout.toString().trim()
+          if (output.length) {
+            output = ';; ' + output.replace(/\n/g, '\n;; ') + '\n'
+          }
+          output = ';; INFO asc ' + options.join(' ') + '\n' + output
+          if (error) {
+            binaryEditor.setValue(output + `(module\n ;; FAILURE ${error.message}\n)\n`)
+          } else {
+            module_wat = outputs['module.wat']
+            module_wasm = outputs['module.wasm']
+            module_js = outputs['module.js']
+            binaryEditor.setValue(output + module_wat)
+          }
+          didCompile = true
+          if (cb) cb(error)
+        })
       }
 
       // Finally, hide the loading animation
