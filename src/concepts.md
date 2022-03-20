@@ -166,7 +166,7 @@ The respective implementations of `abort`, `trace` and `seed` can be overridden 
 
 #### Targeting WASI
 
-AssemblyScript has experimental support for WASI hosts, which can be targeted by adding `import "wasi"` to the entry file. Doing so will install WASI-aware implementations of `abort`, `trace` and `seed` for example.
+AssemblyScript has experimental support for WASI, which can be targeted by adding `import "wasi"` to the entry file. Doing so will install WASI-aware implementations of `abort`, `trace` and `seed` for example, but will require a polyfill on the Web.
 
 The following additional options may be useful depending on the kind of WASI module to create:
 

@@ -82,7 +82,7 @@ Computation-heavy logic like image manipulation, hot game logic, specialized alg
 :::
 
 ::: tip Can AssemblyScript be used outside of the browser?
-Absolutely! AssemblyScript modules are self-contained and run anywhere where WebAssembly is supported.
+Absolutely! AssemblyScript modules are self-contained and run anywhere where WebAssembly is supported. There is also the option to [target WASI](/concepts.md#targeting-wasi).
 :::
 
 ::: tip Why the strange name?

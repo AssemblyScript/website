@@ -62,8 +62,8 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 <Wt/> <a href="https://docs.wasmtime.dev/stability-wasm-proposals-support.html" target="_blank" rel="noopener">Wasmtime</a> &nbsp;
 <Ws/> <a href="https://docs.wasmer.io/ecosystem/wasmer/wasmer-features#support-of-features-by-compiler" target="_blank" rel="noopener">Wasmer</a> &nbsp; (<sup>1</sup> native support in non-JS hosts)
 
-<sup>2</sup> Repurposed for the Component Model, where [it has been decided](https://github.com/WebAssembly/interface-types/issues/135) that compatibility with JavaScript ([strings](./stdlib/string.md#considerations)) is out of scope. We are looking with sorrow at the exclusivity to non-Web embeddings respectively one primary programming language.<br />
-<sup>3</sup> WASI is [not a good fit](https://github.com/WebAssembly/WASI/issues/401) for the Web embedding and we would appreciate some amount of cooperation. The many risks of eagerly introducing incompatibility with the Web platform should be discussed and mitigated.<br />
+<sup>2</sup> Rescoped to the Component Model, where [it has been decided](https://github.com/WebAssembly/interface-types/issues/135) that compatibility with JavaScript ([strings](./stdlib/string.md#considerations)) is out of scope.<br />
+<sup>3</sup> WASI is not a good fit for the Web embedding and [there is no interest](https://github.com/WebAssembly/WASI/issues/401) to discuss or mitigate the risks of its approach.<br />
 
 | Perspective                          | Description
 |--------------------------------------|-------------
