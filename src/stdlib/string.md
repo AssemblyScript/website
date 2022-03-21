@@ -222,4 +222,16 @@ The following mostly exist to have a safe way to copy between Strings and ArrayB
 
 ## Considerations
 
-Also see the notes on [string interoperability](../interoperability.md#strings).
+**TL;DR:** AssemblyScript does strings like JavaScript, but...
+
+AssemblyScript strings purposely share their semantics with JavaScript strings, including that isolated surrogates can occur and are not eagerly sanitized. This is done for two reasons. First, as the [Unicode Standard, Version 13.0](https://www.unicode.org/versions/Unicode13.0.0/ch02.pdf) states in **§2.7 Unicode Strings**:
+
+> Depending on the programming environment, a Unicode string may or may not be required to be in the corresponding Unicode encoding form. For example, strings in Java, C#, or ECMAScript are Unicode 16-bit strings, but are not necessarily well-formed UTF-16 sequences. In normal processing, it can be far more efficient to allow such strings to contain code unit sequences that are not well-formed UTF-16—that is, isolated surrogates. Because strings are such a fundamental component of every program, checking for isolated surrogates in every operation that modifies strings can create significant overhead, especially because supplementary characters are extremely rare as a percentage of overall text in programs worldwide.
+
+Second, sanitization is also not desirable in between AssemblyScript and JavaScript, or between two AssemblyScript modules, where it can be critical to maintain equality, inequality and hash integrity of idiomatic strings when function calls traverse JS\<->AS or AS\<->AS boundaries. It is common, for example, that an application is composed of both AssemblyScript and JavaScript code, or that an AssemblyScript module replaces a JavaScript module, and it is expected that two AssemblyScript modules can exchange strings, where sanitizing (mutating) strings eagerly would be unnecessary and dangerous. Also, ESM-integration aims to make JavaScript and WebAssembly modules interchangeable more broadly, which can only be achieved safely when maintaining compatibility.
+
+Note that this stance differs from what the majority within the WebAssembly CG [has decided](https://github.com/WebAssembly/meetings/blob/main/main/2021/CG-08-03.md) for Interface Types and the Component Model, including its Web integration, regardless of our concerns ([1](https://github.com/WebAssembly/design/issues/1419), [2](https://github.com/WebAssembly/interface-types/issues/135#issuecomment-890743678)), yet we believe that sanitization should only be performed where unavoidable, ideally as late as possible, matching what Web APIs do today (say right when calling an HTTP API but no earlier) to not impose unresolvable problems on the many popular languages already matching what JavaScript and the Web do. As such, we'd prefer if Interface Types and similar or related proposals revised their approach to follow WebIDL's precedent, where [`DOMString`](https://webidl.spec.whatwg.org/#idl-DOMString) represents the concept and [`USVString`](https://webidl.spec.whatwg.org/#idl-USVString) is the special case. As WebIDL states:
+
+> When in doubt, use `DOMString`.
+
+Of course we agree that `USVString` should be supported in some capacity to match what Rust and C++ do, but making it the only supported concept will not only break the other half of the ecosystem on a fundamental level, but also the Web platform as a whole, which is unnecessary and avoidable given that sanitization can easily be performed by an interface adapter *only when needed*.

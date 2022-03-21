@@ -1,6 +1,18 @@
-// Custom sidebar background
-.sidebar {
-  background: #fafbfc;
+.sidebar::-webkit-scrollbar {
+  width: 0.3em;
+}
+ 
+.sidebar::-webkit-scrollbar-track {
+  background-color: #eaecef;
+}
+ 
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #007acc;
+}
+
+.sidebar-group:is(.collapsable) .sidebar-heading {
+  opacity: 1 !important;
+  cursor: pointer !important;
 }
 
 // Nav drop-down categories

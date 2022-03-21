@@ -1,6 +1,5 @@
 ---
 description: A collection of general WebAssembly and AssemblyScript questions and their answers.
-sidebarDepth: 0
 ---
 
 # Frequently asked questions

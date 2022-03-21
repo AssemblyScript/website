@@ -35,7 +35,7 @@ pageClass: frontpage
   </div>
   <div class="feature">
     <h2>Familiar TypeScript syntax</h2>
-    <p>Being a variant of TypeScript makes it easy to compile to WebAssembly without learning a new language.</p>
+    <p>Its similarity with TypeScript makes it easy to compile to WebAssembly without learning a new language.</p>
   </div>
   <div class="feature">
     <h2>Right at your fingertips</h2>
@@ -63,21 +63,19 @@ export function fib(n: i32): i32 {
 
 #!html
 <textarea id="output" style="height: 100%; width: 100%" readonly></textarea>
-<script>
-loader.instantiate(module_wasm, { /* imports */ })
-  .then(({ exports }) => {
-    const output = document.getElementById('output')
-    for (let i = 0; i <= 10; ++i) {
-      output.value += `fib(${i}) = ${exports.fib(i)}\n`
-    }
-  })
+<script type="module">
+const exports = await instantiate(await compile(), { /* imports */ })
+const output = document.getElementById('output')
+for (let i = 0; i <= 10; ++i) {
+  output.value += `fib(${i}) = ${exports.fib(i)}\n`
+}
 </script>
 ```
 
 </div>
 
 <div id="contributors">
-  <p>AssemblyScript is free and open source software released under the <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache License, Version 2.0</a>, builds upon <a href="https://github.com/WebAssembly/binaryen" target="_blank" rel="noopener">Binaryen</a> and is based on the viable parts of the <a href="https://webassembly.org/" target="_blank" rel="noopener">WebAssembly specification</a>. It is brought to you by the following awesome people:</p>
+  <p>AssemblyScript is free and open source software released under the <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache License, Version 2.0</a>, builds upon <a href="https://github.com/WebAssembly/binaryen" target="_blank" rel="noopener">Binaryen</a> and is based on the <a href="https://webassembly.org/" target="_blank" rel="noopener">WebAssembly specification</a>. It is brought to you by the following awesome people:</p>
   <Contributors />
 </div>
 

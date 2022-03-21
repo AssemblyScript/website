@@ -36,7 +36,7 @@ export function instanceSub(a: f32, b: f32): f32 {
 
 
 #!html
-<script>
+<script type="module">
 const log = console.log;
 console.log = (...args) => {
   log(...args);
@@ -51,13 +51,12 @@ console.log = (...args) => {
   document.body.innerHTML += `<div>Log: ${str}</div>`;
 }
 
-loader.instantiate(module_wasm, { /* imports */ })
-  .then(({ exports }) => {
-    console.log(exports.staticOne());
-    console.log(exports.staticAdd(1, 2));
-    console.log(exports.instanceTwo());
-    console.log(exports.instanceSub(3.0, 1.0));
-  })
+const exports = await instantiate(await compile(), { /* imports */ });
+
+console.log(exports.staticOne());
+console.log(exports.staticAdd(1, 2));
+console.log(exports.instanceTwo());
+console.log(exports.instanceSub(3.0, 1.0));
 </script>
 ```
 
@@ -106,7 +105,7 @@ export function overloadAdd(value: i32): i32 {
 }
 
 #!html
-<script>
+<script type="module">
 const log = console.log;
 console.log = (...args) => {
   log(...args);
@@ -121,11 +120,10 @@ console.log = (...args) => {
   document.body.innerHTML += `<div>Log: ${str}</div>`;
 }
 
-loader.instantiate(module_wasm, { /* imports */ })
-.then(({ exports }) => {
-  console.log(`getStaticProp: ${exports.getStaticProp()}`);
-  console.log(`overloadAdd: ${exports.overloadAdd(24)}`);
-})
+const exports = await instantiate(await compile(), { /* imports */ });
+
+console.log(`getStaticProp: ${exports.getStaticProp()}`);
+console.log(`overloadAdd: ${exports.overloadAdd(24)}`);
 </script>
 ```
 
@@ -163,7 +161,7 @@ export function positiveAddWithMyValue(a: i32): i32 {
 }
 
 #!html
-<script>
+<script type="module">
 const log = console.log;
 console.log = (...args) => {
   log(...args);
@@ -178,20 +176,19 @@ console.log = (...args) => {
   document.body.innerHTML += `<div>Log: ${str}</div>`;
 }
 
-loader.instantiate(module_wasm, { /* imports */ })
-.then(({ exports }) => {
-  if(exports.positiveAddWithMyValue(24) > -1) {
-    console.log("Add was successful")
-  } else {
-    console.log("Could not add 24");
-  }
+const exports = await instantiate(await compile(), { /* imports */ });
 
-  if(exports.positiveAddWithMyValue(-1) > -1) {
+if (exports.positiveAddWithMyValue(24) > -1) {
   console.log("Add was successful")
-  } else {
+} else {
+  console.log("Could not add 24");
+}
+
+if (exports.positiveAddWithMyValue(-1) > -1) {
+  console.log("Add was successful")
+} else {
   console.log("Could not add -1");
-  }
-});
+}
 </script>
 ```
 
@@ -232,7 +229,7 @@ export function switchSurprise(a: i32): i32 {
 }
 
 #!html
-<script>
+<script type="module">
 const log = console.log;
 console.log = (...args) => {
   log(...args);
@@ -247,14 +244,13 @@ console.log = (...args) => {
   document.body.innerHTML += `<div>Log: ${str}</div>`;
 }
 
-loader.instantiate(module_wasm, { /* imports */ })
-.then(({ exports }) => {
-  console.log(`switchSurprise(1) : ${exports.switchSurprise(1)}`);
-  console.log(`switchSurprise(2) : ${exports.switchSurprise(2)}`);
-  console.log(`switchSurprise(3) : ${exports.switchSurprise(3)}`);
-  console.log(`switchSurprise(4) : ${exports.switchSurprise(4)}`);
-  console.log(`switchSurprise(57) : ${exports.switchSurprise(57)}`);
-});
+const exports = await instantiate(await compile(), { /* imports */ });
+
+console.log(`switchSurprise(1) : ${exports.switchSurprise(1)}`);
+console.log(`switchSurprise(2) : ${exports.switchSurprise(2)}`);
+console.log(`switchSurprise(3) : ${exports.switchSurprise(3)}`);
+console.log(`switchSurprise(4) : ${exports.switchSurprise(4)}`);
+console.log(`switchSurprise(57) : ${exports.switchSurprise(57)}`);
 </script>
 ```
 
@@ -270,7 +266,7 @@ export function isTrue(a: i32): i32 {
 }
 
 #!html
-<script>
+<script type="module">
 const log = console.log;
 console.log = (...args) => {
   log(...args);
@@ -285,10 +281,9 @@ console.log = (...args) => {
   document.body.innerHTML += `<div>Log: ${str}</div>`;
 }
 
-loader.instantiate(module_wasm, { /* imports */ })
-.then(({ exports }) => {
-  console.log(`is 24 greater than 0? ${exports.isTrue(24) > 0 ? true : false}`);
-  console.log(`is -3 greater than 0? ${exports.isTrue(-3) > 0 ? true : false}`);
-});
+const exports = await instantiate(await compile(), { /* imports */ });
+
+console.log(`is 24 greater than 0? ${exports.isTrue(24) > 0 ? true : false}`);
+console.log(`is -3 greater than 0? ${exports.isTrue(-3) > 0 ? true : false}`);
 </script>
 ```

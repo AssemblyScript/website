@@ -1,6 +1,5 @@
 ---
 description: Wrappers for basic numerical values.
-sidebarDepth: 2
 ---
 
 # Number

@@ -27,3 +27,14 @@
 /extended-library/staticarray /stdlib/staticarray
 /faq /frequently-asked-questions
 /environment /stdlib/builtins
+/basics.html /concepts.html
+/exports-and-imports.html /concepts.html
+/quick-start.html /getting-started.html
+/loader.html https://github.com/AssemblyScript/assemblyscript/tree/main/lib/loader
+/debugging.html /compiler.html
+/transforms.html /compiler.html
+/portability.html /compiler.html
+/garbage-collection.html /runtime.html
+/memory.html /runtime.html
+/interoperability.html /runtime.html
+/builtins.html /globals.html

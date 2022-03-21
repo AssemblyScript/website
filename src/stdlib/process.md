@@ -1,14 +1,6 @@
----
-description: Node.js-like process on top of WASI.
----
-
 # process
 
-An implementation of a Node.js-like `process` global on top of WASI. Requires a WASI-enabled host and opting into WASI in the entry file with
-
-```ts
-import "wasi";
-```
+An implementation of a Node.js-like `process` global. Works with generated [host bindings](../compiler.md#host-bindings) under Node.js or when [targeting WASI](../concepts.md#targeting-wasi).
 
 ## Static members
 

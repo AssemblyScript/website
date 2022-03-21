@@ -27,6 +27,7 @@ module.exports = {
     nav: require('./nav'),
     sidebar: require('./sidebar'),
     sidebarDepth: 1,
+    displayAllHeaders: true,
     docsRepo: 'AssemblyScript/website',
     docsDir: 'src',
     docsBranch: 'main',

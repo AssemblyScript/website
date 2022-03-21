@@ -1,14 +1,6 @@
----
-description: Console implementation on top of WASI.
----
-
 # console
 
-An implementation of the `console` global on top of WASI. Requires a WASI-enabled host and opting into WASI in the entry file with
-
-```ts
-import "wasi";
-```
+An implementation of the `console` global. Works with generated [host bindings](../compiler.md#host-bindings) or when [targeting WASI](../concepts.md#targeting-wasi).
 
 ## Static members
 

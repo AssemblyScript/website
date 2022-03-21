@@ -126,7 +126,7 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 * [io-devices-lib](https://github.com/wasmerio/io-devices-lib)<br />
   Library for interacting with the Wasmer Experimental IO Devices.
 * [as-container](https://github.com/yjhmelody/as-container) <br />
-  AssemblyScript version of Rust Option<T> and Result<O, E> etc.
+  AssemblyScript version of Rust Option&lt;T> and Result<O, E> etc.
 * [as-big](https://github.com/ttulka/as-big)<br />
   An AssemblyScript library for arbitrary-precision decimal arithmetic.
 * [as-variant](https://github.com/MaxGraey/as-variant)<br />

@@ -4,160 +4,122 @@ description: Because nobody enjoys being bullied by malloc, free and friends.
 
 # Runtime
 
-::: danger WARNING
-This section is **OUTDATED** and covers version 0.17 of the AssemblyScript compiler. It has been superseded by the new runtime introduced in 0.18 that is now described under [Garbage collection](./garbage-collection.md).
+The AssemblyScript runtime implements the necessary bits for memory management and garbage collection. It is largely invisible to a developer but can become relevant in advanced use cases, for example when integrating AssemblyScript in new environments.
 
-**Migration from AssemblyScript 0.17 to 0.18** requires re-evaluating uses of `__retain` and `__release`, since these have been replaced with `__pin` and `__unpin` with slightly different semantics. An object can now be exactly pinned or not pinned, but cannot be pinned multiple times, and WebAssembly exports do not have a special case of pre-retaining objects for the caller anymore. Also, runtime names have changed, and instead of distinguishing between `full` (runtime exported) and `half` (runtime not exported), there's now an option `--exportRuntime` to achieve the effect with any runtime variant.
+::: tip
+If not applicable to your use case, i.e. it is not necessary to interact with the runtime directly, you can safely skip this section.
 :::
-
-**Documentation for AssemblyScript 0.17:**
-
-AssemblyScript's runtime takes care of all the ins and outs of memory management and garbage collection, yet the compiler lets a developer choose the ideal runtime variant for their use case.
 
 ## Variants
 
-| Variant | Description
-| :------ | :----------
-| full    | A proper memory manager and reference-counting based garbage collector, with runtime interfaces being exported to the host for being able to create managed objects externally.
-| half    | The same as `full` but without any exports, i.e. where creating objects externally is not required. This allows the optimizer to eliminate parts of the runtime that are not needed.
-| stub    | A minimalist arena memory manager without any means of freeing up memory again, but the same external interface as `full`. Useful for very short-lived programs or programs with hardly any memory footprint, while keeping the option to switch to `full` without any further changes. No garbage collection.
-| none    | The same as `stub` but without any exports, for the same reasons as explained in `half`. Essentially evaporates entirely after optimizations.
+The runtime comes in different flavors, each useful in different use cases. The desired runtime can be specified with the `--runtime` compiler option:
 
-The default runtime included in a program is the `full` runtime, but deciding for another variant using the `--runtime` option can help to reduce binary size significantly. The `full` runtime adds about 2KB of additional optimized code to your module, which is not that much considering what it brings to the table, but might still be overkill for simple programs.
+```
+  --runtime             Specifies the runtime variant to include in the program.
 
-::: tip
-Previous versions of the compiler \(pre 0.7\) did not include any runtime functionality by default but instead required `import`ing an allocator and potentially an experimental tracing collector. This is not supported anymore by recent versions of the compiler.
-:::
+                         incremental  TLSF + incremental GC (default)
+                         minimal      TLSF + lightweight GC invoked externally
+                         stub         Minimal runtime stub (never frees)
+                         ...          Path to a custom runtime implementation
+
+  --exportRuntime       Exports the runtime helpers (__new, __collect etc.).
+```
+
+The default `incremental` runtime provides the full package recommended in most use cases. The `minimal` runtime is a stripped down variant (no shadow stack, no heuristic, simpler algorithm, smaller and more efficient) that is not automated and requires calling `__collect` externally at appropriate times (when there are no more values on the WebAssembly stack, which would be the case when WebAssembly calls out to the host, directly or indirectly), whereas the `stub` runtime does not provide a garbage collector at all and never frees (simple bump allocation, extremely small).
+
+For example, the `stub` runtime can be useful where modules are short-lived and collected as a whole anyhow, while the `minimal` runtime provides a compromise for use cases where it is sufficient to collect garbage manually, occasionally, say where a module performs a fixed amount of work before being invoked again.
+
+In case of doubt, use `incremental`, but feel free to experiment with the other potentially more efficient variants where a use case permits.
 
 ## Interface
 
-The following paragraphs are relevant in low-level code respectively when working with objects externally only. In normal high-level code, the compiler utilizes these mechanisms automatically.
+Using the `--exportRuntime` compiler option, the runtime interface can be exported from the module to the host, so it becomes possible to allocate new managed objects and invoke the garbage collector externally.
 
-### Allocating managed objects
-
-When allocating a managed object, it is necessary to also provide its unique class id so the runtime can properly recognize it. The unique id of any managed type can be obtained via `idof<TheType>()`. Each concrete class \(like `String`, `Array<i32>`, `Array<f32>`\) has its own id. The ids of ArrayBuffer \(id=0\), String \(id=1\) and ArrayBufferView \(id=2\) are always the same, while all other ids are generated sequentially on first use of a class and differ between modules. Hence, it is usually necessary to `export Uint8Array_ID = idof<Uint8Array>()` for example when allocating one externally. The relevant interface is:
+It is typically not necessary to invoke the runtime interface manually since generated bindings take care of all the internals. In environments where bindings are not yet available, however, the runtime interface can be utilized to provide the necessary integration.
 
 * ```ts
   function __new(size: usize, id: u32): usize
   ```
-  Dynamically allocates an object represented by the specified id of at least the given size in bytes and returns its address. Alignment is guaranteed to be 16 bytes to fit up to v128 values naturally. Does not zero memory.
-
-The [loader](./loader.md) provides some additional functionality for convenience, like `__newString`.
-
-### Managing lifetimes
-
-The concept is simple: If a reference to an object is established, the reference count of the object is increased by 1 \(a reference is retained\), and when a reference to an object is deleted, the reference count of the object is decreased by 1 \(a reference is released\). If the reference count of an object reaches 0, it is considered for collection and its memory ultimately returned to the memory manager for reuse. The relevant interface is:
+  Allocates a new garbage collected instance of the object represented by the specified class id, of at least the specified size. Returns the pointer to the object (pointing at its data, not its internal header).
 
 * ```ts
-  function __retain(ptr: usize): usize
+  function __pin(ptr: usize): usize
   ```
-  Retains a reference to the object pointed to by `ptr`. The object doesn't become collected as long as there's at least one retained reference to it. Returns the pointer.
+  Pins the object pointed to by `ptr` externally so it and any object it references do not become garbage collected. Note that the same object cannot be pinned more than once.
+
+  An external object that is not referenced from within WebAssembly must be pinned whenever an allocation might happen in between allocating it and passing it to WebAssembly. If not pinned, the allocation may trigger the garbage collector to step, which would prematurely collect the object and lead to undefined behavior.
 
 * ```ts
-  function __release(ptr: usize): void
+  function __unpin(ptr: usize): void
   ```
-  Releases a reference to the object pointer to by `ptr`. The object is considered for collection once all references to it have been released.
+  Unpins the object pointed to by `ptr` externally so it can become garbage collected. Note that the respective object must have been pinned before for the unpin operation to succeed.
 
-The compiler inserts retain and release calls automatically and this is opaque to a user on a higher level. On a lower level, for instance when dealing with managed objects externally, it is necessary to understand and adhere to the rules the compiler applies.
+* ```ts
+  function __collect(): void
+  ```
+  Performs a full garbage collection.
 
-{% hint style="info" %}
-Technically, both `__retain` and `__release` are nops when using the `stub`runtime, so one can either decide to skip the following for good or spend a little extra time to account for the possibility of upgrading to `full` later on.
-{% endhint %}
+* ```ts
+  const __rtti_base: usize
+  ```
+  Pointer to runtime type information in linear memory. RTTI contains information about the various classes utilized in a binary, mapping class ids to object kinds, their key and value layout, and base classes. Its layout is described in detail in [shared/typeinfo](https://github.com/AssemblyScript/assemblyscript/blob/main/std/assembly/shared/typeinfo.ts). Using RTTI, it becomes possible to implement `instanceof` for example, or to tell strings, arrays etc. apart.
 
-#### Rules
+## Memory layout
 
-1. A reference to an object **is retained** when assigning it to a target \(local, global, field or otherwise inserting it into a structure\) of a reference type, with the exceptions stated in \(3\).
-2. A reference to an object **is released** when assigning another object to a target of a reference type previously retaining a reference to it, or if the lifetime of the local or structure currently retaining a reference to an object ends.
-3. A reference to an object **is not released** but **remains retained** when returning a reference typed object from a call \(function, getter, constructor or operator overload\). Instead, the caller is expected to perform the release. This also means: 
-   * If a reference to the object **would be immediately retained** by assigning the object to a target of a reference type, the compiler will not retain it twice, but skip retaining it on assignment.
-   * If a reference to the object **will not be immediately retained**, the compiler will insert a temporary local into the current scope that autoreleases the reference to the object at the end of the scope.
+Overall, AssemblyScript partitions liner memory as follows:
 
-::: tip
-Objects created by calling `__new` start with a reference count of 0. This is not the case for constructors, these behave like calls. Built-ins like `store<T>` emit instructions directly and don't behave like calls.
-:::
+| Region        | Start offset  | End offset            | Description
+|---------------|---------------|-----------------------|-------------
+| Static data   | `0`           | `__data_end`          | Contents of static strings, arrays, etc.
+| Managed stack | `__data_end`  | `__heap_base`         | Present only if the incremental runtime is used.
+| Heap          | `__heap_base` | `memory.size() << 16` | Remaining space is used for dynamic allocations. Can grow.
 
-### Working with references externally
+### Header layout
 
-Working with objects through imports and exports, like when using [the loader](./loader.md), is _relatively_ straight-forward. However, if not handled properly, the program will either leak memory, free objects prematurely or even break. So here's some advice:
+Any kind of managed object in AssemblyScript utilizes a managed header for the runtime to operate on:
 
-* Always `__retain` a reference to manually `__new`'ed objects and `__release` the reference again when done with the object.
-* Always `__release` the reference to an object that was a return value of a call \(see above\) when done with it. It is not necessary to `__retain` a reference to returned objects.
-* Always `__retain` a reference to an object read from memory, and `__release` the reference again when done with the object.
+| Name     | Offset | Type  | Description
+| :------- | -----: | :---- | :----------
+| mmInfo   |    -20 | usize | Memory manager info
+| gcInfo   |    -16 | usize | Garbage collector info
+| gcInfo2  |    -12 | usize | Garbage collector info
+| rtId     |     -8 | u32   | Unique id of the concrete class
+| rtSize   |     -4 | u32   | Size of the data following the header
+|          |        |       |
+|          |      0 |       | Payload starts here
 
-### Working with references internally
+References to an object always point at the start of the payload, with the header beginning 20 bytes before. Null references are just the value `0`. When working with an AssemblyScript module externally, knowing the memory layout can be helpful to for example obtain an object's class id or size. Invoking `__new` automatically prepends a managed header and registers the object with the GC, using the provided class id for `rtId` and the provided size for `rtSize`.
 
-Working with objects internally, like when creating custom standard library components or otherwise writing low-level code, requires special care because switching between pointers and reference types can become quite tricky. The internal interface also provides [additional utility](https://github.com/AssemblyScript/assemblyscript/tree/main/std/assembly/rt) that is only relevant in very specific cases.
+### Class layout
 
-::: tip
-One common point of confusion here is that the rules above **operate on types, not values**. Means: If the target is of a reference-type, the rules apply, but if the target is of an `usize` type, the rules do not apply, even if the value is a `changetype<usize>(..)`'d object.
-:::
+Class fields are laid out similarly to C structs, sequentially and without packing. Each field is aligned to its type's native alignment, potentially leaving padding in between. If a class has the `@unmanaged` decorator, it effectively only describes a region of memory as if it were a struct that does not utilize a managed header, is not garbage collected, and can be used with `heap.free`. Managed classes with a managed header cannot be manually freed, and managed and unmanaged classes cannot be mixed (e.g. extend from each other).
 
-```ts
-{
-  let ref = new ArrayBuffer(10) // retains (reference type)
-  let buf = changetype<usize>(ref) // does not retain (usize)
-  ...
-  // compiler will automatically __release(ref)
-}
-```
+Standard library data types use the following layouts:
 
-```ts
-{
-  let buf = changetype<usize>(new ArrayBuffer(10)) // does not retain (usize)
-  // inserts a temporary, because _the object_ is not immediately assigned
-  ...
-  // compiler will automatically __release(theTemp)
-}
-```
+Class           | Description
+----------------|-------------
+ArrayBuffer     | Buffers always use class id `0`, with their untyped data as the payload.
+String          | Strings always use class id `1`, with their 16-bit char codes (UTF-16 code units, allowing isolated surrogates like JS) as the payload. For example, if `rtSize` is `8`, the string's `.length` is `4`.
+TypedArray      | Typed arrays are objects composed of `buffer` (the reference to the viewed `ArrayBuffer`), `dataStart` (the start pointer into `buffer`) and `byteLength` fields, in this order. The respective id is picked sequentially and not predetermined.
+Array\<T>       | Normal arrays use the same layout as typed arrays, with an additional mutable `length` field coming last.
+StaticArray\<T> | Static arrays do not need indirection due to not being resizable, and they have their data right in the payload, aligned according to `T`. Can be thought of as a typed buffer.
+Function        | Functions are objects composed of their table `index` and their lexical `env` (currently always `0`).
+Map/Set/...     | Other collection use more complex layouts. Please refer to their respective sources.
 
-```ts
-{
-  let ref = changetype<ArrayBuffer>(__new(10, idof<ArrayBuffer>())
-  // retains on ref, because after changetype an object is assigned
-  ...
-  // compiler will automatically __release(ref)
-}
-```
+It is also possible to build custom data types that integrate with the GC by implementing the `__visit` interface (that iterates all references contained in an object of this kind). Please refer to the sources of preexisting data types for examples.
 
-### Collecting garbage
+## Calling convention
 
-By default, the full and half runtime will automatically try to collect cyclic garbage when memory must be grown. This behavior can be disabled by setting `gc.auto = false` in performance critical code. Likewise, if there is a good opportunity to collect cyclic garbage at a given point in time, like if the application is idle, `gc.collect()` can be called to force a full garbage collection cycle. Protip: If no cyclic structures are used, no garbage must be collected.
+AssemblyScript's calling convention is relatively straight forward, as it does not add additional parameters to functions or other behind-the-scenes magic. Note that generated bindings take care of the calling convention automatically, but other environments may want to adhere to it specifically.
 
-## Implementation
+### Basic values
 
-The memory manager used by AssemblyScript is a variant of TLSF \([Two-Level Segregate Fit memory allocator](http://www.gii.upv.es/tlsf/)\) and it is accompanied by PureRC \(a variant of [A Pure Reference Counting Garbage Collector](https://researcher.watson.ibm.com/researcher/files/us-bacon/Bacon03Pure.pdf)\) with [slight modifications of assumptions](https://github.com/dcodeIO/purerc) to avoid unnecessary work. Essentially, TLSF is responsible for partitioning [dynamic memory](./memory.md#dynamic-memory) into chunks that can be used by the various objects, while PureRC keeps track of their lifetimes.
+Exported functions wrap basic numeric return values to their respective value ranges. Basic numeric values passed to exported functions are wrapped to their respective value ranges on demand.
 
-## Performance considerations
+### Managed values
 
-Both the TLSF memory manager and the concept of reference counting are a good fit for _predictable performance_ scenarios. Remember: WebAssembly is about exactly that. It is not necessarily the fastest choice in every possible scenario, though.
+Any kind of object is passed as a pointer into memory, and the host is expected to perform the steps necessary to exchange the value between linear memory and the host system. For example, when a string is passed from WebAssembly to the host or vice-versa, it is not its data that is passed but a pointer to the string's data in linear memory. In order to read the data, the managed header before the payload can be evaluated to obtain the string's byte length. Note that [host bindings](./compiler.md#host-bindings) automate this process for common data types.
 
-It is also likely that our implementations are not as optimized yet as ultimately possible. If you are smarter than us, please let us know of your thoughts and findings.
+### Optional arguments
 
-## Internals
-
-If you are interested in the inner workings, the internal APIs are explained in [the runtime's README file](https://github.com/AssemblyScript/assemblyscript/tree/main/std/assembly/rt) and of course in its sources - feel free to take a look!
-
-#### Runtime type information \(RTTI\)
-
-Every module using managed objects contains a memory segment with basic type information, that [the loader](./loader.md) for example uses when allocating new arrays. Internally, RTTI is used to perform dynamic `instanceof` checks and to determine whether a class is inherently acyclic. The memory offset of RTTI can be obtained by reading the `__rtti_base` global. Essentially, the compiler maps every concrete class to a unique id, starting with 0 \(=ArrayBuffer\), 1 \(=String\) and 2 \(=ArrayBufferView\) . For each such class, the compiler remembers the id of the respective base class, if any, and a set of flags describing the class. Flags for example contain information about key and value alignments, whether a class is managed and so on. Structure is like this:
-
-| Name        | Offset | Type | Description
-| :---------- | -----: | :--- | :----------
-| #count      |      0 | u32  | Number of concrete classes
-| #flags\[0\] |      4 | u32  | Flags describing the class with id=0
-| #base\[0\]  |      8 | u32  | Base class id of the class with id=0
-| #flags\[1\] |     12 | u32  | ... etc. ...
-
-Flag values are currently still in flux, but if you are interested in these, feel free to take a look at the sources.
-
-#### Notes
-
-Unlike other reference counting implementions, allocating an object starts with a reference count of 0. This is useful in standard library code where memory is first allocated and then assigned to a variable, establishing the first reference.
-
-The compiler does some extra work to evaluate whether an object can potentially become part of a reference cycle. Any object that cannot directly or indirectly reference another object of its kind is considered _inherently acyclic_, so it does not have to be added to the cycle buffer for further evaluation by deferred garbage collection.
-
-Due to the lack of random access to WebAssembly's execution stack \(remember: AssemblyScript does not have a stack on its own\), values returned from a function become pre-retained for the caller, expecting that it will release the reference at the end, or give the reference to its own caller. This also leads to situations where sometimes a reference must be retained on assignment, and sometimes it must not. It also leads to situations where two branches must be unified, for example if there is a pre-retained value in one arm and one that is not in the other. The compiler is taking care of these situations, but it also requires special care when dealing with the reference counting internals within the standard library.
-
-The compiler also utilizes a concept of so called autorelease locals. Essentially, if a reference enters a block of code from somewhere else, is pre-retained but not immediately assigned, such a local is added to the current scope to postpone the necessary release until the scope is exited.
-
-One thing not particularly ideal at this point is that each function is expected to retain the reference-type arguments it is given, and release them again at the end. This is necessary because the compiler does just a single pass and doesn't know whether a variable becomes reassigned beforehand \(no SSA or similar, that's left to Binaryen in an attempt to avoid duplicating its code\). It does already skip this for certain variables like `this` that cannot be reassigned, but there are definitely more optimization opportunities along the way. Due to AssemblyScript essentially being a compiler on top of another compiler, it is somewhat unclear however where to perform such optimizations.
+When an exported function allows one or multiple arguments to be omitted, the module must be informed of the number of significant arguments by calling `exports.__setArgumentsLength(numArgs)` before calling the export, so it can fill in default values. Omitted arguments are not evaluated, i.e. zeroes can be passed. Not calling the helper leads to undefined behavior. If a function has a fixed number of arguments, it is not necessary to call the helper. The helper may not be present if a module only exports functions with a fixed number of arguments.
