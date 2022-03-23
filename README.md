@@ -1,7 +1,7 @@
 AssemblyScript's Website
 ========================
 
-![Deploy](https://github.com/AssemblyScript/website/workflows/Deploy/badge.svg?branch=main)
+[![Deploy](https://github.com/AssemblyScript/website/workflows/Deploy/badge.svg?branch=main)](https://github.com/AssemblyScript/website/actions?query=workflow%3ADeploy)
 
 The site is built with [VuePress](https://vuepress.vuejs.org/) and reuses its default theme to ease upgrading to newer versions.
 
@@ -33,11 +33,9 @@ export function add(a: i32, b: i32): i32 {
 }
 
 #!html
-<script>
-loader.instantiate(module_wasm, { /* imports */ })
-  .then(({ exports }) => {
-    console.log(exports.add(1, 2))
-  })
+<script type="module">
+const exports = await instantiate(await compile(), { /* imports */ })
+console.log(exports.add(1, 2))
 </script>
 ```
 ````
