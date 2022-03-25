@@ -53,9 +53,14 @@ Optimization levels can also be tweaked manually: `--optimizeLevel` \(0-3\) indi
 Typical output formats are WebAssembly binary \(.wasm, `--outFile`\) and/or text format \(.wat, `--textFile`\). Often, both are used in tandem to run and also inspect generated code.
 
 ```
---outFile, -o         Specifies the output file. File extension indicates format.
---textFile, -t        Specifies the text output file (.wat).
---tsdFile, -d         Specifies the TypeScript definition output file (.d.ts).
+--outFile, -o         Specifies the WebAssembly output file (.wasm).
+--textFile, -t        Specifies the WebAssembly text output file (.wat).
+--bindings, -b        Specifies the bindings to generate (.js + .d.ts).
+
+                        esm  JavaScript bindings & typings for ESM integration.
+                        raw  Like esm, but exports just the instantiate function.
+                             Useful where modules are meant to be instantiated
+                             multiple times or non-ESM imports must be provided.
 ```
 
 ### Debugging
@@ -320,6 +325,65 @@ export function getObjectField(target: ComplexObject): string | null {
 
 Also note that exporting an entire `class` has no effect at the module boundary (yet), and it is instead recommended to expose only the needed functionality as shown in the example above. Supported elements at the boundary are globals, functions and enums.
 
+### Using esm bindings
+
+Bindings generated with `--bindings esm` perform all the steps from compilation over instantiation to exporting the final interface. To do so, a few assumptions had to be made:
+
+* The WebAssembly binary is located next to the JavaScript bindings file using the same name but with a `.wasm` extension.
+  ```
+  build/mymodule.js
+  build/mymodule.wasm
+  ```
+
+* JavaScript globals in `globalThis` can be accessed directly via the `env` module namespace. For example, `console.log` can be manually imported through:
+  ```ts
+  @external("env", "console.log")
+  declare function consoleLog(s: string): void
+  ```
+  Note that this is just an example and `console.log` is already provided by the standard library when called from an AssemblyScript file. Other global functions not already provided by the standard library may require an import as of this example, though.
+
+* Imports from other namespaces than `env`, i.e. `(import "module" "name")`, become an `import { name } from "module"` within the binding. Importing a custom function from a JavaScript file next to the bindings file can be achieved through:
+  ```ts
+  @external("./otherfile.js", "myFunction")
+  declare function myFunction(...): ...
+  ```
+  Similarly, importing a custom function from, say, a Node.js dependency can be achieved through:
+  ```ts
+  @external("othermodule", "myFunction")
+  declare function myFunction(...): ...
+  ```
+
+These assumptions cannot be intercepted or customized since, to provide static ESM exports from the bindings file directly, instantiation must start immediately when the bindings file is imported. If customization is required, `--bindings raw` can be used instead.
+
+### Using raw bindings
+
+The signature of the single `instantiate` function exported by `--bindings raw` is:
+
+```ts
+export async function instantiate(module: WebAssembly.Module, imports?: WebAssembly.Imports): AdaptedExports
+```
+
+Note that the function does not make any assumptions on how the module is to be compiled, but instead expects a readily compiled `WebAssembly.Module` as in this example:
+
+```ts
+import { instantiate } from "./module.js"
+const exports = await instantiate(await WebAssembly.compileStreaming(fetch("./module.wasm")), { /* imports */ })
+```
+Unlike `--bindings esm`, raw bindings also do not make any assumptions on how imports are resolved, so these must be provided manually as part of the imports object. For example, to achieve a similar result as with esm bindings, but now customizable:
+
+```ts
+import { instantiate } from "./module.js"
+import { myFunction } from "./otherfile.js"
+export const {
+  myExport1,
+  myExport2,
+  ...
+} = await instantiate(await WebAssembly.compileStreaming(fetch("./module.wasm")), {
+  "./otherfile.js": {
+    myFunction
+  }
+})
+```
 
 ## Debugging
 
