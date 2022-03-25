@@ -299,9 +299,8 @@
     </div>
   </div>
   <input type="text" id="clipboardHelper" aria-hidden="true" />
-  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.31.1/min/vs/loader.js"></script>
-  <!--<script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1.5.1/dist/es-module-shims.js"></script>-->
-  <script async src="./scripts/es-module-shims.js"></script><!-- TODO: upgrade to 1.5.2 w/ #276-->
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.33.0/min/vs/loader.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1/dist/es-module-shims.wasm.js"></script>
   <script type="importmap">
     {
       "imports": {
@@ -325,7 +324,7 @@
 
     // TODO: upgrade to recent version once the following issue is fixed:
     // https://github.com/microsoft/monaco-editor/issues/2962
-    const MONACO_VERSION = '0.31.1'
+    const MONACO_VERSION = '0.33.0'
     const MONACO_EDITOR_FONT = 'JetBrains Mono'
 
     function crossDomainWorker() {
