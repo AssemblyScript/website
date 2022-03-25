@@ -325,7 +325,7 @@ export function getObjectField(target: ComplexObject): string | null {
 
 Also note that exporting an entire `class` has no effect at the module boundary (yet), and it is instead recommended to expose only the needed functionality as shown in the example above. Supported elements at the boundary are globals, functions and enums.
 
-### Using esm bindings
+### Using ESM bindings
 
 Bindings generated with `--bindings esm` perform all the steps from compilation over instantiation to exporting the final interface. To do so, a few assumptions had to be made:
 
@@ -333,6 +333,9 @@ Bindings generated with `--bindings esm` perform all the steps from compilation 
   ```
   build/mymodule.js
   build/mymodule.wasm
+  ```
+  ```js
+  import * as myModule from "./build/mymodule.js"
   ```
 
 * JavaScript globals in `globalThis` can be accessed directly via the `env` module namespace. For example, `console.log` can be manually imported through:
@@ -365,23 +368,21 @@ export async function instantiate(module: WebAssembly.Module, imports?: WebAssem
 
 Note that the function does not make any assumptions on how the module is to be compiled, but instead expects a readily compiled `WebAssembly.Module` as in this example:
 
-```ts
+```js
 import { instantiate } from "./module.js"
 const exports = await instantiate(await WebAssembly.compileStreaming(fetch("./module.wasm")), { /* imports */ })
 ```
-Unlike `--bindings esm`, raw bindings also do not make any assumptions on how imports are resolved, so these must be provided manually as part of the imports object. For example, to achieve a similar result as with esm bindings, but now customizable:
+Unlike `--bindings esm`, raw bindings also do not make any assumptions on how imports are resolved, so these must be provided manually as part of the imports object. For example, to achieve a similar result as with ESM bindings, but now customizable:
 
-```ts
+```js
 import { instantiate } from "./module.js"
-import { myFunction } from "./otherfile.js"
+import * as other from "./otherfile.js"
 export const {
-  myExport1,
-  myExport2,
+  export1,
+  export2,
   ...
 } = await instantiate(await WebAssembly.compileStreaming(fetch("./module.wasm")), {
-  "./otherfile.js": {
-    myFunction
-  }
+  "./otherfile.js": other
 })
 ```
 
