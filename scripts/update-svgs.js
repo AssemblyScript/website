@@ -131,10 +131,12 @@ function layoutItems(items, data, y) {
       while (i < items.length) {
         const item = items[i]
         const image = item.image
-        const newW = w + image.width + (w > 0 ? margin(image.height) : 0)
-        if (newW >= WIDTH - 20) break // leave a little space around
-        rowItems.push(item)
-        w = newW
+        if (image) {
+          const newW = w + image.width + (w > 0 ? margin(image.height) : 0)
+          if (newW >= WIDTH - 20) break // leave a little space around
+          rowItems.push(item)
+          w = newW
+        }
         ++i
       }
       x = (WIDTH - w) >>> 1
