@@ -4,7 +4,7 @@
       <p>
         <span class="item">Apache-2.0 licensed</span>,
         <span class="item">Copyright © {{ new Date().getFullYear() }}</span> 
-        <span class="item">The AssemblyScript Project</span>
+        <span class="item">The AssemblyScript Authors</span>
       </p>
     </div>
   </Layout>
