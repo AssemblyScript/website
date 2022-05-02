@@ -103,7 +103,7 @@ The result of a bit shift \(`<<`, `>>`\) is the left type, with the right type i
 
 The result of an unsigned right shift \(`>>>`\) is the left type \(signedness is retained\), with the right type implicitly converted to the left type, but always performing a logical shift.
 
-Note that only the `log2(sizeof<T>())` least signficant bits of the shift affect the result:
+Note that only the `log2(sizeof<T>())` least significant bits of the shift affect the result:
 
 | Type      | Significant bits | Example
 | :-------- | :--------------: | :------------------------
