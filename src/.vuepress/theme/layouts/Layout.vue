@@ -3,7 +3,7 @@
     <div slot="page-bottom" class="footer">
       <p>
         <span class="item">Apache-2.0 licensed</span>,
-        <span class="item">Copyright © {{ new Date().getFullYear() }}</span> 
+        <span class="item">Copyright © 2020-{{ new Date().getFullYear() }}</span>
         <span class="item">The AssemblyScript Authors</span>
       </p>
     </div>
