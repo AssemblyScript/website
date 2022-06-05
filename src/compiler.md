@@ -15,7 +15,15 @@ The compiler supports various options available on the command line, in a config
 Non-option arguments are treated as the names of entry files. A single program can have multiple entries, with the exports of each entry becoming the exports of the WebAssembly module. Exports of imported files that are not entry files do not become WebAssembly module exports.
 
 ```sh
-asc entryFile.ts
+asc entryFileA.ts entryFileB.ts
+```
+
+You can use the `entries` option in `asconfig.json` as an alternative to specifying entries with the CLI:
+
+```json
+{
+  "entries": ["entryFileA.ts", "entryFileB.ts"]
+}
 ```
 
 ### General
