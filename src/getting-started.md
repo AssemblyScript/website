@@ -116,4 +116,4 @@ So far, so good! Now it is time to start editing the project of course, which ty
 
 * Realizing that WebAssembly still has a ways to go 🙂
 
-But that's it already for a quick start. Read on to [learn more](/compiler.md)!
+But that's it all ready for a quick start. Read on to [learn more](/compiler.md)!
