@@ -86,35 +86,69 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Create 3d text in BabylonJS.
 * [seam-carving-as](https://github.com/alexvictoor/seam-carving-as)<br />
   Seam Carving experiments with AssemblyScript.
+* [ASWebGLue](https://github.com/battlelinegames/ASWebGLue)<br />
+  WebGL bindings for AssemblyScript.
+* [GLAS](https://github.com/lume/glas)<br />
+  Web**GL** in **A**ssembly**S**cript, port of [Three.js](https://github.com/mrdoob/three.js/) to AssemblyScript.
 
-## Libraries
+
+## Data serialization/deserialization
 
 * [AS-LZMA](https://github.com/01alchemist/AS-LZMA)<br />
   LZMA Decoder written in AssemblyScript.
 * [assemblyscript-bson](https://github.com/nearprotocol/assemblyscript-bson)<br />
   BSON encoder / decoder.
+* [as-json](https://github.com/JairusSW/as-json)<br />
+  JSON encoder / decoder.
 * [assemblyscript-json](https://github.com/nearprotocol/assemblyscript-json)<br />
   JSON encoder / decoder.
-* [as-bignum](https://github.com/MaxGraey/as-bignum) \(formerly bignum.wasm\)<br />
-  Fixed length big numbers like `u128`, `i256`, `fp128` and etc for AssemblyScript.
-* [ASTL](https://github.com/samchon/astl)<br />
-  Migration project from C++ STL (Standard Template Library) to AssemblyScript. Containers, iterators, algorithms and functors are supported.
-* [Levenshtein Wasm](https://github.com/kyranet/levenshtein-wasm)<br />
-  An experimental lightning-fast Wasm-compiled levenshtein library.
+* [as-proto](https://github.com/piotr-oles/as-proto)<br />
+  Protobuf encoder/decoder library.
+
+## Crypto (non-blockchain)
+
 * [superfasthash](https://github.com/mjethani/superfasthash)<br />
   An implementation of the SuperFastHash non-cryptographic hashing algorithm in JavaScript and WebAssembly.
-* [as-wasi](https://github.com/jedisct1/as-wasi)<br />
-  An AssemblyScript API layer for WASI system calls.
 * [WASM-Crypto](https://github.com/jedisct1/wasm-crypto)<br />
   An AssemblyScript set of cryptographic primitives for building authentication and key exchange protocols.
 * [rabin-wasm](https://github.com/hugomrdias/rabin-wasm)<br />
   Rabin fingerprinting implemented in WASM _\(used by js-ipfs\)_**.**
+* [xoroshiro128starstar](https://github.com/krisselden/xoroshiro128starstar)<br />
+  An AssemblyScript port of xoroshiro128starstar.c
+  
+## Big numbers
+
+* [as-bignum](https://github.com/MaxGraey/as-bignum) \(formerly bignum.wasm\)<br />
+  Fixed length big numbers like `u128`, `i256`, `fp128` and etc for AssemblyScript.
+* [as-big](https://github.com/ttulka/as-big)<br />
+  An AssemblyScript library for arbitrary-precision decimal arithmetic.
+  
+## Language extensions and types
+
+* [as-container](https://github.com/yjhmelody/as-container) <br />
+  AssemblyScript version of Rust Option&lt;T> and Result<O, E> etc.
+* [as-variant](https://github.com/MaxGraey/as-variant)<br />
+  Variant (aka Any) data type for AssemblyScript.
+  
+## Bindings
+
+* [asdom](https://github.com/lume/asdom)<br />
+  DOM bindings for AssemblyScript.
+* [ecmassembly](https://github.com/aspkg/ecmassembly)<br />
+  Bindings for common ECMAScript/JavaScript APIs that require host scheduling (`setTimeout`, `Promise`, etc).
+
+## Other Libraries
+
+* [ASTL](https://github.com/samchon/astl)<br />
+  Migration project from C++ STL (Standard Template Library) to AssemblyScript. Containers, iterators, algorithms and functors are supported.
+* [Levenshtein Wasm](https://github.com/kyranet/levenshtein-wasm)<br />
+  An experimental lightning-fast Wasm-compiled levenshtein library.
+* [as-wasi](https://github.com/jedisct1/as-wasi)<br />
+  An AssemblyScript API layer for WASI system calls.
 * [galois](https://github.com/GuildOfWeavers/galois)<br />
   Arithmetic and polynomial operations in finite fields.
 * [merkle](https://github.com/GuildOfWeavers/merkle)<br />
   Merkle tree and other data structures.
-* [xoroshiro128starstar](https://github.com/krisselden/xoroshiro128starstar)<br />
-  An AssemblyScript port of xoroshiro128starstar.c
 * [pixelmatch-asc](https://github.com/jamesmilneruk/pixelmatch-asc)<br />
   Pixel level image comparison library.
 * [as-bind](https://github.com/torch2424/as-bind)<br />
@@ -125,16 +159,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Work with AssemblyScript memory and classes from Python.
 * [io-devices-lib](https://github.com/wasmerio/io-devices-lib)<br />
   Library for interacting with the Wasmer Experimental IO Devices.
-* [as-container](https://github.com/yjhmelody/as-container) <br />
-  AssemblyScript version of Rust Option&lt;T> and Result<O, E> etc.
-* [as-big](https://github.com/ttulka/as-big)<br />
-  An AssemblyScript library for arbitrary-precision decimal arithmetic.
-* [as-variant](https://github.com/MaxGraey/as-variant)<br />
-  Variant (aka Any) data type for AssemblyScript.
 * [as-string-sink](https://github.com/MaxGraey/as-string-sink)<br />
   An efficient dynamically sized string buffer (aka String Builder) for AssemblyScript.
-* [as-proto](https://github.com/piotr-oles/as-proto)<br />
-  Protobuf encoder/decoder library.
 
 ## Embedded / IoT
 
@@ -148,14 +174,16 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 ## Testing
 
 * [as-pect](https://github.com/jtenner/as-pect)<br />
-  A test framework for AssemblyScript inspired by jest.
+  A test framework for AssemblyScript<=0.19 inspired by jest.
+* [envy](https://github.com/jtenner/envy)<br />
+  A test framework for AssemblyScript>=0.20, spiritual successor of as-pect.
 
 ## Project Templates
 
 * [worker-assemblyscript-template](https://github.com/JamesLMilner/worker-assemblyscript-template)<br />
   A Cloudflare wrangler template for a AssemblyScript worker.
 
-## Other
+## Applications
 
 * [wasm-matrix](https://github.com/torch2424/wasm-matrix)<br />
   A Matrix effect in your terminal using AssemblyScript and WASI, deployed to WAPM.
