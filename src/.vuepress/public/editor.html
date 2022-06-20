@@ -632,6 +632,7 @@
       // --zeroFilledMemory depends on --importMemory
       optionImportMemory.addEventListener('change', evt => {
         optionZeroFilledMemory.disabled = !evt.target.checked;
+        if (!evt.target.checked) optionZeroFilledMemory.checked = false;
       })
 
       // Make contents shareable
