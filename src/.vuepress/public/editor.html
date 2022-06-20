@@ -253,9 +253,10 @@
         <div class="option">
           <p><input id="option-noExportMemory" type="checkbox" /><label for="option-noExportMemory"> Don't export memory to host</label></p>
           <p><input id="option-importMemory" type="checkbox" /><label for="option-importMemory"> Import memory from host</label></p>
+          <p><input id="option-zeroFilledMemory" type="checkbox" disabled/><label for="option-zeroFilledMemory"> Assume imported memory is zeroed</label></p>
           <p><input id="option-exportTable" type="checkbox" /><label for="option-exportTable"> Export function table to host</label></p>
           <p><input id="option-importTable" type="checkbox" /><label for="option-importTable"> Import function table from host</label></p>
-          <p><input id="option-explicitStart" type="checkbox" /><label for="option-explicitStart"> Explicit start function</label></p>
+          <p><input id="option-exportStart" type="checkbox" /><label for="option-exportStart"> Export start function</label></p>
         </div>
       </div>
       <div class="column">
@@ -401,9 +402,10 @@
     const optionExportRuntime = document.getElementById('option-exportRuntime')
     const optionNoExportMemory = document.getElementById('option-noExportMemory')
     const optionImportMemory = document.getElementById('option-importMemory')
+    const optionZeroFilledMemory = document.getElementById('option-zeroFilledMemory')
     const optionExportTable = document.getElementById('option-exportTable')
     const optionImportTable = document.getElementById('option-importTable')
-    const optionExplicitStart = document.getElementById('option-explicitStart')
+    const optionExportStart = document.getElementById('option-exportStart')
     const optionMemoryBase = document.getElementById('option-memoryBase')
     const optionTableBase = document.getElementById('option-tableBase')
     const optionUse = document.getElementById('option-use')
@@ -420,9 +422,10 @@
       'exportRuntime': optionExportRuntime,
       'noExportMemory': optionNoExportMemory,
       'importMemory': optionImportMemory,
+      'zeroFilledMemory': optionZeroFilledMemory,
       'exportTable': optionExportTable,
       'importTable': optionImportTable,
-      'explicitStart': optionExplicitStart
+      'exportStart': optionExportStart
     }
 
     const optionNumerical = {
@@ -629,6 +632,11 @@
           if (optionsVisible) toggleOptions(null)
         }))
 
+      // --zeroFilledMemory depends on --importMemory
+      optionImportMemory.addEventListener('change', evt => {
+        optionZeroFilledMemory.disabled = !evt.target.checked;
+      })
+
       // Make contents shareable
       let clipboardTimer = null
       document.querySelector('.button.share').addEventListener('click', evt => {
@@ -780,14 +788,17 @@
         if (optionImportMemory.checked) {
           options.push('--importMemory')
         }
+        if (optionZeroFilledMemory.checked) {
+          options.push('--zeroFilledMemory')
+        }
         if (optionExportTable.checked) {
           options.push('--exportTable')
         }
         if (optionImportTable.checked) {
           options.push('--importTable')
         }
-        if (optionExplicitStart.checked) {
-          options.push('--explicitStart')
+        if (optionExportStart.checked) {
+          options.push('--exportStart')
         }
         const memoryBase = parseInt(optionMemoryBase.value, 10)
         if (memoryBase > 0 && memoryBase <= 4294967295) {
