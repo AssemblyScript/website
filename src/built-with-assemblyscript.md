@@ -51,8 +51,6 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 
 ## Editors
 
-* [WebAssembly Studio](https://github.com/wasdk/WebAssemblyStudio)<br />
-  Learn, Teach, Work and Play in the WebAssembly Studio.
 * [Fastly Terrarium](https://wasm.fastlylabs.com/)<br />
   A compilation toolchain and sandbox to run WebAssembly server-side, with native support for AssemblyScript.
 * [NEAR Protocol Examples](https://examples.near.org/)<br />
@@ -115,21 +113,21 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Rabin fingerprinting implemented in WASM _\(used by js-ipfs\)_**.**
 * [xoroshiro128starstar](https://github.com/krisselden/xoroshiro128starstar)<br />
   An AssemblyScript port of xoroshiro128starstar.c
-  
+
 ## Big numbers
 
 * [as-bignum](https://github.com/MaxGraey/as-bignum) \(formerly bignum.wasm\)<br />
   Fixed length big numbers like `u128`, `i256`, `fp128` and etc for AssemblyScript.
 * [as-big](https://github.com/ttulka/as-big)<br />
   An AssemblyScript library for arbitrary-precision decimal arithmetic.
-  
+
 ## Language extensions and types
 
 * [as-container](https://github.com/yjhmelody/as-container) <br />
   AssemblyScript version of Rust Option&lt;T> and Result<O, E> etc.
 * [as-variant](https://github.com/MaxGraey/as-variant)<br />
   Variant (aka Any) data type for AssemblyScript.
-  
+
 ## Bindings
 
 * [asdom](https://github.com/lume/asdom)<br />
