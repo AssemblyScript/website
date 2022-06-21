@@ -256,6 +256,7 @@
           <p><input id="option-zeroFilledMemory" type="checkbox" disabled/><label for="option-zeroFilledMemory"> Assume imported memory is zeroed</label></p>
           <p><input id="option-exportTable" type="checkbox" /><label for="option-exportTable"> Export function table to host</label></p>
           <p><input id="option-importTable" type="checkbox" /><label for="option-importTable"> Import function table from host</label></p>
+          <p><input id="option-exportStart" type="checkbox" /><label for="option-exportStart"> Explicit export start as _start</label></p>
         </div>
       </div>
       <div class="column">
@@ -404,6 +405,7 @@
     const optionZeroFilledMemory = document.getElementById('option-zeroFilledMemory')
     const optionExportTable = document.getElementById('option-exportTable')
     const optionImportTable = document.getElementById('option-importTable')
+    const optionExportStart = document.getElementById('option-exportStart')
     const optionMemoryBase = document.getElementById('option-memoryBase')
     const optionTableBase = document.getElementById('option-tableBase')
     const optionUse = document.getElementById('option-use')
@@ -422,7 +424,8 @@
       'importMemory': optionImportMemory,
       'zeroFilledMemory': optionZeroFilledMemory,
       'exportTable': optionExportTable,
-      'importTable': optionImportTable
+      'importTable': optionImportTable,
+      'exportStart': optionExportStart
     }
 
     const optionNumerical = {
@@ -794,6 +797,9 @@
         }
         if (optionImportTable.checked) {
           options.push('--importTable')
+        }
+        if (optionExportStart.checked) {
+          options.push('--exportStart', '_start')
         }
         const memoryBase = parseInt(optionMemoryBase.value, 10)
         if (memoryBase > 0 && memoryBase <= 4294967295) {
