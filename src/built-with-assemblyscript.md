@@ -73,11 +73,17 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   A free and open source chess game using AssemblyScript and React.
 * [Gomoku WASM](https://github.com/jolestar/gomoku-wasm) \([play](http://jolestar.com/gomoku-wasm)\)<br />
   A Gomoku game implements with WebAssembly using [as2d](https://github.com/as2d/as2d).
+* [2d-videogame-in-assemblyscript](https://github.com/ttulka/2d-videogame-in-assemblyscript)<br />
+  Demo 2D videogame in AssemblyScript.
+* [fiberoptic-game](https://github.com/ameliabradley/fiberoptic-game)<br />
+  Web game produced with AssemblyScript for js13k 2018.
 
-## Graphics
+## Graphics / Game Frameworks
 
 * [as2d](https://github.com/as2d/as2d)<br />
-  Bring the power of the CanvasRenderingContext2D prototype to AssemblyScript.
+  \[_Deprecated_\] Bring the power of the CanvasRenderingContext2D prototype to AssemblyScript.
+* [koora](https://github.com/mrchantey/koora)<br />
+  Assemblyscript 3D Game Framework.
 * [as-smallpt](https://github.com/01alchemist/as-smallpt)<br />
   Port of C++ smallpt, a path tracing renderer.
 * [Babylon.Font](https://github.com/ycw/Babylon.Font)<br />
@@ -89,8 +95,7 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 * [GLAS](https://github.com/lume/glas)<br />
   Web**GL** in **A**ssembly**S**cript, port of [Three.js](https://github.com/mrdoob/three.js/) to AssemblyScript.
 
-
-## Data serialization/deserialization
+## Data Serialization / Deserialization
 
 * [AS-LZMA](https://github.com/01alchemist/AS-LZMA)<br />
   LZMA Decoder written in AssemblyScript.
@@ -110,18 +115,22 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 * [WASM-Crypto](https://github.com/jedisct1/wasm-crypto)<br />
   An AssemblyScript set of cryptographic primitives for building authentication and key exchange protocols.
 * [rabin-wasm](https://github.com/hugomrdias/rabin-wasm)<br />
-  Rabin fingerprinting implemented in WASM _\(used by js-ipfs\)_**.**
+  Rabin fingerprinting implemented in WASM _\(used by js-ipfs\)_.
 * [xoroshiro128starstar](https://github.com/krisselden/xoroshiro128starstar)<br />
   An AssemblyScript port of xoroshiro128starstar.c
 
-## Big numbers
+## Fixed & Arbitrary Precision Arithmetics
 
-* [as-bignum](https://github.com/MaxGraey/as-bignum) \(formerly bignum.wasm\)<br />
+* [as-bignum](https://github.com/MaxGraey/as-bignum)<br />
   Fixed length big numbers like `u128`, `i256`, `fp128` and etc for AssemblyScript.
 * [as-big](https://github.com/ttulka/as-big)<br />
   An AssemblyScript library for arbitrary-precision decimal arithmetic.
+* [as-bigint](https://github.com/polywrap/as-bigint)<br />
+  BigInt is an AssemblyScript class for math with arbitrarily large integers.
+* [as-bignumber](https://github.com/polywrap/as-bignumber)<br />
+  An AssemblyScript class for math with arbitrary-precision decimal and integer numbers.
 
-## Language extensions and types
+## Language Extensions and Types
 
 * [as-container](https://github.com/yjhmelody/as-container) <br />
   AssemblyScript version of Rust Option&lt;T> and Result<O, E> etc.
@@ -134,11 +143,15 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   DOM bindings for AssemblyScript.
 * [ecmassembly](https://github.com/aspkg/ecmassembly)<br />
   Bindings for common ECMAScript/JavaScript APIs that require host scheduling (`setTimeout`, `Promise`, etc).
+* [wasmbind](https://github.com/miracle2k/wasmbind)<br />
+  Work with AssemblyScript memory and classes from Python.
+* [as-bind](https://github.com/torch2424/as-bind)<br />
+  \[_Deprecated_\] Isomorphic library to handle passing high-level data structures between AssemblyScript and JavaScript, built on top of the AssemblyScript loader.
 
 ## Other Libraries
 
 * [ASTL](https://github.com/samchon/astl)<br />
-  Migration project from C++ STL (Standard Template Library) to AssemblyScript. Containers, iterators, algorithms and functors are supported.
+  \[_Deprecated_\] Migration project from C++ STL (Standard Template Library) to AssemblyScript. Containers, iterators, algorithms and functors are supported.
 * [Levenshtein Wasm](https://github.com/kyranet/levenshtein-wasm)<br />
   An experimental lightning-fast Wasm-compiled levenshtein library.
 * [as-wasi](https://github.com/jedisct1/as-wasi)<br />
@@ -149,12 +162,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Merkle tree and other data structures.
 * [pixelmatch-asc](https://github.com/jamesmilneruk/pixelmatch-asc)<br />
   Pixel level image comparison library.
-* [as-bind](https://github.com/torch2424/as-bind)<br />
-  Isomorphic library to handle passing high-level data structures between AssemblyScript and JavaScript, built on top of the AssemblyScript loader.
 * [wasmer-as](https://github.com/onsails/wasmer-as)<br />
   Helpers for dealing with assemblyscript memory inside wasmer-runtime.
-* [wasmbind](https://github.com/miracle2k/wasmbind)<br />
-  Work with AssemblyScript memory and classes from Python.
 * [io-devices-lib](https://github.com/wasmerio/io-devices-lib)<br />
   Library for interacting with the Wasmer Experimental IO Devices.
 * [as-string-sink](https://github.com/MaxGraey/as-string-sink)<br />
