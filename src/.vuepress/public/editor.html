@@ -73,7 +73,6 @@
       background-size: 20px 20px;
       background-repeat: no-repeat;
       background-position: 21px center;
-      display: inline-block;
       cursor: pointer;
       text-decoration: none;
       filter: grayscale(100%);
@@ -101,6 +100,16 @@
     }
     #tabs .tab.play {
       background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZmlsbD0iI2RkZCIgZD0iTTE2IDEwdjI4bDIyLTE0eiIvPjwvc3ZnPg==')
+    }
+
+    @media only screen and (max-width: 700px) {
+      #tabs .tab span {
+        visibility: hidden;
+      }
+      #tabs .tab {
+        padding-right: 10px;
+        width: 0;
+      }
     }
 
     /* Editor buttons */
@@ -286,10 +295,10 @@
     Shareable link copied to clipboard.
   </div>
   <div id="tabs">
-    <a id="sourceTab" class="tab source active" title="AssemblyScript source code">module.ts</a>
-    <a id="binaryTab" class="tab binary" title="Click to Compile">module.wat</a>
-    <a id="htmlTab" class="tab html" title="JavaScript host code">index.html</a>
-    <a id="playTab" class="tab play" title="Click to Compile & Run">Run</a>
+    <a id="sourceTab" class="tab source active" title="AssemblyScript source code"><span>module.ts</span></a>
+    <a id="binaryTab" class="tab binary" title="Click to Compile"><span>module.wat</span></a>
+    <a id="htmlTab" class="tab html" title="JavaScript host code"><span>index.html</span></a>
+    <a id="playTab" class="tab play" title="Click to Compile & Run"><span>Run</span></a>
   </div>
   <div id="panes">
     <div id="source" class="pane source active" aria-labelledby="sourceTab"></div>
