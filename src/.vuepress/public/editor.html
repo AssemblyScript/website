@@ -642,7 +642,7 @@
       })
 
       // WebAssembly GC depends on Reference Types
-      let optionFeatureReferencetypesEnabled = false;
+      let optionFeatureReferencetypesEnabled = optionFeatureReferencetypes.checked;
       optionFeatureWasmGC.addEventListener('change', evt => {
         if (evt.target.checked) {
           optionFeatureReferencetypesEnabled = optionFeatureReferencetypes.checked;
