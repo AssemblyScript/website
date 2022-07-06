@@ -21,7 +21,7 @@ export function fib(n: i32): i32 {
 }
 ```
 ```sh
-asc fib.ts --out fib.wasm --optimize
+asc fib.ts --outFile fib.wasm --optimize
 ```
 
 It is similiar to TypeScript but with **WebAssembly types**, has some constraints due to compiling **strictly typed** code **ahead of time**, but also some additions originating in WebAssembly's feature set. While not all of TypeScript can be supported, its close relation to JavaScript makes it a familiar choice for developers who are already used to writing code for the Web, and also has the potential to integrate seamlessly with existing Web Platform concepts to produce lean and mean WebAssembly modules.
