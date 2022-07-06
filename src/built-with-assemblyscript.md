@@ -97,16 +97,20 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 
 ## Data Serialization / Deserialization
 
-* [AS-LZMA](https://github.com/01alchemist/AS-LZMA)<br />
-  LZMA Decoder written in AssemblyScript.
-* [assemblyscript-bson](https://github.com/nearprotocol/assemblyscript-bson)<br />
-  BSON encoder / decoder.
-* [as-json](https://github.com/JairusSW/as-json)<br />
-  JSON encoder / decoder.
-* [assemblyscript-json](https://github.com/nearprotocol/assemblyscript-json)<br />
-  JSON encoder / decoder.
+* [karmem](https://github.com/inkeliz/karmem)<br />
+  Karmem is a fast binary serialization format, faster than Google Flatbuffers and optimized for WebAssembly languages.
 * [as-proto](https://github.com/piotr-oles/as-proto)<br />
   Protobuf encoder/decoder library.
+* [as-json](https://github.com/JairusSW/as-json)<br />
+  JSON encoder / decoder.
+* [as-msgpack](https://github.com/wapc/as-msgpack)<br />
+  MessagePack package for AssemblyScript.
+* [assemblyscript-bson](https://github.com/nearprotocol/assemblyscript-bson)<br />
+  BSON encoder / decoder.
+* [assemblyscript-json](https://github.com/nearprotocol/assemblyscript-json)<br />
+  JSON encoder / decoder.
+* [AS-LZMA](https://github.com/01alchemist/AS-LZMA)<br />
+  LZMA Decoder written in AssemblyScript.
 
 ## Crypto (non-blockchain)
 
