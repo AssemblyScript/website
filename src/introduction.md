@@ -78,7 +78,7 @@ It likely won't. While TypeScript adds typings to JavaScript, it is a superset a
 :::
 
 ::: tip Can I use any third party npm package like web.js or crypto.js?
-No, Even if the npm package has typescript sources that are fully compatible with the subset of AssemblyScript, bundlers / transpilers will likely compile it into regular JavsScript before publishing to npm. But you can use packages from npm that are built specifically for AssemblyScript. See [build with assemblyscript](./built-with-assemblyscript.md). In addition, you can always import the necessary javascript methods from the host side (browser or node.js) via [host bindings](./compiler.html#host-bindings).
+No, Even if the npm package has typescript sources that are fully compatible with the subset of AssemblyScript, bundlers / transpilers will likely compile it into regular JavsScript before publishing to npm. But you can use packages from npm that are built specifically for AssemblyScript. You can find some of them on [build with assemblyscript](./built-with-assemblyscript.md). In addition, you can always import the necessary javascript methods from the host side (browser or node.js) via [host bindings](./compiler.html#host-bindings).
 :::
 
 ::: tip What are good use cases for AssemblyScript?
