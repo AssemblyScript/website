@@ -182,12 +182,14 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 * [wasm-arduino-wifi](https://github.com/alvarowolfx/wasm-arduino-wifi)<br />
   Example how update WebAssembly via WiFi on arduino.
 
-## Testing
+## Testing / Benchmarking
 
+* [as-tral](https://github.com/romdotdog/as-tral)<br />
+  AssemblyScript benchmarking library inspired by criterion.rs. (Required AssemblyScript >= 0.20)
 * [as-pect](https://github.com/jtenner/as-pect)<br />
-  A test framework for AssemblyScript<=0.19 inspired by jest.
+  A test framework inspired by jest. (Required AssemblyScript <= 0.19)
 * [envy](https://github.com/jtenner/envy)<br />
-  A test framework for AssemblyScript>=0.20, spiritual successor of as-pect.
+  A test framework spiritual successor of as-pect. (Required AssemblyScript >= 0.20)
 
 ## Project Templates
 
