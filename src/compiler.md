@@ -161,11 +161,11 @@ Other options include those forwarded to Binaryen and various flags useful in ce
 --baseDir             Specifies the base directory of input and output files.
 --noColors            Disables terminal colors.
 --noUnsafe            Disallows the use of unsafe features in user code.
+--disableWarning      Disables one specific or all compilation warnings. For disable specific warning add code (like `201`) as argument.
                       Does not affect library files and external modules.
 --noEmit              Performs compilation as usual but does not emit code.
 --stats               Prints statistics on I/O and compile times.
 --pedantic            Make yourself sad for no good reason.
---disableWarning      Disables one specific or all compilation warnings. For disable specific warning add code (like `201`) as argument.
 --lib                 Adds one or multiple paths to custom library components and
                       uses exports of all top-level files at this path as globals.
 --path                Adds one or multiple paths to package resolution, similar
