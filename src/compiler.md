@@ -162,8 +162,8 @@ Other options include those forwarded to Binaryen and various flags useful in ce
 --noColors            Disables terminal colors.
 --noUnsafe            Disallows the use of unsafe features in user code.
                       Does not affect library files and external modules.
---disableWarning      Disables one specific or all compilation warnings.
-                      For disable specific warning add code (like `201`) as argument.
+--disableWarning      Disables warnings matching the given diagnostic code.
+                      If no diagnostic code is given, all warnings are disabled.
 --noEmit              Performs compilation as usual but does not emit code.
 --stats               Prints statistics on I/O and compile times.
 --pedantic            Make yourself sad for no good reason.
