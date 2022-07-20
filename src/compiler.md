@@ -23,7 +23,7 @@ asc entryFile.ts
 ```
 --version, -v         Prints just the compiler's version and exits.
 --help, -h            Prints this message and exits.
---config              Configuration file to apply. CLI arguments take precedence.      
+--config              Configuration file to apply. CLI arguments take precedence.
 --target              Configuration file target to use. Defaults to 'release'.
 ```
 
@@ -86,8 +86,8 @@ There are several flags that enable or disable specific WebAssembly or compiler 
 --zeroFilledMemory    Assume imported memory is zeroed. Requires importMemory.
 --importTable         Imports the function table from 'env.table'.
 --exportTable         Exports the function table as 'table'.
---exportStart         Exports the start function using the specified name instead      
-                      of calling it implicitly. Useful for WASI or to obtain the       
+--exportStart         Exports the start function using the specified name instead
+                      of calling it implicitly. Useful for WASI or to obtain the
                       exported memory before executing any code accessing it.
 --runtime             Specifies the runtime variant to include in the program.
 
@@ -97,8 +97,8 @@ There are several flags that enable or disable specific WebAssembly or compiler 
                         ...          Path to a custom runtime implementation
 
 --exportRuntime       Exports the runtime helpers (__new, __collect etc.).
---stackSize           Overrides the stack size. Only relevant for incremental GC       
-                      or when using a custom runtime that requires stack space.        
+--stackSize           Overrides the stack size. Only relevant for incremental GC
+                      or when using a custom runtime that requires stack space.
                       Defaults to 0 without and to 16384 with incremental GC.
 --enable              Enables WebAssembly features being disabled by default.
 
@@ -114,8 +114,8 @@ There are several flags that enable or disable specific WebAssembly or compiler 
                         nontrapping-f2i     Non-trapping float to integer ops.
                         bulk-memory         Bulk memory operations.
 
---use, -u             Aliases a global object under another name, e.g., to switch      
-                      the default 'Math' implementation used: --use Math=JSMath        
+--use, -u             Aliases a global object under another name, e.g., to switch
+                      the default 'Math' implementation used: --use Math=JSMath
                       Can also be used to introduce an integer constant.
 --lowMemoryLimit      Enforces very low (<64k) memory constraints.
 ```
@@ -165,6 +165,8 @@ Other options include those forwarded to Binaryen and various flags useful in ce
 --noEmit              Performs compilation as usual but does not emit code.
 --stats               Prints statistics on I/O and compile times.
 --pedantic            Make yourself sad for no good reason.
+--disableWarning      Disables one specific or all compilation warnings. For disable specific warning add code (like `201`) as argument.
+eg:
 --lib                 Adds one or multiple paths to custom library components and
                       uses exports of all top-level files at this path as globals.
 --path                Adds one or multiple paths to package resolution, similar
