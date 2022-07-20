@@ -54,14 +54,19 @@ By making use of the following special type checks, especially in generic contex
   Tests if the specified type _or_ expression is of an integer type and not a reference. Compiles to a constant.
 
 * ```ts
+  function isSigned<T>(value?: T): bool
+  ```
+  Tests if the specified type _or_ expression can represent negative numbers. Compiles to a constant.
+
+* ```ts
   function isFloat<T>(value?: T): bool
   ```
   Tests if the specified type _or_ expression is of a float type. Compiles to a constant.
 
 * ```ts
-  function isSigned<T>(value?: T): bool
+  function isVector<T>(value?: T): bool
   ```
-  Tests if the specified type _or_ expression can represent negative numbers. Compiles to a constant.
+  Tests if the specified type _or_ expression is of a SIMD vector type. Compiles to a constant.
 
 * ```ts
   function isReference<T>(value?: T): bool
