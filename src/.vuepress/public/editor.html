@@ -281,6 +281,10 @@
           <p><input id="option-feature-referencetypes" type="checkbox" /><label for="option-feature-referencetypes"> Enable Reference Types</label></p>
           <p><input id="option-feature-wasm-gc" type="checkbox" /><label for="option-feature-wasm-gc"> Enable WebAssembly GC</label></p>
         </div>
+        <h5>Text format</h5>
+        <div class="option">
+          <p><input id="option-use-wast" type="checkbox" /><label for="option-use-wast"> Use s-expression text format (non-standard)</label></p>
+        </div>
         <h5>Documentation</h5>
         <div class="option">
           <p><a href="compiler.html#command-line-options" target="_blank" rel="noopener">Command line options</a></p>
@@ -401,6 +405,7 @@
     const optionOptimizeSpeed = document.getElementById('option-optimize-speed')
     const optionOptimizeSize = document.getElementById('option-optimize-size')
     const optionOptimizeNone = document.getElementById('option-optimize-none')
+
     const optionNoAssert = document.getElementById('option-noAssert')
     const optionDebug = document.getElementById('option-debug')
     const optionRuntimeIncremental = document.getElementById('option-runtime-incremental')
@@ -420,6 +425,8 @@
     const optionFeatureThreads = document.getElementById('option-feature-threads')
     const optionFeatureReferencetypes = document.getElementById('option-feature-referencetypes')
     const optionFeatureWasmGC = document.getElementById('option-feature-wasm-gc')
+    const optionUseWast = document.getElementById('option-use-wast')
+    const binaryTabElement = document.getElementById('binaryTab')
 
     const optionCheckboxes = {
       'noAssert': optionNoAssert,
@@ -430,7 +437,8 @@
       'zeroFilledMemory': optionZeroFilledMemory,
       'exportTable': optionExportTable,
       'importTable': optionImportTable,
-      'exportStart': optionExportStart
+      'exportStart': optionExportStart,
+      'useWast': optionUseWast,
     }
 
     const optionNumerical = {
@@ -447,7 +455,7 @@
 
     const optionUseRe = /^(\w+)=(\w+(\/\w+|\.\w+)*)$/
 
-    var module_wat = '(module)\n'
+    var module_wast = '(module)\n'
     var module_wasm = new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0])
     var module_js = '\n';
     var didCompile = false
@@ -637,21 +645,28 @@
 
       // --zeroFilledMemory depends on --importMemory
       optionImportMemory.addEventListener('change', evt => {
-        optionZeroFilledMemory.disabled = !evt.target.checked;
-        if (!evt.target.checked) optionZeroFilledMemory.checked = false;
+        optionZeroFilledMemory.disabled = !evt.target.checked
+        if (!evt.target.checked) optionZeroFilledMemory.checked = false
       })
 
       // WebAssembly GC depends on Reference Types
-      let optionFeatureReferencetypesEnabled = optionFeatureReferencetypes.checked;
+      let optionFeatureReferencetypesEnabled = optionFeatureReferencetypes.checked
       optionFeatureWasmGC.addEventListener('change', evt => {
         if (evt.target.checked) {
-          optionFeatureReferencetypesEnabled = optionFeatureReferencetypes.checked;
-          optionFeatureReferencetypes.checked = true;
-          optionFeatureReferencetypes.disabled = true;
+          optionFeatureReferencetypesEnabled = optionFeatureReferencetypes.checked
+          optionFeatureReferencetypes.checked = true
+          optionFeatureReferencetypes.disabled = true
         } else {
-          optionFeatureReferencetypes.disabled = false;
-          optionFeatureReferencetypes.checked = optionFeatureReferencetypesEnabled;
+          optionFeatureReferencetypes.disabled = false
+          optionFeatureReferencetypes.checked = optionFeatureReferencetypesEnabled
         }
+      })
+
+      let useWast = optionUseWast.checked
+      binaryTabElement.innerHTML = useWast ? 'module.wast' : 'module.wat'
+      optionUseWast.addEventListener('change', evt => {
+        useWast = evt.target.checked
+        binaryTabElement.innerHTML = useWast ? 'module.wast' : 'module.wat'
       })
 
       // Make contents shareable
@@ -846,24 +861,31 @@
 
       // Compiles the source to WebAssembly
       function compile(cb) {
+        const tsModule = 'module.ts'
+        const jsModule = 'module.js'
+        const textModule = `module.${useWast ? 'wast' : 'wat'}`
+        const wasmModule = 'module.wasm'
+
         const stdout = asc.createMemoryStream()
         const sources = {
           'module.ts': sourceEditor.getValue()
         }
         const outputs = {}
-        const options = [
-          'module.ts',
-          '--textFile', 'module.wat',
-          '--outFile', 'module.wasm',
-          '--bindings', 'raw'
-        ].concat(getCompilerOptions())
-        asc.main(options, {
+        const config = {
           stdout,
           stderr: stdout,
           readFile: name => Object.prototype.hasOwnProperty.call(sources, name) ? sources[name] : null,
-          writeFile: (name, contents) => outputs[name] = contents,
+          writeFile: (name, contents) => { outputs[name] = contents },
           listFiles: () => []
-        }).then(({ error, stdout }) => {
+        }
+        const options = [
+          tsModule,
+          '--textFile', textModule,
+          '--outFile',  wasmModule,
+          '--bindings', 'raw',
+          ...getCompilerOptions()
+        ]
+        asc.main(options, config).then(({ error, stdout }) => {
           let output = stdout.toString().trim()
           if (output.length) {
             output = ';; ' + output.replace(/\n/g, '\n;; ') + '\n'
@@ -872,10 +894,10 @@
           if (error) {
             binaryEditor.setValue(output + `(module\n ;; FAILURE ${error.message}\n)\n`)
           } else {
-            module_wat = outputs['module.wat']
-            module_wasm = outputs['module.wasm']
-            module_js = outputs['module.js']
-            binaryEditor.setValue(output + module_wat)
+            module_wast = outputs[textModule]
+            module_wasm = outputs[wasmModule]
+            module_js   = outputs[jsModule]
+            binaryEditor.setValue(output + module_wast)
           }
           didCompile = true
           if (cb) cb(error)
