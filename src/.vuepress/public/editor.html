@@ -861,7 +861,6 @@
 
       // Compiles the source to WebAssembly
       function compile(cb) {
-        console.log('>>> useWast', useWast);
         const tsModule = 'module.ts'
         const jsModule = 'module.js'
         const textModule = `module.${useWast ? 'wast' : 'wat'}`
