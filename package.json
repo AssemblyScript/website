@@ -13,10 +13,10 @@
   "devDependencies": {
     "@vuepress/plugin-html-redirect": "^0.1.4",
     "he": "^1.2.0",
-    "node-fetch": "^2.6.7",
+    "node-fetch": "^3.2.9",
     "pngquant": "^4.0.0",
     "prism-themes": "^1.9.0",
-    "sharp": "^0.30.4",
+    "sharp": "^0.30.7",
     "vuepress": "^1.9.7",
     "vuepress-plugin-serve": "^2.0.4",
     "vuepress-plugin-sitemap": "^2.3.1"
