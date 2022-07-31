@@ -63,7 +63,7 @@ export function fib(n: i32): i32 {
 
 #!html
 <textarea id="output" style="height: 100%; width: 100%" readonly></textarea>
-<script type="module">
+<script type=module>
 const exports = await instantiate(await compile(), { /* imports */ })
 const output = document.getElementById('output')
 for (let i = 0; i <= 10; ++i) {
