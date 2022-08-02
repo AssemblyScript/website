@@ -88,6 +88,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Port of C++ smallpt, a path tracing renderer.
 * [Babylon.Font](https://github.com/ycw/Babylon.Font)<br />
   Create 3d text in BabylonJS.
+* [Path-Finder](https://github.com/Tugcga/Path-Finder/tree/main/assemblyscript)<br />
+  AssemblyScript NavMesh Path Finder.
 * [seam-carving-as](https://github.com/alexvictoor/seam-carving-as)<br />
   Seam Carving experiments with AssemblyScript.
 * [ASWebGLue](https://github.com/battlelinegames/ASWebGLue)<br />
