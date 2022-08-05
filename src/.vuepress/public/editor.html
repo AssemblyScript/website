@@ -311,7 +311,7 @@
     </div>
   </div>
   <input type="text" id="clipboardHelper" aria-hidden="true" />
-  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.33.0/min/vs/loader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.34.0/min/vs/loader.min.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1/dist/es-module-shims.wasm.js"></script>
   <script type="importmap">
     {
@@ -334,9 +334,7 @@
   <script type="module">
     import asc from "assemblyscript/asc";
 
-    // TODO: upgrade to recent version once the following issue is fixed:
-    // https://github.com/microsoft/monaco-editor/issues/2962
-    const MONACO_VERSION = '0.33.0'
+    const MONACO_VERSION = '0.34.0'
     const MONACO_EDITOR_FONT = 'JetBrains Mono'
 
     function crossDomainWorker() {
