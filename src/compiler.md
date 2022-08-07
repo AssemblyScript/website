@@ -96,7 +96,8 @@ There are several flags that enable or disable specific WebAssembly or compiler 
                         stub         Minimal runtime stub (never frees)
                         ...          Path to a custom runtime implementation
 
---exportRuntime       Exports the runtime helpers (__new, __collect etc.).
+--exportRuntime       Always exports the runtime helpers (__new, __collect etc.).
+                      When host `bindings` is enabled it will be determined automatically.
 --stackSize           Overrides the stack size. Only relevant for incremental GC
                       or when using a custom runtime that requires stack space.
                       Defaults to 0 without and to 16384 with incremental GC.
