@@ -1,6 +1,6 @@
 # process
 
-An implementation of a Node.js-like `process` global. Works with generated [host bindings](../compiler.md#host-bindings) under Node.js or when [targeting WASI](../concepts.md#targeting-wasi).
+An implementation of a Node.js-like `process` global.
 
 ## Static members
 
