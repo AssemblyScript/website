@@ -1,6 +1,6 @@
 # crypto
 
-An implementation of the `crypto` global. Works with generated [host bindings](../compiler.md#host-bindings) or when [targeting WASI](../concepts.md#targeting-wasi).
+An implementation of the `crypto` global.
 
 ## Static members
 

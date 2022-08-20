@@ -1,6 +1,6 @@
 # console
 
-An implementation of the `console` global. Works with generated [host bindings](../compiler.md#host-bindings) or when [targeting WASI](../concepts.md#targeting-wasi).
+An implementation of the `console` global.
 
 ## Static members
 

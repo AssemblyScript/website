@@ -81,8 +81,8 @@ It likely won't. While TypeScript adds typings to JavaScript, it is a superset a
 Computation-heavy logic like image manipulation, hot game logic, specialized algorithms, emulators, compilers and the likes are great use cases for WebAssembly, and as such for AssemblyScript as well. In some situations it may also be preferable to ship bytecode instead of minified JS, or just the ability to utilize a TypeScript-like language may open up new opportunities, for example for embedded scripting or plugins.
 :::
 
-::: tip Can AssemblyScript be used outside of the browser?
-Absolutely! AssemblyScript modules are self-contained and run anywhere where WebAssembly is supported. There is also the option to [target WASI](/concepts.md#targeting-wasi).
+::: tip Can AssemblyScript be used in non-standard ways, say outside of the browser?
+Absolutely! AssemblyScript modules are self-contained and run anywhere where WebAssembly is supported. In fact, any arbitrary host interface can be supported. Here is an [example of using WASI imports instead of Web APIs](https://github.com/AssemblyScript/wasi-shim).
 :::
 
 ::: tip Why the strange name?
