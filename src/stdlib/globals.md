@@ -131,6 +131,11 @@ If you are not going to use low-level WebAssembly in the foreseeable future, fee
 ### Utilities
 
 * ```ts
+  function bswap<T>(value: T): T
+  ```
+  Reverses the byte order of the specified integer.
+
+* ```ts
   function sizeof<T>(): usize
   ```
   Determines the byte size of the respective _basic type_. Means: If `T` is a class type, the size of `usize`, the pointer type, is returned. To obtain the size of a class in memory, use `offsetof<T>()` instead. Compiles to a constant.
@@ -181,16 +186,6 @@ If you are not going to use low-level WebAssembly in the foreseeable future, fee
   function nameof<T>(value?: T): string
   ```
   Returns the name of a given type.
-
-* ```ts
-  function bswap<T>(value: T): T
-  ```
-  Reverses the byte order of the specified integer.
-
-* ```ts
-  function bswap16<T>(value: T): T
-  ```
-  Reverses only the last 2 bytes regardless of the type argument.
 
 ### WebAssembly
 
@@ -614,9 +609,14 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
   ```
   <details><summary>Selects lanes from either vector according to the specified lane indexes.</summary>
 
-  | T                                              | Instruction
-  |------------------------------------------------|-------------
-  | i8, u8, i16, u16, i32, u32, i64, u64, f32, f64 | i8x16.shuffle
+  | T        | Instruction
+  |----------|-------------
+  | i8, u8   | i8x16.shuffle
+  | i16, u16 | i8x16.shuffle emulating i16x8.shuffle
+  | i32, u32 | i8x16.shuffle emulating i32x4.shuffle
+  | i64, u64 | i8x16.shuffle emulating i64x2.shuffle
+  | f32      | i8x16.shuffle emulating f32x4.shuffle
+  | f64      | i8x16.shuffle emulating f64x2.shuffle
   </details>
 
 * ```ts
@@ -1314,32 +1314,32 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
 * ```ts
   function i8x16(a: i8, ... , p: i8): v128
   ```
-  Initializes a 128-bit vector from sixteen 8-bit integer values. Arguments must be compile-time constants.
+  Initializes a 128-bit vector from sixteen 8-bit integer values.
 
 * ```ts
   function i16x8(a: i16, ..., h: i16): v128
   ```
-  Initializes a 128-bit vector from eight 16-bit integer values. Arguments must be compile-time constants.
+  Initializes a 128-bit vector from eight 16-bit integer values.
 
 * ```ts
   function i32x4(a: i32, b: i32, c: i32, d: i32): v128
   ```
-  Initializes a 128-bit vector from four 32-bit integer values. Arguments must be compile-time constants.
+  Initializes a 128-bit vector from four 32-bit integer values.
 
 * ```ts
   function i64x2(a: i64, b: i64): v128
   ```
-  Initializes a 128-bit vector from two 64-bit integer values. Arguments must be compile-time constants.
+  Initializes a 128-bit vector from two 64-bit integer values.
 
 * ```ts
   function f32x4(a: f32, b: f32, c: f32, d: f32): v128
   ```
-  Initializes a 128-bit vector from four 32-bit float values. Arguments must be compile-time constants.
+  Initializes a 128-bit vector from four 32-bit float values.
 
 * ```ts
   function f64x2(a: f64, b: f64): v128
   ```
-  Initializes a 128-bit vector from two 64-bit float values. Arguments must be compile-time constants.
+  Initializes a 128-bit vector from two 64-bit float values.
 
 ### Inline instructions
 
