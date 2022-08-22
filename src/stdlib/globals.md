@@ -600,11 +600,11 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
   | T        | Instruction
   |----------|-------------
   | i8, u8   | i8x16.shuffle
-  | i16, u16 | i16x8.shuffle
-  | i32, u32 | i32x4.shuffle
-  | i64, u64 | i64x2.shuffle
-  | f32      | f32x4.shuffle
-  | f64      | f64x2.shuffle
+  | i16, u16 | i8x16.shuffle emulating i16x8.shuffle
+  | i32, u32 | i8x16.shuffle emulating i32x4.shuffle
+  | i64, u64 | i8x16.shuffle emulating i64x2.shuffle
+  | f32      | i8x16.shuffle emulating f32x4.shuffle
+  | f64      | i8x16.shuffle emulating f64x2.shuffle
   </details>
 
 * ```ts
