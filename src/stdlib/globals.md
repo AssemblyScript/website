@@ -151,7 +151,7 @@ If you are not going to use low-level WebAssembly in the foreseeable future, fee
   Traps if the specified value is not true-ish, otherwise returns the non-nullable value. Like assertions in C, aborting the entire program if the expectation fails. Where desired, the `--noAssert` compiler option can be used to disable assertions in production.
 
 * ```ts
-  function trace(message: string, n: i32, a0?: f64, a1?: f64, a2?: f64, a3?: f64, a4?: f64): void
+  function trace(message: string, n?: i32, a0?: f64, a1?: f64, a2?: f64, a3?: f64, a4?: f64): void
   ```
   Simple trace function which print `message` and 5 optional `f64` arguments at a console. `n` is count of used arguments.
   #### Usage examples
