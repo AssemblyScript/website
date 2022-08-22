@@ -153,13 +153,13 @@ If you are not going to use low-level WebAssembly in the foreseeable future, fee
 * ```ts
   function trace(message: string, n?: i32, a0?: f64, a1?: f64, a2?: f64, a3?: f64, a4?: f64): void
   ```
-  Simple trace function which print `message` and 5 optional `f64` arguments at a console. `n` is count of used arguments.
+  Simple trace function which prints `message` and 5 optional `f64` arguments to a console. `n` is count of used arguments.
   #### Usage examples
 
   ```ts
   trace("foo");
   trace("one arg:", 1, 5.0);
-  trace("tree args:", 3, 1.0, <f64>2, 3);
+  trace("three args:", 3, 1.0, <f64>2, 3);
   ```
 
 * ```ts
