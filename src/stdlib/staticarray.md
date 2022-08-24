@@ -25,12 +25,16 @@ The StaticArray API is similar to the [Array API](./array.md), with the importan
 * ```ts
   function concat<T>(source: StaticArray<T>, other: StaticArray<T>): StaticArray<T>
   ```
-  Like the instance member `concat`, but taking and returning a `StaticArray`.
+  ***Deprecated!*** Like the instance member `concat`, but taking and returning a `StaticArray`.
+
+  Instead of `StaticArray.concat` better to use parametric `concat` instance method.
 
 * ```ts
   function slice<T>(source: StaticArray<T>, start?: i32, end?: i32): StaticArray<T>
   ```
-  Like the instance member `slice`, but returning a `StaticArray`.
+  ***Deprecated!*** Like the instance member `slice`, but returning a `StaticArray`.
+
+  Instead of `StaticArray.slice` better to use parametric `slice` instance method.
 
 ## Instance members
 
@@ -49,9 +53,9 @@ The StaticArray API is similar to the [Array API](./array.md), with the importan
   Gets the element at the specified position. This method allows for positive and negative integers. Negative integers count back from the last element.
 
 * ```ts
-  function concat(other: Array<T>): Array<T>
+  function concat<U extends ArrayLike<T> = Array<T>>(other: U): U
   ```
-  Concatenates the values of this static and the other normal array to a new normal array, in this order.
+  Concatenates the values of this static and the other normal array to a new normal array, in this order. Patameter `U` accepts `Array<T>` or `StaticArray<T>` types.
 
 * ```ts
   function copyWithin(target: i32, start: i32, end?: i32): this
@@ -114,9 +118,9 @@ The StaticArray API is similar to the [Array API](./array.md), with the importan
   Calls the specified function with every value of the array, returning a new array of the function's return values.
 
 * ```ts
-  function slice(start?: i32, end?: i32): Array<T>
+  function slice<U extends ArrayLike<T> = Array<T>>(start?: i32, end?: i32): U
   ```
-  Returns a shallow copy of this static array's values from `begin` inclusive to `end` exclusive, as a new normal array. If omitted, `end` defaults to the end of the array.
+  Returns a shallow copy of this static array's values from `begin` inclusive to `end` exclusive, as a new normal array. If omitted, `end` defaults to the end of the array. Patameter `U` accepts `Array<T>` or `StaticArray<T>` types.
 
 * ```ts
   function some(fn: (value: T, index: i32, self: StaticArray<T>) => bool): bool

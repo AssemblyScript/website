@@ -164,19 +164,6 @@ Some language features need support from the host environment to function, yield
 
 The respective implementations of `abort`, `trace` and `seed` can be overridden with, for example, `--use abort=assembly/index/myAbort`, here redirecting calls to `abort` to a custom `myAbort` function in `assembly/index.ts`. Useful if an environment does not provide compatible implementations, or when the respective imports are not desired and custom implementations are sufficient.
 
-#### Targeting WASI
-
-AssemblyScript has experimental support for WASI, which can be targeted by adding `import "wasi"` to the entry file. Doing so will install WASI-aware implementations of `abort`, `trace` and `seed` for example, but will require a polyfill on the Web.
-
-The following additional options may be useful depending on the kind of WASI module to create:
-
-Kind         | Command line options        | Description
--------------|-----------------------------|-------------
-WASI command | `--exportStart _start`      | Executes top-level code when the command is invoked
-WASI reactor | `--exportStart _initialize` | Executes top-level code when initialized, before other exports are invoked
-
-When targeting WASI, command line options and environment variables can be accessed via the [`process`](/stdlib/process.md) namespace.
-
 ### Accessing memory during instantiation
 
 One important edge case to be aware of is that top-level statements are executed as part of the WebAssembly module's implicit `(start ...)` function by default, which leads to a henn and egg problem when top-level statements already call out to external functionality that needs to access the module's memory instance (say, reading the contents of a logged string). Since instantiation did not yet complete, the module's exports, including exported memory, are not available yet and the access will fail.
@@ -251,12 +238,6 @@ In addition to module-level tree-shaking, the compiler ignores branches that it 
     // fallback without SIMD operations
   }
   ```
-
-* ```ts
-  const ASC_WASI: i32
-  ```
-  A constant only being defined when WASI bindings are used via `import "wasi"`. Can be checked with `isDefined(ASC_WASI)`.
-
 
 ## Code annotations
 

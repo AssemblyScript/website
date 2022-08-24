@@ -88,6 +88,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Port of C++ smallpt, a path tracing renderer.
 * [Babylon.Font](https://github.com/ycw/Babylon.Font)<br />
   Create 3d text in BabylonJS.
+* [Path-Finder](https://github.com/Tugcga/Path-Finder/tree/main/assemblyscript)<br />
+  AssemblyScript NavMesh Path Finder.
 * [seam-carving-as](https://github.com/alexvictoor/seam-carving-as)<br />
   Seam Carving experiments with AssemblyScript.
 * [ASWebGLue](https://github.com/battlelinegames/ASWebGLue)<br />
@@ -168,6 +170,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Pixel level image comparison library.
 * [wasmer-as](https://github.com/onsails/wasmer-as)<br />
   Helpers for dealing with assemblyscript memory inside wasmer-runtime.
+* [wasmer3-as](https://github.com/poria-cat/wasmer3-assemblyscript-example)<br/>
+  Examples of lift string and lower string in wasmer 3.0
 * [io-devices-lib](https://github.com/wasmerio/io-devices-lib)<br />
   Library for interacting with the Wasmer Experimental IO Devices.
 * [as-string-sink](https://github.com/MaxGraey/as-string-sink)<br />

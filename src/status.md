@@ -54,7 +54,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | [Component model]<sup>2</sup>           |                                     |                         | <Badge text="harmful" type="error"/>
 ||
 | ❔ **Quasi proposal**
-| [WASI]<sup>3</sup>                      | <Xx/> <Xx/> <Xx/> <No/> <Wt/> <Ws/> | 🔨                      | <Badge text="harmful" type="error"/>
+| [WASI]<sup>3</sup>                      | <Xx/> <Xx/> <Xx/> <Xx/> <Wt/> <Ws/> |                         | <Badge text="harmful" type="error"/>
 
 <Ch/> <a href="https://www.chromestatus.com/features#webassembly" target="_blank" rel="noopener">Chrome</a> &nbsp;
 <Fi/> <a href="https://platform-status.mozilla.org" target="_blank" rel="noopener">Firefox</a> &nbsp;
