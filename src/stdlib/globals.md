@@ -112,13 +112,13 @@ By making use of the following special type checks, especially in generic contex
 
 ```ts
 function add<T>(a: T, b: T): T {
-  return a + b // addition if numeric, string concatenation if a string
+  return a + b // addition if numeric, string concatenation if string
 }
 
 function add<T>(a: T, b: T): T {
-  if (isString<T>()) { // eliminated if T is not a string
+  if (isString<T>()) { // eliminated if T is string
     return parseInt(a) + parseInt(b)
-  } else { // eliminated if T is a string
+  } else { // eliminated if T is not string
     return a + b
   }
 }
