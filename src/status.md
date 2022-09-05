@@ -54,7 +54,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | [Component model]<sup>2</sup>           |                                     |                         | <Badge text="harmful" type="error"/>
 ||
 | ❔ **Quasi proposal**
-| [WASI]<sup>3</sup>                      | <Xx/> <Xx/> <Xx/> <Xx/> <Wt/> <Ws/> |                         | <Badge text="harmful" type="error"/>
+| [WASI]<sup>2</sup>                      | <Xx/> <Xx/> <Xx/> <Xx/> <Wt/> <Ws/> |                         | <Badge text="harmful" type="error"/>
 
 <Ch/> <a href="https://www.chromestatus.com/features#webassembly" target="_blank" rel="noopener">Chrome</a> &nbsp;
 <Fi/> <a href="https://platform-status.mozilla.org" target="_blank" rel="noopener">Firefox</a> &nbsp;
@@ -63,8 +63,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 <Wt/> <a href="https://docs.wasmtime.dev/stability-wasm-proposals-support.html" target="_blank" rel="noopener">Wasmtime</a> &nbsp;
 <Ws/> <a href="https://docs.wasmer.io/ecosystem/wasmer/wasmer-features#support-of-features-by-compiler" target="_blank" rel="noopener">Wasmer</a> &nbsp; (<sup>1</sup> native support in non-JS hosts)
 
-<sup>2</sup> Supersedes [Interface types], simultaneously [deciding](https://github.com/WebAssembly/interface-types/issues/135) that compatibility with JavaScript ([strings](./stdlib/string.md#considerations)) is out of scope.<br />
-<sup>3</sup> WASI is not a good fit for the Web embedding and [it is disallowed](https://github.com/WebAssembly/WASI/issues/401) to discuss or mitigate the risks of its approach.<br />
+<sup>2</sup> See our detailed [standards objections](./standards-objections.md) regarding WASI and the Component Model.<br />
 
 | Perspective                          | Description
 |--------------------------------------|-------------
