@@ -25,7 +25,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | 🏁 **Standardize the feature**
 ||
 | 🔨 **Implementation phase**
-| [Exception handling]                    | <Ch/> <Xx/> <Sa/> <Xx/> <Xx/> <Xx/> | 🔨 `exception-handling` | <Badge text="good" type="tip"/> Feature
+| [Exception handling]                    | <Ch/> <Fi/> <Sa/> <No/> <Xx/> <Xx/> | 🔨 `exception-handling` | <Badge text="good" type="tip"/> Feature
 | [Tail call]                             |                                     |                         | <Badge text="uncertain" type="warning"/>
 | [Multiple memories]                     |                                     |                         | <Badge text="uncertain" type="warning"/>
 | [Memory64]                              |                                     | 🔨                      | <Badge text="uncertain" type="warning"/>
@@ -50,7 +50,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | [Stack switching]                       |                                     |                         | <Badge text="good" type="tip"/> Feature / Interop
 | [Constant time]                         |                                     |                         | <Badge text="good" type="tip"/> Security
 | [Memory control]                        |                                     |                         | <Badge text="uncertain" type="warning"/>
-| [Reference-typed strings]               |                                     |                         | <Badge text="good" type="tip"/> Interop
+| [Reference-typed strings]               |                                     | 🔨 `stringref`          | <Badge text="good" type="tip"/> Interop
 | [Component model]<sup>2</sup>           |                                     |                         | <Badge text="harmful" type="error"/>
 ||
 | ❔ **Quasi proposal**
