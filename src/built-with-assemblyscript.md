@@ -8,18 +8,20 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 
 ## Benchmarks
 
-* [Wasm Mandelbrot](https://github.com/ColinEberhardt/wasm-mandelbrot) \([demo](https://colineberhardt.github.io/wasm-mandelbrot/#AssemblyScript)\)<br />
-  A mandelbrot rendered using a variety of WebAssembly tools \(emscripten, AssemblyScript, asm.js, etc ...\)
-* [WasmBoy Benchmark](https://wasmboy.app/benchmark/)<br />
-  Benchmarking WasmBoy emulator.
 * [webassembly-wave](https://github.com/jtiscione/webassembly-wave) \([demo](https://jtiscione.github.io/webassembly-wave/index.html)\)<br />
   JavaScript vs WebAssembly performance comparison - wave equation demo \(JS, C++, AssemblyScript\).
-* [Sort Colors Benchmark](https://github.com/manueldois/WebAssembly/tree/master/Sort%20Colors%20Benchmark/src) \([demo](https://manueldois.github.io/WebAssembly/Sort%20Colors%20Benchmark/dist/index.html)\)<br />
-  Bench of sorting random colors by hue component on 2d canvas.
+* [Eratosthenes](https://github.com/t-katsumura/webassembly-examples-eratosthenes)<br />
+  WebAssembly examples which calculate prime by Sieve of Eratosthenes.
+* [WasmBoy Benchmark](https://wasmboy.app/benchmark/)<br />
+  Benchmarking WasmBoy emulator.
 * [wasm-n-body](https://github.com/w8r/wasm-n-body)<br />
   WebAssembly N-body simulation benchmark _\(use 1000 bodies compare to original\)._
 * [as-benchmarks](https://github.com/nischayv/as-benchmarks) \([demo](https://nischayv.github.io/as-benchmarks/index.html)\)<br />
   A set of computational benchmarks \(JS, AssemblyScript\).
+* [Sort Colors Benchmark](https://github.com/manueldois/WebAssembly/tree/master/Sort%20Colors%20Benchmark/src) \([demo](https://manueldois.github.io/WebAssembly/Sort%20Colors%20Benchmark/dist/index.html)\)<br />
+  Bench of sorting random colors by hue component on 2d canvas.
+* [Wasm Mandelbrot](https://github.com/ColinEberhardt/wasm-mandelbrot) \([demo](https://colineberhardt.github.io/wasm-mandelbrot/#AssemblyScript)\)<br />
+  A mandelbrot rendered using a variety of WebAssembly tools \(emscripten, AssemblyScript, asm.js, etc ...\)
 
 ## Blockchain
 
