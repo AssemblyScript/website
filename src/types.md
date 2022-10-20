@@ -96,7 +96,7 @@ var u16val: u16 = i8val // becomes 65408 through masking (0xFF80)
 var f32val: f32 = i8val // becomes -128.0
 ```
 
-Wasm reference, GC and string types are anticipcated to adhere to the following hierarchy 🦄:
+Wasm reference, GC and string types are anticipated to adhere to the following hierarchy 🦄:
 
 <img src="/images/reference-hierarchy.svg" alt="Diagram of anticipated reference types hierarchy." />
 
