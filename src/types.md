@@ -27,12 +27,22 @@ AssemblyScript inherits WebAssembly's more specific integer, floating point and 
 | `u16`               | i32              | number           | A 16-bit unsigned integer.
 | `bool`              | i32              | boolean          | A 1-bit unsigned integer.
 ||
-| *Vector types* 🦄                     |
+| *Vector types*                         |
 | `v128`              | v128             | -                | A 128-bit vector.
 ||
-| *Reference types* 🦄                  |
-| `externref`         | externref        | Object           | An opaque host reference.
-| `funcref  `         | funcref          | Function         | An opaque host reference.
+| *Reference types*                      |
+| `externref`         | externref        | Object           | An external reference.
+| `funcref`           | funcref          | Function         | A function reference.
+||
+| *Wasm GC types* 🦄                     |
+| `anyref`            | anyref           | Object           | An internal reference.
+| `eqref`             | eqref            | Object           | An equatable reference.
+| `dataref`           | dataref          | Object           | A data reference.
+| `arrayref`          | arrayref         | Array            | An array reference.
+| `stringref`         | stringref        | string           | A string reference.
+| `stringview_wtf8`   | stringview_wtf8  | string           | A string view reference ([WTF-8](https://simonsapin.github.io/wtf-8/)).
+| `stringview_wtf16`  | stringview_wtf16 | string           | A string view reference ([WTF-16](https://simonsapin.github.io/wtf-8/#wtf-16)).
+| `stringview_iter`   | stringview_iter  | -                | A string iterator reference.
 ||
 | *Special types*                        |
 | `void`              | -                | void             | Indicates no return value.
@@ -85,6 +95,12 @@ var i16val: i16 = i8val // becomes -128 through sign-extension (0xFF80)
 var u16val: u16 = i8val // becomes 65408 through masking (0xFF80)
 var f32val: f32 = i8val // becomes -128.0
 ```
+
+Wasm reference, GC and string types are anticipcated to adhere to the following hierarchy 🦄:
+
+<img src="/images/reference-hierarchy.svg" alt="Diagram of anticipated reference types hierarchy." />
+
+Dashed elements are not exposed (yet) or unclear. Exposed types have a `*ref` suffix (e.g. `anyref`) and are nullable. `(...)`-placeholders indicate the concrete subtypes, e.g. an array of a specific element type, a struct with specific field types and potentially a supertype, or a function with specific parameter and return types. For details, see [Wasm GC's subtyping rules](https://github.com/WebAssembly/gc/blob/main/proposals/gc/MVP.md#structural-types).
 
 ### Comparability
 
