@@ -66,7 +66,7 @@ It is typically not necessary to invoke the runtime interface manually since gen
 
 ## Memory layout
 
-Overall, AssemblyScript partitions liner memory as follows:
+Overall, AssemblyScript partitions linear memory as follows:
 
 | Region        | Start offset  | End offset            | Description
 |---------------|---------------|-----------------------|-------------
