@@ -26,31 +26,31 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 ||
 | 🔨 **Implementation phase**
 | [Exception handling]                    | <Ch/> <Fi/> <Sa/> <No/> <Xx/> <Xx/> | 🔨 `exception-handling` | <Badge text="good" type="tip"/> Feature
-| [Tail call]                             |                                     |                         | <Badge text="uncertain" type="warning"/>
-| [Multiple memories]                     |                                     |                         | <Badge text="uncertain" type="warning"/>
-| [Memory64]                              |                                     | 🔨                      | <Badge text="uncertain" type="warning"/>
+| [Typed function references]             |                                     | 🔨 `gc`                 | <Badge text="good" type="tip"/> Feature
+| [Garbage collection]                    |                                     | 🔨 `gc`                 | <Badge text="good" type="tip"/> Efficiency / Interop
+| [Extended constant expressions]         |                                     | 🔨                      | <Badge text="good" type="tip"/> Efficiency
+| [Multiple memories]                     |                                     | 🔨                      | <Badge text="good" type="tip"/> Feature
 | [Branch hinting]                        |                                     |                         | <Badge text="good" type="tip"/> Efficiency
 | [Relaxed SIMD]                          |                                     |                         | <Badge text="good" type="tip"/> Feature
-| [Extended constant expressions]         |                                     | 🔨                      | <Badge text="good" type="tip"/> Efficiency
-||
-| 📖 **Spec text available** 
 | [Threads]                               | <Ch/> <Fi/> <Sa/> <No/> <Xx/> <Xx/> | 🔨 `threads`            | <Badge text="uncertain" type="warning"/>
-| [ECMAScript module integration]         |                                     |                         | <Badge text="good" type="tip"/> Interop
-| [Typed function references]             |                                     |                         | <Badge text="good" type="tip"/> Feature
-| [Instrument and tracing]                |                                     |                         | <Badge text="good" type="tip"/> Debugging
-| [Garbage collection]                    |                                     |                         | <Badge text="good" type="tip"/> Efficiency / Interop
+| [Memory64]                              |                                     | 🔨                      | <Badge text="uncertain" type="warning"/>
+| [Tail call]                             |                                     |                         | <Badge text="uncertain" type="warning"/>
 | [JS Promise integration]                |                                     |                         | <Badge text="uncertain" type="warning"/>
 ||
+| 📖 **Spec text available** 
+| [ECMAScript module integration]         |                                     |                         | <Badge text="good" type="tip"/> Interop
+| [Instrument and tracing]                |                                     |                         | <Badge text="good" type="tip"/> Debugging
+||
 | 💡 **Feature proposal**
-| [Type imports]                          |                                     |                         | <Badge text="good" type="tip"/> Interop
-| [Feature detection]                     |                                     |                         | <Badge text="uncertain" type="warning"/>
+| [Reference-typed strings]               |                                     | 🔨 `stringref`          | <Badge text="good" type="tip"/> Interop
 | [Extended name section]                 |                                     | 🔨                      | <Badge text="good" type="tip"/> Debugging
+| [JS customization for GC]               |                                     |                         | <Badge text="good" type="tip"/> Interop
+| [Type imports]                          |                                     |                         | <Badge text="good" type="tip"/> Interop
 | [Flexible vectors]                      |                                     |                         | <Badge text="good" type="tip"/> Feature
-| [Call tags]                             |                                     |                         | <Badge text="uncertain" type="warning"/>
 | [Stack switching]                       |                                     |                         | <Badge text="good" type="tip"/> Feature / Interop
 | [Constant time]                         |                                     |                         | <Badge text="good" type="tip"/> Security
+| [Call tags]                             |                                     |                         | <Badge text="uncertain" type="warning"/>
 | [Memory control]                        |                                     |                         | <Badge text="uncertain" type="warning"/>
-| [Reference-typed strings]               |                                     | 🔨 `stringref`          | <Badge text="good" type="tip"/> Interop
 | [Component model]<sup>2</sup>           |                                     |                         | <Badge text="harmful" type="error"/>
 ||
 | ❔ **Quasi proposal**
@@ -105,6 +105,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 [Module linking]: https://github.com/WebAssembly/module-linking
 [Component Model]: https://github.com/WebAssembly/component-model
 [WASI]: https://github.com/WebAssembly/WASI
+[JS customization for GC]: https://github.com/WebAssembly/gc-js-customization
 
 ## Language features
 
