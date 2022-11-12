@@ -98,8 +98,9 @@ Standard library data types use the following layouts:
 
 Class           | Description
 ----------------|-------------
-ArrayBuffer     | Buffers always use class id `0`, with their untyped data as the payload.
-String          | Strings always use class id `1`, with their 16-bit char codes (UTF-16 code units, allowing isolated surrogates like JS) as the payload. For example, if `rtSize` is `8`, the string's `.length` is `4`.
+Object          | Object, the base class of all managed classes, has a class id of `0`.
+ArrayBuffer     | Buffers always use class id `1`, with their untyped data as the payload.
+String          | Strings always use class id `2`, with their 16-bit char codes (UTF-16 code units, allowing isolated surrogates like JS) as the payload. For example, if `rtSize` is `8`, the string's `.length` is `4`.
 TypedArray      | Typed arrays are objects composed of `buffer` (the reference to the viewed `ArrayBuffer`), `dataStart` (the start pointer into `buffer`) and `byteLength` fields, in this order. The respective id is picked sequentially and not predetermined.
 Array\<T>       | Normal arrays use the same layout as typed arrays, with an additional mutable `length` field coming last.
 StaticArray\<T> | Static arrays do not need indirection due to not being resizable, and they have their data right in the payload, aligned according to `T`. Can be thought of as a typed buffer.
