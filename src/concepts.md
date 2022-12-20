@@ -166,7 +166,7 @@ The respective implementations of `abort`, `trace` and `seed` can be overridden 
 
 ### Accessing memory during instantiation
 
-One important edge case to be aware of is that top-level statements are executed as part of the WebAssembly module's implicit `(start ...)` function by default, which leads to a henn and egg problem when top-level statements already call out to external functionality that needs to access the module's memory instance (say, reading the contents of a logged string). Since instantiation did not yet complete, the module's exports, including exported memory, are not available yet and the access will fail.
+One important edge case to be aware of is that top-level statements are executed as part of the WebAssembly module's implicit `(start ...)` function by default, which leads to a chicken and egg problem when top-level statements already call out to external functionality that needs to access the module's memory instance (say, reading the contents of a logged string). Since instantiation did not yet complete, the module's exports, including exported memory, are not available yet and the access will fail.
 
 A solution is to utilize the `--exportStart` command line option to force exporting the start function instead of making it implicit. Then, instantiation first returns before any code is executed. Note, however, that the exported start function must always be called first, before any other exports, or undefined behavior will occur.
 
