@@ -382,7 +382,7 @@ The `immOffset` and `immAlign` arguments, if provided, must be compile time cons
 :::
 
 * ```ts
-  function load<T>(ptr: usize, immOffset?: usize): T
+  function load<T>(ptr: usize, immOffset?: usize, immAlign?: usize): T
   ```
   <details><summary>Loads a value of the specified type from memory. Equivalent to dereferencing a pointer in other languages.</summary>
 
@@ -401,7 +401,7 @@ The `immOffset` and `immAlign` arguments, if provided, must be compile time cons
   </details>
 
 * ```ts
-  function store<T>(ptr: usize, value: auto, immOffset?: usize): void
+  function store<T>(ptr: usize, value: auto, immOffset?: usize, immAlign?: usize): void
   ```
   <details><summary>Stores a value of the specified type to memory. Equivalent to dereferencing a pointer in other languages and assigning a value.</summary>
 
