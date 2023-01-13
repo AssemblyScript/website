@@ -253,10 +253,10 @@ With import maps, the compiler runs in browsers as well:
 <script type="importmap">
 {
   "imports": {
-    "binaryen": "https://cdn.jsdelivr.net/npm/binaryen@x.x.x/index.js",
-    "long": "https://cdn.jsdelivr.net/npm/long@x.x.x/index.js",
     "assemblyscript": "https://cdn.jsdelivr.net/npm/assemblyscript@x.x.x/dist/assemblyscript.js",
-    "assemblyscript/asc": "https://cdn.jsdelivr.net/npm/assemblyscript@x.x.x/dist/asc.js"
+    "assemblyscript/asc": "https://cdn.jsdelivr.net/npm/assemblyscript@x.x.x/dist/asc.js",
+    "binaryen": "https://cdn.jsdelivr.net/npm/binaryen@x.x.x/index.js",
+    "long": "https://cdn.jsdelivr.net/npm/long@x.x.x/index.js"
   }
 }
 </script>
@@ -266,7 +266,7 @@ import asc from "assemblyscript/asc";
 </script>
 ```
 
-Note that the matching versions of the respective dependencies need to be filled in instead of `x.x.x`. Current versions can be obtained from the generated [web.html](https://cdn.jsdelivr.net/npm/assemblyscript/dist/web.html) file. The [es-module-shims](https://github.com/guybedford/es-module-shims) dependency polyfills support for import maps where not yet available.
+Note that the matching versions of the respective dependencies need to be filled in instead of `x.x.x`. Current versions can be obtained from the generated [importmap.json](https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/importmap.json) file. The [es-module-shims](https://github.com/guybedford/es-module-shims) dependency polyfills support for import maps where not yet available.
 
 
 ## Host bindings
