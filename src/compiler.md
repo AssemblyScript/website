@@ -246,28 +246,30 @@ if (error) {
 }
 ```
 
-With import maps, the compiler runs in browsers as well:
+The compiler runs in browsers as well. The simplest way to set it up is to include the generated [web.js](https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/web.js) so the compiler can be used with an `import` on the Web:
 
 ```html
-<script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1/dist/es-module-shims.js"></script>
-<script type="importmap">
-{
-  "imports": {
-    "assemblyscript": "https://cdn.jsdelivr.net/npm/assemblyscript@x.x.x/dist/assemblyscript.js",
-    "assemblyscript/asc": "https://cdn.jsdelivr.net/npm/assemblyscript@x.x.x/dist/asc.js",
-    "binaryen": "https://cdn.jsdelivr.net/npm/binaryen@x.x.x/index.js",
-    "long": "https://cdn.jsdelivr.net/npm/long@x.x.x/index.js"
-  }
-}
-</script>
+<script src="https://cdn.jsdelivr.net/npm/assemblyscript@x.x.x/dist/web.js"></script>
 <script type="module">
 import asc from "assemblyscript/asc";
 ...
 </script>
 ```
 
-Note that the matching versions of the respective dependencies need to be filled in instead of `x.x.x`. Current versions can be obtained from the generated [importmap.json](https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/importmap.json) file. The [es-module-shims](https://github.com/guybedford/es-module-shims) dependency polyfills support for import maps where not yet available.
+Here, `x.x.x` must be replaced with the [respective version to use](https://github.com/AssemblyScript/assemblyscript/tags), or `latest` to always use the latest version (not recommended in production). By default, the script installs [the necessary import map](https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/importmap.json) and, for browsers that do not yet support import maps, [an import map shim](https://github.com/guybedford/es-module-shims). It also accepts the following options in case there is a need to only perform part of the setup:
 
+| Script URL                | Effect
+|---------------------------|------------------------------------------
+| `web.js?noinstall`        | Does not install the import map.
+| `web.js?noshim`           | Does not install the import map shim.
+| `web.js?noinstall,noshim` | Does not install the import map or shim.
+
+Regardless of the options used, the script always declares the following global variables:
+
+| Variable                   | Description
+|----------------------------|-------------------------------------------------
+| `ASSEMBLYSCRIPT_VERSION`   | Version string of the compiler release used
+| `ASSEMBLYSCRIPT_IMPORTMAP` | The respective import map of the release as JSON
 
 ## Host bindings
 

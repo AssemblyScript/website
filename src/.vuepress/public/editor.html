@@ -312,25 +312,7 @@
   </div>
   <input type="text" id="clipboardHelper" aria-hidden="true" />
   <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.34.0/min/vs/loader.js"></script>
-  <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1/dist/es-module-shims.wasm.min.js"></script>
-  <script type="importmap">
-    {
-      "imports": {
-        "assemblyscript": "https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/assemblyscript.js",
-        "assemblyscript/asc": "https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/asc.js",
-        "binaryen": "https://cdn.jsdelivr.net/npm/binaryen@111.0.0-nightly.20230111/index.js",
-        "long": "https://cdn.jsdelivr.net/npm/long@5.2.0/index.min.js"
-      },
-      "scopes": {
-        "https://cdn.jsdelivr.net/npm/assemblyscript/": {
-          "fs": "./scripts/empty.js",
-          "module": "./scripts/empty.js",
-          "path": "./scripts/empty.js",
-          "url": "./scripts/empty.js"
-        }
-      }
-    }
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/web.js"></script>
   <script type="module">
     import asc from "assemblyscript/asc";
 
