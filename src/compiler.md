@@ -256,7 +256,7 @@ import asc from "assemblyscript/asc";
 </script>
 ```
 
-Here, `x.x.x` must be replaced with the [respective version to use](https://github.com/AssemblyScript/assemblyscript/tags), or `latest` to always use the latest version (not recommended in production). By default, the script installs [the necessary import map](https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/importmap.json) and, for browsers that do not yet support import maps, [an import map shim](https://github.com/guybedford/es-module-shims). It also accepts the following optional options:
+Here, `x.x.x` must be replaced with the [respective version to use](https://github.com/AssemblyScript/assemblyscript/tags), or `latest` to always use the latest version (not recommended in production). By default, the script installs [the necessary import map](https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/importmap.json) and, for browsers that do not yet support import maps, [an import map shim](https://github.com/guybedford/es-module-shims). It also accepts the following options in case there is a need to only perform part of the setup:
 
 | Script URL                | Effect
 |---------------------------|------------------------------------------
