@@ -246,7 +246,7 @@ if (error) {
 }
 ```
 
-The compiler runs in browsers as well. The simplest way to set it up is to include the generated [web.js](ttps://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/web.js) so the compiler can be used with an `import` on the Web:
+The compiler runs in browsers as well. The simplest way to set it up is to include the generated [web.js](https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/web.js) so the compiler can be used with an `import` on the Web:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/assemblyscript@x.x.x/dist/web.js"></script>
