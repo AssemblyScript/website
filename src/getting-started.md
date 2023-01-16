@@ -48,7 +48,7 @@ The `asinit` command automatically creates the recommended directory structure a
   Package info containing the necessary commands to compile to WebAssembly.
 
   ./tests/index.js
-  Stater test to check that the module is functioning.
+  Starter test to check that the module is functioning.
 
   ./index.html
   Starter HTML file that loads the module in a browser.
