@@ -32,7 +32,7 @@ function foo(a: i32 = 0): i32 {
 }
 ```
 
-There are no union types, but a similar effect can be achieved with generics:
+There are no union types yet, but a similar effect can be achieved with generics:
 
 ```ts
 // 😢
