@@ -37,7 +37,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | [Tail call]                             |                                     |                         | <Badge text="uncertain" type="warning"/>
 | [JS Promise integration]                |                                     |                         | <Badge text="uncertain" type="warning"/>
 ||
-| 📖 **Spec text available** 
+| 📖 **Spec text available**
 | [ECMAScript module integration]         |                                     |                         | <Badge text="good" type="tip"/> Interop
 | [Instrument and tracing]                |                                     |                         | <Badge text="good" type="tip"/> Debugging
 ||
@@ -122,7 +122,7 @@ As such, certain higher-level language features still have their limitations or 
 | Host&nbsp;integration                                  | Enabled by generated [host bindings](./compiler.md#host-bindings), respectively the [runtime interface](./runtime.md) for integration into non-Web environments.
 ||
 | 🐣&nbsp;**Limited**
-| Union&nbsp;types                                  | Union types are not supported by design, except for nullable class types. There is no `any` type. A viable alternative is to use generics specialized with [static type checks](./stdlib/globals.md#static-type-checks) to achieve a similar effect.
+| Union&nbsp;types                                  | Union types are not supported yet, except for nullable class types. There is no `any` type. A viable alternative is to use generics specialized with [static type checks](./stdlib/globals.md#static-type-checks) to achieve a similar effect.
 | Symbols                                           | Symbols are implemented in the standard library, but don't have deep compiler integration yet.
 | Object literals                                   | Object literals can be used in places where the current type is a bare class, then corresponding to an instantiation of the class.
 | JSON                                              | JSON is not strictly typed in nature, so we haven't settled on a standard yet. Solutions developed by the community: [assemblyscript-json](https://github.com/nearprotocol/assemblyscript-json)
