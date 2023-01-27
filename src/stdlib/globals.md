@@ -31,9 +31,9 @@ The following global constants and functions are present alongside the standard 
   Tests if a 32-bit or 64-bit float is finite, that is not `NaN` or +/-`Infinity`.
 
 * ```ts
-  function parseInt(str: string, radix?: i32): i64
+  function parseInt(str: string, radix?: i32): f64
   ```
-  Parses a string to a 64-bit integer. Returns `0` on invalid inputs.
+  Parses a string to a 64-bit integer and cast to f64. Returns `NaN` on invalid inputs.
 
 * ```ts
   function parseFloat(str: string): f64
