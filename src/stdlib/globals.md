@@ -33,7 +33,14 @@ The following global constants and functions are present alongside the standard 
 * ```ts
   function parseInt(str: string, radix?: i32): f64
   ```
-  Parses a string to a f64 as integer number. Returns `NaN` on invalid inputs. If you want to get integer results, it is better to use `I32.parseInt` / `i32.parse` or `I64.parseInt` / `i64.parse`.
+  Parses a string representing an integer to an f64 number Returns `NaN` on invalid inputs.
+  
+  Type-specific variants of `parseInt` are available separately:
+  * `F32.parseInt` to parse to a 32-bit float.
+  * `I8.parseInt` to parse to a signed 8-bit integer, respectively `U8.parseInt` if unsigned.
+  * `I16.parseInt` to parse to a signed 16-bit integer, respectively `U16.parseInt` if unsigned.
+  * `I32.parseInt` to parse to a signed 32-bit integer, respectively `U32.parseInt` if unsigned.
+  * `I64.parseInt` to parse to a signed 64-bit integer, respectively `U64.parseInt` if unsigned.
 
 * ```ts
   function parseFloat(str: string): f64
