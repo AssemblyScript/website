@@ -33,7 +33,7 @@ The following global constants and functions are present alongside the standard 
 * ```ts
   function parseInt(str: string, radix?: i32): f64
   ```
-  Parses a string to a f64 as integer number. Returns `NaN` on invalid inputs.
+  Parses a string to a f64 as integer number. Returns `NaN` on invalid inputs. If you want to get integer results, it is better to use `I32.parseInt` / `i32.parse` or `I64.parseInt` / `i64.parse`.
 
 * ```ts
   function parseFloat(str: string): f64
