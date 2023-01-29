@@ -155,7 +155,7 @@ As soon as these conditions are no longer met, one would instead either reserve 
 
 ## Running locally
 
-Set up a new AssemblyScript project as described in [Quick start](../quick-start.md) and copy `module.ts` to `assembly/index.ts` and `index.html` to the project's top-level directory. Edit the build commands in `package.json` to include
+Set up a new AssemblyScript project as described in [Getting started](../getting-started.md) and copy `module.ts` to `assembly/index.ts` and `index.html` to the project's top-level directory. Edit the build commands in `package.json` to include
 
 ```
 --runtime stub --use Math=JSMath --importMemory
