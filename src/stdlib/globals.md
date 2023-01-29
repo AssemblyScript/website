@@ -31,9 +31,16 @@ The following global constants and functions are present alongside the standard 
   Tests if a 32-bit or 64-bit float is finite, that is not `NaN` or +/-`Infinity`.
 
 * ```ts
-  function parseInt(str: string, radix?: i32): i64
+  function parseInt(str: string, radix?: i32): f64
   ```
-  Parses a string to a 64-bit integer. Returns `0` on invalid inputs.
+  Parses a string representing an integer to an f64 number Returns `NaN` on invalid inputs.
+  
+  Type-specific variants of `parseInt` are available separately:
+  * `F32.parseInt` to parse to a 32-bit float.
+  * `I8.parseInt` to parse to a signed 8-bit integer, respectively `U8.parseInt` if unsigned.
+  * `I16.parseInt` to parse to a signed 16-bit integer, respectively `U16.parseInt` if unsigned.
+  * `I32.parseInt` to parse to a signed 32-bit integer, respectively `U32.parseInt` if unsigned.
+  * `I64.parseInt` to parse to a signed 64-bit integer, respectively `U64.parseInt` if unsigned.
 
 * ```ts
   function parseFloat(str: string): f64
