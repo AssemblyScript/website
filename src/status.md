@@ -19,23 +19,23 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | [Non-trapping float-to-int conversions] | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Efficiency
 | [Bulk memory operations]                | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Efficiency
 | [Fixed-width SIMD]                      | <Ch/> <Fi/> <Xx/> <No/> <Wt/> <Ws/> | 🏁 `simd`               | <Badge text="good" type="tip"/> Feature
-| [Reference types]                       | <Ch/> <Fi/> <Sa/> <Xx/> <Wt/> <Ws/> | 🔨 `reference-types`    | <Badge text="good" type="tip"/> Interop
-| [Multi-value]                           | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> |                         | <Badge text="uncertain" type="warning"/>
+| [Reference types]                       | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | 🔨 `reference-types`    | <Badge text="good" type="tip"/> Interop
+| [Multi-value]                           | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> |                         | <Badge text="good" type="tip"/> Feature
 ||
 | 🏁 **Standardize the feature**
+| [Extended constant expressions]         |                                     | 🔨                      | <Badge text="good" type="tip"/> Efficiency
+| [Tail call]                             |                                     |                         | <Badge text="good" type="tip"/> Efficiency
 ||
 | 🔨 **Implementation phase**
 | [Exception handling]                    | <Ch/> <Fi/> <Sa/> <No/> <Xx/> <Xx/> | 🔨 `exception-handling` | <Badge text="good" type="tip"/> Feature
 | [Typed function references]             |                                     | 🔨 `gc`                 | <Badge text="good" type="tip"/> Feature
 | [Garbage collection]                    |                                     | 🔨 `gc`                 | <Badge text="good" type="tip"/> Efficiency / Interop
-| [Extended constant expressions]         |                                     | 🔨                      | <Badge text="good" type="tip"/> Efficiency
+| [Relaxed SIMD]                          |                                     | 🔨 `relaxed-simd`       | <Badge text="good" type="tip"/> Feature
 | [Multiple memories]                     |                                     | 🔨                      | <Badge text="good" type="tip"/> Feature
 | [Branch hinting]                        |                                     |                         | <Badge text="good" type="tip"/> Efficiency
-| [Relaxed SIMD]                          |                                     |                         | <Badge text="good" type="tip"/> Feature
+| [JS Promise integration]                |                                     |                         | <Badge text="good" type="tip"/> Feature
 | [Threads]                               | <Ch/> <Fi/> <Sa/> <No/> <Xx/> <Xx/> | 🔨 `threads`            | <Badge text="uncertain" type="warning"/>
 | [Memory64]                              |                                     | 🔨                      | <Badge text="uncertain" type="warning"/>
-| [Tail call]                             |                                     |                         | <Badge text="uncertain" type="warning"/>
-| [JS Promise integration]                |                                     |                         | <Badge text="uncertain" type="warning"/>
 ||
 | 📖 **Spec text available**
 | [ECMAScript module integration]         |                                     |                         | <Badge text="good" type="tip"/> Interop
@@ -51,6 +51,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | [Constant time]                         |                                     |                         | <Badge text="good" type="tip"/> Security
 | [Call tags]                             |                                     |                         | <Badge text="uncertain" type="warning"/>
 | [Memory control]                        |                                     |                         | <Badge text="uncertain" type="warning"/>
+| [Profiles]                              |                                     |                         | <Badge text="uncertain" type="warning"/>
 | [Component model]<sup>2</sup>           |                                     |                         | <Badge text="harmful" type="error"/>
 ||
 | ❔ **Quasi proposal**
@@ -106,6 +107,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 [Component Model]: https://github.com/WebAssembly/component-model
 [WASI]: https://github.com/WebAssembly/WASI
 [JS customization for GC]: https://github.com/WebAssembly/gc-js-customization
+[Profiles]: https://github.com/WebAssembly/profiles
 
 ## Language features
 
