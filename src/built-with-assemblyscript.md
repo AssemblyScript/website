@@ -53,7 +53,7 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 
 ## Demoscene
 
-* [Hoofdkantoor WASM Demo](https://wasm-demo.codument.com/demo.html)<br />
+* [Hoofdkantoor WASM Demo](https://wasm-demo.codument.com)<br />
   A demo built with AssemblyScript (also TS and Web Audio API). It's an homage to the old school Demoscene of the early 90s.
 
 ## Editors
