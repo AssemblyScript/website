@@ -48,10 +48,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   A Rollup plugin that allows you to import AssemblyScript files and compiles them on-the-fly.
 * [as-loader](https://github.com/piotr-oles/as-loader)<br />
   A webpack loader for AssemblyScript
-* [visitor-as](https://github.com/as-pect/visitor-as)<br />
+* [visitor-as](https://github.com/willemneal/visitor-as)<br />
   Tools for creating compiler transformers.
-* [visitor-as](https://github.com/as-pect/as-pect)<br />
-  🔥Blazing🔥 fast testing with AssemblyScript
 ## Demoscene
 
 * [Hoofdkantoor WASM Demo](https://wasm-demo.codument.com)<br />
