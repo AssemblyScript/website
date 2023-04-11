@@ -862,9 +862,9 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
   Performs the bitwise `!a` operation on each lane.
 
 * ```ts
-  function v128.bitselect(a: v128, b: v128, mask: v128): v128
+  function v128.bitselect(v1: v128, v2: v128, mask: v128): v128
   ```
-  Selects bits of either vector according to the specified mask.
+  Selects bits of either vector according to the specified mask. Selects from `v1` if the bit in `mask` is `1`, otherwise from `v2`.
 
 * ```ts
   function v128.any_true(a: v128): bool
@@ -1279,7 +1279,7 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
 * ```ts
   function v128.q15mulr_sat<T>(a: v128, b: v128): v128
   ```
-  <details><summary>Performs the line-wise saturating rounding multiplication in Q15 format.</summary>
+  <details><summary>Performs the line-wise saturating rounding multiplication in Q15 format ((a[i] * b[i] + (1 << (Q - 1))) >> Q where Q=15).</summary>
 
   | T   | Instruction
   |-----|-------------
@@ -1347,6 +1347,155 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
   function f64x2(a: f64, b: f64): v128
   ```
   Initializes a 128-bit vector from two 64-bit float values.
+
+#### Relaxed SIMD 🦄
+
+The following instructions represent the [WebAssembly Relaxed SIMD](https://github.com/WebAssembly/relaxed-simd) specification. Must be enabled with `--enable relaxed-simd`.
+
+* ```ts
+  function v128.relaxed_swizzle(a: v128, s: v128): v128
+  ```
+  Selects 8-bit lanes from `a` using indices in `s`. Indices in the range \[0-15] select the i-th element of `a`.
+  
+  Unlike `v128.swizzle`, the result of an out of bounds index is implementation-defined, depending on hardware capabilities: Either `0` or `a[s[i]%16]`.
+
+* ```ts
+  function v128.relaxed_trunc<T>(a: v128): v128
+  ```
+  <details><summary>Truncates each lane of a vector from 32-bit floating point to a 32-bit signed or unsigned integer as indicated by T.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i32      | i32x4.relaxed_trunc_f32x4_s
+  | u32      | i32x4.relaxed_trunc_f32x4_u
+  </details>
+
+  Unlike `v128.trunc_sat`, the result of lanes out of bounds of the target type is implementation defined, depending on hardware capabilities:
+  - If the input lane contains `NaN`, the result is either `0` or the respective maximum integer value.
+  - If the input lane contains a value otherwise out of bounds of the target type, the result is either the saturatated result or maximum integer value.
+
+* ```ts
+  function v128.relaxed_trunc_zero<T>(a: v128): v128
+  ```
+  <details><summary>Truncates each lane of a vector from 64-bit floating point to a 32-bit signed or unsigned integer as indicated by T. Unused higher integer lanes of the result are initialized to zero.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i32      | i32x4.relaxed_trunc_f64x2_s_zero
+  | u32      | i32x4.relaxed_trunc_f64x2_u_zero
+  </details>
+
+  Unlike `v128.trunc_sat_zero`, the result of lanes out of bounds of the target type is implementation defined, depending on hardware capabilities:
+  - If the input lane contains `NaN`, the result is either `0` or the respective maximum integer value.
+  - If the input lane contains a value otherwise out of bounds of the target type, the result is either the saturatated result or maximum integer value.
+
+* ```ts
+  function v128.relaxed_madd<T>(a: v128, b: v128, c: v128): v128
+  ```
+  <details><summary>Performs the fused multiply-add operation (a * b + c) on 32- or 64-bit floating point lanes as indicated by T.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | f32      | f32x4.relaxed_madd
+  | f64      | f64x2.relaxed_madd
+  </details>
+
+  The result is implementation defined, depending on hardware capabilities:
+  - Either `a * b` is rounded once and the final result rounded again, or
+  - The expression is evaluated with higher precision and only rounded once
+
+* ```ts
+  function v128.relaxed_nmadd<T>(a: v128, b: v128, c: v128): v128
+  ```
+  <details><summary>Performs the fused negative multiply-add operation (-(a * b) + c) on 32- or 64-bit floating point lanes as indicated by T.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | f32      | f32x4.relaxed_nmadd
+  | f64      | f64x2.relaxed_nmadd
+  </details>
+
+  The result is implementation defined, depending on hardware capabilities:
+  - Either `a * b` is rounded once and the final result rounded again, or
+  - The expression is evaluated with higher precision and only rounded once
+
+* ```ts
+  function v128.relaxed_laneselect<T>(a: v128, b: v128, m: v128): v128
+  ```
+  <details><summary>Selects 8-, 16-, 32- or 64-bit integer lanes as indicated by T from a or b based on masks in m.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i8, u8   | i8x16.relaxed_laneselect
+  | i16, u16 | i16x8.relaxed_laneselect
+  | i32, u32 | i32x4.relaxed_laneselect
+  | i64, u64 | i64x2.relaxed_laneselect
+  </details>
+
+  Behaves like `v128.bitselect` if masks in `m` do have all bits either set (result is `a[i]`) or unset (result is `b[i]`). Otherwise the result is implementation-defined, depending on hardware capabilities: If the most significant bit of `m` is set, the result is either `bitselect(a[i], b[i], mask)` or `a[i]`, otherwise the result is `b[i]`.
+
+* ```ts
+  function v128.relaxed_min<T>(a: v128, b: v128): v128
+  ```
+  <details><summary>Computes the minimum of each 32- or 64-bit floating point lane as indicated by T.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | f32      | f32x4.relaxed_min
+  | f64      | f64x2.relaxed_min
+  </details>
+
+  Unlike `v128.min`, the result is implementation-defined if either value is `NaN` or both are `-0.0` and `+0.0`, depending on hardware capabilities: Either `a[i]` or `b[i]`.
+
+* ```ts
+  function v128.relaxed_max<T>(a: v128, b: v128): v128
+  ```
+  <details><summary>Computes the maximum of each 32- or 64-bit floating point lane as indicated by T.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | f32      | f32x4.relaxed_max
+  | f64      | f64x2.relaxed_max
+  </details>
+
+  Unlike `v128.max`, the result is implementation-defined if either value is `NaN` or both are `-0.0` and `+0.0`, depending on hardware capabilities: Either `a[i]` or `b[i]`.
+
+* ```ts
+  function v128.relaxed_q15mulr<T>(a: v128, b: v128): v128
+  ```
+  <details><summary>Performs the lane-wise rounding multiplication in Q15 format ((a[i] * b[i] + (1 << (Q - 1))) >> Q where Q=15).</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i16      | i16x8.relaxed_q15mulr_s
+  </details>
+
+  Unlike `v128.q15mulr_sat`, the result is implementation-defined if both inputs are the minimum signed value: Either the minimum or maximum signed value.
+
+* ```ts
+  function v128.relaxed_dot<T>(a: v128, b: v128): v128
+  ```
+  <details><summary>Computes the dot product of two 8-bit integer lanes each, yielding lanes one size wider than the input.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i16      | i16x8.relaxed_dot_i8x16_i7x16_s
+  </details>
+
+  Unlike `v128.dot`, if the most significant bit of `b[i]` is set, whether `b[i]` is interpreted as signed or unsigned by the intermediate multiplication is implementation-defined.
+
+* ```ts
+  function v128.relaxed_dot_add<T>(a: v128, b: v128, c: v128): v128
+  ```
+  <details><summary>Computes the dot product of two 8-bit integer lanes each, yielding lanes two sizes wider than the input with the lanes of c accumulated into the result.</summary>
+
+  | T        | Instruction
+  |----------|-------------
+  | i32      | i32x4.relaxed_dot_i8x16_i7x16_add_s
+  </details>
+
+  Unlike `v128.dot`, if the most significant bit of `b[i]` is set, whether `b[i]` is interpreted as signed or unsigned by the intermediate multiplication is implementation-defined.
+
 
 ### Inline instructions
 
