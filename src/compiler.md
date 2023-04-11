@@ -107,6 +107,8 @@ There are several flags that enable or disable specific WebAssembly or compiler 
                         simd                SIMD types and operations.
                         reference-types     Reference types and operations.
                         gc                  Garbage collection (WIP).
+                        stringref           String reference types.
+                        relaxed-simd        Relaxed SIMD operations.
 
 --disable             Disables WebAssembly features being enabled by default.
 
