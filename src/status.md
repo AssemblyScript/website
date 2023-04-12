@@ -8,63 +8,65 @@ AssemblyScript both aims to be a thin and efficient layer on top of WebAssembly,
 
 ## WebAssembly features
 
-Some crucial language features rely on [future WebAssembly functionality](https://github.com/WebAssembly/proposals) to be efficient. The following table aims to give an overview from a WebAssembly perspective:
+Some language features rely on [future WebAssembly functionality](https://github.com/WebAssembly/proposals) to become viable. The following table aims to give an overview from a WebAssembly perspective:
 
-| WebAssembly spec                        | Engines                             | AssemblyScript (flag)   | Perspective
-|-----------------------------------------|-------------------------------------|-------------------------|------------------------------------
+| WebAssembly spec                        | Engines                               | AssemblyScript (flag)   | Perspective
+|-----------------------------------------|---------------------------------------|-------------------------|------------------------------------
 | ✔️ **Finished proposal**
-| [Import/export of mutable globals]      | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Interop
-| [JS BigInt integration]<sup>1</sup>     | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Interop
-| [Sign-extension operations]             | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Efficiency
-| [Non-trapping float-to-int conversions] | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Efficiency
-| [Bulk memory operations]                | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Efficiency
-| [Fixed-width SIMD]                      | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | 🏁 `simd`               | <Badge text="good" type="tip"/> Feature
-| [Reference types]                       | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | 🔨 `reference-types`    | <Badge text="good" type="tip"/> Interop
-| [Multi-value]                           | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> |                         | <Badge text="good" type="tip"/> Feature
+| [Import/export of mutable globals]      | <Ch/> <Fi/> <Sa/> <No/> ⁞ <Ws/> <Wt/> | ✔️                      | <Badge text="good" type="tip"/> Interop
+| [JS BigInt integration]<sup>1</sup>     | <Ch/> <Fi/> <Sa/> <No/>               | ✔️                      | <Badge text="good" type="tip"/> Interop
+| [Sign-extension operations]             | <Ch/> <Fi/> <Sa/> <No/> ⁞ <Ws/> <Wt/> | ✔️                      | <Badge text="good" type="tip"/> Efficiency
+| [Non-trapping float-to-int conversions] | <Ch/> <Fi/> <Sa/> <No/> ⁞ <Ws/> <Wt/> | ✔️                      | <Badge text="good" type="tip"/> Efficiency
+| [Bulk memory operations]                | <Ch/> <Fi/> <Sa/> <No/> ⁞ <Ws/> <Wt/> | ✔️                      | <Badge text="good" type="tip"/> Efficiency
+| [Fixed-width SIMD]                      | <Ch/> <Fi/> <Sa/> <No/> ⁞ <Ws/> <Wt/> | 🏁 `simd`               | <Badge text="good" type="tip"/> Feature
+| [Reference types]                       | <Ch/> <Fi/> <Sa/> <No/> ⁞ <Ws/> <Wt/> | 🔨 `reference-types`    | <Badge text="good" type="tip"/> Interop
+| [Multi-value]                           | <Ch/> <Fi/> <Sa/> <No/> ⁞ <Ws/> <Wt/> |                         | <Badge text="good" type="tip"/> Feature
 ||
 | 🏁 **Standardize the feature**
-| [Extended constant expressions]         |                                     | 🔨                      | <Badge text="good" type="tip"/> Efficiency
-| [Tail call]                             |                                     |                         | <Badge text="good" type="tip"/> Efficiency
+| [Extended constant expressions]         |                                       | 🔨                      | <Badge text="good" type="tip"/> Efficiency
+| [Tail call]                             |                                       |                         | <Badge text="good" type="tip"/> Efficiency
 ||
 | 🔨 **Implementation phase**
-| [Relaxed SIMD]                          |                                     | 🏁 `relaxed-simd`       | <Badge text="good" type="tip"/> Feature
-| [Exception handling]                    | <Ch/> <Fi/> <Sa/> <No/> <Xx/> <Xx/> | 🔨 `exception-handling` | <Badge text="good" type="tip"/> Feature
-| [Typed function references]             |                                     | 🔨 `gc`                 | <Badge text="good" type="tip"/> Feature
-| [Garbage collection]                    |                                     | 🔨 `gc`                 | <Badge text="good" type="tip"/> Efficiency / Interop
-| [Multiple memories]                     |                                     | 🔨                      | <Badge text="good" type="tip"/> Feature
-| [Branch hinting]                        |                                     |                         | <Badge text="good" type="tip"/> Efficiency
-| [JS Promise integration]                |                                     |                         | <Badge text="uncertain" type="warning"/>
-| [Threads]                               | <Ch/> <Fi/> <Sa/> <No/> <Xx/> <Xx/> | 🔨 `threads`            | <Badge text="uncertain" type="warning"/>
-| [Memory64]                              |                                     | 🔨                      | <Badge text="uncertain" type="warning"/>
+| [Relaxed SIMD]                          |                                       | 🏁 `relaxed-simd`       | <Badge text="good" type="tip"/> Feature
+| [Exception handling]                    | <Ch/> <Fi/> <Sa/> <No/>               | 🔨 `exception-handling` | <Badge text="good" type="tip"/> Feature
+| [Typed function references]             |                                       | 🔨 `gc`                 | <Badge text="good" type="tip"/> Feature
+| [Garbage collection]                    |                                       | 🔨 `gc`                 | <Badge text="good" type="tip"/> Efficiency / Interop
+| [Multiple memories]                     |                                       | 🔨                      | <Badge text="good" type="tip"/> Feature
+| [Branch hinting]                        |                                       |                         | <Badge text="good" type="tip"/> Efficiency
+| [JS Promise integration]                |                                       |                         | <Badge text="uncertain" type="warning"/>
+| [Threads]                               | <Ch/> <Fi/> <Sa/> <No/>               | 🔨 `threads`            | <Badge text="uncertain" type="warning"/>
+| [Memory64]                              |                                       | 🔨                      | <Badge text="uncertain" type="warning"/>
 ||
 | 📖 **Spec text available**
-| [ECMAScript module integration]         |                                     |                         | <Badge text="good" type="tip"/> Interop
-| [Instrument and tracing]                |                                     |                         | <Badge text="good" type="tip"/> Debugging
+| [ECMAScript module integration]         |                                       |                         | <Badge text="good" type="tip"/> Interop
+| [Instrument and tracing]                |                                       |                         | <Badge text="good" type="tip"/> Debugging
 ||
 | 💡 **Feature proposal**
-| [Reference-typed strings]               |                                     | 🔨 `stringref`          | <Badge text="good" type="tip"/> Interop
-| [Extended name section]                 |                                     | 🔨                      | <Badge text="good" type="tip"/> Debugging
-| [JS customization for GC]               |                                     |                         | <Badge text="good" type="tip"/> Interop
-| [Type imports]                          |                                     |                         | <Badge text="good" type="tip"/> Interop
-| [Flexible vectors]                      |                                     |                         | <Badge text="good" type="tip"/> Feature
-| [Constant time]                         |                                     |                         | <Badge text="good" type="tip"/> Security
-| [Stack switching]                       |                                     |                         | <Badge text="uncertain" type="warning"/>
-| [Call tags]                             |                                     |                         | <Badge text="uncertain" type="warning"/>
-| [Memory control]                        |                                     |                         | <Badge text="uncertain" type="warning"/>
-| [Profiles]                              |                                     |                         | <Badge text="uncertain" type="warning"/>
-| [Component model]<sup>2</sup>           |                                     |                         | <Badge text="harmful" type="error"/>
+| [Reference-typed strings]               |                                       | 🔨 `stringref`          | <Badge text="good" type="tip"/> Interop
+| [Extended name section]                 |                                       | 🔨                      | <Badge text="good" type="tip"/> Debugging
+| [JS customization for GC]               |                                       |                         | <Badge text="good" type="tip"/> Interop
+| [Type imports]                          |                                       |                         | <Badge text="good" type="tip"/> Interop
+| [Flexible vectors]                      |                                       |                         | <Badge text="good" type="tip"/> Feature
+| [Constant time]                         |                                       |                         | <Badge text="good" type="tip"/> Security
+| [Stack switching]                       |                                       |                         | <Badge text="uncertain" type="warning"/>
+| [Call tags]                             |                                       |                         | <Badge text="uncertain" type="warning"/>
+| [Memory control]                        |                                       |                         | <Badge text="uncertain" type="warning"/>
+| [Profiles]                              |                                       |                         | <Badge text="uncertain" type="warning"/>
+| [Component model]<sup>2</sup>           |                                       |                         | <Badge text="harmful" type="error"/>
 ||
 | ❔ **Quasi proposal**
-| [WASI]<sup>2</sup>                      | <Xx/> <Xx/> <Xx/> <Xx/> <Wt/> <Ws/> |                         | <Badge text="harmful" type="error"/>
+| [WASI]<sup>2</sup>                      | <Xx/> <Xx/> <Xx/> <Xx/> ⁞ <Ws/> <Wt/> |                         | <Badge text="harmful" type="error"/>
 
+Web: &nbsp;
 <Ch/> <a href="https://www.chromestatus.com/features#webassembly" target="_blank" rel="noopener">Chrome</a> &nbsp;
 <Fi/> <a href="https://platform-status.mozilla.org" target="_blank" rel="noopener">Firefox</a> &nbsp;
 <Sa/> <a href="https://webkit.org/status/" target="_blank" rel="noopener">Safari</a> &nbsp;
-<No/> <a href="https://github.com/nodejs/node/blob/master/CHANGELOG.md" target="_blank" rel="noopener">Node.js</a> &nbsp;
+<No/> <a href="https://github.com/nodejs/node/blob/master/CHANGELOG.md" target="_blank" rel="noopener">Node.js</a> &nbsp; ⁞ &nbsp; 
+Non-Web: &nbsp;
+<Ws/> <a href="https://docs.wasmer.io/ecosystem/wasmer/wasmer-features#support-of-features-by-compiler" target="_blank" rel="noopener">Wasmer</a> &nbsp;
 <Wt/> <a href="https://docs.wasmtime.dev/stability-wasm-proposals-support.html" target="_blank" rel="noopener">Wasmtime</a> &nbsp;
-<Ws/> <a href="https://docs.wasmer.io/ecosystem/wasmer/wasmer-features#support-of-features-by-compiler" target="_blank" rel="noopener">Wasmer</a> &nbsp; (<sup>1</sup> native support in non-JS hosts)
 
-<sup>2</sup> See our detailed [standards objections](./standards-objections.md) regarding WASI and the Component Model.<br />
+<sup>1</sup> Supported otherwise by Non-Web hosts. &nbsp; <sup>2</sup> See our detailed [standards objections](./standards-objections.md).
 
 | Perspective                          | Description
 |--------------------------------------|-------------
