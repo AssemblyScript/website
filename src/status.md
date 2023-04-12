@@ -18,7 +18,7 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | [Sign-extension operations]             | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Efficiency
 | [Non-trapping float-to-int conversions] | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Efficiency
 | [Bulk memory operations]                | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | ✔️                      | <Badge text="good" type="tip"/> Efficiency
-| [Fixed-width SIMD]                      | <Ch/> <Fi/> <Xx/> <No/> <Wt/> <Ws/> | 🏁 `simd`               | <Badge text="good" type="tip"/> Feature
+| [Fixed-width SIMD]                      | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | 🏁 `simd`               | <Badge text="good" type="tip"/> Feature
 | [Reference types]                       | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> | 🔨 `reference-types`    | <Badge text="good" type="tip"/> Interop
 | [Multi-value]                           | <Ch/> <Fi/> <Sa/> <No/> <Wt/> <Ws/> |                         | <Badge text="good" type="tip"/> Feature
 ||
