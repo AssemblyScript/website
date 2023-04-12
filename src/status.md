@@ -27,13 +27,13 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | [Tail call]                             |                                     |                         | <Badge text="good" type="tip"/> Efficiency
 ||
 | 🔨 **Implementation phase**
+| [Relaxed SIMD]                          |                                     | 🏁 `relaxed-simd`       | <Badge text="good" type="tip"/> Feature
 | [Exception handling]                    | <Ch/> <Fi/> <Sa/> <No/> <Xx/> <Xx/> | 🔨 `exception-handling` | <Badge text="good" type="tip"/> Feature
 | [Typed function references]             |                                     | 🔨 `gc`                 | <Badge text="good" type="tip"/> Feature
 | [Garbage collection]                    |                                     | 🔨 `gc`                 | <Badge text="good" type="tip"/> Efficiency / Interop
-| [Relaxed SIMD]                          |                                     | 🔨 `relaxed-simd`       | <Badge text="good" type="tip"/> Feature
 | [Multiple memories]                     |                                     | 🔨                      | <Badge text="good" type="tip"/> Feature
 | [Branch hinting]                        |                                     |                         | <Badge text="good" type="tip"/> Efficiency
-| [JS Promise integration]                |                                     |                         | <Badge text="good" type="tip"/> Feature
+| [JS Promise integration]                |                                     |                         | <Badge text="uncertain" type="warning"/>
 | [Threads]                               | <Ch/> <Fi/> <Sa/> <No/> <Xx/> <Xx/> | 🔨 `threads`            | <Badge text="uncertain" type="warning"/>
 | [Memory64]                              |                                     | 🔨                      | <Badge text="uncertain" type="warning"/>
 ||
@@ -47,8 +47,8 @@ Some crucial language features rely on [future WebAssembly functionality](https:
 | [JS customization for GC]               |                                     |                         | <Badge text="good" type="tip"/> Interop
 | [Type imports]                          |                                     |                         | <Badge text="good" type="tip"/> Interop
 | [Flexible vectors]                      |                                     |                         | <Badge text="good" type="tip"/> Feature
-| [Stack switching]                       |                                     |                         | <Badge text="good" type="tip"/> Feature / Interop
 | [Constant time]                         |                                     |                         | <Badge text="good" type="tip"/> Security
+| [Stack switching]                       |                                     |                         | <Badge text="uncertain" type="warning"/>
 | [Call tags]                             |                                     |                         | <Badge text="uncertain" type="warning"/>
 | [Memory control]                        |                                     |                         | <Badge text="uncertain" type="warning"/>
 | [Profiles]                              |                                     |                         | <Badge text="uncertain" type="warning"/>
