@@ -31,22 +31,22 @@ AssemblyScript inherits WebAssembly's more specific integer, floating point and 
 | `v128`              | v128             | -                | A 128-bit vector.
 ||
 | *Reference / GC types*                 |
-| `ref_extern`        | ref extern       | Object           | An external reference.
-| `ref_func`          | ref func         | Function         | A function reference.
-| `ref_any`           | ref any          | Object           | An internal reference. 🦄
-| `ref_eq`            | ref eq           | Object           | An equatable reference. 🦄
-| `ref_struct`        | ref struct       | Object           | A data reference. 🦄
-| `ref_array`         | ref array        | Array            | An array reference. 🦄
-| `ref_string`        | ref string       | string           | A string reference. 🦄
-| `ref_stringview_wtf8`  | ref stringview_wtf8  | -         | A WTF-8 string view reference. 🦄
-| `ref_stringview_wtf16` | ref stringview_wtf16 | string    | A WTF-16 string view reference. 🦄
-| `ref_stringview_iter`  | ref stringview_iter  | -         | A string iterator reference. 🦄
+| `ref_extern`        | (ref extern)     | Object           | An external reference.
+| `ref_func`          | (ref func)       | Function         | A function reference.
+| `ref_any`           | (ref any)        | Object           | An internal reference. 🦄
+| `ref_eq`            | (ref eq)         | Object           | An equatable reference. 🦄
+| `ref_struct`        | (ref struct)     | Object           | A data reference. 🦄
+| `ref_array`         | (ref array)      | Array            | An array reference. 🦄
+| `ref_string`        | (ref string)     | string           | A string reference. 🦄
+| `ref_stringview_wtf8`  | (ref stringview_wtf8)  | -         | A WTF-8 string view reference. 🦄
+| `ref_stringview_wtf16` | (ref stringview_wtf16) | string    | A WTF-16 string view reference. 🦄
+| `ref_stringview_iter`  | (ref stringview_iter)  | -         | A string iterator reference. 🦄
 ||
 | *Special types*                        |
 | `void`              | -                | void             | Indicates no return value.
 
 ::: tip Note
-The base reference types above are non-nullable. Canonical aliases, as per the spec, are available as well and refer to the respective nullable type, e.g. `type externref = ref_extern | null` mapping to `externref := ref null extern` in Wasm. The `ref_` prefix avoids naming collisions for the time being and might be dropped in the future.
+The base reference types above are non-nullable. Canonical aliases, as per the spec, are available as well and refer to the respective nullable type, e.g. `type externref = ref_extern | null` mapping to `externref == (ref null extern)` in Wasm. The `ref_` prefix avoids naming collisions for the time being and might be dropped in the future.
 :::
 
 Just like in TypeScript, types are annotated after variable, function argument or class member names, separated by `:`, like so:
@@ -98,11 +98,11 @@ var u16val: u16 = i8val // becomes 65408 through masking (0xFF80)
 var f32val: f32 = i8val // becomes -128.0
 ```
 
-Wasm reference, GC and string types are anticipated to adhere to the following hierarchy 🦄:
+Wasm reference and GC types are anticipated to adhere to the following hierarchy 🦄:
 
 <img src="/images/reference-hierarchy.svg" alt="Diagram of anticipated reference types hierarchy." />
 
-Dashed elements are not exposed. `(...)`-placeholders indicate the concrete subtypes, e.g. an array of a specific element type, a struct with specific field types and potentially a supertype, or a function with specific parameter and return types. For details, see [Wasm GC's subtyping rules](https://github.com/WebAssembly/gc/blob/main/proposals/gc/MVP.md#structural-types).
+Dashed elements are not exposed and/or unclear. `(...)`-placeholders indicate the concrete subtypes, e.g. an array of a specific element type, a struct with specific field types and potentially a supertype, or a function with specific parameter and return types. For details, see [Wasm GC's subtyping rules](https://github.com/WebAssembly/gc/blob/main/proposals/gc/MVP.md#structural-types).
 
 ### Comparability
 
