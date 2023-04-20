@@ -30,22 +30,24 @@ AssemblyScript inherits WebAssembly's more specific integer, floating point and 
 | *Vector types*                         |
 | `v128`              | v128             | -                | A 128-bit vector.
 ||
-| *Reference types*                      |
-| `externref`         | externref        | Object           | An external reference.
-| `funcref`           | funcref          | Function         | A function reference.
-||
-| *Wasm GC types* 🦄                     |
-| `anyref`            | anyref           | Object           | An internal reference.
-| `eqref`             | eqref            | Object           | An equatable reference.
-| `dataref`           | dataref          | Object           | A data reference.
-| `arrayref`          | arrayref         | Array            | An array reference.
-| `stringref`         | stringref        | string           | A string reference.
-| `stringview_wtf8`   | stringview_wtf8  | string           | A string view reference ([WTF-8](https://simonsapin.github.io/wtf-8/)).
-| `stringview_wtf16`  | stringview_wtf16 | string           | A string view reference ([WTF-16](https://simonsapin.github.io/wtf-8/#wtf-16)).
-| `stringview_iter`   | stringview_iter  | -                | A string iterator reference.
+| *Reference / GC types*                 |
+| `ref_extern`        | ref extern       | Object           | An external reference.
+| `ref_func`          | ref func         | Function         | A function reference.
+| `ref_any`           | ref any          | Object           | An internal reference. 🦄
+| `ref_eq`            | ref eq           | Object           | An equatable reference. 🦄
+| `ref_struct`        | ref struct       | Object           | A data reference. 🦄
+| `ref_array`         | ref array        | Array            | An array reference. 🦄
+| `ref_string`        | ref string       | string           | A string reference. 🦄
+| `ref_stringview_wtf8`  | ref stringview_wtf8  | -         | A WTF-8 string view reference. 🦄
+| `ref_stringview_wtf16` | ref stringview_wtf16 | string    | A WTF-16 string view reference. 🦄
+| `ref_stringview_iter`  | ref stringview_iter  | -         | A string iterator reference. 🦄
 ||
 | *Special types*                        |
 | `void`              | -                | void             | Indicates no return value.
+
+::: tip Note
+The base reference types above are non-nullable. Canonical aliases, as per the spec, are available as well and refer to the respective nullable type, e.g. `type externref = ref_extern | null` mapping to `externref := ref null extern` in Wasm. The `ref_` prefix avoids naming collisions for the time being and might be dropped in the future.
+:::
 
 Just like in TypeScript, types are annotated after variable, function argument or class member names, separated by `:`, like so:
 
@@ -100,7 +102,7 @@ Wasm reference, GC and string types are anticipated to adhere to the following h
 
 <img src="/images/reference-hierarchy.svg" alt="Diagram of anticipated reference types hierarchy." />
 
-Dashed elements are not exposed (yet) or unclear. Exposed types have a `*ref` suffix (e.g. `anyref`) and are nullable. `(...)`-placeholders indicate the concrete subtypes, e.g. an array of a specific element type, a struct with specific field types and potentially a supertype, or a function with specific parameter and return types. For details, see [Wasm GC's subtyping rules](https://github.com/WebAssembly/gc/blob/main/proposals/gc/MVP.md#structural-types).
+Dashed elements are not exposed. `(...)`-placeholders indicate the concrete subtypes, e.g. an array of a specific element type, a struct with specific field types and potentially a supertype, or a function with specific parameter and return types. For details, see [Wasm GC's subtyping rules](https://github.com/WebAssembly/gc/blob/main/proposals/gc/MVP.md#structural-types).
 
 ### Comparability
 
