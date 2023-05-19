@@ -214,7 +214,7 @@ The following generic built-ins compile to WebAssembly instructions directly.
 * ```ts
   function ctz<T>(value: T): T
   ```
-  <details><summary>Performs the sign-agnostic count tailing zero bits operation on a 32-bit or 64-bit integer. All zero bits are considered trailing if the value is zero.</summary>
+  <details><summary>Performs the sign-agnostic count trailing zero bits operation on a 32-bit or 64-bit integer. All zero bits are considered trailing if the value is zero.</summary>
 
   | T                                | Instruction
   |----------------------------------|-------------
