@@ -34,16 +34,26 @@ The compiler can optimize for both speed (`-Ospeed`) and size (`-Osize`), as wel
 ```
 --optimize, -O        Optimizes the module. Typical shorthands are:
 
-                       Default optimizations   -O
-                       Make a release build    -O --noAssert
-                       Make a debug build      --debug
-                       Optimize for speed      -Ospeed
-                       Optimize for size       -Osize
+                        Default optimizations   -O
+                        Make a release build    -O --noAssert
+                        Make a debug build      --debug
+                        Optimize for speed      -Ospeed
+                        Optimize for size       -Osize
 
 --optimizeLevel       How much to focus on optimizing code. [0-3]
 --shrinkLevel         How much to focus on shrinking code size. [0-2, s=1, z=2]
 --converge            Re-optimizes until no further improvements can be made.
 --noAssert            Replaces assertions with just their value without trapping.
+--uncheckedBehavior   Changes the behavior of unchecked() expressions.
+                      Using this option can potentially cause breakage.
+
+                        default  The default behavior: unchecked operations are
+                                 only used inside of unchecked().
+                        never    Unchecked operations are never used, even when,
+                                 inside of unchecked().
+                        always   Unchecked operations are always used if possible,
+                                 whether or not unchecked() is used.
+
 ```
 
 Optimization levels can also be tweaked manually: `--optimizeLevel` \(0-3\) indicates how much the compiler focuses on optimizing the code with `--shrinkLevel` \(0-2, 1=s, 2=z\) indicating how much it focuses on keeping the size low during code generation and while optimizing. A shorthand for both is `-O[optimizeLevel][shrinkLevel]` , with shrink level indicated by optionally appending the letter `s` \(1\) or `z` \(2\).
