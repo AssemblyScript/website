@@ -231,7 +231,7 @@ asc --config asconfig.json --target release
 The compiler API can also be used programmatically:
 
 ```js
-import asc from "assemblyscript/asc";
+import asc from "assemblyscript/cli/asc";
 
 const { error, stdout, stderr, stats } = await asc.main([
   // Command line options
@@ -263,7 +263,7 @@ The compiler runs in browsers as well. The simplest way to set it up is to inclu
 ```html
 <script src="https://cdn.jsdelivr.net/npm/assemblyscript@x.x.x/dist/web.js"></script>
 <script type="module">
-import asc from "assemblyscript/asc";
+import asc from "assemblyscript/cli/asc";
 ...
 </script>
 ```
