@@ -65,6 +65,11 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 * [Iodide Notebook](https://alpha.iodide.io/notebooks/1234)<br />
   Experimental tool for scientific communication and exploration on the web \([more](https://hacks.mozilla.org/2019/03/iodide-an-experimental-tool-for-scientific-communicatiodide-for-scientific-communication-exploration-on-the-web)\).
 
+## Formatter
+
+* [assemblyscript-prettier](https://github.com/HerrCai0907/assemblyscript-prettier)<br />
+  Prettier plugin for assemblyscript to reoslve the incompatible part of ts and as syntax
+
 ## Emulators
 
 * [wasmBoy](https://github.com/torch2424/wasmBoy) \([demo](https://wasmboy.app/)\)<br />
