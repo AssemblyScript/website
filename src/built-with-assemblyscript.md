@@ -50,6 +50,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   A webpack loader for AssemblyScript
 * [visitor-as](https://github.com/willemneal/visitor-as)<br />
   Tools for creating compiler transformers.
+* [parcel-transformer-assemblyscript-codument](https://www.npmjs.com/package/parcel-transformer-assemblyscript-codument)<br />
+  A transformer plugin for bundler Parcel v2. AssemblyScript development with all the benefits of Parcel.  
 
 ## Demoscene
 
@@ -211,6 +213,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 
 * [worker-assemblyscript-template](https://github.com/JamesLMilner/worker-assemblyscript-template)<br />
   A Cloudflare wrangler template for a AssemblyScript worker.
+* [AssemblyScript + Parcel project templates](https://www.npmjs.com/package/assemblyscript-parcel-project-templates-codument)<br />
+  AssemblyScript project templates for bundler Parcel. Get you next AssemblyScript-enabled project up and running in a minute or two! Includes an interactive CLI for creating new projects. Requires zero configuration.
 
 ## Applications
 
