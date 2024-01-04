@@ -215,6 +215,11 @@ The type `T` below substitutes either `f32` or `f64` depending on the implementa
   Returns the value of `x` rounded to the nearest integer.
 
 * ```ts
+  function seedRandom(value: i64): void
+  ```
+  Seeds the `random` function. Called internally by `random` if the seed hasn't been set.
+
+* ```ts
   function sign(x: T): T
   ```
   Returns the sign of `x`, indicating whether the number is positive, negative or zero.
