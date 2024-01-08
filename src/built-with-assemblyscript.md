@@ -31,6 +31,10 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Eth1 EE using Turboproofs.
 * [ewasm / scout.ts ](https://github.com/ewasm/scout.ts)<br />
   Scout is a Ethereum 2.0 Phase 2 execution prototyping engine \(AssemblyScript Port\).
+* [Koinos Blockchain / koinos-sdk-as](https://github.com/koinos/koinos-sdk-as)<br />
+  AssemblyScript SDK for writing smart contracts for the [Koinos Blockchain](https://koinos.io).
+* [Koinos Blockchain / koinos-sdk-as-examples](https://github.com/roaminro/koinos-sdk-as-examples)<br />
+  Collection of smart contract examples for the [Koinos Blockchain](https://koinos.io) written in AssemblyScript using koinos-sdk-as.
 * [NearProtocol / near-sdk-as](https://github.com/near/near-sdk-as)<br />
   AssemblyScript tools for writing smart contracts for NearProtocol.
 * [GraphProtocol / graph-ts](https://github.com/graphprotocol/graph-ts)<br />
