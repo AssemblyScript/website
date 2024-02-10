@@ -147,6 +147,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   BigInt is an AssemblyScript class for math with arbitrarily large integers.
 * [as-bignumber](https://github.com/polywrap/as-bignumber)<br />
   An AssemblyScript class for math with arbitrary-precision decimal and integer numbers.
+* [@hypercubed/as-mpz](https://github.com/Hypercubed/as-mpz)<br/>
+  Immutable multiple precision integer library for AssemblyScript.
 
 ## Language Extensions and Types
 
