@@ -50,7 +50,6 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   A webpack loader for AssemblyScript
 * [visitor-as](https://github.com/willemneal/visitor-as)<br />
   Tools for creating compiler transformers.
-
 ## Demoscene
 
 * [Hoofdkantoor WASM Demo](https://wasm-demo.codument.com)<br />
@@ -111,6 +110,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 
 ## Data Serialization / Deserialization
 
+* [serde-as](https://github.com/ask-lang/serde-as)<br />
+  Serde-as is a simple (de)serialization framework for AssemblyScript
 * [karmem](https://github.com/inkeliz/karmem)<br />
   Karmem is a fast binary serialization format, faster than Google Flatbuffers and optimized for WebAssembly languages.
 * [as-proto](https://github.com/piotr-oles/as-proto)<br />
