@@ -854,7 +854,7 @@ Likewise, these represent the [WebAssembly SIMD](https://github.com/WebAssembly/
 * ```ts
   function v128.andnot(a: v128, b: v128): v128
   ```
-  Performs the bitwise `!a & b` operation on each lane.
+  Performs the bitwise `a & !b` operation on each lane.
 
 * ```ts
   function v128.not(a: v128): v128
