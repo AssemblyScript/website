@@ -68,7 +68,7 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 ## Formatter
 
 * [assemblyscript-prettier](https://github.com/HerrCai0907/assemblyscript-prettier)<br />
-  Prettier plugin for assemblyscript to reoslve the incompatible part of ts and as syntax
+  Prettier plugin for assemblyscript to resolve the incompatible part of ts and as syntax
 
 ## Emulators
 
@@ -210,7 +210,7 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 ## Project Templates
 
 * [worker-assemblyscript-template](https://github.com/JamesLMilner/worker-assemblyscript-template)<br />
-  A Cloudflare wrangler template for a AssemblyScript worker.
+  A Cloudflare wrangler template for an AssemblyScript worker.
 
 ## Applications
 
