@@ -77,6 +77,10 @@ TypeScript transpiles down to JavaScript, a dynamic just-in-time compiled langua
 It likely won't. While TypeScript adds typings to JavaScript, it is a superset after all and can describe many of JavaScript's dynamic features, not all of which are feasible to support in ahead-of-time compilation. Yet, sufficiently strict TypeScript code can often be made compatible with the AssemblyScript compiler with little effort.
 :::
 
+::: tip Can I use any third party npm package like web.js or crypto.js?
+It depends. Even if the npm package has TypeScript sources that are fully compatible with AssemblyScript, bundlers / transpilers will likely compile it into regular JavaScript without proper information about the types after publishing to npm. However, you can use packages from npm that are built specifically for AssemblyScript. Some of them can be found at [Built with AssemblyScript](./built-with-assemblyscript.md). Furthermore, you can always import the necessary JavaScript methods from the host (browser or node.js) via [host bindings](./compiler.html#host-bindings).
+:::
+
 ::: tip What are good use cases for AssemblyScript?
 Computation-heavy logic like image manipulation, hot game logic, specialized algorithms, emulators, compilers and the likes are great use cases for WebAssembly, and as such for AssemblyScript as well. In some situations it may also be preferable to ship bytecode instead of minified JS, or just the ability to utilize a TypeScript-like language may open up new opportunities, for example for embedded scripting or plugins.
 :::
