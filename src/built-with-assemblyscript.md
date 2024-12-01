@@ -22,7 +22,9 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Bench of sorting random colors by hue component on 2d canvas.
 * [Wasm Mandelbrot](https://github.com/ColinEberhardt/wasm-mandelbrot) \([demo](https://colineberhardt.github.io/wasm-mandelbrot/#AssemblyScript)\)<br />
   A mandelbrot rendered using a variety of WebAssembly tools \(emscripten, AssemblyScript, asm.js, etc ...\)
-
+* [Schelling's Segregation](https://github.com/kubohiroya/webgpu-react-bitmap-viewport) \([demo](https://kubohiroya.github.io/webgpu-react-bitmap-viewport/examples/#3))<br />
+  A set of Schelling's Segregation model simulations using combinations of WebGPU and AssemblyScript.
+  
 ## Blockchain
 
 * [ASContract / subscript](https://github.com/ascontract/subscript)<br />
