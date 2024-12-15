@@ -219,3 +219,26 @@ Various range limits specific to the WebAssembly types are present as global con
   const f64.MAX_SAFE_INTEGER: f64 = 9007199254740991
   const f64.EPSILON: f64 = 2.2204460492503131e-16
   ```
+
+## Special functions
+
+### parse
+
+All value types (except `v128`) have some special `parse` method which more are the most preferable and ideomatic way of parsing a string into the appropriate type if you don't require portability.
+
+```ts
+i8.parse("0x7F")      // same as I8.parseInt
+i8.parse("7F", 16)    // same as I8.parseInt
+u8.parse("0x7F")      // same as U8.parseInt
+i16.parse("16")       // same as I16.parseInt
+u16.parse("16")       // same as U16.parseInt
+i32.parse("32")       // same as I32.parseInt
+u32.parse("32")       // same as U32.parseInt
+u64.parse("64")       // same as U64.parseInt
+u64.parse("64")       // same as U64.parseInt
+
+f32.parse("32.0")     // same as F32.parseFloat
+f64.parse("1e64")     // same as F64.parseFloat
+
+bool.parse(" true\n") // hasn't equivalent
+```
