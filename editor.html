@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>AssemblyScript Editor</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Try out AssemblyScript right in your browser." />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+      font-size: 16px;
+      color: #aaa;
+    }
+
+    /* Header (not visible if sandboxed) */
+    #header {
+      display: none;
+      background: #007acc;
+      font-size: 12px;
+      color: #fff;
+      padding: 4px 10px;
+      height: 25px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    #header h1, #header p {
+      margin: 0;
+      padding: 0;
+      font-size: 1em;
+      display: inline-block;
+      padding: 0 5px;
+    }
+    #header a {
+      color: #fff;
+    }
+
+    /* Loading indicator */
+    #loading {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(30, 30, 30, 0.8) url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSIjMDA3YWNjIiBkPSJNNzMgNTBjMC0xMi43LTEwLjMtMjMtMjMtMjNTMjcgMzcuMyAyNyA1MG0zLjkgMGMwLTEwLjUgOC41LTE5LjEgMTkuMS0xOS4xUzY5LjEgMzkuNSA2OS4xIDUwIj48YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGF0dHJpYnV0ZVR5cGU9IlhNTCIgZHVyPSIxcyIgZnJvbT0iMCA1MCA1MCIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIHRvPSIzNjAgNTAgNTAiIHR5cGU9InJvdGF0ZSIvPjwvcGF0aD48L3N2Zz4=') center center no-repeat;
+      background-size: 100px 100px;
+      z-index: 9000;
+      user-select: none;
+    }
+
+    /* Editor tabs */
+    #tabs {
+      color: #fff;
+      background: #2d2d2d;
+      padding: 0 8px 0 8px;
+      user-select: none;
+      height: 42px;
+      box-sizing: border-box;
+    }
+    #tabs .tab {
+      display: inline-block;
+      font-size: 0.9rem;
+      font-weight: 300;
+      padding: 12px 24px 13px 52px;
+      background: #2d2d2d;
+      background-size: 20px 20px;
+      background-repeat: no-repeat;
+      background-position: 21px center;
+      cursor: pointer;
+      text-decoration: none;
+      filter: grayscale(100%);
+      opacity: 0.6;
+    }
+    #tabs .tab:hover {
+      opacity: 0.8;
+    }
+    #tabs .tab.active {
+      background-color: #1e1e1e;
+      filter: none;
+      opacity: 1;
+    }
+    #tabs .tab.disabled {
+      display: none;
+    }
+    #tabs .tab.source {
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHRpdGxlPmZpbGVfdHlwZV90eXBlc2NyaXB0X29mZmljaWFsPC90aXRsZT48cG9seWdvbiBwb2ludHM9IjIgMTYgMiAzMCAxNiAzMCAzMCAzMCAzMCAxNiAzMCAyIDE2IDIgMiAyIDIgMTYiIHN0eWxlPSJmaWxsOiMwMDdhY2MiLz48cGF0aCBkPSJNMjQuNTY0LDE0Ljg4NGEzLjQ4NSwzLjQ4NSwwLDAsMSwxLjc1MSwxLjAwOSw0LjYxMSw0LjYxMSwwLDAsMSwuNjcxLjljLjAwOS4wMzYtMS4yMDkuODUzLTEuOTQ3LDEuMzExLS4wMjcuMDE4LS4xMzMtLjEtLjI1My0uMjc2YTEuNTg3LDEuNTg3LDAsMCwwLTEuMzE2LS43OTFjLS44NDktLjA1OC0xLjQuMzg3LTEuMzkxLDEuMTI5YTEuMDI3LDEuMDI3LDAsMCwwLC4xMi41MjRjLjE4Ny4zODcuNTMzLjYxOCwxLjYyMiwxLjA4OSwyLC44NjIsMi44NjIsMS40MzEsMy40LDIuMjRhNC4wNjMsNC4wNjMsMCwwLDEsLjMyNCwzLjQxMywzLjc1MywzLjc1MywwLDAsMS0zLjEsMi4yMTgsOC41ODQsOC41ODQsMCwwLDEtMi4xMzMtLjAyMiw1LjE0NSw1LjE0NSwwLDAsMS0yLjg0OS0xLjQ4NCw0Ljk0Nyw0Ljk0NywwLDAsMS0uNzI5LTEuMDgsMi4wOTIsMi4wOTIsMCwwLDEsLjI1OC0uMTY0Yy4xMjQtLjA3MS42LS4zNDIsMS4wNC0uNmwuOC0uNDY3TDIxLDI0LjA4QTMuNzU5LDMuNzU5LDAsMCwwLDIyLjA2NywyNS4xYTIuNiwyLjYsMCwwLDAsMi43MjQtLjEzOCwxLjIxNywxLjIxNywwLDAsMCwuMTU2LTEuNTUxYy0uMjE4LS4zMTEtLjY2Mi0uNTczLTEuOTI0LTEuMTJhNi45Myw2LjkzLDAsMCwxLTIuNjM2LTEuNjIyLDMuNjkyLDMuNjkyLDAsMCwxLS43NjktMS40LDUuNjA2LDUuNjA2LDAsMCwxLS4wNDktMS43ODcsMy40MTMsMy40MTMsMCwwLDEsMi44NzEtMi42NThBNy4wOTIsNy4wOTIsMCwwLDEsMjQuNTY0LDE0Ljg4NFptLTYuNTczLDEuMTY5TDE4LDE3LjJIMTQuMzU2VjI3LjU1NkgxMS43NzhWMTcuMkg4LjEzM1YxNi4wNzZhMTEuMDE4LDExLjAxOCwwLDAsMSwuMDMxLTEuMTU2Yy4wMTMtLjAxOCwyLjIzMS0uMDI3LDQuOTItLjAyMmw0Ljg5My4wMTNaIiBzdHlsZT0iZmlsbDojZmZmIi8+PC9zdmc+');
+    }
+    #tabs .tab.binary {
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHRpdGxlPmZpbGVfdHlwZV93YXNtPC90aXRsZT48cGF0aCBkPSJNMTkuMTUzLDIuMzVWMi41YTMuMiwzLjIsMCwxLDEtNi40LDBoMFYyLjM1SDJWMzAuMjY5SDI5LjkxOVYyLjM1WiIgc3R5bGU9ImZpbGw6IzY1NGZmMCIvPjxwYXRoIGQ9Ik04LjQ4NSwxNy40aDEuODVMMTEuNiwyNC4xMjNoLjAyM0wxMy4xNCwxNy40aDEuNzMxbDEuMzcxLDYuODFoLjAyN2wxLjQ0LTYuODFoMS44MTVsLTIuMzU4LDkuODg1SDE1LjMyOWwtMS4zNi02LjcyOGgtLjAzNmwtMS40NTYsNi43MjhoLTEuODdabTEzLjEyNCwwaDIuOTE3bDIuOSw5Ljg4NUgyNS41MTVsLS42My0yLjJIMjEuNTYybC0uNDg2LDIuMkgxOS4yMTdabTEuMTEsMi40MzctLjgwNywzLjYyN2gyLjUxMkwyMy41LDE5LjgzMloiIHN0eWxlPSJmaWxsOiNmZmYiLz48L3N2Zz4=');
+    }
+    #tabs .tab.html {
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHRpdGxlPmZpbGVfdHlwZV9odG1sPC90aXRsZT48cG9seWdvbiBwb2ludHM9IjUuOTAyIDI3LjIwMSAzLjY1NSAyIDI4LjM0NSAyIDI2LjA5NSAyNy4xOTcgMTUuOTg1IDMwIDUuOTAyIDI3LjIwMSIgc3R5bGU9ImZpbGw6I2U0NGYyNiIvPjxwb2x5Z29uIHBvaW50cz0iMTYgMjcuODU4IDI0LjE3IDI1LjU5MyAyNi4wOTIgNC4wNjEgMTYgNC4wNjEgMTYgMjcuODU4IiBzdHlsZT0iZmlsbDojZjE2NjJhIi8+PHBvbHlnb24gcG9pbnRzPSIxNiAxMy40MDcgMTEuOTEgMTMuNDA3IDExLjYyOCAxMC4yNDIgMTYgMTAuMjQyIDE2IDcuMTUxIDE1Ljk4OSA3LjE1MSA4LjI1IDcuMTUxIDguMzI0IDcuOTgxIDkuMDgzIDE2LjQ5OCAxNiAxNi40OTggMTYgMTMuNDA3IiBzdHlsZT0iZmlsbDojZWJlYmViIi8+PHBvbHlnb24gcG9pbnRzPSIxNiAyMS40MzQgMTUuOTg2IDIxLjQzOCAxMi41NDQgMjAuNTA5IDEyLjMyNCAxOC4wNDQgMTAuNjUxIDE4LjA0NCA5LjIyMSAxOC4wNDQgOS42NTQgMjIuODk2IDE1Ljk4NiAyNC42NTQgMTYgMjQuNjUgMTYgMjEuNDM0IiBzdHlsZT0iZmlsbDojZWJlYmViIi8+PHBvbHlnb24gcG9pbnRzPSIxNS45ODkgMTMuNDA3IDE1Ljk4OSAxNi40OTggMTkuNzk1IDE2LjQ5OCAxOS40MzcgMjAuNTA3IDE1Ljk4OSAyMS40MzcgMTUuOTg5IDI0LjY1MyAyMi4zMjYgMjIuODk2IDIyLjM3MiAyMi4zNzQgMjMuMDk4IDE0LjIzNyAyMy4xNzQgMTMuNDA3IDIyLjM0MSAxMy40MDcgMTUuOTg5IDEzLjQwNyIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwb2x5Z29uIHBvaW50cz0iMTUuOTg5IDcuMTUxIDE1Ljk4OSA5LjA3MSAxNS45ODkgMTAuMjM1IDE1Ljk4OSAxMC4yNDIgMjMuNDQ1IDEwLjI0MiAyMy40NDUgMTAuMjQyIDIzLjQ1NSAxMC4yNDIgMjMuNTE3IDkuNTQ4IDIzLjY1OCA3Ljk4MSAyMy43MzIgNy4xNTEgMTUuOTg5IDcuMTUxIiBzdHlsZT0iZmlsbDojZmZmIi8+PC9zdmc+');
+    }
+    #tabs .tab.play {
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZmlsbD0iI2RkZCIgZD0iTTE2IDEwdjI4bDIyLTE0eiIvPjwvc3ZnPg==')
+    }
+
+    @media only screen and (max-width: 700px) {
+      #tabs .tab span {
+        visibility: hidden;
+      }
+      #tabs .tab {
+        padding-right: 10px;
+        width: 0;
+      }
+    }
+
+    /* Editor buttons */
+    #buttons {
+      user-select: none;
+      float: right;
+      height: 42px;
+      padding: 8px;
+      margin-right: 31px;
+      box-sizing: border-box;
+    }
+    #buttons a {
+      color: #fff;
+      padding: 1px 0.4rem;
+      text-align: center;
+      vertical-align: middle;
+      text-decoration: none !important;
+      cursor: pointer;
+      opacity: 0.5;
+    }
+    #buttons a:hover {
+      opacity: 1.0;
+    }
+
+    /* Popups */
+    .popup {
+      position: absolute;
+      background: #3c3c3c;
+      padding: 0.5rem;
+      z-index: 2501;
+      animation: fadeIn 83ms linear;
+      box-shadow: 0 3px 3px 1px rgba(0,0,0,0.3);
+      display: none;
+      font-size: 0.8rem;
+      user-select: none;
+    }
+    .popup:before {
+      content: "";
+      position: absolute;
+      top: -21px;
+      right: 12px;
+      border: solid 12px transparent;
+      border-bottom-color: #3c3c3c;
+      z-index: 2502;
+      pointer-events: none;
+    }
+
+    /* Options */
+    #options .columns {
+      display: flex;
+      min-width: 520px;
+    }
+    #options .column {
+      width: 50%;
+    }
+    #options h5 {
+      padding: 5px 0;
+      margin: 0;
+      color: #aaa;
+      font-size: 0.85em;
+    }
+    #options p {
+      margin: 0;
+      padding: 0.2em 0;
+      color: #eee;
+      font-size: 0.95em;
+    }
+    #options p:first-child {
+      padding-top: 0;
+    }
+    #options a {
+      color: #fff;
+    }
+    #options label {
+      position: relative;
+      top: -2px;
+      cursor: pointer;
+    }
+    #options input {
+      box-sizing: border-box;
+    }
+    #options input[type="number"] {
+      width: calc(50% - 6px);
+      margin-left: 3px;
+    }
+    #options input[type="text"] {
+      width: calc(100% - 6px);
+      margin-left: 3px;
+    }
+
+    /* Editor panes */
+    .pane {
+      position: absolute;
+      width: 100%;
+      height: calc(100% - 42px);
+      z-index: 0;
+      background: #1e1e1e;
+    }
+    .pane.active {
+      z-index: 1;
+    }
+    .pane.play iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #fff;
+    }
+
+    #clipboardHelper {
+      position: absolute;
+      z-index: 0;
+      width: 100%;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <h1>AssemblyScript Editor</h1>
+    <p><a href="introduction.html" target="_blank" rel="noopener">Language documentation</a></p>
+  </div>
+  <div id="loading"></div>
+  <div id="buttons">
+    <a class="button share" title="Copy shareable Link">🔗</a>
+    <a class="button options" title="Compiler Options">⚙️</a>
+  </div>
+  <div id="options" class="popup">
+    <div class="columns">
+      <div class="column">
+        <h5>Optimize</h5>
+        <div class="option">
+          <p>
+            <input type="radio" name="option-optimize" id="option-optimize-speed" checked /><label for="option-optimize-speed"> For speed</label>
+            <input type="radio" name="option-optimize" id="option-optimize-size" /><label for="option-optimize-size"> For size</label>
+            <input type="radio" name="option-optimize" id="option-optimize-none" /><label for="option-optimize-none"> None</label>
+          </p>
+          <p><input id="option-noAssert" type="checkbox" /><label for="option-noAssert"> Disable assertions</label></p>
+          <p><input id="option-debug" type="checkbox" /><label for="option-debug"> Include debug information</label></p>
+        </div>
+        <h5>Runtime</h5>
+        <div class="option">
+          <p>
+            <input type="radio" name="option-runtime" id="option-runtime-incremental" checked /><label for="option-runtime-incremental"> incremental</label>
+            <input type="radio" name="option-runtime" id="option-runtime-minimal" /><label for="option-runtime-minimal"> minimal</label>
+            <input type="radio" name="option-runtime" id="option-runtime-stub" /><label for="option-runtime-stub"> stub</label>
+          </p>
+          <p><input id="option-exportRuntime" type="checkbox" /><label for="option-exportRuntime"> Export runtime helpers to host</label></p>
+        </div>
+        <h5>Features</h5>
+        <div class="option">
+          <p><input id="option-noExportMemory" type="checkbox" /><label for="option-noExportMemory"> Don't export memory to host</label></p>
+          <p><input id="option-importMemory" type="checkbox" /><label for="option-importMemory"> Import memory from host</label></p>
+          <p><input id="option-zeroFilledMemory" type="checkbox" disabled/><label for="option-zeroFilledMemory"> Assume imported memory is zeroed</label></p>
+          <p><input id="option-exportTable" type="checkbox" /><label for="option-exportTable"> Export function table to host</label></p>
+          <p><input id="option-importTable" type="checkbox" /><label for="option-importTable"> Import function table from host</label></p>
+          <p><input id="option-exportStart" type="checkbox" /><label for="option-exportStart"> Export start function (as _start)</label></p>
+        </div>
+      </div>
+      <div class="column">
+        <h5>Advanced features</h5>
+        <div class="option">
+          <p style="white-space: nowrap"><input id="option-memoryBase" type="number" step="1" min="0" max="4294967295" placeholder="Memory base" /> <input id="option-tableBase" type="number" step="1" min="0" max="10000000" placeholder="Table base" /></p>
+          <p><input id="option-use" type="text" placeholder="Use directives, comma-separated" /></p>
+        </div>
+        <h5>Future features</h5>
+        <div class="option">
+          <p><input id="option-feature-simd" type="checkbox" /><label for="option-feature-simd"> Enable SIMD</label></p>
+          <p><input id="option-feature-threads" type="checkbox" /><label for="option-feature-threads"> Enable Threads</label></p>
+          <p><input id="option-feature-referencetypes" type="checkbox" /><label for="option-feature-referencetypes"> Enable Reference Types</label></p>
+          <p><input id="option-feature-wasm-gc" type="checkbox" /><label for="option-feature-wasm-gc"> Enable WebAssembly GC</label></p>
+        </div>
+        <h5>Text format</h5>
+        <div class="option">
+          <p><input id="option-use-wast" type="checkbox" /><label for="option-use-wast"> Use s-expression text format (non-standard)</label></p>
+        </div>
+        <h5>Documentation</h5>
+        <div class="option">
+          <p><a href="compiler.html#command-line-options" target="_blank" rel="noopener">Command line options</a></p>
+          <p><a href="garbage-collection.html#runtime-variants" target="_blank" rel="noopener">Runtime variants</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="clipboard" class="popup">
+    Shareable link copied to clipboard.
+  </div>
+  <div id="tabs">
+    <a id="sourceTab" class="tab source active" title="AssemblyScript source code"><span>module.ts</span></a>
+    <a id="binaryTab" class="tab binary" title="Click to Compile"><span>module.wat</span></a>
+    <a id="htmlTab" class="tab html" title="JavaScript host code"><span>index.html</span></a>
+    <a id="playTab" class="tab play" title="Click to Compile & Run"><span>Run</span></a>
+  </div>
+  <div id="panes">
+    <div id="source" class="pane source active" aria-labelledby="sourceTab"></div>
+    <div id="binary" class="pane binary" aria-labelledby="binaryTab"></div>
+    <div id="html" class="pane html" aria-labelledby="htmlTab"></div>
+    <div id="play" class="pane play" aria-labelledby="htmlTab">
+      <iframe id="play-frame" title="Play frame" src="data:text/html;base64," sandbox="allow-scripts allow-pointer-lock"></iframe>
+    </div>
+  </div>
+  <input type="text" id="clipboardHelper" aria-hidden="true" />
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.34.0/min/vs/loader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/web.js"></script>
+  <script type="module">
+    import asc from "assemblyscript/asc";
+
+    const MONACO_VERSION = '0.34.0'
+    const MONACO_EDITOR_FONT = 'JetBrains Mono'
+
+    function crossDomainWorker() {
+      if (!window.MonacoEnvironment) return
+      const oldGetWorkerUrl = window.MonacoEnvironment.getWorkerUrl
+
+      if (oldGetWorkerUrl.$) return
+      oldGetWorkerUrl.$ = true
+
+      const isSameOrigin = url => {
+        const loc = window.location
+        const a = document.createElement('a')
+        a.href = url
+
+        return {
+          isSame: a.hostname === loc.hostname && a.port === loc.port && a.protocol === loc.protocol,
+          // maybe the protocol is relative
+          url: a.href,
+        }
+      }
+
+      window.MonacoEnvironment.getWorkerUrl = (moduleId, label) => {
+        const workerUrl = oldGetWorkerUrl(moduleId, label)
+        const { isSame, url } = isSameOrigin(workerUrl)
+
+        /* istanbul ignore else */
+        if (isSame) return workerUrl
+        else {
+          let blob
+          try {
+            blob = new Blob([`importScripts('${url}');`], { type: 'application/javascript' })
+          } catch (e) {
+            const blobBuilder = new window.BlobBuilder()
+            blobBuilder.append(`importScripts('${url}');`)
+            blob = blobBuilder.getBlob('application/javascript')
+          }
+          return window.URL.createObjectURL(blob)
+        }
+      }
+    }
+
+    require.config({
+      paths: {
+        'vs': `https://cdn.jsdelivr.net/npm/monaco-editor@${MONACO_VERSION}/min/vs`
+      }
+    })
+
+    crossDomainWorker()
+
+    const isIframe = window.parent !== window
+    if (!isIframe) {
+      document.getElementById('header').style.display = 'block'
+      document.getElementById('buttons').style.paddingRight = '15px'
+      document.querySelectorAll('.pane').forEach(element => {
+        element.style.height = 'calc(100% - 42px - 25px)'
+      })
+    }
+
+    const sourcePane = document.getElementById('source')
+    const binaryPane = document.getElementById('binary')
+    const htmlPane = document.getElementById('html')
+    const playFrame = document.getElementById('play-frame')
+    const optionsPopup = document.getElementById('options')
+    const clipboardPopup = document.getElementById('clipboard')
+
+    const optionOptimizeSpeed = document.getElementById('option-optimize-speed')
+    const optionOptimizeSize = document.getElementById('option-optimize-size')
+    const optionOptimizeNone = document.getElementById('option-optimize-none')
+
+    const optionNoAssert = document.getElementById('option-noAssert')
+    const optionDebug = document.getElementById('option-debug')
+    const optionRuntimeIncremental = document.getElementById('option-runtime-incremental')
+    const optionRuntimeMinimal = document.getElementById('option-runtime-minimal')
+    const optionRuntimeStub = document.getElementById('option-runtime-stub')
+    const optionExportRuntime = document.getElementById('option-exportRuntime')
+    const optionNoExportMemory = document.getElementById('option-noExportMemory')
+    const optionImportMemory = document.getElementById('option-importMemory')
+    const optionZeroFilledMemory = document.getElementById('option-zeroFilledMemory')
+    const optionExportTable = document.getElementById('option-exportTable')
+    const optionImportTable = document.getElementById('option-importTable')
+    const optionExportStart = document.getElementById('option-exportStart')
+    const optionMemoryBase = document.getElementById('option-memoryBase')
+    const optionTableBase = document.getElementById('option-tableBase')
+    const optionUse = document.getElementById('option-use')
+    const optionFeatureSimd = document.getElementById('option-feature-simd')
+    const optionFeatureThreads = document.getElementById('option-feature-threads')
+    const optionFeatureReferencetypes = document.getElementById('option-feature-referencetypes')
+    const optionFeatureWasmGC = document.getElementById('option-feature-wasm-gc')
+    const optionUseWast = document.getElementById('option-use-wast')
+    const binaryTabElement = document.getElementById('binaryTab')
+
+    const optionCheckboxes = {
+      'noAssert': optionNoAssert,
+      'debug': optionDebug,
+      'exportRuntime': optionExportRuntime,
+      'noExportMemory': optionNoExportMemory,
+      'importMemory': optionImportMemory,
+      'zeroFilledMemory': optionZeroFilledMemory,
+      'exportTable': optionExportTable,
+      'importTable': optionImportTable,
+      'exportStart': optionExportStart,
+      'useWast': optionUseWast,
+    }
+
+    const optionNumerical = {
+      'memoryBase': optionMemoryBase,
+      'tableBase': optionTableBase
+    }
+
+    const optionFeatures = {
+      'simd': optionFeatureSimd,
+      'threads': optionFeatureThreads,
+      'reference-types': optionFeatureReferencetypes,
+      'gc': optionFeatureWasmGC
+    }
+
+    const optionUseRe = /^(\w+)=(\w+(\/\w+|\.\w+)*)$/
+
+    var module_wast = '(module)\n'
+    var module_wasm = new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0])
+    var module_js = '\n';
+    var didCompile = false
+
+    require([
+      'vs/editor/editor.main',
+      'scripts/wat.js'
+    ], async (
+      { languages, editor },
+      { config: watLanguageConfig, tokens: watLanguageTokens }
+    ) => {
+      // FIXME: https://github.com/microsoft/monaco-editor/issues/2962
+
+      // Add WebAssembly Text Format language
+      languages.register({ id: 'wat' })
+      languages.setLanguageConfiguration('wat', watLanguageConfig)
+      languages.setMonarchTokensProvider('wat', watLanguageTokens)
+
+      // Extend the default theme with WebAssembly rules
+      editor.defineTheme('vs-wasm', {
+        base: 'vs-dark',
+        inherit: true,
+        rules: [
+          // Common
+          { token: 'number', foreground: 'ffc37a' },
+          { token: 'comment', foreground: '595959', fontStyle: 'italic' },
+          // WebAssembly
+          { token: 'instruction', foreground: 'dcdcaa' },
+          { token: 'controlInstruction', foreground: 'c586c0' },
+          { token: 'identifier', foreground: '9cdcf0' },
+          // TypeScript (reset)
+          { token: 'identifier.ts', foreground: 'd4d4d4' },
+          // Diagnostics
+          { token: 'error', foreground: 'd16969' },
+          { token: 'warning', foreground: 'dcdcaa' },
+          { token: 'info', foreground: '11a8cd' },
+          { token: 'pedantic', foreground: 'c586c0' },
+          { token: 'underline', foreground: 'd16969' }
+        ],
+        colors: {
+          'scrollbar.shadow': '#1e1e1eff',
+          'editorLineNumber.foreground': '#444444',
+          'editorLineNumber.activeForeground': '#888888'
+        }
+      })
+
+      // Add AssemblyScript Standard Library definition
+      languages.typescript.typescriptDefaults.addExtraLib(
+        asc.definitionFiles.assembly,
+        "assemblyscript/std/assembly/index.d.ts"
+      )
+
+      // Obtain the source provided via the location's hash
+      let source = document.location.hash
+      let html = ''
+      if (source.length > 1) {
+        source = source.substr(1)
+        try {
+          source = atob(source)
+        } catch (e) {
+          source = `/* ${e.message} */`
+        }
+        if (source.startsWith('#!') && !source.startsWith('#!html')) {
+          let end = source.indexOf('\n')
+          if (!end) end = source.length
+          deserializeCompilerOptions(source.substring(2, end))
+          source = source.substring(end + 1)
+        }
+        const htmlMatch = /^#!html$/m.exec(source)
+        if (htmlMatch) {
+          html = source.substring(htmlMatch.index + htmlMatch[0].length).trim() + '\n'
+          source = source.substring(0, htmlMatch.index).trimRight() + '\n'
+        }
+      } else {
+        source = ''
+      }
+
+      // Waiting for EDITOR_FONT to load before set it in editor
+      await document.fonts.load(`1em ${MONACO_EDITOR_FONT}`)
+
+      // Common editor options
+      const commonEditorOptions = {
+        value: '',
+        theme: 'vs-wasm',
+        automaticLayout: true,
+        scrollBeyondLastLine: false,
+        tabSize: 2,
+        fontSize: 13,
+        fontFamily: MONACO_EDITOR_FONT,
+        fontLigatures: true,
+        padding: {
+          bottom: 18,
+          top: 18
+        },
+        scrollbar: {
+          alwaysConsumeMouseWheel: false
+        },
+        minimap: {
+          enabled: false
+        },
+        matchBrackets: 'near',
+        renderLineHighlight: 'none',
+        cursorStyle: 'line-thin',
+        cursorBlinking: 'smooth'
+      }
+
+      // Create editor panes
+      const sourceModel = editor.createModel(source, 'typescript')
+      const sourceEditor = editor.create(sourcePane, Object.assign({}, commonEditorOptions, {
+        model: sourceModel,
+      }))
+      const binaryModel = editor.createModel('(module\n 🚀\n)\n', 'wat')
+      binaryModel.updateOptions({ tabSize: 1 });
+      const binaryEditor = editor.create(binaryPane, Object.assign({}, commonEditorOptions, {
+        model: binaryModel,
+        readOnly: true
+      }))
+      const htmlModel = editor.createModel(html, 'html')
+      const htmlEditor = editor.create(htmlPane, Object.assign({}, commonEditorOptions, {
+        model: htmlModel
+      }))
+
+      // Intercept scroll event when focused
+      window.addEventListener('wheel', evt => {
+        if (document.hasFocus()) {
+          evt.stopPropagation()
+          evt.preventDefault()
+        }
+      }, { passive: false })
+
+      // Make tabs switchable
+      document.querySelectorAll('.tab').forEach(element => {
+        element.addEventListener('click', () => {
+          document.querySelectorAll('.tab').forEach(element => element.classList.remove('active'))
+          element.classList.add('active')
+          document.querySelectorAll('.pane').forEach(element => element.classList.remove('active'))
+          const pane = document.getElementById(element.id.substring(0, element.id.length - 3))
+          pane.classList.add('active')
+          if (element.id == 'binaryTab') {
+            binaryEditor.setValue('(module\n 🚀\n)\n')
+            setTimeout(() => {
+              compile()
+            }, 10)
+          } else if (element.id == 'playTab') {
+            function serialize() {
+              return 'data:text/html;base64,' + btoa([
+                '<script>\n',
+                'async function compile() {\n',
+                '  return await WebAssembly.compile(new Uint8Array([', module_wasm.join(','), ']));\n',
+                '}\n',
+                module_js.replace(/^export async function instantiate\(/m, 'async function instantiate('), '<', '/script>\n\n',
+                htmlEditor.getValue().trimRight()
+              ].join(''))
+            }
+            if (didCompile) {
+              playFrame.src = serialize()
+            } else {
+              playFrame.src = 'data:text/html;base64,Q29tcGlsaW5nLi4u' // Compiling...
+              compile(() => {
+                playFrame.src = serialize()
+              })
+            }
+          }
+        })
+      })
+
+      // Make options clickable
+      let optionsVisible = false
+      function toggleOptions(evt) {
+        if (optionsVisible = !optionsVisible) {
+          optionsPopup.style.display = 'block'
+          const bounds = evt.target.getBoundingClientRect()
+          optionsPopup.style.top = (bounds.y + bounds.height + 12) + 'px'
+          optionsPopup.style.right = (window.innerWidth - (bounds.x + bounds.width / 2) - 24) + 'px'
+        } else {
+          optionsPopup.style.display = 'none'
+        }
+      }
+      document.querySelector('.button.options').addEventListener('click', toggleOptions)
+      document.querySelector('#tabs').addEventListener('click', () => {
+        if (optionsVisible) toggleOptions(null)
+      })
+      Array.prototype.slice.call(document.querySelectorAll('.pane'))
+        .map(pane => pane.addEventListener('click', () => {
+          if (optionsVisible) toggleOptions(null)
+        }))
+
+      // --zeroFilledMemory depends on --importMemory
+      optionImportMemory.addEventListener('change', evt => {
+        optionZeroFilledMemory.disabled = !evt.target.checked
+        if (!evt.target.checked) optionZeroFilledMemory.checked = false
+      })
+
+      // WebAssembly GC depends on Reference Types
+      let optionFeatureReferencetypesEnabled = optionFeatureReferencetypes.checked
+      optionFeatureWasmGC.addEventListener('change', evt => {
+        if (evt.target.checked) {
+          optionFeatureReferencetypesEnabled = optionFeatureReferencetypes.checked
+          optionFeatureReferencetypes.checked = true
+          optionFeatureReferencetypes.disabled = true
+        } else {
+          optionFeatureReferencetypes.disabled = false
+          optionFeatureReferencetypes.checked = optionFeatureReferencetypesEnabled
+        }
+      })
+
+      let useWast = optionUseWast.checked
+      binaryTabElement.innerHTML = useWast ? 'module.wast' : 'module.wat'
+      optionUseWast.addEventListener('change', evt => {
+        useWast = evt.target.checked
+        binaryTabElement.innerHTML = useWast ? 'module.wast' : 'module.wat'
+      })
+
+      // Make contents shareable
+      let clipboardTimer = null
+      document.querySelector('.button.share').addEventListener('click', evt => {
+        const helper = document.getElementById('clipboardHelper')
+        const serial = btoa([
+          '#!', serializeCompilerOptions(), '\n',
+          sourceEditor.getValue().trim(),
+          '\n#!html\n',
+          htmlEditor.getValue().trim()
+        ].join(''))
+        document.location.hash = serial
+        helper.value = document.location
+        helper.select()
+        document.execCommand('copy')
+        helper.value = ''
+        helper.focus()
+        clipboardPopup.style.display = 'block'
+        const button = evt.target
+        button.setAttribute('href', document.location)
+        const bounds = button.getBoundingClientRect()
+        clipboardPopup.style.top = (bounds.y + bounds.height + 12) + 'px'
+        clipboardPopup.style.right = (window.innerWidth - (bounds.x + bounds.width / 2) - 12) + 'px'
+        if (clipboardTimer) clearTimeout(clipboardTimer)
+        clipboardTimer = setTimeout(() => {
+          clipboardPopup.style.display = 'none'
+          clipboardTimer = null
+        }, 3000)
+      })
+
+      function deserializeCompilerOptions(query) {
+        const parts = query.split('&')
+        const options = {}
+        for (const part of parts) {
+          const pos = part.indexOf('=')
+          if (~pos) {
+            options[decodeURIComponent(part.substring(0, pos))] = part.substring(pos + 1)
+          } else {
+            options[decodeURIComponent(part)] = ''
+          }
+        }
+        switch (options.optimize) {
+          case 'speed': optionOptimizeSpeed.checked = true; break
+          case 'size': optionOptimizeSize.checked = true; break
+          case 'none': optionOptimizeNone.checked = true; break
+        }
+        switch (options.runtime) {
+          case 'incremental': optionRuntimeIncremental.checked = true; break
+          case 'minimal': optionRuntimeMinimal.checked = true; break
+          case 'stub': optionRuntimeStub.checked = true; break
+        }
+        for (let [key, element] of Object.entries(optionCheckboxes)) {
+          if (options[key] != null) element.checked = true
+        }
+        for (let [key, element] of Object.entries(optionNumerical)) {
+          const value = parseInt(options[key], 10)
+          if (value > 0) element.value = value
+        }
+        let useValue = options['use']
+        if (typeof useValue === 'string') {
+          useValue = useValue.trim()
+          if (useValue.length) {
+            const use = []
+            for (const value of useValue.split(',')) {
+              let match = optionUseRe.exec(value.trim())
+              if (match) use.push(match[1] + '=' + match[2])
+            }
+            if (use.length) optionUse.value = use.join(',')
+          }
+        }
+        if (options.enable && options.enable.length) {
+          const features = options.enable.split(',')
+          for (let feature of features) {
+            if (optionFeatures.hasOwnProperty(feature)) {
+              optionFeatures[feature].checked = true
+            }
+          }
+        }
+      }
+
+      function serializeCompilerOptions() {
+        let query = []
+        if (optionOptimizeSpeed.checked) {
+          query.push('optimize=speed')
+        } else if (optionOptimizeSize.checked) {
+          query.push('optimize=size')
+        } else if (optionOptimizeNone.checked) {
+          query.push('optimize=none')
+        }
+        if (optionRuntimeIncremental.checked) {
+          query.push('runtime=incremental')
+        } else if (optionRuntimeMinimal.checked) {
+          query.push('runtime=minimal')
+        } else if (optionRuntimeStub.checked) {
+          query.push('runtime=stub')
+        }
+        for (let [key, element] of Object.entries(optionCheckboxes)) {
+          if (element.checked) query.push(key)
+        }
+        for (let [key, element] of Object.entries(optionNumerical)) {
+          let value = parseInt(element.value, 10)
+          if (value > 0) query.push(key + '=' + value)
+        }
+        const useValue = optionUse.value.trim()
+        if (useValue.length) {
+          const use = []
+          for (const value of useValue.split(',')) {
+            const match = optionUseRe.exec(value.trim())
+            if (match) use.push(match[1] + '=' + match[2])
+          }
+          if (use.length) query.push('use=' + use.join(','))
+        }
+        const features = []
+        for (let [key, element] of Object.entries(optionFeatures)) {
+          if (element.checked) features.push(key)
+        }
+        if (features.length) {
+          query.push('enable=' + features.join(','))
+        }
+        return query.join('&')
+      }
+
+      // Gets user specified compiler options
+      function getCompilerOptions() {
+        const options = []
+        if (optionOptimizeSpeed.checked) {
+          options.push('-O3')
+        } else if (optionOptimizeSize.checked) {
+          options.push('-O3z', '--converge')
+        }
+        if (optionDebug.checked) {
+          options.push('--debug')
+        }
+        if (optionNoAssert.checked) {
+          options.push('--noAssert')
+        }
+        if (optionRuntimeIncremental.checked) {
+          options.push('--runtime', 'incremental')
+        } else if (optionRuntimeMinimal.checked) {
+          options.push('--runtime', 'minimal')
+        } else if (optionRuntimeStub.checked) {
+          options.push('--runtime', 'stub')
+        }
+        if (optionExportRuntime.checked) {
+          options.push('--exportRuntime')
+        }
+        if (optionNoExportMemory.checked) {
+          options.push('--noExportMemory')
+        }
+        if (optionImportMemory.checked) {
+          options.push('--importMemory')
+        }
+        if (optionZeroFilledMemory.checked) {
+          options.push('--zeroFilledMemory')
+        }
+        if (optionExportTable.checked) {
+          options.push('--exportTable')
+        }
+        if (optionImportTable.checked) {
+          options.push('--importTable')
+        }
+        if (optionExportStart.checked) {
+          options.push('--exportStart', '_start')
+        }
+        const memoryBase = parseInt(optionMemoryBase.value, 10)
+        if (memoryBase > 0 && memoryBase <= 4294967295) {
+          options.push('--memoryBase', memoryBase.toString())
+        }
+        const tableBase = parseInt(optionTableBase.value, 10)
+        if (tableBase > 0 && tableBase <= 10000000) {
+          options.push('--tableBase', tableBase.toString())
+        }
+        const useValue = optionUse.value.trim()
+        if (useValue.length) {
+          const use = []
+          for (const value of useValue.split(',')) {
+            const match = optionUseRe.exec(value.trim())
+            if (match) use.push(match[1] + '=' + match[2])
+          }
+          if (use.length) options.push('--use', use.join(','))
+        }
+        const enable = []
+        for (let [key, element] of Object.entries(optionFeatures)) {
+          if (element.checked) enable.push(key)
+        }
+        if (enable.length) {
+          options.push('--enable', enable.join(','))
+        }
+        return options
+      }
+
+      // Compiles the source to WebAssembly
+      function compile(cb) {
+        const tsModule = 'module.ts'
+        const jsModule = 'module.js'
+        const textModule = `module.${useWast ? 'wast' : 'wat'}`
+        const wasmModule = 'module.wasm'
+
+        const stdout = asc.createMemoryStream()
+        const sources = {
+          'module.ts': sourceEditor.getValue()
+        }
+        const outputs = {}
+        const config = {
+          stdout,
+          stderr: stdout,
+          readFile: name => Object.prototype.hasOwnProperty.call(sources, name) ? sources[name] : null,
+          writeFile: (name, contents) => { outputs[name] = contents },
+          listFiles: () => []
+        }
+        const options = [
+          tsModule,
+          '--textFile', textModule,
+          '--outFile',  wasmModule,
+          '--bindings', 'raw',
+          ...getCompilerOptions()
+        ]
+        asc.main(options, config).then(({ error, stdout }) => {
+          let output = stdout.toString().trim()
+          if (output.length) {
+            output = ';; ' + output.replace(/\n/g, '\n;; ') + '\n'
+          }
+          output = ';; INFO asc ' + options.join(' ') + '\n' + output
+          if (error) {
+            binaryEditor.setValue(output + `(module\n ;; FAILURE ${error.message}\n)\n`)
+          } else {
+            module_wast = outputs[textModule]
+            module_wasm = outputs[wasmModule]
+            module_js   = outputs[jsModule]
+            binaryEditor.setValue(output + module_wast)
+          }
+          didCompile = true
+          if (cb) cb(error)
+        })
+      }
+
+      // Finally, hide the loading animation
+      document.getElementById('loading').style.display = 'none'
+    })
+  </script>
+</body>
+</html>
