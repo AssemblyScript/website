@@ -73,7 +73,7 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 
 ## Formatter
 
-* [assemblyscript-prettier](https://github.com/HerrCai0907/assemblyscript-prettier)<br />
+* [assemblyscript-prettier](https://github.com/wasm-ecosystem/assemblyscript-prettier)<br />
   Prettier plugin for assemblyscript to resolve the incompatible part of ts and as syntax
 
 ## Emulators
