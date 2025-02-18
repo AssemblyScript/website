@@ -214,6 +214,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   A test framework inspired by jest. (Required AssemblyScript <= 0.19)
 * [envy](https://github.com/jtenner/envy)<br />
   A test framework spiritual successor of as-pect. (Required AssemblyScript >= 0.20)
+* [assemblyscript-unittest-framework](https://github.com/wasm-ecosystem/assemblyscript-unittest-framework)<br />
+  Everything you need to write test for assemblyscript, including assert, mock, coverage. (Required AssemblyScript >= 0.25)
 
 ## Project Templates
 
