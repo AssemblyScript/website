@@ -208,6 +208,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 
 ## Testing / Benchmarking
 
+* [as-test](https://github.com/JairusSW/as-test)<br />
+  Universal testing framework for all versions of AssemblyScript. Compatible with WASI or Bindings
 * [as-tral](https://github.com/romdotdog/as-tral)<br />
   AssemblyScript benchmarking library inspired by criterion.rs. (Required AssemblyScript >= 0.20)
 * [as-pect](https://github.com/jtenner/as-pect)<br />
