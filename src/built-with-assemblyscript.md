@@ -121,7 +121,7 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Karmem is a fast binary serialization format, faster than Google Flatbuffers and optimized for WebAssembly languages.
 * [as-proto](https://github.com/piotr-oles/as-proto)<br />
   Protobuf encoder/decoder library.
-* [as-json](https://github.com/JairusSW/as-json)<br />
+* [json-as](https://github.com/JairusSW/json-as)<br />
   JSON encoder / decoder.
 * [as-msgpack](https://github.com/wapc/as-msgpack)<br />
   MessagePack package for AssemblyScript.
