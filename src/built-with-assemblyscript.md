@@ -171,6 +171,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Bindings for common ECMAScript/JavaScript APIs that require host scheduling (`setTimeout`, `Promise`, etc).
 * [wasmbind](https://github.com/miracle2k/wasmbind)<br />
   Work with AssemblyScript memory and classes from Python.
+* [ASuni](https://github.com/bytezeroseven/ASuni)<br />
+  Access any Web API in AssemblyScript using a clean syntax.
 * [as-bind](https://github.com/torch2424/as-bind)<br />
   \[_Deprecated_\] Isomorphic library to handle passing high-level data structures between AssemblyScript and JavaScript, built on top of the AssemblyScript loader.
 
