@@ -59,12 +59,12 @@ Some language features rely on [future WebAssembly functionality](https://github
 
 Web: &nbsp;
 <Ch/> <a href="https://www.chromestatus.com/features#webassembly" target="_blank" rel="noopener">Chrome</a> &nbsp;
-<Fi/> <a href="https://platform-status.mozilla.org" target="_blank" rel="noopener">Firefox</a> &nbsp;
+<Fi/> <a href="https://mozilla.github.io/standards-positions/" target="_blank" rel="noopener">Firefox</a> &nbsp;
 <Sa/> <a href="https://webkit.org/status/" target="_blank" rel="noopener">Safari</a> &nbsp;
 <No/> <a href="https://github.com/nodejs/node/blob/master/CHANGELOG.md" target="_blank" rel="noopener">Node.js</a> &nbsp; ⁞ &nbsp; 
 Non-Web: &nbsp;
-<Ws/> <a href="https://docs.wasmer.io/ecosystem/wasmer/wasmer-features#support-of-features-by-compiler" target="_blank" rel="noopener">Wasmer</a> &nbsp;
-<Wt/> <a href="https://docs.wasmtime.dev/stability-wasm-proposals-support.html" target="_blank" rel="noopener">Wasmtime</a> &nbsp;
+<Ws/> <a href="https://docs.wasmer.io/runtime/features" target="_blank" rel="noopener">Wasmer</a> &nbsp;
+<Wt/> <a href="https://docs.wasmtime.dev/stability-wasm-proposals.html" target="_blank" rel="noopener">Wasmtime</a> &nbsp;
 
 <sup>1</sup> Supported otherwise by Non-Web hosts. &nbsp; <sup>2</sup> See our detailed [standards objections](./standards-objections.md).
 
