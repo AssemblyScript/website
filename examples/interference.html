@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Interference example | The AssemblyScript Book</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#007acc">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <meta name="description" content="Rendering an interference effect in AssemblyScript.">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="preload" href="/assets/css/0.styles.6b61c7e6.css" as="style"><link rel="preload" href="/assets/js/app.c59f41fc.js" as="script"><link rel="preload" href="/assets/js/4.bff817ab.js" as="script"><link rel="preload" href="/assets/js/3.414e7e2a.js" as="script"><link rel="preload" href="/assets/js/28.6c717568.js" as="script"><link rel="prefetch" href="/assets/js/10.b593aa85.js"><link rel="prefetch" href="/assets/js/11.e70694b8.js"><link rel="prefetch" href="/assets/js/12.eac7b90f.js"><link rel="prefetch" href="/assets/js/13.a23bc4f4.js"><link rel="prefetch" href="/assets/js/14.38407d5c.js"><link rel="prefetch" href="/assets/js/15.02c39193.js"><link rel="prefetch" href="/assets/js/16.1388eb5d.js"><link rel="prefetch" href="/assets/js/17.6d931105.js"><link rel="prefetch" href="/assets/js/18.e8b2f77f.js"><link rel="prefetch" href="/assets/js/19.70bbb3ef.js"><link rel="prefetch" href="/assets/js/20.10384fec.js"><link rel="prefetch" href="/assets/js/21.f383317b.js"><link rel="prefetch" href="/assets/js/22.cd35cfce.js"><link rel="prefetch" href="/assets/js/23.dab063ba.js"><link rel="prefetch" href="/assets/js/24.638d27d7.js"><link rel="prefetch" href="/assets/js/25.e3dd1fc4.js"><link rel="prefetch" href="/assets/js/26.c21d1165.js"><link rel="prefetch" href="/assets/js/27.1ab1e33b.js"><link rel="prefetch" href="/assets/js/29.5e25dc01.js"><link rel="prefetch" href="/assets/js/30.78910ed6.js"><link rel="prefetch" href="/assets/js/31.370f70fe.js"><link rel="prefetch" href="/assets/js/32.1e9d0c75.js"><link rel="prefetch" href="/assets/js/33.74494f14.js"><link rel="prefetch" href="/assets/js/34.eafba3c3.js"><link rel="prefetch" href="/assets/js/35.eb65dd46.js"><link rel="prefetch" href="/assets/js/36.b5aa8768.js"><link rel="prefetch" href="/assets/js/37.753ca8da.js"><link rel="prefetch" href="/assets/js/38.78556eeb.js"><link rel="prefetch" href="/assets/js/39.d2543b45.js"><link rel="prefetch" href="/assets/js/40.e15903d4.js"><link rel="prefetch" href="/assets/js/41.2d914f09.js"><link rel="prefetch" href="/assets/js/42.4c75b8c6.js"><link rel="prefetch" href="/assets/js/43.588ad31d.js"><link rel="prefetch" href="/assets/js/44.d8860d9e.js"><link rel="prefetch" href="/assets/js/45.bb853d3c.js"><link rel="prefetch" href="/assets/js/46.9eb5fe12.js"><link rel="prefetch" href="/assets/js/47.5834f3d0.js"><link rel="prefetch" href="/assets/js/48.fce08686.js"><link rel="prefetch" href="/assets/js/49.17ac3289.js"><link rel="prefetch" href="/assets/js/5.1a115187.js"><link rel="prefetch" href="/assets/js/50.4fc6df18.js"><link rel="prefetch" href="/assets/js/51.0eac3e44.js"><link rel="prefetch" href="/assets/js/52.41b29d96.js"><link rel="prefetch" href="/assets/js/53.fc5437f6.js"><link rel="prefetch" href="/assets/js/54.bea2d74c.js"><link rel="prefetch" href="/assets/js/55.2e0d7391.js"><link rel="prefetch" href="/assets/js/6.c16504f7.js"><link rel="prefetch" href="/assets/js/7.7b967550.js"><link rel="prefetch" href="/assets/js/8.c2cacdf2.js"><link rel="prefetch" href="/assets/js/9.c701ed4b.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.2967e2f6.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.6b61c7e6.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container" data-v-7c0e63ba><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/images/icon.svg" alt="The AssemblyScript Book" class="logo"> <span class="site-name can-hide">The AssemblyScript Book</span></a> <div class="links"><form id="search-form" role="search" class="algolia-search-wrapper search-box"><input id="algolia-search-input" class="search-query"></form> <nav class="nav-links can-hide"><div class="nav-item"><a href="/introduction.html" class="nav-link">
+  Documentation
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Examples" class="dropdown-title"><span class="title">Examples</span> <span class="arrow down"></span></button> <button type="button" aria-label="Examples" class="mobile-dropdown-title"><span class="title">Examples</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/examples.html" class="nav-link">
+  Overview
+</a></li><li class="dropdown-item"><!----> <a href="/built-with-assemblyscript.html" class="nav-link">
+  Built with AssemblyScript
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Community" class="dropdown-title"><span class="title">Community</span> <span class="arrow down"></span></button> <button type="button" aria-label="Community" class="mobile-dropdown-title"><span class="title">Community</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/assemblyscript/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Contributing guidelines
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/assemblyscript/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Code of Conduct
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><h4>
+          Social
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://twitter.com/AssemblyScript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Twitter
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://discord.gg/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Discord
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li><li class="dropdown-item"><h4>
+          Q&amp;A
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://stackoverflow.com/questions/tagged/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Stack Overflow
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li></ul></div></div><div class="nav-item"><a href="https://opencollective.com/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Support us
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/AssemblyScript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/introduction.html" class="nav-link">
+  Documentation
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Examples" class="dropdown-title"><span class="title">Examples</span> <span class="arrow down"></span></button> <button type="button" aria-label="Examples" class="mobile-dropdown-title"><span class="title">Examples</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/examples.html" class="nav-link">
+  Overview
+</a></li><li class="dropdown-item"><!----> <a href="/built-with-assemblyscript.html" class="nav-link">
+  Built with AssemblyScript
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Community" class="dropdown-title"><span class="title">Community</span> <span class="arrow down"></span></button> <button type="button" aria-label="Community" class="mobile-dropdown-title"><span class="title">Community</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/assemblyscript/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Contributing guidelines
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/AssemblyScript/assemblyscript/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Code of Conduct
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><h4>
+          Social
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://twitter.com/AssemblyScript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Twitter
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-subitem"><a href="https://discord.gg/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Discord
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li><li class="dropdown-item"><h4>
+          Q&amp;A
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://stackoverflow.com/questions/tagged/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Stack Overflow
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></li></ul></div></div><div class="nav-item"><a href="https://opencollective.com/assemblyscript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Support us
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/AssemblyScript" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Examples</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/examples.html" class="sidebar-link">Overview</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Starter examples</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/examples/mandelbrot.html" class="sidebar-link">Mandelbrot example</a></li><li><a href="/examples/interference.html" aria-current="page" class="active sidebar-link">Interference example</a></li><li><a href="/examples/game-of-life.html" class="sidebar-link">Game of Life example</a></li><li><a href="/examples/snippets.html" class="sidebar-link">Snippets</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Advanced examples</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/examples/arrays.html" class="sidebar-link">Arrays example</a></li><li><a href="https://github.com/AssemblyScript/examples/tree/main/i64" target="_blank" rel="noopener noreferrer" class="sidebar-link">I64 as a (node) library<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li><a href="https://github.com/AssemblyScript/examples/tree/main/sdk" target="_blank" rel="noopener noreferrer" class="sidebar-link">Using the browser SDK<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li><a href="https://github.com/AssemblyScript/examples/tree/main/transform" target="_blank" rel="noopener noreferrer" class="sidebar-link">Using compiler transforms<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Additional resources</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="https://wasmbyexample.dev/" target="_blank" rel="noopener noreferrer" class="sidebar-link">Wasm By Example<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li><a href="/built-with-assemblyscript.html" class="sidebar-link">Built with AssemblyScript</a></li></ul></section></li></ul> </aside> <main class="page" data-v-bb3fd134> <div class="theme-default-content content__default" data-v-bb3fd134><h1 id="interference-example"><a href="#interference-example" class="header-anchor">#</a> Interference example</h1> <p>Colin Eberhardt's and Ben Smith's <a href="https://github.com/ColinEberhardt/wasm-interference" target="_blank" rel="noopener noreferrer">WebAssembly interference effect<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>, if it was written in AssemblyScript.</p> <h2 id="contents"><a href="#contents" class="header-anchor">#</a> Contents</h2> <ul><li>Exporting functions and variables from a WebAssembly module.</li> <li>Calling functions and reading variables exported from WebAssembly.</li> <li>Utilizing 32-bit floating point math to speed up calculations by utilizing <code>Mathf</code>.</li> <li>Keeping an image buffer within the module's memory and copying it to a canvas.</li> <li>Manually growing memory depending on the size of the viewport on the browser side.</li> <li>And finally: Continuously updating and rendering the image buffer.</li></ul> <h2 id="example"><a href="#example" class="header-anchor">#</a> Example</h2> <div class="custom-block danger"><p class="custom-block-title">EPILEPSY WARNING</p> <p>A very small percentage of individuals may experience epileptic seizures when exposed to certain light patterns or flashing lights. Exposure to certain patterns or backgrounds on a computer screen may induce an epileptic seizure in these individuals. Certain conditions may induce previously undetected epileptic symptoms even in persons who have no history of prior seizures or epilepsy.</p> <p>If you experience any of the following symptoms while viewing - dizziness, altered vision, eye or muscle twitches, loss of awareness, disorientation, any involuntary movement, or convulsions - IMMEDIATELY discontinue use and consult your physician.</p></div> <div class="language-editor extra-class"><pre class="language-text"><code>#!optimize=speed&amp;runtime=stub
+var width  = 320;
+var height = 200;
+
+// Let's utilize the entire heap as our image buffer
+export const offset = __heap_base;
+
+/** Sets a single pixel's color. */
+function set(x: i32, y: i32, v: f32): void {
+  var vi = &lt;i32&gt;v;
+  store&lt;i32&gt;(offset + ((width * y + x) &lt;&lt; 2), ~vi &lt;&lt; 24 | vi &lt;&lt; 8);
+}
+
+/** Computes the distance between two pixels. */
+function distance(x1: i32, y1: i32, x2: f32, y2: f32): f32 {
+  var dx = &lt;f32&gt;x1 - x2;
+  var dy = &lt;f32&gt;y1 - y2;
+  return Mathf.sqrt(dx * dx + dy * dy);
+}
+
+/** Performs one tick. */
+export function update(tick: f32): void {
+  var w = &lt;f32&gt;width;
+  var h = &lt;f32&gt;height;
+  var hw = w * 0.5,
+      hh = h * 0.5;
+  var cx1 = (Mathf.sin(tick * 2) + Mathf.sin(tick      )) * hw * 0.3 + hw,
+      cy1 = (Mathf.cos(tick)                            ) * hh * 0.3 + hh,
+      cx2 = (Mathf.sin(tick * 4) + Mathf.sin(tick + 1.2)) * hw * 0.3 + hw,
+      cy2 = (Mathf.sin(tick * 3) + Mathf.cos(tick + 0.1)) * hh * 0.3 + hh;
+  var res = &lt;f32&gt;48 / Mathf.max(w, h);
+  var y = 0;
+  do {
+    let x = 0;
+    do {
+      set(x, y, Mathf.abs(
+        Mathf.sin(distance(x, y, cx1, cy1) * res) +
+        Mathf.sin(distance(x, y, cx2, cy2) * res)
+      ) * 120);
+    } while (++x != width)
+  } while (++y != height)
+}
+
+/** Recomputes and potentially grows memory on resize of the viewport. */
+export function resize(w: i32, h: i32): void {
+  width = w; height = h;
+  // Pages are 64kb. Rounds up using mask 0xffff before shifting to pages.
+  var needed = &lt;i32&gt;((offset + (w * h * sizeof&lt;i32&gt;() + 0xffff)) &amp; ~0xffff) &gt;&gt;&gt; 16;
+  var actual = memory.size();
+  if (needed &gt; actual) memory.grow(needed - actual);
+}
+
+#!html
+&lt;canvas id=&quot;canvas&quot; style=&quot;width: 100%; height: 100%; background: #aff&quot;&gt;&lt;/canvas&gt;
+&lt;script type=&quot;module&quot;&gt;
+const exports = await instantiate(await compile());
+const canvas = document.getElementById(&quot;canvas&quot;);
+const context = canvas.getContext(&quot;2d&quot;);
+const step = 0.012;
+
+// Upscale the image to speed up calculations
+const upscaleFactor = 4;
+
+var width, height, image;
+
+// Inform the module about the viewport's size, incl. on resize
+function onresize() {
+  width = (canvas.offsetWidth / upscaleFactor) | 0;
+  height = (canvas.offsetHeight / upscaleFactor) | 0;
+  canvas.width = width;
+  canvas.height = height;
+  image = context.createImageData(width, height);
+  exports.resize(width, height);
+}
+onresize();
+new ResizeObserver(onresize).observe(canvas);
+
+// Keep updating the image
+var tick = 0.0;
+(function update() {
+  requestAnimationFrame(update);
+  exports.update(tick += step);
+  new Uint32Array(image.data.buffer).set(new Uint32Array(exports.memory.buffer, exports.offset.value, width * height));
+  context.putImageData(image, 0, 0);
+})();
+&lt;/script&gt;
+</code></pre></div><div class="custom-block tip"><p class="custom-block-title">NOTE</p> <p>The example makes one important assumption: Since we are not using a sophisticated runtime, we can instead repurpose the entire heap, starting at <code>__heap_base</code>, as our image buffer.</p> <p>As soon as this condition is no longer met, one would instead either reserve some space by specifying a suitable <code>--memoryBase</code> or export a dynamically instantiated chunk of memory, like an <code>Uint32Array</code>, and utilize it as the image buffer both in WebAssembly and in JavaScript.</p></div> <h2 id="running-locally"><a href="#running-locally" class="header-anchor">#</a> Running locally</h2> <p>Set up a new AssemblyScript project as described in <a href="/getting-started.html">Getting started</a> and copy <code>module.ts</code> to <code>assembly/index.ts</code> and <code>index.html</code> to the project's top-level directory. Edit the build commands in <code>package.json</code> to include</p> <div class="language- extra-class"><pre class="language-text"><code>--runtime stub
+</code></pre></div><p>The example can now be compiled with</p> <div class="language-sh extra-class"><pre class="language-sh"><code><span class="token function">npm</span> run asbuild
+</code></pre></div><p>To view the example, one can modify the instantiation in <code>index.html</code> from</p> <div class="language-js extra-class"><pre class="language-js"><code>loader<span class="token punctuation">.</span><span class="token function">instantiate</span><span class="token punctuation">(</span>module_wasm<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> exports <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+</code></pre></div><p>to</p> <div class="language-js extra-class"><pre class="language-js"><code>WebAssembly<span class="token punctuation">.</span><span class="token function">instantiateStreaming</span><span class="token punctuation">(</span><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">'./build/optimized.wasm'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">JSMath</span><span class="token operator">:</span> Math
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> exports <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+</code></pre></div><p>because using the <a href="/loader.html">loader</a> is not ultimately necessary here (no managed objects are exchanged). If the loader is used instead, it will automatically provide <code>JSMath</code>.</p> <p>Some browsers may restrict <code>fetch</code>ing local resources when just opening <code>index.html</code> now, but one can set up a local server as a workaround:</p> <div class="language-sh extra-class"><pre class="language-sh"><code><span class="token function">npm</span> <span class="token function">install</span> --save-dev http-server
+http-server <span class="token builtin class-name">.</span> -o -c-1
+</code></pre></div></div> <footer class="page-edit" data-v-bb3fd134><div class="edit-link"><a href="https://github.com/AssemblyScript/website/edit/main/src/examples/interference.md" target="_blank" rel="noopener noreferrer">Edit this page on GitHub</a> <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></div> <!----></footer> <div class="page-nav" data-v-bb3fd134><p class="inner"><span class="prev">
+      ←
+      <a href="/examples/mandelbrot.html" class="prev">
+        Mandelbrot example
+      </a></span> <span class="next"><a href="/examples/game-of-life.html">
+        Game of Life example
+      </a>
+      →
+    </span></p></div> <div class="footer" data-v-bb3fd134 data-v-7c0e63ba><p data-v-bb3fd134 data-v-7c0e63ba><span class="item" data-v-bb3fd134 data-v-7c0e63ba>Apache-2.0 licensed</span>,
+      <span class="item" data-v-bb3fd134 data-v-7c0e63ba>Copyright © 2020-2026</span> <span class="item" data-v-bb3fd134 data-v-7c0e63ba>The AssemblyScript Authors</span></p></div></main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.c59f41fc.js" defer></script><script src="/assets/js/4.bff817ab.js" defer></script><script src="/assets/js/3.414e7e2a.js" defer></script><script src="/assets/js/28.6c717568.js" defer></script>
+  </body>
+</html>
