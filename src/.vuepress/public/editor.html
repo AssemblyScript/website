@@ -311,56 +311,31 @@
     </div>
   </div>
   <input type="text" id="clipboardHelper" aria-hidden="true" />
-  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.34.0/min/vs/loader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.55.1/min/vs/loader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/assemblyscript@latest/dist/web.js"></script>
   <script type="module">
     import asc from "assemblyscript/asc";
 
-    const MONACO_VERSION = '0.34.0'
+    const MONACO_VERSION = '0.55.1'
     const MONACO_EDITOR_FONT = 'JetBrains Mono'
 
+    const MONACO_BASE_URL = `https://cdn.jsdelivr.net/npm/monaco-editor@${MONACO_VERSION}/min/`
+
     function crossDomainWorker() {
-      if (!window.MonacoEnvironment) return
-      const oldGetWorkerUrl = window.MonacoEnvironment.getWorkerUrl
-
-      if (oldGetWorkerUrl.$) return
-      oldGetWorkerUrl.$ = true
-
-      const isSameOrigin = url => {
-        const loc = window.location
-        const a = document.createElement('a')
-        a.href = url
-
-        return {
-          isSame: a.hostname === loc.hostname && a.port === loc.port && a.protocol === loc.protocol,
-          // maybe the protocol is relative
-          url: a.href,
-        }
-      }
-
-      window.MonacoEnvironment.getWorkerUrl = (moduleId, label) => {
-        const workerUrl = oldGetWorkerUrl(moduleId, label)
-        const { isSame, url } = isSameOrigin(workerUrl)
-
-        /* istanbul ignore else */
-        if (isSame) return workerUrl
-        else {
-          let blob
-          try {
-            blob = new Blob([`importScripts('${url}');`], { type: 'application/javascript' })
-          } catch (e) {
-            const blobBuilder = new window.BlobBuilder()
-            blobBuilder.append(`importScripts('${url}');`)
-            blob = blobBuilder.getBlob('application/javascript')
-          }
-          return window.URL.createObjectURL(blob)
+      window.MonacoEnvironment = {
+        getWorkerUrl() {
+          const proxy = `
+            self.MonacoEnvironment = { baseUrl: '${MONACO_BASE_URL}' };
+            importScripts('${MONACO_BASE_URL}vs/base/worker/workerMain.js');
+          `
+          return URL.createObjectURL(new Blob([proxy], { type: 'application/javascript' }))
         }
       }
     }
 
     require.config({
       paths: {
-        'vs': `https://cdn.jsdelivr.net/npm/monaco-editor@${MONACO_VERSION}/min/vs`
+        'vs': `${MONACO_BASE_URL}vs`
       }
     })
 

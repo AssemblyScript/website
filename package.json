@@ -11,17 +11,19 @@
     "preinstall": "npx npm-force-resolutions"
   },
   "devDependencies": {
-    "@vuepress/plugin-html-redirect": "^0.1.4",
+    "@vuepress/plugin-html-redirect": "^0.2.1",
     "he": "^1.2.0",
-    "node-fetch": "^2.6.7",
-    "pngquant": "^4.0.0",
+    "node-addon-api": "^8.7.0",
+    "node-fetch": "^2.7.0",
+    "node-gyp": "^12.2.0",
+    "pngquant": "^4.2.0",
     "prism-themes": "^1.9.0",
-    "sharp": "^0.30.7",
-    "vuepress": "^1.9.7",
+    "sharp": "^0.34.5",
+    "vuepress": "^1.9.10",
     "vuepress-plugin-serve": "^2.0.4",
     "vuepress-plugin-sitemap": "^2.3.1"
   },
   "resolutions": {
-    "watchpack": "2.1.1"
+    "watchpack": "2.5.1"
   }
 }
