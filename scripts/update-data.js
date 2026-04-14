@@ -48,8 +48,19 @@ function updateSponsors() {
       logos[id] = 'sponsors/' + file
     }
   })
-  fetch('https://opencollective.com/assemblyscript/members/all.json')
-    .then(res => res.json())
+  fetch('https://opencollective.com/assemblyscript/members/all.json', {
+    headers: {
+      accept: 'application/json'
+    }
+  })
+    .then(async res => {
+      const text = await res.text()
+      try {
+        return JSON.parse(text)
+      } catch (err) {
+        throw new Error('Invalid OpenCollective response')
+      }
+    })
     .then(json => {
       const seen = new Map()
       const sponsors = json
@@ -93,8 +104,8 @@ function updateSponsors() {
       fs.writeFileSync(__dirname + '/../data/sponsors.json', JSON.stringify(sponsors, null, 2))
     })
     .catch(err => {
-      console.error(err.stack)
-      process.exit(1)
+      console.warn('Failed to update sponsors, keeping cached data')
+      console.warn(err.message)
     })
 }
 
