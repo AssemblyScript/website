@@ -7,8 +7,7 @@
   "scripts": {
     "start": "vuepress dev src --host localhost --no-cache",
     "build": "vuepress build src",
-    "serve": "vuepress serve src",
-    "preinstall": "npx npm-force-resolutions"
+    "serve": "vuepress serve src"
   },
   "devDependencies": {
     "@vuepress/plugin-html-redirect": "^0.2.1",
@@ -23,7 +22,7 @@
     "vuepress-plugin-serve": "^2.0.4",
     "vuepress-plugin-sitemap": "^2.3.1"
   },
-  "resolutions": {
+  "overrides": {
     "watchpack": "2.5.1"
   }
 }
