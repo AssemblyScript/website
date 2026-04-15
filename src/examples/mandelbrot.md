@@ -144,7 +144,7 @@ function computeColors() {
 ```
 
 ::: tip NOTE
-The example makes a couple assumptions. For instance, using the entire memory of the program as the image buffer as in this example is only possible because we know that no interferring static memory segments will be created, which is achieved by
+The example makes a couple assumptions. For instance, using the entire memory of the program as the image buffer as in this example is only possible because we know that no interfering static memory segments will be created, which is achieved by
 
 * using JavaScript's Math instead of native libm (usually adds lookup tables),
 * not using a more sophisticated runtime (typically adds bookkeeping) and

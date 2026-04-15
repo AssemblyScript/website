@@ -17,7 +17,7 @@ Renders the Mandelbrot set to a canvas using 2048 discrete color values computed
 
 <Badge text="easy" type="tip"/>
 
-[![Preview image](images/mandelbrot-preview.jpg)](./examples/mandelbrot.md)
+[![Preview image](/images/mandelbrot-preview.jpg)](./examples/mandelbrot.md)
 
 ### [Interference](./examples/interference.md)
 
@@ -25,7 +25,7 @@ Animates and renders an interference pattern to a canvas while keeping the image
 
 <Badge text="easy" type="tip"/>
 
-[![Preview image](images/interference-preview.jpg)](./examples/interference.md)
+[![Preview image](/images/interference-preview.jpg)](./examples/interference.md)
 
 ### [Game of Life](./examples/game-of-life.md)
 
@@ -33,7 +33,7 @@ Continuously updates a cellular automaton and visualizes its state on a canvas a
 
 <Badge text="intermediate" type="warning"/>
 
-[![Preview image](images/game-of-life-preview.jpg)](./examples/game-of-life.md)
+[![Preview image](/images/game-of-life-preview.jpg)](./examples/game-of-life.md)
 
 ## Advanced examples
 
