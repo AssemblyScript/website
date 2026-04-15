@@ -12,66 +12,43 @@ export default {
 
 function getDefaultSidebar(): SidebarArrayOptions {
   return [
-    {
-      text: "Introduction",
-      link: '/introduction'
-    },
-    {
-      text: "Getting started",
-      link: '/getting-started'
-    },
-    {
-      text: "Using the compiler",
-      link: '/compiler'
-    },
+    { text: "Introduction", link: '/introduction' },
+    { text: "Getting started", link: '/getting-started' },
+    { text: "Using the compiler", link: '/compiler' },
     {
       text: 'Using the language',
       collapsible: false,
-      // sidebarDepth: 0,
       children: [
-        {
-          text: "Concepts",
-          link: '/concepts'
-        },
-        {
-          text: "Types",
-          link: '/types'
-        },
+        { text: "Concepts", link: '/concepts' },
+        { text: "Types", link: '/types' },
         {
           text: "Standard library",
           collapsible: true,
-          // sidebarDepth: 0,
           children: [
-            '/stdlib/globals',
-            '/stdlib/array',
-            '/stdlib/arraybuffer',
-            '/stdlib/console',
-            '/stdlib/crypto',
-            '/stdlib/dataview',
-            '/stdlib/date',
-            '/stdlib/error',
-            '/stdlib/heap',
-            '/stdlib/math',
-            '/stdlib/map',
-            '/stdlib/number',
-            '/stdlib/process',
-            '/stdlib/set',
-            '/stdlib/staticarray',
-            '/stdlib/string',
-            '/stdlib/symbol',
-            '/stdlib/typedarray'
+            { text: 'Globals', link: '/stdlib/globals' },
+            { text: 'Array', link: '/stdlib/array' },
+            { text: 'Arraybuffer', link: '/stdlib/arraybuffer' },
+            { text: 'Console', link: '/stdlib/console' },
+            { text: 'Crypto', link: '/stdlib/crypto' },
+            { text: 'Dataview', link: '/stdlib/dataview' },
+            { text: 'Date', link: '/stdlib/date' },
+            { text: 'Error', link: '/stdlib/error' },
+            { text: 'Heap', link: '/stdlib/heap' },
+            { text: 'Math', link: '/stdlib/math' },
+            { text: 'Map', link: '/stdlib/map' },
+            { text: 'Number', link: '/stdlib/number' },
+            { text: 'Process', link: '/stdlib/process' },
+            { text: 'Set', link: '/stdlib/set' },
+            { text: 'Staticarray', link: '/stdlib/staticarray' },
+            { text: 'String', link: '/stdlib/string' },
+            { text: 'Symbol', link: '/stdlib/symbol' },
+            { text: 'Typedarray', link: '/stdlib/typedarray' },
           ]
         },
-        {
-          text: 'Implementation status',
-          link: '/status'
-        }
+        { text: 'Implementation status', link: '/status' }
       ]
     },
-    {
-      text: "Using the runtime",
-      link: "/runtime"
-    }
+    { text: "Using the runtime", link: "/runtime" }
   ] satisfies SidebarArrayOptions
 }
 
@@ -80,29 +57,23 @@ function getExamplesSidebar(): SidebarArrayOptions {
     {
       text: 'Examples',
       collapsible: false,
-      // sidebarDepth: 0,
       children: [
-        {
-          text: 'Overview',
-          link: '/examples'
-        }
+        { text: 'Overview', link: '/examples' }
       ]
     },
     {
       text: 'Starter examples',
       collapsible: false,
-      // sidebarDepth: 0,
       children: [
-        '/examples/mandelbrot',
-        '/examples/interference',
-        '/examples/game-of-life',
-        '/examples/snippets',
+        { text: 'Mandelbrot', link: '/examples/mandelbrot' },
+        { text: 'Interference', link: '/examples/interference' },
+        { text: 'Game of Life', link: '/examples/game-of-life' },
+        { text: 'Snippets', link: '/examples/snippets' },
       ]
     },
     {
       text: 'Advanced examples',
       collapsible: false,
-      // sidebarDepth: 0,
       children: [
         '/examples/arrays',
         {
@@ -122,13 +93,9 @@ function getExamplesSidebar(): SidebarArrayOptions {
     {
       text: 'Additional resources',
       collapsible: false,
-      // sidebarDepth: 0,
       children: [
-        {
-          text: 'Wasm By Example',
-          link: 'https://wasmbyexample.dev/'
-        },
-        '/built-with-assemblyscript'
+        { text: 'Wasm By Example', link: 'https://wasmbyexample.dev/' },
+        { text: 'Build with AssemblyScript', link: '/built-with-assemblyscript' },
       ]
     }
   ] satisfies SidebarArrayOptions
