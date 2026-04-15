@@ -2,5 +2,6 @@ node_modules/
 dist/
 data/contributors.json
 data/sponsors.json
+src/.vuepress/.temp/
 src/.vuepress/public/contributors.svg
 src/.vuepress/public/sponsors.svg

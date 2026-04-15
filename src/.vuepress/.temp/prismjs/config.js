@@ -1,5 +1,0 @@
-import "/Volumes/Archive/Projects/Github/website/node_modules/@vuepress/highlighter-helper/dist/client/styles/base.css"
-import "/Volumes/Archive/Projects/Github/website/node_modules/@vuepress/plugin-prismjs/dist/client/styles/nord.css"
-import "/Volumes/Archive/Projects/Github/website/node_modules/@vuepress/highlighter-helper/dist/client/styles/line-numbers.css"
-import "/Volumes/Archive/Projects/Github/website/node_modules/@vuepress/highlighter-helper/dist/client/styles/notation-highlight.css"
-import "/Volumes/Archive/Projects/Github/website/node_modules/@vuepress/highlighter-helper/dist/client/styles/code-block-title.css"
