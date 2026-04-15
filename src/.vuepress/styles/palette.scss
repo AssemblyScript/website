@@ -1,20 +1,22 @@
-@use "sass:color";
-
-// colors
-$accentColor: #007acc;
-$textColor: #2c3e50;
-$borderColor: #eaecef;
-$codeBgColor: #fff;
-$arrowBgColor: #ccc;
-$badgeTipColor: #42b983;
-$badgeWarningColor: color.adjust(#ffe564, $lightness: -35%);
-$badgeErrorColor: #da5961;
-
-// layout
-$navbarHeight: 4.6rem;
-$sidebarWidth: 20rem;
-$contentWidth: 960px;
-$homePageWidth: 960px;
+:root {
+  --vp-c-accent: #007acc;
+  --vp-c-accent-bg: #007acc;
+  --vp-c-accent-hover: #1a8ae7;
+  --vp-c-accent-text: #fff;
+  --vp-c-accent-soft: rgb(0 122 204 / 14%);
+  --vp-c-text: #2c3e50;
+  --vp-c-border: #eaecef;
+  --badge-c-tip-text: #fff;
+  --badge-c-tip-bg: #42b983;
+  --badge-c-warning-text: #111;
+  --badge-c-warning-bg: #bfa100;
+  --badge-c-danger-text: #fff;
+  --badge-c-danger-bg: #da5961;
+  --navbar-height: 4.6rem;
+  --sidebar-width: 20rem;
+  --content-width: 960px;
+  --homepage-width: 960px;
+}
 
 // responsive breakpoints
 $MQNarrow: 959px;
