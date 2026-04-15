@@ -53,6 +53,14 @@ export default defineUserConfig({
     docsBranch: 'main',
     editLinkText: 'Edit this page on GitHub',
     themePlugins: {
+      copyCode: {
+        locales: {
+          '/': {
+            copy: 'Copy code',
+            copied: 'Copied',
+          },
+        },
+      },
       sitemap: true,
     },
   }),
