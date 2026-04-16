@@ -20,6 +20,13 @@
   margin-bottom: 0.2rem;
 }
 
+.vp-navbar-items-wrapper {
+  align-items: center;
+}
+
+.vp-navbar .DocSearch-Button {
+  line-height: normal;
+}
 // Code blocks
 [vp-content] a code {
   color: var(--vp-c-accent);
