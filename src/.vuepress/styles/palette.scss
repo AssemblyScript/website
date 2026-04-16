@@ -6,6 +6,11 @@
   --vp-c-accent-soft: rgb(0 122 204 / 14%);
   --vp-c-text: #2c3e50;
   --vp-c-border: #eaecef;
+  --vp-c-text-mute: #6b7280;
+  --vp-c-bg-soft: #f3f4f6;
+  --vp-code-tab-bg: #bbb;
+  --vp-scrollbar-track: #eaecef;
+  --vp-scrollbar-thumb: #007acc;
   --badge-c-tip-text: #fff;
   --badge-c-tip-bg: #42b983;
   --badge-c-warning-text: #111;
@@ -15,6 +20,17 @@
   --sidebar-width: 23rem;
   --content-width: 960px;
   --homepage-width: 960px;
+}
+
+html.dark,
+[data-theme='dark'] {
+  --vp-c-text: rgb(235 235 235 / 86%);
+  --vp-c-text-mute: rgb(235 235 235 / 60%);
+  --vp-c-border: rgb(82 82 89);
+  --vp-c-bg-soft: rgb(39 39 42);
+  --vp-code-tab-bg: rgb(82 82 89);
+  --vp-scrollbar-track: rgb(39 39 42);
+  --vp-scrollbar-thumb: #1a8ae7;
 }
 
 // responsive breakpoints

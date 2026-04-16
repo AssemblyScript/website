@@ -3,11 +3,11 @@
 }
 
 .sidebar::-webkit-scrollbar-track {
-  background-color: #eaecef;
+  background-color: var(--vp-scrollbar-track);
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-  background-color: #007acc;
+  background-color: var(--vp-scrollbar-thumb);
 }
 
 .sidebar-group:is(.collapsible) .sidebar-heading {
@@ -22,7 +22,7 @@
 
 // Code blocks
 .theme-default-content a code {
-  color: #007acc;
+  color: var(--vp-c-accent);
 }
 
 .theme-default-content pre code,
@@ -31,8 +31,8 @@
 }
 
 div[class*="language-"]::before {
-  color: #fff;
-  background: #bbb;
+  color: var(--vp-c-accent-text);
+  background: var(--vp-code-tab-bg);
   padding: 1px 4px 3px 5px;
 }
 
@@ -103,4 +103,29 @@ details summary:hover {
 
 details table td {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+html.dark,
+[data-theme='dark'] {
+  :is(.theme-default-content, .vp-page) {
+    color: var(--vp-c-text);
+  }
+
+  :is(.theme-default-content, .vp-page)
+    :is(h1, h2, h3, h4, h5, h6, strong, .custom-container),
+  .nav-dropdown .dropdown-item h4 {
+    color: var(--vp-c-text);
+  }
+
+  details summary {
+    color: var(--vp-c-text);
+  }
+
+  :is(.theme-default-content, .vp-page) table tr:nth-child(2n) {
+    background-color: var(--vp-c-bg-soft);
+  }
+
+  :is(.theme-default-content, .vp-page) table :is(th, td) {
+    border-color: var(--vp-c-border);
+  }
 }
