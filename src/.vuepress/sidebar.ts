@@ -12,9 +12,40 @@ export default {
 
 function getDefaultSidebar(): SidebarArrayOptions {
   return [
-    { text: "Introduction", link: '/introduction' },
-    { text: "Getting started", link: '/getting-started' },
-    { text: "Using the compiler", link: '/compiler' },
+    {
+      text: 'Introduction',
+      link: '/introduction',
+      collapsible: false,
+      children: [
+        { text: 'From a WebAssembly perspective', link: '/introduction#from-a-webassembly-perspective' },
+        { text: 'From a JavaScript perspective', link: '/introduction#from-a-javascript-perspective' },
+        { text: 'Frequently asked questions', link: '/introduction#frequently-asked-questions' },
+      ],
+    },
+    {
+      text: 'Getting started',
+      link: '/getting-started',
+      collapsible: false,
+      children: [
+        { text: 'Setting up a new project', link: '/getting-started#setting-up-a-new-project' },
+        { text: 'Working with your module', link: '/getting-started#working-with-your-module' },
+        { text: 'The journey ahead', link: '/getting-started#the-journey-ahead' },
+      ],
+    },
+    {
+      text: 'Using the compiler',
+      link: '/compiler',
+      collapsible: false,
+      children: [
+        { text: 'Compiler options', link: '/compiler#compiler-options' },
+        { text: 'Configuration file', link: '/compiler#configuration-file' },
+        { text: 'Programmatic usage', link: '/compiler#programmatic-usage' },
+        { text: 'Host bindings', link: '/compiler#host-bindings' },
+        { text: 'Debugging', link: '/compiler#debugging' },
+        { text: 'Transforms', link: '/compiler#transforms' },
+        { text: 'Portability', link: '/compiler#portability' },
+      ],
+    },
     {
       text: 'Using the language',
       collapsible: false,
@@ -48,7 +79,17 @@ function getDefaultSidebar(): SidebarArrayOptions {
         { text: 'Implementation status', link: '/status' }
       ]
     },
-    { text: "Using the runtime", link: "/runtime" }
+    {
+      text: 'Using the runtime',
+      link: '/runtime',
+      collapsible: false,
+      children: [
+        { text: 'Variants', link: '/runtime#variants' },
+        { text: 'Interface', link: '/runtime#interface' },
+        { text: 'Memory layout', link: '/runtime#memory-layout' },
+        { text: 'Calling convention', link: '/runtime#calling-convention' },
+      ],
+    },
   ] satisfies SidebarArrayOptions
 }
 
