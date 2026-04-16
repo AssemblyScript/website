@@ -17,7 +17,7 @@
   --badge-c-warning-bg: #bfa100;
   --badge-c-danger-text: #fff;
   --badge-c-danger-bg: #da5961;
-  --sidebar-width: 23rem;
+  --sidebar-width: 21rem;
   --content-width: 960px;
   --homepage-width: 960px;
 }
@@ -33,7 +33,3 @@ html.dark,
   --vp-scrollbar-thumb: #1a8ae7;
 }
 
-// responsive breakpoints
-$MQNarrow: 959px;
-$MQMobile: 719px;
-$MQMobileNarrow: 419px;
