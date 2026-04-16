@@ -20,24 +20,13 @@
   margin: 0.45rem 0 0.2rem 0 !important;
 }
 
-// Prism customization
-@import "prism-themes/themes/prism-vs.css";
-
-.token.builtin {
-  color: #36acaa;
-}
-
-.token.comment {
-  font-style: normal;
-}
-
+// Code blocks
 .theme-default-content a code {
   color: #007acc;
 }
 
 .theme-default-content pre code,
 .theme-default-content pre[class*="language-"] code {
-  color: #476582;
   font-size: 1em;
 }
 
@@ -85,7 +74,6 @@ div[class~="language-c"]::before {
 
 // API docs: <li> starting with code block
 .theme-default-content li div[class*="language-"]:first-child pre[class*="language-"] {
-  background: #fff;
   border: 0;
   padding: 0;
   font-size: 1.1em;

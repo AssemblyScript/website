@@ -1,10 +1,10 @@
 import { readFileSync } from 'node:fs'
-import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { viteBundler } from '@vuepress/bundler-vite'
 import { docsearchPlugin } from '@vuepress/plugin-docsearch'
 import { redirectPlugin } from '@vuepress/plugin-redirect'
+import { shikiPlugin } from '@vuepress/plugin-shiki'
 import { registerComponentsPlugin } from '@vuepress/plugin-register-components'
 import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
@@ -13,11 +13,6 @@ import sidebar from './sidebar'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const redirectsFile = new URL('./redirects', import.meta.url)
-const require = createRequire(import.meta.url)
-const prism = require('prismjs')
-
-require('prismjs/components/prism-typescript')
-
 export default defineUserConfig({
   base: '/',
   dest: './dist',
@@ -61,10 +56,20 @@ export default defineUserConfig({
           },
         },
       },
+      prismjs: false,
       sitemap: true,
     },
   }),
   plugins: [
+    shikiPlugin({
+      themes: {
+        light: 'light-plus',
+        dark: 'ayu-mirage',
+      },
+      langAlias: {
+        editor: 'typescript',
+      },
+    }),
     redirectPlugin({
       config: loadRedirects(),
     }),
@@ -77,29 +82,7 @@ export default defineUserConfig({
       apiKey: 'ffb8769cdb0f8cfa20d6a307385cb7ba',
       indexName: 'assemblyscript',
     }),
-  ],
-  extendsMarkdown(md) {
-    prism.languages.typescript.builtin = new RegExp(
-      '\\b(?:' + [
-        // Common types
-        'string', 'number', 'boolean', 'symbol', 'void',
-
-        // Common names
-        'ArrayBuffer', 'Array', 'Int8Array', 'Int16Array', 'Int32Array', 'Uint8Array', 'Uint8ClampedArray',
-        'Uint16Array', 'Uint32Array', 'Float32Array', 'Float64Array', 'DataView', 'String', 'Map', 'Set',
-        'Promise', 'Math', 'Number', 'Boolean', 'Error', 'Date',
-
-        // AssemblyScript types
-        'i8', 'i16', 'i32', 'i64', 'isize', 'u8', 'u16', 'u32', 'u64', 'usize', 'bool', 'f32', 'f64', 'v128',
-        'externref', 'auto',
-
-        // AssemblyScript names
-        'heap', 'memory', 'table', 'atomic', 'i8x16', 'i16x8', 'i32x4', 'i64x2', 'f32x4', 'f64x2', 'v32x2',
-        'Int64Array', 'Uint64Array', 'Mathf', 'Bool', 'I8', 'I16', 'I32', 'I64', 'U8', 'U16', 'U32', 'U64',
-        'F32', 'F64', 'idof', 'sizeof', 'alignof', 'offsetof', 'nameof',
-      ].join('|') + ')\\b',
-    )
-  },
+  ]
 })
 
 function loadRedirects(): Record<string, string> {
