@@ -40,6 +40,7 @@ export default defineUserConfig({
   theme: defaultTheme({
     hostname: 'https://www.assemblyscript.org',
     logo: '/images/icon.svg',
+    externalLinkIcon: false,
     navbar,
     sidebar,
     sidebarDepth: 1,

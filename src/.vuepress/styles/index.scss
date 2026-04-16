@@ -1,32 +1,32 @@
-.sidebar::-webkit-scrollbar {
+.vp-sidebar::-webkit-scrollbar {
   width: 0.3em;
 }
 
-.sidebar::-webkit-scrollbar-track {
+.vp-sidebar::-webkit-scrollbar-track {
   background-color: var(--vp-scrollbar-track);
 }
 
-.sidebar::-webkit-scrollbar-thumb {
+.vp-sidebar::-webkit-scrollbar-thumb {
   background-color: var(--vp-scrollbar-thumb);
 }
 
-.sidebar-group:is(.collapsible) .sidebar-heading {
+.vp-sidebar-item.vp-sidebar-heading.collapsible {
   opacity: 1 !important;
   cursor: pointer !important;
 }
 
 // Nav drop-down categories
-.nav-dropdown .dropdown-item h4 {
-  margin: 0.45rem 0 0.2rem 0 !important;
+.vp-navbar-dropdown-subtitle {
+  margin-bottom: 0.2rem;
 }
 
 // Code blocks
-.theme-default-content a code {
+[vp-content] a code {
   color: var(--vp-c-accent);
 }
 
-.theme-default-content pre code,
-.theme-default-content pre[class*="language-"] code {
+[vp-content] pre code,
+[vp-content] pre[class*="language-"] code {
   font-size: 1em;
 }
 
@@ -73,13 +73,13 @@ div[class~="language-c"]::before {
 }
 
 // API docs: <li> starting with code block
-.theme-default-content li div[class*="language-"]:first-child pre[class*="language-"] {
+[vp-content] li div[class*="language-"]:first-child pre[class*="language-"] {
   border: 0;
   padding: 0;
   font-size: 1.1em;
 }
 
-.theme-default-content li div[class*="language-"]:first-child::before {
+[vp-content] li div[class*="language-"]:first-child::before {
   display: none;
 }
 
@@ -105,15 +105,13 @@ details table td {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-html.dark,
 [data-theme='dark'] {
-  :is(.theme-default-content, .vp-page) {
+  [vp-content] {
     color: var(--vp-c-text);
   }
 
-  :is(.theme-default-content, .vp-page)
-    :is(h1, h2, h3, h4, h5, h6, strong, .custom-container),
-  .nav-dropdown .dropdown-item h4 {
+  [vp-content] :is(h1, h2, h3, h4, h5, h6, strong, .custom-container),
+  .vp-navbar-dropdown-subtitle {
     color: var(--vp-c-text);
   }
 
@@ -121,11 +119,11 @@ html.dark,
     color: var(--vp-c-text);
   }
 
-  :is(.theme-default-content, .vp-page) table tr:nth-child(2n) {
+  [vp-content] table tr:nth-child(2n) {
     background-color: var(--vp-c-bg-soft);
   }
 
-  :is(.theme-default-content, .vp-page) table :is(th, td) {
+  [vp-content] table :is(th, td) {
     border-color: var(--vp-c-border);
   }
 }
