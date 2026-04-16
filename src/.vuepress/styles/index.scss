@@ -1,3 +1,7 @@
+.vp-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--vp-scrollbar-thumb) var(--vp-scrollbar-track);
+}
 .vp-sidebar::-webkit-scrollbar {
   width: 0.3em;
 }
@@ -27,6 +31,14 @@
 .vp-navbar .DocSearch-Button {
   line-height: normal;
 }
+.vp-navbar-items-wrapper> :is(#docsearch-container, .docsearch-placeholder) {
+  order: 20;
+  margin-inline-start: 1.4rem;
+}
+
+.vp-navbar-items-wrapper>.vp-toggle-color-mode-button {
+  order: 21;
+}
 // Code blocks
 [vp-content] a code {
   color: var(--vp-c-accent);
@@ -54,36 +66,36 @@ div[class*="language-"]::before {
 
 div[class~="language-ts"]::before,
 div[class~="language-typescript"]::before {
-  color: #fff;
-  background: #007acc;
+  color: var(--vp-code-lang-ts-fg);
+    background: var(--vp-code-lang-ts-bg);
 }
 
 div[class~="language-js"]::before,
 div[class~="language-javascript"]::before {
-  color: #323330;
-  background: #f0db4f;
+  color: var(--vp-code-lang-js-fg);
+    background: var(--vp-code-lang-js-bg);
 }
 
 div[class~="language-sh"]::before,
 div[class~="language-bash"]::before {
-  color: #fff;
-  background: #000;
+  color: var(--vp-code-lang-sh-fg);
+    background: var(--vp-code-lang-sh-bg);
 }
 
 div[class~="language-wat"]::before,
 div[class~="language-webassembly"]::before {
-  color: #fff;
-  background: #654ff0;
+  color: var(--vp-code-lang-wat-fg);
+    background: var(--vp-code-lang-wat-bg);
 }
 
 div[class~="language-html"]::before {
-  color: #fff;
-  background: #e44d26;
+  color: var(--vp-code-lang-html-fg);
+    background: var(--vp-code-lang-html-bg);
 }
 
 div[class~="language-c"]::before {
-  color: #fff;
-  background: #3949ab;
+  color: var(--vp-code-lang-c-fg);
+    background: var(--vp-code-lang-c-bg);
   padding-right: 6px;
   padding-left: 7px;
 }

@@ -11,6 +11,18 @@
   --vp-code-tab-bg: #bbb;
   --vp-scrollbar-track: #eaecef;
   --vp-scrollbar-thumb: #007acc;
+  --vp-code-lang-ts-fg: #fff;
+  --vp-code-lang-ts-bg: #007acc;
+  --vp-code-lang-js-fg: #323330;
+  --vp-code-lang-js-bg: #f0db4f;
+  --vp-code-lang-sh-fg: #fff;
+  --vp-code-lang-sh-bg: #000;
+  --vp-code-lang-wat-fg: #fff;
+  --vp-code-lang-wat-bg: #654ff0;
+  --vp-code-lang-html-fg: #fff;
+  --vp-code-lang-html-bg: #e44d26;
+  --vp-code-lang-c-fg: #fff;
+  --vp-code-lang-c-bg: #3949ab;
   --badge-c-tip-text: #fff;
   --badge-c-tip-bg: #42b983;
   --badge-c-warning-text: #111;
@@ -33,4 +45,3 @@ html.dark,
   --vp-scrollbar-track: rgb(39 39 42);
   --vp-scrollbar-thumb: #1a8ae7;
 }
-
