@@ -25,6 +25,15 @@
   color: var(--vp-c-accent);
 }
 
+[vp-content] a:not(.header-anchor) {
+  text-decoration: none;
+}
+
+[vp-content] a:not(.header-anchor):hover,
+[vp-content] a:not(.header-anchor):focus-visible {
+  text-decoration: underline;
+}
+
 [vp-content] pre code,
 [vp-content] pre[class*="language-"] code {
   font-size: 1em;
