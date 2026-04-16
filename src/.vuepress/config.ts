@@ -48,6 +48,8 @@ export default defineUserConfig({
     docsDir: 'src',
     docsBranch: 'main',
     editLinkText: 'Edit this page on GitHub',
+    colorMode: 'auto',
+    colorModeSwitch: true,
     themePlugins: {
       copyCode: {
         locales: {
@@ -63,13 +65,15 @@ export default defineUserConfig({
   }),
   plugins: [
     shikiPlugin({
+      langs: ['ts', 'js', 'json', 'md', 'bash'],
+      langAlias: {
+        editor: 'ts',
+      },
       themes: {
         light: 'light-plus',
         dark: 'ayu-mirage',
       },
-      langAlias: {
-        editor: 'typescript',
-      },
+      lineNumbers: false,
     }),
     redirectPlugin({
       config: loadRedirects(),
