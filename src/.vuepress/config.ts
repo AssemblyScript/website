@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { Buffer } from 'node:buffer'
 import { viteBundler } from '@vuepress/bundler-vite'
 import { docsearchPlugin } from '@vuepress/plugin-docsearch'
 import { redirectPlugin } from '@vuepress/plugin-redirect'
@@ -8,11 +9,16 @@ import { shikiPlugin } from '@vuepress/plugin-shiki'
 import { registerComponentsPlugin } from '@vuepress/plugin-register-components'
 import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
+
+import type { Plugin } from '@vuepress/core'
+import type { Markdown } from '@vuepress/markdown'
+
 import navbar from './nav'
 import sidebar from './sidebar'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const redirectsFile = new URL('./redirects', import.meta.url)
+
 export default defineUserConfig({
   base: '/',
   dest: './dist',
@@ -66,15 +72,13 @@ export default defineUserConfig({
   plugins: [
     shikiPlugin({
       langs: ['ts', 'js', 'json', 'md', 'bash'],
-      langAlias: {
-        editor: 'ts',
-      },
       themes: {
         light: 'light-plus',
         dark: 'ayu-mirage',
       },
       lineNumbers: false,
     }),
+    assemblyScriptEditorPlugin(),
     redirectPlugin({
       config: loadRedirects(),
     }),
@@ -89,6 +93,29 @@ export default defineUserConfig({
     }),
   ]
 })
+
+function assemblyScriptEditorPlugin(): Plugin {
+  return {
+    name: 'as-editor',
+    extendsMarkdown(md: Markdown) {
+      const defaultFence = md.renderer.rules.fence
+
+      md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+        const token = tokens[idx]
+        const [lang = ''] = token.info.trim().split(/\s+/u)
+
+        if (lang !== 'editor') {
+          return defaultFence
+            ? defaultFence(tokens, idx, options, env, self)
+            : self.renderToken(tokens, idx, options)
+        }
+
+        const encoded = Buffer.from(token.content, 'utf8').toString('base64')
+        return `<EditorFrame code="${encoded}" />`
+      }
+    },
+  }
+}
 
 function loadRedirects(): Record<string, string> {
   return Object.fromEntries(
