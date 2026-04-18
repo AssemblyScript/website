@@ -11,7 +11,6 @@ import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
 
 import type { Plugin } from '@vuepress/core'
-import type { Markdown } from '@vuepress/markdown'
 
 import navbar from './nav'
 import sidebar from './sidebar'
@@ -97,7 +96,7 @@ export default defineUserConfig({
 function assemblyScriptEditorPlugin(): Plugin {
   return {
     name: 'as-editor',
-    extendsMarkdown(md: Markdown) {
+    extendsMarkdown(md) {
       const defaultFence = md.renderer.rules.fence
 
       md.renderer.rules.fence = (tokens, idx, options, env, self) => {
@@ -111,7 +110,7 @@ function assemblyScriptEditorPlugin(): Plugin {
         }
 
         const encoded = Buffer.from(token.content, 'utf8').toString('base64')
-        return `<EditorFrame code="${encoded}" />`
+        return `<EditorFrame initialSource="${encoded}" />`
       }
     },
   }
