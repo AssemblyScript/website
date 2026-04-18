@@ -2,27 +2,27 @@
   "name": "@assemblyscript/website",
   "private": true,
   "version": "0.0.0",
+  "type": "module",
   "license": "Apache-2.0",
   "description": "AssemblyScript's Website.",
   "scripts": {
-    "start": "vuepress dev src --host localhost --no-cache",
+    "start": "vuepress dev src --host localhost --clean-cache",
     "build": "vuepress build src",
-    "serve": "vuepress serve src"
+    "serve": "serve dist"
   },
   "devDependencies": {
-    "@vuepress/plugin-html-redirect": "^0.2.1",
+    "@vuepress/bundler-vite": "2.0.0-rc.28",
+    "@vuepress/plugin-copy-code": "next",
+    "@vuepress/plugin-docsearch": "2.0.0-rc.128",
+    "@vuepress/plugin-redirect": "2.0.0-rc.128",
+    "@vuepress/plugin-register-components": "2.0.0-rc.128",
+    "@vuepress/plugin-shiki": "next",
+    "@vuepress/theme-default": "2.0.0-rc.128",
     "he": "^1.2.0",
-    "node-addon-api": "^8.7.0",
-    "node-fetch": "^2.7.0",
-    "node-gyp": "^12.2.0",
     "pngquant": "^4.2.0",
-    "prism-themes": "^1.9.0",
+    "sass-embedded": "^1.99.0",
+    "serve": "^14.2.0",
     "sharp": "^0.34.5",
-    "vuepress": "^1.9.10",
-    "vuepress-plugin-serve": "^2.0.4",
-    "vuepress-plugin-sitemap": "^2.3.1"
-  },
-  "overrides": {
-    "watchpack": "2.5.1"
+    "vuepress": "2.0.0-rc.28"
   }
 }

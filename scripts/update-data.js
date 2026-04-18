@@ -112,7 +112,7 @@ function updateSponsors() {
 /** Updates contributors data by pulling stats from GitHub. */
 function updateContributors() {
   const contributors = {}
-  Promise.all(repos.map(repo => fetch('http://api.github.com/repos/' + repo + '/contributors').then(res => res.json())))
+  Promise.all(repos.map(repo => fetch('https://api.github.com/repos/' + repo + '/contributors').then(res => res.json())))
     .then(jsons => {
       jsons.forEach(json => {
         json
