@@ -122,9 +122,7 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 * [as-proto](https://github.com/piotr-oles/as-proto)<br />
   Protobuf encoder/decoder library.
 * [json-as](https://github.com/JairusSW/json-as)<br />
-  JSON encoder / decoder.
-* [utf-as](https://github.com/JairusSW/utf-as)<br />
-  Wickedly fast Unicode encoding, decoding, and validation, porting simdutf's UTF-8 kernels to WebAssembly SIMD.
+  Multi-GB/s JSON (de)serialization written in AssemblyScript utilizing elegant SIMD and SWAR algorithms.
 * [as-msgpack](https://github.com/wapc/as-msgpack)<br />
   MessagePack package for AssemblyScript.
 * [assemblyscript-bson](https://github.com/nearprotocol/assemblyscript-bson)<br />
@@ -213,7 +211,7 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 ## Testing / Benchmarking
 
 * [as-test](https://github.com/JairusSW/as-test)<br />
-  Universal testing framework for all versions of AssemblyScript. Compatible with WASI or Bindings
+  Runtime-agnostic testing framework for AssemblyScript. Supports mocking, snapshots, code coverage, fuzzing, and more. 
 * [as-tral](https://github.com/romdotdog/as-tral)<br />
   AssemblyScript benchmarking library inspired by criterion.rs. (Required AssemblyScript >= 0.20)
 * [as-pect](https://github.com/jtenner/as-pect)<br />
