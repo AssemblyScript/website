@@ -122,7 +122,7 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 * [as-proto](https://github.com/piotr-oles/as-proto)<br />
   Protobuf encoder/decoder library.
 * [json-as](https://github.com/JairusSW/json-as)<br />
-  JSON encoder / decoder.
+  Multi-GB/s JSON (de)serialization written in AssemblyScript utilizing elegant SIMD and SWAR algorithms.
 * [as-msgpack](https://github.com/wapc/as-msgpack)<br />
   MessagePack package for AssemblyScript.
 * [assemblyscript-bson](https://github.com/nearprotocol/assemblyscript-bson)<br />
