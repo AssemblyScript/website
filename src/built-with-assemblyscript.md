@@ -123,6 +123,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Protobuf encoder/decoder library.
 * [json-as](https://github.com/JairusSW/json-as)<br />
   JSON encoder / decoder.
+* [utf-as](https://github.com/JairusSW/utf-as)<br />
+  Wickedly fast Unicode encoding, decoding, and validation, porting simdutf's UTF-8 kernels to WebAssembly SIMD.
 * [as-msgpack](https://github.com/wapc/as-msgpack)<br />
   MessagePack package for AssemblyScript.
 * [assemblyscript-bson](https://github.com/nearprotocol/assemblyscript-bson)<br />
