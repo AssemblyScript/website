@@ -142,6 +142,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Rabin fingerprinting implemented in WASM _\(used by js-ipfs\)_.
 * [xoroshiro128starstar](https://github.com/krisselden/xoroshiro128starstar)<br />
   An AssemblyScript port of xoroshiro128starstar.c
+* [as-blake](https://github.com/JairusSW/as-blake)<br />
+  Portable, SIMD-accelerated BLAKE3 for AssemblyScript.
 
 ## Fixed & Arbitrary Precision Arithmetics
 
