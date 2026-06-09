@@ -198,6 +198,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   Library for interacting with the Wasmer Experimental IO Devices.
 * [as-string-sink](https://github.com/MaxGraey/as-string-sink)<br />
   An efficient dynamically sized string buffer (aka String Builder) for AssemblyScript.
+* [xjb-as](https://github.com/JairusSW/xjb-as)<br />
+  Port of the XJB float-to-string algorithm, conforming to the ECMA-262 specification.
 
 ## Embedded / IoT
 
