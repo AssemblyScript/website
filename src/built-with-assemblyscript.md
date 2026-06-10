@@ -115,6 +115,11 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
 * [GLAS](https://github.com/lume/glas)<br />
   Web**GL** in **A**ssembly**S**cript, port of [Three.js](https://github.com/mrdoob/three.js/) to AssemblyScript.
 
+## Web Application Frameworks
+
+* [fui-as](https://github.com/zion-sati/fui-as)<br />
+  Build a11y-compliant WPF/SwiftUI-grade web apps in AssemblyScript running on the browser with Skia/Harfbuzz/ICU.
+
 ## Data Serialization / Deserialization
 
 * [karmem](https://github.com/inkeliz/karmem)<br />
