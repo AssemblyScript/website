@@ -47,6 +47,7 @@ export default {
   position: relative;
   top: 0;
   transition: top 100ms;
+  padding: 0.15rem;
 }
 .community .list a:hover {
   top: -4px;
@@ -81,7 +82,5 @@ export default {
   border: 1px solid #fff;
   box-shadow: 0 0 0 1px #007acc;
 }
-.community .list a {
-  padding: 0.15rem;
-}
+
 </style>

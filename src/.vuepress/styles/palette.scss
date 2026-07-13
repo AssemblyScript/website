@@ -1,0 +1,47 @@
+:root {
+  --vp-c-accent: #007acc;
+  --vp-c-accent-bg: #007acc;
+  --vp-c-accent-hover: #1a8ae7;
+  --vp-c-accent-text: #fff;
+  --vp-c-accent-soft: rgb(0 122 204 / 14%);
+  --vp-c-text: #2c3e50;
+  --vp-c-border: #eaecef;
+  --vp-c-text-mute: #6b7280;
+  --vp-c-bg-soft: #f3f4f6;
+  --vp-code-tab-bg: #bbb;
+  --vp-scrollbar-track: #eaecef;
+  --vp-scrollbar-thumb: #007acc;
+  --vp-code-lang-ts-fg: #fff;
+  --vp-code-lang-ts-bg: #007acc;
+  --vp-code-lang-js-fg: #323330;
+  --vp-code-lang-js-bg: #f0db4f;
+  --vp-code-lang-sh-fg: #fff;
+  --vp-code-lang-sh-bg: #000;
+  --vp-code-lang-wat-fg: #fff;
+  --vp-code-lang-wat-bg: #654ff0;
+  --vp-code-lang-html-fg: #fff;
+  --vp-code-lang-html-bg: #e44d26;
+  --vp-code-lang-c-fg: #fff;
+  --vp-code-lang-c-bg: #3949ab;
+  --badge-c-tip-text: #fff;
+  --badge-c-tip-bg: #42b983;
+  --badge-c-warning-text: #111;
+  --badge-c-warning-bg: #bfa100;
+  --badge-c-danger-text: #fff;
+  --badge-c-danger-bg: #da5961;
+  --navbar-height: 4.6rem;
+  --sidebar-width: 21rem;
+  --content-width: 960px;
+  --homepage-width: 960px;
+}
+
+html.dark,
+[data-theme='dark'] {
+  --vp-c-text: rgb(235 235 235 / 86%);
+  --vp-c-text-mute: rgb(235 235 235 / 60%);
+  --vp-c-border: rgb(82 82 89);
+  --vp-c-bg-soft: rgb(39 39 42);
+  --vp-code-tab-bg: rgb(82 82 89);
+  --vp-scrollbar-track: rgb(39 39 42);
+  --vp-scrollbar-thumb: #1a8ae7;
+}

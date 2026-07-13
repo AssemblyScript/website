@@ -1,11 +1,13 @@
-module.exports = [
+import type { NavbarOptions } from '@vuepress/theme-default'
+
+export default [
   {
     text: 'Documentation',
     link: '/introduction.md'
   },
   {
     text: 'Examples',
-    items: [
+    children: [
       {
         text: 'Overview',
         link: '/examples'
@@ -18,7 +20,7 @@ module.exports = [
   },
   {
     text: 'Community',
-    items: [
+    children: [
       {
         text: 'Contributing guidelines',
         link: 'https://github.com/AssemblyScript/assemblyscript/blob/main/CONTRIBUTING.md'
@@ -29,7 +31,7 @@ module.exports = [
       },
       {
         text: 'Social',
-        items: [
+        children: [
           {
             text: 'Twitter',
             link: 'https://twitter.com/AssemblyScript'
@@ -42,7 +44,7 @@ module.exports = [
       },
       {
         text: 'Q&A',
-        items: [
+        children: [
           {
             text: 'Stack Overflow',
             link: 'https://stackoverflow.com/questions/tagged/assemblyscript'
@@ -59,4 +61,4 @@ module.exports = [
     text: 'GitHub',
     link: 'https://github.com/AssemblyScript'
   },
-]
+] satisfies NavbarOptions
