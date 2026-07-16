@@ -169,6 +169,8 @@ A place for all things AssemblyScript. Feel free to add your projects and applic
   AssemblyScript version of Rust Option&lt;T> and Result<O, E> etc.
 * [as-variant](https://github.com/MaxGraey/as-variant)<br />
   Variant (aka Any) data type for AssemblyScript.
+* [try-as](https://github.com/JairusSW/try-as)<br />
+  Exception handling for AssemblyScript.
 
 ## Bindings
 
