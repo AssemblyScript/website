@@ -17,7 +17,7 @@
     "node-gyp": "^12.2.0",
     "pngquant": "^4.2.0",
     "prism-themes": "^1.9.0",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.0",
     "vuepress": "^1.9.10",
     "vuepress-plugin-serve": "^2.0.4",
     "vuepress-plugin-sitemap": "^2.3.1"
